@@ -1,68 +1,78 @@
 --[[
- * Find Replace in Marker Names
+ * Find and Replace in Marker/Region Names
  * By Aaron Cendan
  * May 2020
- * Prompts user to replace part of a marker's name with
- * new text if marker name contains search criteria.
+ * Prompts user to replace part of a marker or region's name with
+ * new text if marker/region name contains search criteria.
+ * Uses file name to detect search type.
 --]]
 
-function findReplace() -- local (i, j, item, take, track)
+function findReplace()
 
-	reaper.Undo_BeginBlock() -- Begining of the undo block. Leave it at the top of your main function.
+	reaper.Undo_BeginBlock()
 
+	-- Identify region/marker mode based on script name
+	local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
+	local region_mode = script_name:match('Region')
+	local mode_name = region_mode and 'Region' or 'Marker'
 	local retval, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
 	local num_total = num_markers + num_regions
+	
+	if mode_name == "Region" then
+		num_items = num_regions
+	elseif mode_name == "Marker" then
+		num_items = num_markers
+	end
 
-	if num_markers > 0 then
+	if num_items > 0 then
 		
-		ret, search_string, replace_string, search_field = getSearchInfo()
+		ret, search_string, replace_string, search_field = getSearchInfo(mode_name)
 		if not ret then return end
 		
 		-- Confirm is valid search, search info not blank
 		if search_string and replace_string and search_field then
 		
 			if search_field == "/p" then
-				searchFullProject(num_total, search_string, replace_string)
+				searchFullProject(num_total, search_string, replace_string, mode_name)
 				
 			elseif search_field == "/t" then
-				searchTimeSelection(num_total, search_string, replace_string)
+				searchTimeSelection(num_total, search_string, replace_string, mode_name)
 			
-			--Ideally it would be possible to find/replace in region matrix selected markers, see function below:
+			--Ideally it would be possible to find/replace in render matrix, see function below:
 			--elseif search_field == "/m" then
-				--searchSelectedRegions(num_total, search_string, replace_string)
+				--searchSelectedMarkersRegions(num_total, search_string, replace_string, mode_name)
 				
 			else
 				reaper.ShowMessageBox("Search field must be exactly /p or /t","Find/Replace", 0)
 				findReplace()
 			end
 		else
-			reaper.ShowMessageBox("Search fields cannot be empty!" .. "\n" .. "\n" .. "If you want to Find or Replace blank marker names, then use:" .. "\n" .. "/blank","Find/Replace", 0)
+			reaper.ShowMessageBox("Search fields cannot be empty!" .. "\n" .. "\n" .. "If you want to Find or Replace blank names, then use:" .. "\n" .. "/blank","Find/Replace", 0)
 			findReplace()
 		end
 	else
-		reaper.ShowMessageBox("Project has no markers!","Find/Replace", 0)
-		
+		reaper.ShowMessageBox(string.format("Project has no %s" .. "s!", mode_name),"Find/Replace", 0)
 	end
 
 	reaper.Undo_EndBlock("Find and Replace", -1) -- End of the undo block. Leave it at the bottom of your main function.
 
 end
 
-function getSearchInfo()
+function getSearchInfo(mode_name)
 	-- Check for previous search field
 	local ret, prev_field =  reaper.GetProjExtState(0, "FindReplaceStorage", "PrevSearchField")
 	
 	if ret == 1 and prev_field == "/p" or prev_field == "/t" then --or prev_field == "/m" then 	-- If valid search field used previously, use as default
 		-- Store user input for search and replace strings
-		ret,user_input = reaper.GetUserInputs( "Find & Replace in Marker Names",  3,
+		ret,user_input = reaper.GetUserInputs(string.format("Find & Replace in %s Names", mode_name),  3,
 						   "Text to Search For,Text to Replace With,Project /p or Time Selection /t,extrawidth=100",",,"..prev_field)
 		search_string, replace_string, search_field = user_input:match("([^,]+),([^,]+),([^,]+)")
 		-- Save new search field
 		if search_field then
 			reaper.SetProjExtState(0, "FindReplaceStorage", "PrevSearchField",search_field)
 		end
-	else				-- Marker search not used yet in this project, use Project (/p) field as default
-		ret,user_input = reaper.GetUserInputs( "Find & Replace in Marker Names",  3,
+	else				-- Search not used yet in this project, use Project (/p) field as default
+		ret,user_input = reaper.GetUserInputs(string.format("Find & Replace in %s Names", mode_name),  3,
 						   "Text to Search For,Text to Replace With,Project /p or Time Selection /t,extrawidth=100",",,/p")
 		search_string, replace_string, search_field = user_input:match("([^,]+),([^,]+),([^,]+)")
 		if search_field then
@@ -73,74 +83,131 @@ function getSearchInfo()
 	return ret, search_string, replace_string, search_field
 end
 
-function searchFullProject(num_total, search_string, replace_string)
-	-- Loop through all regions in project
-	local i = 0
-	while i < num_total do		
-		local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
-		if not isrgn then
-			if search_string ~= "/blank" then
-				if string.find(name, search_string) then
-					if replace_string ~= "/blank" then
-						local new_name = string.gsub( name, search_string, replace_string)
-						reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
-					else
-						reaper.DeleteProjectMarker( 0, markrgnindexnumber, isrgn )
-						reaper.AddProjectMarker2( 0, isrgn, pos, rgnend, '', markrgnindexnumber, color )
-					end				
-				end
-			else
-				if name == "" then
-					if replace_string ~= "/blank" then
-						local new_name = replace_string
-						reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
-					end	
-				end
-			end
-		end
-		i = i + 1
-	end
-end
-
-function searchTimeSelection(num_total, search_string, replace_string)
-	-- Loop through all regions in time selection
-	StartTimeSel, EndTimeSel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
-	-- Confirm valid time selection
-	if StartTimeSel ~= EndTimeSel then
+function searchFullProject(num_total, search_string, replace_string, mode_name)
+	-- Loop through all markers/regions in project
+	if mode_name == "Region" then
 		local i = 0
 		while i < num_total do		
 			local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
-			if not isrgn then
-				if pos >= StartTimeSel and rgnend <= EndTimeSel then
-					if search_string ~= "/blank" then
-						if string.find(name, search_string) then
-							if replace_string ~= "/blank" then
-								local new_name = string.gsub( name, search_string, replace_string)
-								reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
-							else
-								reaper.DeleteProjectMarker( 0, markrgnindexnumber, isrgn )
-								reaper.AddProjectMarker2( 0, isrgn, pos, rgnend, '', markrgnindexnumber, color )
-							end				
-						end
-					else
-						if name == "" then
-							if replace_string ~= "/blank" then
-								local new_name = replace_string
-								reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
-							end	
-						end
+			if isrgn then
+				if search_string ~= "/blank" then
+					if string.find(name, search_string) then
+						if replace_string ~= "/blank" then
+							local new_name = string.gsub( name, search_string, replace_string)
+							reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+						else
+							reaper.DeleteProjectMarker( 0, markrgnindexnumber, isrgn )
+							reaper.AddProjectMarker2( 0, isrgn, pos, rgnend, '', markrgnindexnumber, color )
+						end				
+					end
+				else
+					if name == "" then
+						if replace_string ~= "/blank" then
+							local new_name = replace_string
+							reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+						end	
 					end
 				end
 			end
 			i = i + 1
 		end
+	elseif mode_name == "Marker" then
+		local i = 0
+		while i < num_total do		
+			local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+			if not isrgn then
+				if search_string ~= "/blank" then
+					if string.find(name, search_string) then
+						if replace_string ~= "/blank" then
+							local new_name = string.gsub( name, search_string, replace_string)
+							reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+						else
+							reaper.DeleteProjectMarker( 0, markrgnindexnumber, isrgn )
+							reaper.AddProjectMarker2( 0, isrgn, pos, rgnend, '', markrgnindexnumber, color )
+						end				
+					end
+				else
+					if name == "" then
+						if replace_string ~= "/blank" then
+							local new_name = replace_string
+							reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+						end	
+					end
+				end
+			end
+			i = i + 1
+		end
+	end
+end
+
+function searchTimeSelection(num_total, search_string, replace_string, mode_name)
+	-- Loop through all markers/regions in time selection
+	StartTimeSel, EndTimeSel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
+	-- Confirm valid time selection
+	if StartTimeSel ~= EndTimeSel then
+		if mode_name == "Region" then
+			local i = 0
+			while i < num_total do		
+				local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+				if isrgn then
+					if pos >= StartTimeSel and rgnend <= EndTimeSel then
+						if search_string ~= "/blank" then
+							if string.find(name, search_string) then
+								if replace_string ~= "/blank" then
+									local new_name = string.gsub( name, search_string, replace_string)
+									reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+								else
+									reaper.DeleteProjectMarker( 0, markrgnindexnumber, isrgn )
+									reaper.AddProjectMarker2( 0, isrgn, pos, rgnend, '', markrgnindexnumber, color )
+								end				
+							end
+						else
+							if name == "" then
+								if replace_string ~= "/blank" then
+									local new_name = replace_string
+									reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+								end	
+							end
+						end
+					end
+				end
+				i = i + 1
+			end
+		elseif mode_name == "Marker" then
+			local i = 0
+			while i < num_total do		
+				local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+				if not isrgn then
+					if pos >= StartTimeSel and pos <= EndTimeSel then
+						if search_string ~= "/blank" then
+							if string.find(name, search_string) then
+								if replace_string ~= "/blank" then
+									local new_name = string.gsub( name, search_string, replace_string)
+									reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+								else
+									reaper.DeleteProjectMarker( 0, markrgnindexnumber, isrgn )
+									reaper.AddProjectMarker2( 0, isrgn, pos, rgnend, '', markrgnindexnumber, color )
+								end				
+							end
+						else
+							if name == "" then
+								if replace_string ~= "/blank" then
+									local new_name = replace_string
+									reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, new_name, color )
+								end	
+							end
+						end
+					end
+				end
+				i = i + 1
+			end
+		end
 	else
 		reaper.ShowMessageBox("To Find & Replace within a time selection, you are going to need a time selection!","Find/Replace", 0)
 	end
-
 end
 
-function searchSelectedRegions(num_total, search_string, replace_string)
+function searchSelectedMarkersRegions(num_total, search_string, replace_string, mode_name)
 	-- Ideally, it would be possible to run this Find/Replace functionality on regions
 	-- that are selected in the Region Render Matrix, but unfortunately, that info is not
 	-- exposed via the API as of Reaper v6.10.
