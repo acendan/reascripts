@@ -54,7 +54,7 @@ function findReplace()
 		reaper.ShowMessageBox(string.format("Project has no %s" .. "s!", mode_name),"Find/Replace", 0)
 	end
 
-	reaper.Undo_EndBlock("Find and Replace", -1) -- End of the undo block. Leave it at the bottom of your main function.
+	reaper.Undo_EndBlock("Find and Replace", -1)
 
 end
 
@@ -213,10 +213,10 @@ function searchSelectedMarkersRegions(num_total, search_string, replace_string, 
 	-- exposed via the API as of Reaper v6.10.
 end
 
-reaper.PreventUIRefresh(1) -- Prevent UI refreshing. Uncomment it only if the script works.
+reaper.PreventUIRefresh(1)
 
-findReplace() -- Execute your main function
+findReplace()
 
-reaper.PreventUIRefresh(-1) -- Restore UI Refresh. Uncomment it only if the script works.
+reaper.PreventUIRefresh(-1)
 
-reaper.UpdateArrange() -- Update the arrangement (often needed)
+reaper.UpdateArrange()
