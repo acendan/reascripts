@@ -2,11 +2,15 @@
 These scripts were written to add additional functionality to the digital audio workstation REAPER. As a sound designer and programmer with a concentration on audio for games, most of these scripts are tailored specifically towards a game audio workflow. If you would like to read more about the development of these scripts or some of the other projects I have worked on in the past, feel free to check out [my website!](https://www.aaroncendan.me/)
 
 ## ReaPack Download Instructions
-The scripts in this repository are linked natively in the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion.
+The scripts in this repository are imported natively in the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts).
 This means that you don't need to download and install the scripts manually, you can simply use ReaPack to batch download all scripts or scripts of your choice right from REAPER!
 To download or get the latest version of my scripts, simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
 
-## Manual Download Instructions
+## Manual ReaPack Installation (Optional)
+If you would prefer to import the scripts manually via ReaPack, copy and paste the following URL in Extensions > ReaPack > Import a Repository:
+> https://github.com/acendan/reascripts/raw/master/index.xml
+
+## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
 
 ## Special Thanks To
