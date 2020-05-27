@@ -1,2 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ACendan Scripts" commit="d3c0edc6d650818edbba3f6089faab391c611038"/>
+<index version="1" name="ACendan Scripts" commit="184c5b1c8d0e69481b45ab168d4b3f5026175acc">
+  <category name="Tracks Properties">
+    <reapack name="acendan_Clear Saved URL By Track Name.lua" type="script" desc="Clear Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Open Saved URL By Track Name.lua" type="script" desc="Open Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Open%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_View Saved URLs By Track Name.lua" type="script" desc="View Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+  </category>
+</index>
