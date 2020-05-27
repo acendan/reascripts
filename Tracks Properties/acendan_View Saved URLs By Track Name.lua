@@ -1,7 +1,6 @@
 -- @description View Saved URL By Track Name
 -- @author Aaron Cendan
 -- @version 1.0
--- @metapackage
 -- @about
 --   By Aaron Cendan - May 2020
 
