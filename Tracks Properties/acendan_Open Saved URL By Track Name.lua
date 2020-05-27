@@ -1,11 +1,9 @@
---[[
- * Open Save URL By Track Name
- * By Aaron Cendan
- * May 10, 2020
- * Prompts user to store a URL to a variable linked to the current track's name
- * If a URL is paired with the current track already, open that site
- * Stored variable is saved as part of the project's data
---]]
+-- @description Open Saved URL By Track Name
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @about
+--   By Aaron Cendan - May 2020
 
 function openURL() -- local (i, j, item, take, track)
 

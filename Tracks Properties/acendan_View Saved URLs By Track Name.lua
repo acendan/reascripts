@@ -1,10 +1,9 @@
---[[
- * View Saved URLs By Track Name
- * By Aaron Cendan
- * May 11, 2020
- * Shows any stored URLs for the current project
- * Pairs with the script "Open Saved URL By Track Name.lua"
---]]
+-- @description View Saved URL By Track Name
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @about
+--   By Aaron Cendan - May 2020
 
 function viewURLs() -- local (i, j, item, take, track)
 

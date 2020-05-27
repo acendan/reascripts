@@ -1,10 +1,9 @@
---[[
- * Clear Saved URL By Track Name
- * By Aaron Cendan
- * May 10, 2020
- * Clears any stored URLs for the current track
- * Pairs with the script "Open Saved URL By Track Name.lua"
---]]
+-- @description Clear Saved URL By Track Name
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @about
+--   By Aaron Cendan - May 2020
 
 function clearURL() -- local (i, j, item, take, track)
 
