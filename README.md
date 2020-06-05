@@ -6,7 +6,7 @@ Some of the scripts in this repository are imported natively in the [ReaPack REA
 
 To download or get the latest version of these scripts (see below), simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
 
-### My Scripts Included with ReaTeams
+### Scripts Included with ReaTeams
 - acendan_Find and Replace in Region Names.lua
 - acendan_Find and Replace in Marker Names.lua
 
