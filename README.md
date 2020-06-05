@@ -6,6 +6,10 @@ Some of the scripts in this repository are imported natively in the [ReaPack REA
 
 To download or get the latest version of these scripts (see below for full list included with ReaTeams), simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
 
+### My Scripts Included with ReaTeams
+- acendan_Find and Replace in Region Names.lua
+- acendan_Find and Replace in Marker Names.lua
+
 ## My GitHub ReaPack Installation (Optional)
 If you would prefer to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
@@ -19,8 +23,3 @@ If you would prefer to download the scripts here manually, you can click on "Clo
 - [X-Raym](https://www.extremraym.com/en/): A ReaScripting guru that inspired me to start writing scripts for Reaper in the first place. He has also directly assisted in code-reviewing the content in this repository.
 - [The REAPER Blog](https://reaperblog.net/): A blog run by Jon Tidey, who has helped serve as one of the leading sources for up to date Reaper documentation, tips, tricks, and ideas.
 - [cfillion](https://cfillion.ca/): The creator of ReaPack, who has helped to ensure these scripts make it into the hands of far more Reaper users than I'd ever be able to reach solo.
-
-
-### Scripts Included with ReaTeams
-- acendan_Find and Replace in Region Names.lua
-- acendan_Find and Replace in Marker Names.lua
