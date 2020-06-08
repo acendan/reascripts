@@ -9,6 +9,10 @@ To download or get the latest version of these scripts (see below), simply go to
 ### Scripts Included with ReaTeams
 - acendan_Find and Replace in Region Names.lua
 - acendan_Find and Replace in Marker Names.lua
+- acendan_Set subprojects in selected items to custom color slot.lua (Installs 8 actions - first 8 color slots)
+- acendan_Set subprojects in selected items to color.lua
+- acendan_Set subprojects in selected items to random colors.lua
+- acendan_Set subprojects in selected items to random custom colors.lua
 
 ## My GitHub ReaPack Installation (Optional)
 If you would prefer to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
