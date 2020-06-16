@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ACendan Scripts" commit="5177bbdab99756add9667a5e0a452af7b47abb5b">
+<index version="1" name="ACendan Scripts" commit="9626bd8d36b377f27a679809f621dae8f973a864">
   <category name="Items Properties">
     <reapack name="acendan_Set subprojects in selected items to color.lua" type="script" desc="Set Subprojects in Selected Items to Color...">
       <metadata>
@@ -22,13 +22,13 @@
         <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20color.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set subprojects in selected items to custom color slot 1.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 1.lua" type="script" desc="Set color of subprojects in selected items">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Set Subprojects in Selected Items Color\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Set Color of Subprojects in Selected Items\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - June 2020\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 General Info\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Sets color of all subprojects in selected items based on criteria in script name\par}
