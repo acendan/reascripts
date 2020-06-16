@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ACendan Scripts" commit="e6ac4c64315d7ecf0dc3bb877fc510482e050ca8">
+<index version="1" name="ACendan Scripts" commit="5177bbdab99756add9667a5e0a452af7b47abb5b">
   <category name="Items Properties">
     <reapack name="acendan_Set subprojects in selected items to color.lua" type="script" desc="Set Subprojects in Selected Items to Color...">
       <metadata>
@@ -18,11 +18,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:16:00Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/e6ac4c64315d7ecf0dc3bb877fc510482e050ca8/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20color.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20color.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 1.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 1.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -39,11 +39,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:10:36Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/7f026a07e8dca6b8fd6572b98ba88ee5135670da/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%201.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%201.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 2.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 2.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -60,11 +60,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:10:55Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/48ba08f72a97653e0adb9459d74ca4f8562ccfd7/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%202.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%202.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 3.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 3.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -81,11 +81,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:11:10Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/5502abccba285d2c71b063793d29137417cf671f/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%203.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%203.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 4.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 4.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -102,11 +102,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:08:20Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/fb165dc814936e09cabc2331565c5fd592d172fe/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%204.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%204.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 5.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 5.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -123,11 +123,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:08:20Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/fb165dc814936e09cabc2331565c5fd592d172fe/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%205.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 6.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 6.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -144,11 +144,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:08:20Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/fb165dc814936e09cabc2331565c5fd592d172fe/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%206.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%206.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 7.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 7.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -165,11 +165,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:08:20Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/fb165dc814936e09cabc2331565c5fd592d172fe/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%207.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%207.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Custom Color Slot 8.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 8.lua" type="script" desc="Set Subprojects in Selected Items to Custom Color Slot in Script Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -186,11 +186,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:08:20Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/fb165dc814936e09cabc2331565c5fd592d172fe/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Custom%20Color%20Slot%208.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%208.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Random Colors.lua" type="script" desc="Set Subprojects in Selected Items to Random Colors">
+    <reapack name="acendan_Set subprojects in selected items to random colors.lua" type="script" desc="Set Subprojects in Selected Items to Random Colors">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -207,11 +207,11 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:10:06Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/04871c0c43f20e18f5a12ce3b7c0421f110e2af3/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Random%20Colors.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20random%20colors.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Set Subprojects in Selected Items to Random Custom Colors.lua" type="script" desc="Set Subprojects in Selected Items to Random Custom Colors">
+    <reapack name="acendan_Set subprojects in selected items to random custom colors.lua" type="script" desc="Set Subprojects in Selected Items to Random Custom Colors">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -228,8 +228,8 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-06-05T00:02:54Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/3280446002c05e45d6fec2e23ca9035a84c42010/Items%20Properties/acendan_Set%20Subprojects%20in%20Selected%20Items%20to%20Random%20Custom%20Colors.lua</source>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-16T22:22:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/5177bbdab99756add9667a5e0a452af7b47abb5b/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20random%20custom%20colors.lua</source>
       </version>
     </reapack>
   </category>
