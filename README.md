@@ -4,11 +4,19 @@ These scripts were written to add additional functionality to the digital audio 
 ## ReaPack Download Instructions
 Some of the scripts in this repository are imported natively in the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). This means that you don't need to download and install the scripts manually, you can simply use ReaPack to batch download them right from REAPER!
 
-To download or get the latest version of my scripts, simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
+To download or get the latest version of these scripts (see below), simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
 
-## Manual ReaPack Installation (Optional)
-If you would prefer to import the scripts manually via ReaPack, copy and paste the following URL in Extensions > ReaPack > Import a Repository:
-> https://github.com/acendan/reascripts/raw/master/index.xml
+### Scripts Included with ReaTeams
+- acendan_Find and Replace in Region Names.lua
+- acendan_Find and Replace in Marker Names.lua
+- acendan_Set subprojects in selected items to custom color slot.lua (Installs 8 actions - first 8 color slots)
+- acendan_Set subprojects in selected items to color.lua
+- acendan_Set subprojects in selected items to random colors.lua
+- acendan_Set subprojects in selected items to random custom colors.lua
+
+## My GitHub ReaPack Installation (Optional)
+If you would prefer to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
+> https://acendan.github.io/reascripts/index.xml
 
 Some of the scripts here are experimental, and less stable than those uploaded in the ReaTeam Scripts repository. 
 
