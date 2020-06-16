@@ -1,3 +1,5 @@
+-- @noindex
+
 -- @description Set Subprojects in Selected Items to Random Custom Colors
 -- @author Aaron Cendan
 -- @version 1.0
@@ -18,7 +20,7 @@ local function setSubProjItemsColor(filename, track, item)
   reaper.Main_OnCommand(40289, 0) -- Item: Unselect all items
   reaper.SetMediaItemSelected( item, true )
   local set_color_action = reaper.NamedCommandLookup( "_SWS_ITEMRANDCOL" ) --Set item to one random custom color
-  reaper.Main_OnCommand(set_color_action, 0) 
+  reaper.Main_OnCommand(set_color_action, 0)
 
   reaper.UpdateArrange()
 end
@@ -69,7 +71,7 @@ local function main()
   local at_least_one_subproj = false
   for i, item in ipairs( init_sel_items ) do
     local filename, track = getFilenameTrackActiveTake(item)
-    if filename ~= nil then 
+    if filename ~= nil then
       if getFileExtension(filename) == "RPP" then
         setSubProjItemsColor(filename, track, item)
         at_least_one_subproj = true

@@ -1,3 +1,5 @@
+-- @noindex
+
 -- @description Set Subprojects in Selected Items to Random Colors
 -- @author Aaron Cendan
 -- @version 1.0
@@ -68,7 +70,7 @@ local function main()
   local at_least_one_subproj = false
   for i, item in ipairs( init_sel_items ) do
     local filename, track = getFilenameTrackActiveTake(item)
-    if filename ~= nil then 
+    if filename ~= nil then
       if getFileExtension(filename) == "RPP" then
         setSubProjItemsColor(filename, track, item)
         at_least_one_subproj = true

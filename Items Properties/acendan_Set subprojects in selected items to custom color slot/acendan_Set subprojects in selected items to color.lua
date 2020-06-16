@@ -1,3 +1,5 @@
+-- @noindex
+
 -- @description Set Subprojects in Selected Items to Color...
 -- @author Aaron Cendan
 -- @version 1.0
@@ -17,7 +19,7 @@
 local function setSubProjItemsColor(filename, track, item)
   reaper.Main_OnCommand(40289, 0) -- Item: Unselect all items
   reaper.SetMediaItemSelected( item, true )
-  
+
   if not custom_color_set then
     reaper.Main_OnCommand(40704, 0) --Set item to one random color
     custom_color_set = true
@@ -75,7 +77,7 @@ local function main()
   local at_least_one_subproj = false
   for i, item in ipairs( init_sel_items ) do
     local filename, track = getFilenameTrackActiveTake(item)
-    if filename ~= nil then 
+    if filename ~= nil then
       if getFileExtension(filename) == "RPP" then
         setSubProjItemsColor(filename, track, item)
         at_least_one_subproj = true
