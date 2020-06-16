@@ -1,9 +1,22 @@
--- @description Set Subprojects in Selected Items to Custom Color Slot in Script Name
+-- @description Set color of subprojects in selected items
 -- @author Aaron Cendan
 -- @version 1.0
+-- @metapackage
+-- @provides
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 1.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 2.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 3.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 4.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 5.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 6.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 7.lua
+--   [main] . > acendan_Set subprojects in selected items to custom color slot 8.lua
+--   [main] acendan_Set subprojects in selected items to custom color slot/acendan_Set subprojects in selected items to random colors.lua
+--   [main] acendan_Set subprojects in selected items to custom color slot/acendan_Set subprojects in selected items to random custom colors.lua
+--   [main] acendan_Set subprojects in selected items to custom color slot/acendan_Set subprojects in selected items to color.lua
 -- @link https://aaroncendan.me
 -- @about
---   # Set Subprojects in Selected Items Color
+--   # Set Color of Subprojects in Selected Items
 --   By Aaron Cendan - June 2020
 --
 --   ### General Info
@@ -19,7 +32,7 @@ local function setSubProjItemsColor(filename, track, item)
   reaper.SetMediaItemSelected( item, true )
   local slot_number = extractNumberInScriptName() --Get custom color slot from script name
   local set_color_action = reaper.NamedCommandLookup( "_SWS_ITEMCUSTCOL" .. slot_number ) --Set item to custom color slot
-  reaper.Main_OnCommand(set_color_action, 0) 
+  reaper.Main_OnCommand(set_color_action, 0)
 
   reaper.UpdateArrange()
 end
@@ -76,7 +89,7 @@ local function main()
   local at_least_one_subproj = false
   for i, item in ipairs( init_sel_items ) do
     local filename, track = getFilenameTrackActiveTake(item)
-    if filename ~= nil then 
+    if filename ~= nil then
       if getFileExtension(filename) == "RPP" then
         setSubProjItemsColor(filename, track, item)
         at_least_one_subproj = true
