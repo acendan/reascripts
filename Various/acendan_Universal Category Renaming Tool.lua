@@ -286,7 +286,7 @@ function setFullName()
   if ret_show then 
     ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
   else 
-    ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init 
+    ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"
   end
 end
 
