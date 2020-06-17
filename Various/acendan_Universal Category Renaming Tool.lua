@@ -6,6 +6,7 @@
 --   [main] . > acendan_Universal Category Renaming Tool.lua
 -- @link https://aaroncendan.me
 -- @about
+--   # Universal Category Renaming Tool
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
