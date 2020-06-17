@@ -26,7 +26,7 @@
 --   ### Requirements
 --   * SWS Extension: https://www.sws-extension.org/
 
--- Set subproject item colors
+-- Set subproject item color
 local function setSubProjItemsColor(filename, track, item)
   reaper.Main_OnCommand(40289, 0) -- Item: Unselect all items
   reaper.SetMediaItemSelected( item, true )
