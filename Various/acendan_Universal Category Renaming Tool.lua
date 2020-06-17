@@ -1,3 +1,12 @@
+-- @description Universal Category Renaming Tool
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @provides
+--   [main] . > acendan_Universal Category Renaming Tool.lua
+-- @link https://aaroncendan.me
+-- @about
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
