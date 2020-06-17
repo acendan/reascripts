@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="56475cd8b0353886191c93f0085ee6fde74afbe4" name="ACendan Scripts">
+<index version="1" commit="56475cd8b0353886191c93f0085ee6fde74afbe4">
   <category name="Tracks Properties">
     <reapack name="acendan_Clear Saved URL By Track Name.lua" type="script" desc="Clear Saved URL By Track Name">
       <metadata>
