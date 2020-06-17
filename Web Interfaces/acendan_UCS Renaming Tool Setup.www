@@ -3,4 +3,4 @@
 @version 1.0
 @provides
   acendan_UCS Renaming Tool.html
-  ucs_libraries/*.{js,png}
+  ucs_libraries/*.{js,png,css}
