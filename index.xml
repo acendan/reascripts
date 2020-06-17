@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="60938c04c5a086299e9a4b8004fe03510f5f6bc1" name="ACendan Scripts">
+<index version="1" commit="ccb095e0705cb2947763a426d52b1b3126b6c32f" name="ACendan Scripts">
   <category name="Tracks Properties">
     <reapack name="acendan_Clear Saved URL By Track Name.lua" type="script" desc="Clear Saved URL By Track Name">
       <metadata>
@@ -65,7 +65,13 @@
     <reapack name="acendan_UCS Renaming Tool Setup.www" type="webinterface" desc="UCS Renaming Tool">
       <metadata/>
       <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:44:58Z">
-        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/0b02489c405cf004443cdfc047bba8a50ba3d27f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="bloodhound.js">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/bloodhound.js</source>
+        <source file="dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/dataTables.bootstrap4.min.js</source>
+        <source file="jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/jquery.dataTables.min.js</source>
+        <source file="jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/jquery-3.5.1.min.js</source>
+        <source file="typeahead.bundle.js">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/typeahead.bundle.js</source>
+        <source file="typeahead.jquery.js">https://github.com/acendan/reascripts/raw/ccb095e0705cb2947763a426d52b1b3126b6c32f/Web%20Interfaces/typeahead.jquery.js</source>
       </version>
     </reapack>
   </category>
