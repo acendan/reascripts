@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="56475cd8b0353886191c93f0085ee6fde74afbe4" name="ACendan Scripts">
+<index version="1" commit="c70b1e859d7464802b646baeac631a1267e870c9" name="ACendan Scripts">
+  <category name="Items Properties">
+    <reapack name="acendan_Set subprojects in selected items to custom color slot 5.lua" type="script" desc="Set color of subprojects in selected items">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Set Color of Subprojects in Selected Items\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - June 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 General Info\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Sets color of all subprojects in selected items based on criteria in script name\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Can easily be combined with "Item: Select all items" to affect all subprojects in current project\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Requirements\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab SWS Extension: https://www.sws-extension.org/\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-17T01:29:02Z">
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 1.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 2.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 3.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 4.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 5.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 6.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 7.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot 8.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot%205.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot/acendan_Set subprojects in selected items to random colors.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot/acendan_Set%20subprojects%20in%20selected%20items%20to%20random%20colors.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot/acendan_Set subprojects in selected items to random custom colors.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot/acendan_Set%20subprojects%20in%20selected%20items%20to%20random%20custom%20colors.lua</source>
+        <source main="main" file="acendan_Set subprojects in selected items to custom color slot/acendan_Set subprojects in selected items to color.lua">https://github.com/acendan/reascripts/raw/c70b1e859d7464802b646baeac631a1267e870c9/Items%20Properties/acendan_Set%20subprojects%20in%20selected%20items%20to%20custom%20color%20slot/acendan_Set%20subprojects%20in%20selected%20items%20to%20color.lua</source>
+      </version>
+    </reapack>
+  </category>
   <category name="Tracks Properties">
     <reapack name="acendan_Clear Saved URL By Track Name.lua" type="script" desc="Clear Saved URL By Track Name">
       <metadata>
