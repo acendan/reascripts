@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c48e08f525ad93e454edc752e42b232f77ae7313">
+<index version="1" commit="c48e08f525ad93e454edc752e42b232f77ae7313" name="ACendan Scripts">
   <category name="Items Properties">
     <reapack name="acendan_Set subprojects in selected items to custom color slot 5.lua" type="script" desc="Set color of subprojects in selected items">
       <metadata>
