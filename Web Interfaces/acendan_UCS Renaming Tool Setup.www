@@ -3,9 +3,4 @@
 @version 1.0
 @provides
   acendan_UCS Renaming Tool.html
-  bloodhound.js
-  dataTables.bootstrap4.min.js
-  jquery.dataTables.min.js
-  jquery-3.5.1.min.js
-  typeahead.bundle.js
-  typeahead.jquery.js
+  ucs_libraries/*.{js}
