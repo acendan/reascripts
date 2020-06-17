@@ -90,7 +90,7 @@
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:30:19Z">
-        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/1a22860db4e809a6f46dc4f34c822df1368cd038/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/35bb93c511916029b0304aed63b72a423929e06f/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-06-17T17:09:50Z">
         <changelog><![CDATA[Updated empty show field to display "_NONE"]]></changelog>
@@ -110,20 +110,7 @@
 ]]></description>
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:44:58Z">
-        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
-        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
-        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
-        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
-        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
-        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
-        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
-        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
-        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/share.svg</source>
-        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
-        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
-        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
-        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
-        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/2f1f25f4e7595b2109ee9f2a5da8c7c82a539494/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/0b02489c405cf004443cdfc047bba8a50ba3d27f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-06-17T16:56:03Z">
         <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
