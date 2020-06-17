@@ -48,6 +48,31 @@
             margin-top: 10px;
         }
 
+        .icons {
+            position: relative;
+            display: inline-block;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            width: 16px;
+            height: auto;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .filter-green {
+            filter: invert(24%) sepia(76%) saturate(458%) hue-rotate(82deg) brightness(94%) contrast(95%);
+        }
+
+        .filter-yellow {
+            filter: invert(41%) sepia(80%) saturate(1700%) hue-rotate(29deg) brightness(96%) contrast(94%);
+        }
+
+        .filter-blue {
+            filter: invert(16%) sepia(74%) saturate(2294%) hue-rotate(198deg) brightness(104%) contrast(101%);
+        }
+
         span.twitter-typeahead .tt-menu,
         span.twitter-typeahead .tt-dropdown-menu {
             cursor: pointer;
@@ -229,7 +254,7 @@
         </div>
         <!-- SUBMIT BUTTON - Web_Interface_Button_1_Test.lua -->
         <div>
-            <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img src="ucs_libraries/share.svg" alt="share_icon"></button>
+            <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon"></button>
         </div>
         <!-- PAGE DIVIDER -->
         <div><hr></div>
@@ -243,8 +268,8 @@
         <!-- OFFLINE/ONLINE INFO - Displayed on load -->
         <h6 id="downloadUCSButtonText" style="display: none">Click here to download for offline use!</h6>
         <h6 id="reenableOnlineUCSButtonText" style="display: none">If you would like to re-enter 'Online Mode' using Google Sheets data, click here.</h6>
-        <button id="downloadUCSButton" type="button" class="btn btn-outline-success" style="display: none"><img src="ucs_libraries/data-transfer-download.svg" alt="download_icon"></button>
-        <button id="onlineUCSButton" type="button" class="btn btn-outline-warning" style="display: none"><img src="ucs_libraries/wifi.svg" alt="wifi_icon"></button>
+        <button id="downloadUCSButton" type="button" class="btn btn-outline-success" style="display: none"><img class="icons filter-green" src="ucs_libraries/data-transfer-download.svg" alt="download_icon"></button>
+        <button id="onlineUCSButton" type="button" class="btn btn-outline-warning" style="display: none"><img class="icons filter-yellow" src="ucs_libraries/wifi.svg" alt="wifi_icon"></button>
         <div class="card w-75" id="UCSInstallInstructions" style="display: none">
             <div class="card-body">
                 <h5 class="card-title">Offline Installation and Setup Instructions</h5>
