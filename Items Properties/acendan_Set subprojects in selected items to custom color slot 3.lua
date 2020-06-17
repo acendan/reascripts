@@ -1,6 +1,6 @@
 -- @description Set color of subprojects in selected items
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Set subprojects in selected items to custom color slot 1.lua
