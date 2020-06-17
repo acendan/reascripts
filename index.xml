@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<index version="1" commit="691fd5db7d654768896025a885d0e87656196fdf" name="ACendan Scripts">
+  <category name="Tracks Properties">
+    <reapack name="acendan_Clear Saved URL By Track Name.lua" type="script" desc="Clear Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Open Saved URL By Track Name.lua" type="script" desc="Open Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Open%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_View Saved URLs By Track Name.lua" type="script" desc="View Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Various">
+    <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="Universal Category Renaming Tool">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Universal Category Renaming Tool\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:30:19Z">
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/35bb93c511916029b0304aed63b72a423929e06f/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Web Interfaces">
+    <reapack name="acendan_UCS Renaming Tool Setup.www" type="webinterface" desc="UCS Renaming Tool">
+      <metadata/>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:44:58Z">
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/0b02489c405cf004443cdfc047bba8a50ba3d27f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+      </version>
+    </reapack>
+  </category>
+</index>
