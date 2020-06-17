@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ACendan Scripts" commit="2f3dfa417e93de42f74ebd22ce1cac2ea31d00e2">
+<index version="1" name="ACendan Scripts" commit="35bb93c511916029b0304aed63b72a423929e06f">
   <category name="Items Properties">
     <reapack name="acendan_Set subprojects in selected items to custom color slot 1.lua" type="script" desc="Set color of subprojects in selected items">
       <metadata>
@@ -211,6 +211,23 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
         <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Various">
+    <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="Universal Category Renaming Tool">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Universal Category Renaming Tool\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:30:19Z">
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/35bb93c511916029b0304aed63b72a423929e06f/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
