@@ -1,6 +1,6 @@
 -- @description Clear Saved URL By Track Name
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @about
 --   By Aaron Cendan - May 2020
 
@@ -34,7 +34,7 @@ function clearURL() -- local (i, j, item, take, track)
 		reaper.ShowConsoleMsg("No URL saved for this track: " .. cur_track)
 		reaper.ShowConsoleMsg("\n")
 		reaper.ShowConsoleMsg("\n")
-		reaper.ShowConsoleMsg('To save a URL, run the script "Open Saved URL By Track Name.lua"')
+		reaper.ShowConsoleMsg('To save a URL, run the script "acendan_Store and Open saved URL by track name.lua"')
 		return
 	end
 

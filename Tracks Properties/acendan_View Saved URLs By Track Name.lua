@@ -1,6 +1,6 @@
 -- @description View Saved URL By Track Name
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @about
 --   By Aaron Cendan - May 2020
 
@@ -45,7 +45,7 @@ function viewURLs() -- local (i, j, item, take, track)
 	
 	-- Show message box if no saved URLs for current tracks
 	if tracks_without_URLs == track_count then
-		reaper.MB('Please select a track and run "Open Saved URL By Track Name.lua" to store a URL!',"No Stored URLs In Project",0)
+		reaper.MB('Please select a track and run "acendan_Store and Open saved URL by track name.lua" to store a URL!',"No Stored URLs In Project",0)
 	end
 
 end
