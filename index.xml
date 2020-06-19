@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="7639ff65380dca73b8f9a6465cbc34e9da9d1964" name="ACendan Scripts">
+<index version="1" commit="b07f2392f55b9fcad3faf81e54868c71b70f8c00" name="ACendan Scripts">
   <category name="Items Properties">
     <reapack name="acendan_Set subprojects in selected items to custom color slot.lua" type="script" desc="Set color of subprojects in selected items">
       <metadata>
@@ -47,8 +47,11 @@
       <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
         <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
     </reapack>
-    <reapack name="acendan_Open Saved URL By Track Name.lua" type="script" desc="Open Saved URL By Track Name">
+    <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -58,8 +61,8 @@
 }
 ]]></description>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Open%20Saved%20URL%20By%20Track%20Name.lua</source>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_Store%20and%20Open%20saved%20URL%20by%20track%20name.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_View Saved URLs By Track Name.lua" type="script" desc="View Saved URL By Track Name">
@@ -74,6 +77,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
         <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
       </version>
     </reapack>
   </category>
