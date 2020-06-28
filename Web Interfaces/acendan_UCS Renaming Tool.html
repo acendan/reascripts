@@ -7,8 +7,15 @@
     <link rel="stylesheet" type="text/css" href="ucs_libraries/dataTables.bootstrap4.min.css" />
     <script type="text/javascript" src="ucs_libraries/jquery-3.5.1.min.js"></script>
     <title>UCS Renaming Tool</title>
-    <link rel="icon" type="image/png" href="ucs_libraries/ucs_logo_black_on_white.png">
+    <link rel="icon" type="image/png" hreftypeahead="ucs_libraries/ucs_logo_black_on_white.png">
     <style>
+        #main_wrap {
+            margin: 0 auto;
+            width: 960px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
         @font-face {
             font-family: 'Helvetica';
         }
@@ -19,26 +26,70 @@
         }
 
         button {
-            font-family: 'Helvetica';
-            font-size: 40px;
-            height: 40px;
+            height: 45px;
             line-height: 120px;
             margin: 5px;
-            overflow: hidden;
-            width: 100px;
-            white-space: pre;
+            white-space: pre;            
+        }
+
+        .anim-trig {
+            animation: fadeOutRight 1.25s ease-in-out 0s 1 normal;
+        }
+
+        @-webkit-keyframes fadeOutRight {
+            0% {
+                opacity: 1
+            }
+
+            to {
+                opacity: 0;
+                -webkit-transform: translate3d(120%,0,0) scale3d(0.6, 0.6, 0.6);
+                transform: translate3d(120%,0,0) scale3d(0.6, 0.6, 0.6)
+            }
+        }
+
+        @keyframes fadeOutRight {
+            0% {
+                opacity: 1
+            }
+
+            to {
+                opacity: 0;
+                -webkit-transform: translate3d(120%,0,0) scale3d(0.6, 0.6, 0.6);
+                transform: translate3d(120%,0,0) scale3d(0.6, 0.6, 0.6)
+            } 
         }
 
         div {
             margin-top: 10px;
             margin-bottom: 10px;
-            margin-right: 80px;
-            margin-left: 80px;
+            margin-right: 30px;
+            margin-left: 30px;
         }
 
         h3 {
             margin-top: 40px;
         }
+
+        h5 {
+            display: flex;
+            width: 30%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+            h5:before,
+            h5:after {
+                content: '';
+                border-top: 2px solid;
+                margin: 0 20px 0 0;
+                flex: 1 0 20px;
+            }
+
+            h5:after {
+                margin: 0 0 0 20px;
+            }
 
         h7 {
             margin-top: 40px;
@@ -46,6 +97,20 @@
 
         select {
             margin-top: 10px;
+        }
+
+        .dtSearch {
+            align-items: flex-start;
+            display: flex;
+            margin-left: auto;
+            justify-content: left;
+            margin-top: 15px;
+        }
+
+        .dtPages {
+            align-items: center;
+            display: flex;
+            justify-content: center;
         }
 
         .icons {
@@ -186,129 +251,136 @@
     <script type="text/javascript" src="ucs_libraries/typeahead.bundle.js"></script>
 </head>
 <body>
-    <div>
-        <img src="ucs_libraries/ucs_logo_white_on_black.png" alt="UCS_Logo" style="float:left;width:42px;height:42px;">
-        <h3 style="text-indent:15px;">Universal Category System Renaming Tool</h3>
-    </div>
-    <!------------------------>
-    <!-- Renaming Tool Form -->
-    <!------------------------>
-    <form id="ucsForm">
-        <!-- Category -->
-        <div class="form-row">
-            <div class="form-group col-md-6 required" id="typeaheadCategory">
-                <label for="userInputCategoryLabel">Category*</label>
-                <br><input type="text" class="form-control typeahead" id="userInputCategory" aria-describedby="userInputCategoryHelp" placeholder="What kind of sound is this?" required>
-                <small id="userInputCategoryHelp" class="form-text text-muted">Start typing to auto-fill category.</small>
-            </div>
-            <!-- Subcategory -->
-            <div class="form-group col-sm-6 required" id="typeaheadSubcategory">
-                <label for="userInputSubCategoryLabel">Subcategory*</label>
-                <select class="form-control" id="userSelectSubCategory" required><option>Please select a category!</option></select>
-                <small id="userInputSubCategoryHelp" class="form-text text-muted">Subcategory dropdown will fill with options when Category is selected. "-" if no subcategory needed.</small>
-            </div>
-        </div>
-        <!-- Name w Var ID -->
-        <div class="form-row">
-            <div class="form-group col-md-6 required">
-                <label for="userInputNameLabel">File Name*</label>
-                <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
-                <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br />'Dog Toy' => 'Dog Toy 01', 'Dog Toy 02', etc.<br />'Dog Toy 07' => 'Dog Toy 07', 'Dog Toy 08', etc.</small>
-            </div>
-        </div>
-        <!-- Initials -->
-        <div class="form-row">
-            <div class="form-group col-sm-3">
-                <label for="userInputInitialsLabel">Your Initials*</label>
-                <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="First letter of first & last name." minlength="2" maxlength="2" required pattern="^[A-Za-z]{2}">
-                <small id="userInputInitialsHelp" class="form-text text-muted">'Aaron Cendan' => 'AC'</small>
-            </div>
-            <!-- Show -->
-            <div class="form-group col-sm-3">
-                <label for="userInputShowLabel">Show/Film/Game (Optional)</label>
-                <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="What project are you working on?" maxlength="4" pattern="^[A-Za-z0-9]{4}">
-                <small id="userInputShowHelp" class="form-text text-muted">Four letter code for your project. If no project, leave blank.</small>
-            </div>
-        </div>
-        <!-- RENAME DROPDOWN - Rename Regions/Markers/Items/Tracks -->
-        <div class="form-row">
-            <div class="form-group col-sm-3">
-                <h7>Items to Rename*</h7>
-                <select id="userInputItems" class="form-control">
-                    <option>Regions</option>
-                    <option>Markers</option>
-                    <option>Media Items</option>
-                    <option>Tracks</option>
-                </select>
-                <small id="userInputCategoryHelp" class="form-text text-muted">What would you like to rename?</small>
-            </div>
-            <!-- AREA DROPDOWN - Time Selection/Full Project -->
-            <div class="form-group col-sm-3">
-                <h7>Search Area*</h7>
-                <select id="userInputArea" class="form-control">
-                    <option>Time Selection</option>
-                    <option>Full Project</option>
-                </select>
-                <small id="userInputCategoryHelp" class="form-text text-muted">Select the area of the project you would like to affect.</small>
-            </div>
-        </div>
-        <!-- SUBMIT BUTTON - Web_Interface_Button_1_Test.lua -->
+    <div class="main_wrap">
         <div>
-            <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon"></button>
+            <img src="ucs_libraries/ucs_logo_white_on_black.png" alt="UCS_Logo" style="float:left;width:42px;height:42px;">
+            <h3 style="text-indent:15px;">Universal Category System Renaming Tool</h3>
         </div>
-        <!-- PAGE DIVIDER -->
-        <div><hr></div>
-    </form>
-    <!--------------->
-    <!-- UCS Table -->
-    <!--------------->
-    <div>
-        <h3>Universal Category System Table</h3>
-        <h6 id="UCSTableSubHeading">Google Sheets Data/Online Mode ~ 6/10/2020</h6>
-        <!-- OFFLINE/ONLINE INFO - Displayed on load -->
-        <h6 id="downloadUCSButtonText" style="display: none">Click here to download for offline use!</h6>
-        <h6 id="reenableOnlineUCSButtonText" style="display: none">If you would like to re-enter 'Online Mode' using Google Sheets data, click here.</h6>
-        <button id="downloadUCSButton" type="button" class="btn btn-outline-success" style="display: none"><img class="icons filter-green" src="ucs_libraries/data-transfer-download.svg" alt="download_icon"></button>
-        <button id="onlineUCSButton" type="button" class="btn btn-outline-warning" style="display: none"><img class="icons filter-yellow" src="ucs_libraries/wifi.svg" alt="wifi_icon"></button>
-        <div class="card w-75" id="UCSInstallInstructions" style="display: none">
-            <div class="card-body">
-                <h5 class="card-title">Offline Installation and Setup Instructions</h5>
-                <ul>
-                    <li>
-                        To enable offline mode, simply place the downloaded file "UCS.txt" in the appropriate directory:
-                    </li>
-                    <li>
-                        Open the file path /REAPER/reaper_www_root (and verify that "acendan_Universal Category Renaming Tool Interface.html" is present).
-                    </li>
-                    <li>
-                        Drag or copy the "UCS.txt" file into the folder /reaper_www_root and then reload this page.
-                    </li>
-                    <li>
-                        You should see text above the UCS Table indicating that you are succesfully in Offline mode!
-                    </li>
-                </ul>
+        <!------------------------>
+        <!-- Renaming Tool Form -->
+        <!------------------------>
+        <form id="ucsForm">
+            <div style="margin-top:40px;"><h5><i>Naming</i></h5></div>
+            <!-- Category -->
+            <div class="form-row">                
+                <div class="form-group col-md-6 required" id="typeaheadCategory">
+                    <label for="userInputCategoryLabel">Category*</label>
+                    <br><input type="text" class="form-control typeahead" id="userInputCategory" aria-describedby="userInputCategoryHelp" placeholder="What kind of sound is this?" required>
+                    <h8 id="userInputCategoryError" style="display: none; color: red;">No valid CatID found. Please check your Category & Subcategory selections!</h8>
+                    <small id="userInputCategoryHelp" class="form-text text-muted">Start typing to auto-fill category.</small>
+                </div>
+                <!-- Subcategory -->
+                <div class="form-group col-md-6 required" id="typeaheadSubcategory">
+                    <label for="userInputSubCategoryLabel">Subcategory*</label>
+                    <select class="form-control" id="userSelectSubCategory" required><option>Please select a category!</option></select>
+                    <small id="userInputSubCategoryHelp" class="form-text text-muted">Subcategory dropdown will fill with options when Category is selected. "-" if no subcategory needed.</small>
+                </div>
+            </div>
+            <!-- Name w Var ID -->
+            <div class="form-row">
+                <div class="form-group col-md-6 required" id="fileNameGroup">
+                    <label for="userInputNameLabel">File Name*</label>
+                    <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
+                    <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
+                    <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br />'Dog Toy' => 'Dog Toy 01', 'Dog Toy 02', etc.<br />'Dog Toy 07' => 'Dog Toy 07', 'Dog Toy 08', etc.</small>
+                </div>
+            </div>
+            <!-- Initials -->
+            <div class="form-row">
+                <div class="form-group col-md-6" id="initialsGroup">
+                    <label for="userInputInitialsLabel">Your Initials*</label>
+                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="First letter of first & last name." minlength="2" maxlength="2" required pattern="^[A-Za-z]{2}">
+                    <h8 id="userInitialsError" style="display: none; color: red;">Initials cannot be blank!</h8>
+                    <small id="userInputInitialsHelp" class="form-text text-muted">'Aaron Cendan' => 'AC'</small>
+                </div>
+                <!-- Show -->
+                <div class="form-group col-md-6">
+                    <label for="userInputShowLabel">Show/Film/Game (Optional)</label>
+                    <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="What project are you working on?" maxlength="4" pattern="^[A-Za-z0-9]{4}">
+                    <small id="userInputShowHelp" class="form-text text-muted">Four letter code for your project. If no project, leave blank.</small>
+                </div>
+            </div>
+            <div><h5><i>Processing</i></h5></div>
+            <!-- RENAME DROPDOWN - Rename Regions/Markers/Items/Tracks -->
+            <div class="form-row">                
+                <div class="form-group col-md-6">
+                    <h7>Items to Rename*</h7>
+                    <select id="userInputItems" class="form-control">
+                        <option>Regions</option>
+                        <option>Markers</option>
+                        <option>Media Items</option>
+                        <option>Tracks</option>
+                    </select>
+                    <small id="userInputCategoryHelp" class="form-text text-muted">What would you like to rename?</small>
+                </div>
+                <!-- AREA DROPDOWN - Time Selection/Full Project -->
+                <div class="form-group col-md-6">
+                    <h7>Search Area*</h7>
+                    <select id="userInputArea" class="form-control">
+                        <option>Time Selection</option>
+                        <option>Full Project</option>
+                    </select>
+                    <small id="userInputCategoryHelp" class="form-text text-muted">Select the area of the project you would like to affect.</small>
+                </div>
+            </div>
+            <!-- SUBMIT BUTTON - Web_Interface_Button_1_Test.lua -->
+            <div>
+                <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon">&nbsp;&nbsp;<b>Submit</b></button>
+            </div>
+            <!-- PAGE DIVIDER -->
+            <div><hr></div>
+        </form>
+        <!--------------->
+        <!-- UCS Table -->
+        <!--------------->
+        <div>
+            <h3>Universal Category System Table</h3>
+            <h6 id="UCSTableSubHeading">Google Sheets Data/Online Mode ~ 6/10/2020</h6>
+            <!-- OFFLINE/ONLINE INFO - Displayed on load -->
+            <h6 id="downloadUCSButtonText" style="display: none">Click here to download for offline use!</h6>
+            <h6 id="reenableOnlineUCSButtonText" style="display: none">If you would like to re-enter 'Online Mode' using Google Sheets data, click here.</h6>
+            <button id="downloadUCSButton" type="button" class="btn btn-outline-success" style="display: none; margin-top: 10px"><img class="icons filter-green" src="ucs_libraries/data-transfer-download.svg" alt="download_icon">&nbsp;&nbsp;<b>Download</b></button>
+            <button id="onlineUCSButton" type="button" class="btn btn-outline-warning" style="display: none; margin-top: 10px"><img class="icons filter-yellow" src="ucs_libraries/wifi.svg" alt="wifi_icon">&nbsp;&nbsp;<b>Online</b></button>
+            <div class="card w-75" id="UCSInstallInstructions" style="display: none">
+                <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
+                    <h6 class="card-title">Offline Installation and Setup Instructions</h6>
+                    <ul>
+                        <li>
+                            To enable offline mode, simply place the downloaded file "UCS.txt" in the appropriate directory:
+                        </li>
+                        <li>
+                            Open the file path /REAPER/reaper_www_root (and verify that "acendan_Universal Category Renaming Tool Interface.html" is present).
+                        </li>
+                        <li>
+                            Drag or copy the "UCS.txt" file into the folder /reaper_www_root and then reload this page.
+                        </li>
+                        <li>
+                            You should see text above the UCS Table indicating that you are succesfully in Offline mode!
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card w-75" id="UCSOnlineModeInstructions" style="display: none">
+                <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
+                    <h6 class="card-title">Re-enable Online Mode Instructions</h6>
+                    <ul>
+                        <li>
+                            To re-enable online mode, open the file path /REAPER/reaper_www_root.
+                        </li>
+                        <li>
+                            You can either delete "UCS.txt", change its name to something along the lines of "UCS_backup.txt", or place it in a folder/elsewhere on your computer.
+                        </li>
+                        <li>
+                            Reload this page and you should automatically enter Online mode, using Google Sheets data for the latest UCS info.
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="card w-75" id="UCSOnlineModeInstructions" style="display: none">
-            <div class="card-body">
-                <h5 class="card-title">Re-enable Online Mode Instructions</h5>
-                <ul>
-                    <li>
-                        To re-enable online mode, open the file path /REAPER/reaper_www_root.
-                    </li>
-                    <li>
-                        You can either delete "UCS.txt", change its name to something along the lines of "UCS_backup.txt", or place it in a folder/elsewhere on your computer.
-                    </li>
-                    <li>
-                        Reload this page and you should automatically enter Online mode, using Google Sheets data for the latest UCS info.
-                    </li>
-                </ul>
-            </div>
+        <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive" style="max-width:100%"></table>
+        <div>
+            <h7 style="align-items:center;display:flex;justify-content:center;">UCS Renaming Tool developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a></h7>
         </div>
-    </div>
-    <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive" style="width:80%"></table>
-    <div>
-        <h7 style="align-items:center;display:flex;justify-content:center;">UCS Renaming Tool developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a></h7>
     </div>
     <script>
         // Initialize connection w Reaper
@@ -318,7 +390,7 @@
         // GLOBAL VAR DECLARATION
         // ~~~~~~~~~~~~~~~~~~~~
         // Reaper-side Lua Script
-        // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various 
+        // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various
         var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various
 
         // Arrays populated by Google Sheet public JSON
@@ -384,6 +456,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // FORMAT: (CatID)_(File Name with Variation Number)_(Initials)_(Show)
         $("#formSubmitButton").click(function (e) {
+
             // Process user input
             var selectedCategory = $("#userInputCategory").val();
             var selectedSubcategory = $("select#userSelectSubCategory option:checked").val();
@@ -396,8 +469,16 @@
 
             // Alert user of invalid entries and bypass triggering ReaScript
             if (selectedCatID == "CATID_INVALID") { return; }                           // Alert is included in getCatID above
-            if (nameOnly == "") { alert("File Name can not be blank!"); return; }
-            if (cleanInitials == "") { alert("Initials can not be blank!"); return; }
+            if (nameOnly == "") { $("#userInputNameError").show(); $("#fileNameGroup")[0].scrollIntoView(); return; }
+            if (cleanInitials == "") { $("#userInitialsError").show(); $("#initialsGroup")[0].scrollIntoView(); return; }
+
+            // Trigger CSS Animation
+            $("#formSubmitButton").addClass('anim-trig');
+            $("#formSubmitButton").one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+                function (e) {
+                    // Code to execute after animation ends
+                    $("#formSubmitButton").removeClass('anim-trig');
+                });
 
             // Set project extstates from processed vars
             setProjExtState(selectedCategory, "Category");
@@ -449,6 +530,7 @@
                 document.getElementById("userInputCategory").setCustomValidity("");
                 document.getElementById("userSelectSubCategory").setCustomValidity("");
                 vals = jsonCategorySubcategoryArr[key].split(", ");
+                $("#userInputCategoryError").hide();
             } else {
                 document.getElementById("userInputCategory").setCustomValidity("Invalid");
                 document.getElementById("userSelectSubCategory").setCustomValidity("Invalid");
@@ -495,9 +577,27 @@
             if (form[0].checkValidity() === false) {
                 event.preventDefault()
                 event.stopPropagation()
-            }
+            }            
 
             form.addClass('was-validated');
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // VALIDATE NAME FIELD
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#userInputName").keyup(function () {
+            if (document.getElementById("userInputName").checkValidity() === true ) {
+                $("#userInputNameError").hide();
+            }
+        });
+        
+        // ~~~~~~~~~~~~~~~~~~~~
+        // VALIDATE INITIALS FIELD
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#userInputInitials").keyup(function () {
+            if (document.getElementById("userInputInitials").checkValidity() === true ) {
+                $("#userInitialsError").hide();
+            }
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -587,8 +687,13 @@
                     { title: "ShortID" },
                     { title: "Explanations" },
                     { title: "Synonyms" }
-                ]
+                ],
+                "dom": '<"dtSearch"f>rt<"dtPages"lp><"clear">'
             });
+
+            $('.dataTables_filter input[type="search"]').css(
+                { 'min-width': '500px', 'display': 'inline-block' }
+            );
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -654,8 +759,13 @@
                         { title: "ShortID" },
                         { title: "Explanations" },
                         { title: "Synonyms" }
-                    ]
+                    ],
+                    "dom": '<"dtSearch"f>rt<"dtPages"lp><"clear">'
                 });
+
+                $('.dataTables_filter input[type="search"]').css(
+                    { 'min-width': '500px', 'display': 'inline-block' }
+                );
             })
         }
 
@@ -685,7 +795,9 @@
                 console.log("Found CatID: " + arrCatID);
                 return arrCatID;
             } else {
-                alert("No valid CatID found." + "\n" + "\n" + "Please check your Category & Subcategory selections!");
+                //alert("No valid CatID found." + "\n" + "\n" + "Please check your Category & Subcategory selections!");
+                $("#userInputCategoryError").show();
+                $("#typeaheadCategory")[0].scrollIntoView();
                 var invalid = "CATID_INVALID";
                 return invalid;
             }
@@ -758,7 +870,6 @@
                 document.body.removeChild(link);
             });
         }
-
     </script>
     <script type="text/javascript" src="ucs_libraries/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="ucs_libraries/dataTables.bootstrap4.min.js"></script>
