@@ -33,7 +33,7 @@
         }
 
         .anim-trig {
-            animation: fadeOutRight 1.25s ease-in-out 0s 1 normal;
+            animation: fadeOutRight 1s ease-in-out 0s 1 normal;
         }
 
         @-webkit-keyframes fadeOutRight {
@@ -260,39 +260,49 @@
         <!-- Renaming Tool Form -->
         <!------------------------>
         <form id="ucsForm">
+            
+            <!-- NAMING SECTION -->
             <div style="margin-top:40px;"><h5><i>Naming</i></h5></div>
-            <!-- Category -->
-            <div class="form-row">                
+
+            <div class="form-row">
+                <!-- Category -->
                 <div class="form-group col-md-6 required" id="typeaheadCategory">
                     <label for="userInputCategoryLabel">Category*</label>
                     <br><input type="text" class="form-control typeahead" id="userInputCategory" aria-describedby="userInputCategoryHelp" placeholder="What kind of sound is this?" required>
                     <h8 id="userInputCategoryError" style="display: none; color: red;">No valid CatID found. Please check your Category & Subcategory selections!</h8>
                     <small id="userInputCategoryHelp" class="form-text text-muted">Start typing to auto-fill category.</small>
                 </div>
+
                 <!-- Subcategory -->
                 <div class="form-group col-md-6 required" id="typeaheadSubcategory">
                     <label for="userInputSubCategoryLabel">Subcategory*</label>
                     <select class="form-control" id="userSelectSubCategory" required><option>Please select a category!</option></select>
                     <small id="userInputSubCategoryHelp" class="form-text text-muted">Subcategory dropdown will fill with options when Category is selected. "-" if no subcategory needed.</small>
                 </div>
-            </div>
-            <!-- Name w Var ID -->
-            <div class="form-row">
+
+                <!-- User Category -->
+                <div class="form-group col-md-6">
+                    <label for="userInputUserCatLabel">User Category (Optional)</label>
+                    <input type="text" class="form-control" id="userInputUserCat" aria-describedby="userInputUserCatHelp" placeholder="Would you like to specify a custom User Category?" maxlength="4" pattern="^[A-Za-z0-9]{1,2,3,4}">
+                    <small id="userInputUserCatHelp" class="form-text text-muted">Up to four letter User Category. If no User Category, leave blank.</small>
+                </div>
+
+                <!-- Name w Var ID -->
                 <div class="form-group col-md-6 required" id="fileNameGroup">
                     <label for="userInputNameLabel">File Name*</label>
                     <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
                     <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
                     <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br />'Dog Toy' => 'Dog Toy 01', 'Dog Toy 02', etc.<br />'Dog Toy 07' => 'Dog Toy 07', 'Dog Toy 08', etc.</small>
                 </div>
-            </div>
-            <!-- Initials -->
-            <div class="form-row">
+
+                <!-- Initials -->
                 <div class="form-group col-md-6" id="initialsGroup">
                     <label for="userInputInitialsLabel">Your Initials*</label>
-                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="First letter of first & last name." minlength="2" maxlength="2" required pattern="^[A-Za-z]{2}">
+                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="Starting letters of first & last name." minlength="2" maxlength="4" required pattern="^[A-Za-z]{2,4}">
                     <h8 id="userInitialsError" style="display: none; color: red;">Initials cannot be blank!</h8>
-                    <small id="userInputInitialsHelp" class="form-text text-muted">'Aaron Cendan' => 'AC'</small>
+                    <small id="userInputInitialsHelp" class="form-text text-muted">'Aaron Cendan' => 'AC' or 'AaCe'</small>
                 </div>
+
                 <!-- Show -->
                 <div class="form-group col-md-6">
                     <label for="userInputShowLabel">Show/Film/Game (Optional)</label>
@@ -300,9 +310,12 @@
                     <small id="userInputShowHelp" class="form-text text-muted">Four letter code for your project. If no project, leave blank.</small>
                 </div>
             </div>
+
+            <!-- PROCESSING SECTION -->
             <div><h5><i>Processing</i></h5></div>
-            <!-- RENAME DROPDOWN - Rename Regions/Markers/Items/Tracks -->
-            <div class="form-row">                
+
+            <div class="form-row">
+                <!-- RENAME DROPDOWN - Rename Regions/Markers/Items/Tracks -->
                 <div class="form-group col-md-6">
                     <h7>Items to Rename*</h7>
                     <select id="userInputItems" class="form-control">
@@ -377,7 +390,7 @@
                 </div>
             </div>
         </div>
-        <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive" style="max-width:100%"></table>
+        <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive" style="width:100%"></table>
         <div>
             <h7 style="align-items:center;display:flex;justify-content:center;">UCS Renaming Tool developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a></h7>
         </div>
@@ -454,7 +467,8 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // SUBMIT BUTTON & LUA TRIGGER
         // ~~~~~~~~~~~~~~~~~~~~
-        // FORMAT: (CatID)_(File Name with Variation Number)_(Initials)_(Show)
+        // FORMAT: CatID_File Name with Variation Number_Initials_(Show)
+        // NEW FORMAT: CatID(-UserCategory)_(VendorCategory-)File Name with Variation Number_Initials_(Show)
         $("#formSubmitButton").click(function (e) {
 
             // Process user input
@@ -464,6 +478,7 @@
             var nameAndNum = getNameAndNumber($("#userInputName").val());
             var nameOnly = nameAndNum[0];
             var numOnly = nameAndNum[1];
+            var cleanUserCat  = removeLeadingTrailingWhitespace($("#userInputUserCat").val());
             var cleanInitials = removeLeadingTrailingWhitespace($("#userInputInitials").val());
             var cleanShow = removeLeadingTrailingWhitespace($("#userInputShow").val());
 
@@ -486,6 +501,7 @@
             setProjExtState(selectedCatID, "CatID");
             setProjExtState(nameOnly, "Name");
             setProjExtState(numOnly, "Number");
+            setProjExtState(cleanUserCat, "UserCategory");
             setProjExtState(cleanInitials, "Initials");
             setProjExtState(cleanShow, "Show");
 
@@ -496,6 +512,15 @@
             // Run ReaScript
             wwr_req(encodeURIComponent(UCSRTLua));
         });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // TRIGGER SUBMIT ON ENTER KEY
+        // ~~~~~~~~~~~~~~~~~~~~
+        $(document).keydown(function (event) {
+            if (event.which === 13) {
+                $("#formSubmitButton").click();
+            }
+        }); 
 
         // ~~~~~~~~~~~~~~~~~~~~
         // DOWNLOAD "UCS.txt" FILE
@@ -764,7 +789,7 @@
                 });
 
                 $('.dataTables_filter input[type="search"]').css(
-                    { 'min-width': '500px', 'display': 'inline-block' }
+                    { 'width':'100%', 'box-sizing':'border-box', 'max-width':'500px', 'display':'inline-block' }
                 );
             })
         }
