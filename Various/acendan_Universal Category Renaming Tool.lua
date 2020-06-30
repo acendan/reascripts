@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -20,6 +20,7 @@ local debug_UCS_Input = false
 -- Retrieve stored projextstate data set by web interface
 local ret_cat,  ucs_cat  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Category" )
 local ret_scat, ucs_scat = reaper.GetProjExtState( 0, "UCS_WebInterface", "Subcategory" )
+local ret_usca, ucs_usca = reaper.GetProjExtState( 0, "UCS_WebInterface", "UserCategory" )
 local ret_id,   ucs_id   = reaper.GetProjExtState( 0, "UCS_WebInterface", "CatID" )
 local ret_name, ucs_name = reaper.GetProjExtState( 0, "UCS_WebInterface", "Name" )
 local ret_num,  ucs_num  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Number" )
@@ -283,12 +284,22 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ Set Full Name ~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Format: (CatID)_(File Name with Variation Number)_(Initials)_(Show)
+-- Format v1: (CatID)_(File Name with Variation Number)_(Initials)_(Show) -- DEPRECATED
+-- Format v2: CatID(-UserCategory)_(VendorCategory-)File Name with Variation Number_Initials_(Show)
 function setFullName()
   if ret_show then 
-    ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
+    if ret_usca then
+      ucs_full_name = ucs_id .. "-" .. ucs_usca .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
+    else
+      ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
+    end
+    
   else 
-    ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"
+    if ret_usca then
+      ucs_full_name = ucs_id .. "-" .. ucs_usca .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"  
+    else
+      ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"
+    end
   end
 end
 
@@ -304,12 +315,13 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function leadingZeroUCSNumStr()
   local len = string.len(ucs_num)
-  -- While num is < 10, add two leading zeroes. If you would prefer otherwise,
-  -- change "00" to "0" or remove leading zeroes entirely by deleting this if/else block
+  -- While num is < 10, add one leading zero. If you would prefer otherwise,
+  -- change "0" to "00" and/or remove leading zeroes entirely by deleting this if/else block.
+  -- "len" = the number of digits in the number.
   if len == 1 then 
-    ucs_num = "00" .. ucs_num
-  elseif len == 2 then
     ucs_num = "0" .. ucs_num
+  --elseif len == 2 then
+    --ucs_num = "0" .. ucs_num
   end
 end
 
@@ -319,6 +331,7 @@ end
 function ucsRetsToBool()
   if ret_cat  == 1 then ret_cat  = true else ret_cat  = false end
   if ret_scat == 1 then ret_scat = true else ret_scat = false end
+  if ret_usca == 1 then ret_usca = true else ret_usca = false end
   if ret_id   == 1 then ret_id   = true else ret_id   = false end
   if ret_name == 1 then ret_name = true else ret_name = false end
   if ret_num  == 1 then ret_num  = true else ret_num  = false end
@@ -334,6 +347,7 @@ end
 function debugUCSInput()
   reaper.MB("Category: "    .. ucs_cat  .. " (" .. tostring(ret_cat)  .. ")" .. "\n" .. 
             "Subcategory: " .. ucs_scat .. " (" .. tostring(ret_scat) .. ")" .. "\n" .. 
+            "User Cat.: "   .. ucs_usca .. " (" .. tostring(ret_usca) .. ")" .. "\n" .. 
             "CatID: "       .. ucs_id   .. " (" .. tostring(ret_id)   .. ")" .. "\n" .. 
             "Name: "        .. ucs_name .. " (" .. tostring(ret_name) .. ")" .. "\n" .. 
             "Number: "      .. ucs_num  .. " (" .. tostring(ret_num)  .. ")" .. "\n" .. 
