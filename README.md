@@ -30,6 +30,8 @@ If you would like to import ALL of the scripts here (including those that aren't
  - acendan_Clear saved URL by track name.lua
  - acendan_Store and Open saved URL by track name.lua
  - acendan_View saved URLs by track name.lua
+ - acendan_Random glitchy stutter generator.lua
+ - acendan_Clear glitchy stutter generator stored values.lua
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
