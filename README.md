@@ -1,8 +1,10 @@
 # Aaron Cendan's ReaScripts for [REAPER](https://reaper.fm)
 These scripts were written to add additional functionality to the digital audio workstation REAPER. As a sound designer and programmer with a concentration on audio for games, most of these scripts are tailored specifically towards a game audio workflow. If you would like to read more about the development of these scripts or some of the other projects I have worked on in the past, feel free to check out [my website!](https://www.aaroncendan.me/)
 
-## ReaPack download instructions
-Some of the scripts in this repository are imported natively in the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). This means that you don't need to download and install the scripts manually, you can simply use ReaPack to batch download them right from REAPER!
+**All of the scripts in this repository can be imported directly in Reaper by using the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion. I strongly recommend setting up ReaPack to install and use these scripts.**
+
+## ReaTeams download instructions
+Some of the scripts are included as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). This means that you don't need to add my GitHub to Reaper or download the scripts manually, you can simply install ReaPack and synchronize packages using the steps below.
 
 To download or get the latest version of these scripts (see below), simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
 
