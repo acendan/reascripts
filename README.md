@@ -17,7 +17,7 @@ To download or get the latest version of these scripts (see below), simply go to
 - acendan_Set subprojects in selected items to random custom colors.lua
 
 ## My GitHub ReaPack Installation
-If you would like to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
+If you would like to import the scripts here that are not packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
 ### Scripts included in my GitHub that are *NOT* included in ReaTeams
