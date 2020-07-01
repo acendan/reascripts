@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b443ec9f23105f50433ef102f658af4e19864e2c" name="ACendan Scripts">
+<index version="1" commit="03a6a0377051f69592b47bf0e52f5b9cf56021c6" name="ACendan Scripts">
+  <category name="Items Editing">
+    <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear Random Glitchy Stutter Generator Values">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T19:54:38Z">
+        <source main="main" file="acendan_Clear glitchy stutter generator stored values.lua">https://github.com/acendan/reascripts/raw/03a6a0377051f69592b47bf0e52f5b9cf56021c6/Items%20Editing/acendan_Clear%20glitchy%20stutter%20generator%20stored%20values.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random Glitchy Stutter Generator">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script is pretty whacky, and the best way to get a feel for it is to just plug in some numbers and try it out.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab I recommend starting with something like max 30 splices and max slice length of 150ms.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab "Create automatic fade-in/fade-out for new items" in Media Item Defaults of the preferences window will play a big role in the pops/smoothness of the glitches\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T19:53:03Z">
+        <source main="main" file="Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/e28bb52f9cf1474b2291929fddf25fd14826bc9c/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
+      </version>
+    </reapack>
+  </category>
   <category name="Regions">
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
       <metadata>
