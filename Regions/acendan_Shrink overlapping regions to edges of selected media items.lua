@@ -1,10 +1,12 @@
 -- @description Shrink overlapping regions to edges of selected media items
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Shrink overlapping regions to edges of selected media items.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--    Fixed shrinking of multiple overlapping arrays
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -34,16 +36,19 @@ function shrinkRegions()
         end_time = math.max(end_time,item_end)
       end
 
+      local regions_to_move = {}
       if start_time ~= end_time then
-        local i = 0
-        while i < num_total do
-          local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+        for j=0, num_total - 1 do
+          local retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers( j )
           if isrgn then
             if pos <= start_time and rgnend >= end_time then
-              reaper.SetProjectMarkerByIndex( 0, i, isrgn, start_time, end_time, markrgnindexnumber, name, color )
+              regions_to_move[markrgnindexnumber] = name
             end
           end
-          i = i + 1
+        end
+        
+        for rgn_num, rgn_name in pairs(regions_to_move) do
+          reaper.SetProjectMarker( rgn_num, 1, start_time, end_time, rgn_name )
         end
       else
         reaper.MB("The selected items have no length! How is this even possible?","Shrink Region Edges", 0)
