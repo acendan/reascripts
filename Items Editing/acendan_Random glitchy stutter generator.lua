@@ -1,6 +1,6 @@
--- @description Random Glitchy Stutter Generator
+-- @description Random glitchy stutter generator
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Random glitchy stutter generator.lua
