@@ -24,8 +24,8 @@ If you would like to import ALL of the scripts here (including those that aren't
  - acendan_Universal Category Renaming Tool.lua
  - acendan_UCS Renaming Tool.html and the respective files in /ucs_libraries
  - acendan_Shrink overlapping regions edges to time selection.lua
- - acendan_Shrink overlapping regions to edges of selected media items.lua
  - acendan_Stretch overlapping regions edges to time selection.lua
+ - acendan_Shrink overlapping regions to edges of selected media items.lua
  - acendan_Stretch overlapping regions to edges of selected media items.lua
  - acendan_Clear saved URL by track name.lua
  - acendan_Store and Open saved URL by track name.lua
