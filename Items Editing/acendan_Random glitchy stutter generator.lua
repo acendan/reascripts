@@ -3,7 +3,7 @@
 -- @version 1.0
 -- @metapackage
 -- @provides
---   [main] . > Random glitchy stutter generator.lua
+--   [main] . > acendan_Random glitchy stutter generator.lua
 -- @link https://aaroncendan.me
 -- @about
 --  - This script is pretty whacky, and the best way to get

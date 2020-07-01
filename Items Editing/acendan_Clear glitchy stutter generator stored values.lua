@@ -1,3 +1,11 @@
+-- @description Clear Random Glitchy Stutter Generator Values
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @provides
+--   [main] . > acendan_Clear glitchy stutter generator stored values.lua
+-- @link https://aaroncendan.me
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~ CLEAR STORED VALUES ~~~~~~~~~~~~~~~  
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
