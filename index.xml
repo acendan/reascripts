@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="03a6a0377051f69592b47bf0e52f5b9cf56021c6" name="ACendan Scripts">
+<index version="1" commit="89841685ab4af6034596c8b781bccc2a6bd62cf8" name="ACendan Scripts">
   <category name="Items Editing">
-    <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear Random Glitchy Stutter Generator Values">
+    <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear glitchy stutter generator stored values">
       <metadata>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-01T19:54:38Z">
         <source main="main" file="acendan_Clear glitchy stutter generator stored values.lua">https://github.com/acendan/reascripts/raw/03a6a0377051f69592b47bf0e52f5b9cf56021c6/Items%20Editing/acendan_Clear%20glitchy%20stutter%20generator%20stored%20values.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
+        <source main="main" file="acendan_Clear glitchy stutter generator stored values.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Clear%20glitchy%20stutter%20generator%20stored%20values.lua</source>
+      </version>
     </reapack>
-    <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random Glitchy Stutter Generator">
+    <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -24,6 +27,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-01T19:53:03Z">
         <source main="main" file="Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/e28bb52f9cf1474b2291929fddf25fd14826bc9c/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
+        <source main="main" file="acendan_Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
       </version>
     </reapack>
   </category>
