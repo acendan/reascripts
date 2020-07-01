@@ -1,12 +1,12 @@
-# Aaron Cendan's ReaScripts For [REAPER](https://reaper.fm)
+# Aaron Cendan's ReaScripts for [REAPER](https://reaper.fm)
 These scripts were written to add additional functionality to the digital audio workstation REAPER. As a sound designer and programmer with a concentration on audio for games, most of these scripts are tailored specifically towards a game audio workflow. If you would like to read more about the development of these scripts or some of the other projects I have worked on in the past, feel free to check out [my website!](https://www.aaroncendan.me/)
 
-## ReaPack Download Instructions
+## ReaPack download instructions
 Some of the scripts in this repository are imported natively in the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). This means that you don't need to download and install the scripts manually, you can simply use ReaPack to batch download them right from REAPER!
 
 To download or get the latest version of these scripts (see below), simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
 
-### Scripts Included with ReaTeams
+### Scripts included with ReaTeams
 - acendan_Find and Replace in Region Names.lua
 - acendan_Find and Replace in Marker Names.lua
 - acendan_Set subprojects in selected items to custom color slot.lua (Installs 8 actions - first 8 color slots)
@@ -14,11 +14,11 @@ To download or get the latest version of these scripts (see below), simply go to
 - acendan_Set subprojects in selected items to random colors.lua
 - acendan_Set subprojects in selected items to random custom colors.lua
 
-## My GitHub ReaPack Installation (Optional)
+## My GitHub ReaPack Installation
 If you would prefer to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
-### Scripts Included in My Github *NOT IN REATEAMS*
+### Scripts Included in my GitHub that are *NOT* included in ReaTeams
  - acendan_Shrink overlapping regions edges to time selection.lua
  - acendan_Shrink overlapping regions to edges of selected media items.lua
  - acendan_Stretch overlapping regions edges to time selection.lua
