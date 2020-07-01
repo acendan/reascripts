@@ -19,6 +19,8 @@ If you would prefer to import ALL of the scripts here (including those that aren
 > https://acendan.github.io/reascripts/index.xml
 
 ### Scripts Included in my GitHub that are *NOT* included in ReaTeams
+ - acendan_Universal Category Renaming Tool.lua
+ - acendan_UCS Renaming Tool.html and the respective files in /ucs_libraries
  - acendan_Shrink overlapping regions edges to time selection.lua
  - acendan_Shrink overlapping regions to edges of selected media items.lua
  - acendan_Stretch overlapping regions edges to time selection.lua
@@ -26,8 +28,6 @@ If you would prefer to import ALL of the scripts here (including those that aren
  - acendan_Clear saved URL by track name.lua
  - acendan_Store and Open saved URL by track name.lua
  - acendan_View saved URLs by track name.lua
- - acendan_Universal Category Renaming Tool.lua
- - acendan_UCS Renaming Tool.html and the respective files in /ucs_libraries
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
