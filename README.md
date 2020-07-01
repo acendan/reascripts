@@ -17,10 +17,10 @@ To download or get the latest version of these scripts (see below), simply go to
 - acendan_Set subprojects in selected items to random custom colors.lua
 
 ## My GitHub ReaPack Installation
-If you would prefer to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
+If you would like to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
-### Scripts Included in my GitHub that are *NOT* included in ReaTeams
+### Scripts included in my GitHub that are *NOT* included in ReaTeams
  - acendan_Universal Category Renaming Tool.lua
  - acendan_UCS Renaming Tool.html and the respective files in /ucs_libraries
  - acendan_Shrink overlapping regions edges to time selection.lua
