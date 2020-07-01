@@ -17,7 +17,7 @@ To download or get the latest version of these scripts (see below), simply go to
 - acendan_Set subprojects in selected items to random custom colors.lua
 
 ## My GitHub ReaPack Installation
-If you would like to import ALL of the scripts here (including those that aren't packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
+If you would like to import the scripts here that are not packaged with ReaTeams), copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
 ### Scripts included in my GitHub that are *NOT* included in ReaTeams
@@ -30,6 +30,8 @@ If you would like to import ALL of the scripts here (including those that aren't
  - acendan_Clear saved URL by track name.lua
  - acendan_Store and Open saved URL by track name.lua
  - acendan_View saved URLs by track name.lua
+ - acendan_Random glitchy stutter generator.lua
+ - acendan_Clear glitchy stutter generator stored values.lua
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
