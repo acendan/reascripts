@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="66ddf4f4a227b11d959bb57d5e4f22789143e35d" name="ACendan Scripts">
+<index version="1" commit="cbbfd5121115826e348f8f2004aa777c0ad04be3" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear glitchy stutter generator stored values">
       <metadata>
@@ -44,6 +44,14 @@
     </reapack>
   </category>
   <category name="Regions">
+    <reapack name="acendan_Add regions for selected items to render matrix name from active take.lua" type="script" desc="Add regions for selected items to render matrix name from active take">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:41:20Z">
+        <source main="main" file="acendan_Add regions for selected items to render matrix name from active take.lua">https://github.com/acendan/reascripts/raw/cbbfd5121115826e348f8f2004aa777c0ad04be3/Regions/acendan_Add%20regions%20for%20selected%20items%20to%20render%20matrix%20name%20from%20active%20take.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
       <metadata>
         <link rel="website">https://aaroncendan.me</link>
