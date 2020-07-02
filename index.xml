@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="e4b55d809108ac36963e7991c65daa5129f53724" name="ACendan Scripts">
+<index version="1" commit="66ddf4f4a227b11d959bb57d5e4f22789143e35d" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear glitchy stutter generator stored values">
       <metadata>
@@ -30,6 +30,16 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
         <source main="main" file="acendan_Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Markers">
+    <reapack name="acendan_Insert marker at start of selected items with item name.lua" type="script" desc="Insert marker at start of selected items with item name">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:06:00Z">
+        <source main="main" file="acendan_Insert marker at start of selected items with item name.lua">https://github.com/acendan/reascripts/raw/66ddf4f4a227b11d959bb57d5e4f22789143e35d/Markers/acendan_Insert%20marker%20at%20start%20of%20selected%20items%20with%20item%20name.lua</source>
       </version>
     </reapack>
   </category>
