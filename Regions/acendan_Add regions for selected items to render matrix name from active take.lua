@@ -1,6 +1,6 @@
 -- @description Add regions for selected items to render matrix name from active take
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Add regions for selected items to render matrix name from active take.lua
@@ -30,7 +30,7 @@ function addToRRM()
 			local startPos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
 			local endPos = reaper.GetMediaItemInfo_Value(item, "D_LENGTH") + startPos
 
-			track = reaper.GetSelectedTrack(0, 0)
+			track =  reaper.GetMediaItemTrack( item )
 			retval, trackName = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "test", false)
 
 			regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, take_name, 0, 0)
