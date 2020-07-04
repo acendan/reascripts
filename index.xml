@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5b13219d2943dcb18c4e2f5c20e50fc19fb4c5b9" name="ACendan Scripts">
+<index version="1" commit="0dca44c846f64c71bec7ec2ddafebea5b218680e" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear glitchy stutter generator stored values">
       <metadata>
@@ -30,6 +30,14 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
         <source main="main" file="acendan_Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Stretch selected items to fit between nearest markers.lua" type="script" desc="Stretch selected items to fit between nearest markers">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-04T23:07:47Z">
+        <source main="main" file="acendan_Stretch selected items to fit between nearest markers.lua">https://github.com/acendan/reascripts/raw/0dca44c846f64c71bec7ec2ddafebea5b218680e/Items%20Editing/acendan_Stretch%20selected%20items%20to%20fit%20between%20nearest%20markers.lua</source>
       </version>
     </reapack>
   </category>
