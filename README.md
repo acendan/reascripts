@@ -34,6 +34,7 @@ If you would like to import the scripts here that are not packaged with ReaTeams
  - acendan_Clear glitchy stutter generator stored values.lua
  - acendan_Insert marker at start of selected items with item name.lua
  - acendan_Add regions for selected items to render matrix name from active take.lua
+ - acendan_Stretch selected items to fit between nearest markers.lua
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
