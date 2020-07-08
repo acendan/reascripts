@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="0dca44c846f64c71bec7ec2ddafebea5b218680e" name="ACendan Scripts">
+<index version="1" commit="c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55" name="ACendan Scripts">
   <category name="Items Editing">
+    <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.2" author="Aaron Cendan" time="2020-07-08T17:43:26Z">
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sTAKE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sSCENE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sFILENAME.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sTAPE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sNOTE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear glitchy stutter generator stored values">
       <metadata>
         <link rel="website">https://aaroncendan.me</link>
