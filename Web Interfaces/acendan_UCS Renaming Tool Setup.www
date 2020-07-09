@@ -1,9 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 1.2
+@version 1.3
 @provides
   acendan_UCS Renaming Tool.html
-  ucs_libraries/*.{js,png,css,svg}
+  acendan_UCS Renaming Tool_Dark.html
+  ucs_libraries/*.{js,png,css,svg,map}
 @about Universal Category System Renaming Tool
 @changelog
-  Updated CSS
+  DARK MODE ENGAGED
