@@ -4,9 +4,7 @@ These scripts were written to add additional functionality to the digital audio 
 **All of the scripts in this repository can be imported directly in Reaper by using the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion. I strongly recommend setting up ReaPack to install and use these scripts.**
 
 ## ReaTeams download instructions
-Some of the scripts are included as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). This means that you don't need to add my GitHub to Reaper or download the scripts manually, you can simply install ReaPack and synchronize packages using the steps below.
-
-To download or get the latest version of these scripts (see below), simply go to the Extensions menu > ReaPack, and click "Synchronize Packages".
+Some of the scripts are included as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). They are included by default with ReaPack, you can simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
 
 ### Scripts included with ReaTeams
 - acendan_Find and Replace in Region Names.lua
@@ -35,6 +33,9 @@ If you would like to import the scripts here that are not packaged with ReaTeams
  - acendan_Insert marker at start of selected items with item name.lua
  - acendan_Add regions for selected items to render matrix name from active take.lua
  - acendan_Stretch selected items to fit between nearest markers.lua
+ - acendan_Append selected items BWF metadata subfield to item name.lua
+ - acendan_Set selected items BWF metadata subfield to track name.lua
+ 
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
