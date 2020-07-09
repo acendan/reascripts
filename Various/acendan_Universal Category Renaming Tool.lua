@@ -289,14 +289,14 @@ end
 function setFullName()
   if ret_show then 
     if ret_usca then
-      ucs_full_name = ucs_id .. "-" .. ucs_usca .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
+      ucs_full_name = ucs_id .. "-" .. string.upper(ucs_usca) .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
     else
       ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
     end
     
   else 
     if ret_usca then
-      ucs_full_name = ucs_id .. "-" .. ucs_usca .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"  
+      ucs_full_name = ucs_id .. "-" .. string.upper(ucs_usca) .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"  
     else
       ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"
     end
