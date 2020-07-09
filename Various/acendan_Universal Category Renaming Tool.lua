@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -8,7 +8,8 @@
 -- @about
 --   # Universal Category Renaming Tool
 -- @changelog
---   Updated empty show field to display "_NONE"
+--   Proper name capitalization per v8 standards
+--   Added User Data field
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -28,6 +29,7 @@ local ret_init, ucs_init = reaper.GetProjExtState( 0, "UCS_WebInterface", "Initi
 local ret_show, ucs_show = reaper.GetProjExtState( 0, "UCS_WebInterface", "Show" )
 local ret_type, ucs_type = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputItems" )
 local ret_area, ucs_area = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputArea" )
+local ret_data, ucs_data = reaper.GetProjExtState( 0, "UCS_WebInterface", "Data" )
 
 -- Initialize global var for full name, see setFullName()
 local ucs_full_name = ""
@@ -284,23 +286,48 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ Set Full Name ~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Format v1: (CatID)_(File Name with Variation Number)_(Initials)_(Show) -- DEPRECATED
--- Format v2: CatID(-UserCategory)_(VendorCategory-)File Name with Variation Number_Initials_(Show)
+-- Format: CatID(-UserCategory)_(VendorCategory-)File Name with Variation Number_Initials_(Show)
 function setFullName()
-  if ret_show then 
-    if ret_usca then
-      ucs_full_name = ucs_id .. "-" .. string.upper(ucs_usca) .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
-    else
-      ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. ucs_show
-    end
-    
-  else 
-    if ret_usca then
-      ucs_full_name = ucs_id .. "-" .. string.upper(ucs_usca) .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"  
-    else
-      ucs_full_name = ucs_id .. "_" .. ucs_name .. " " .. ucs_num .. "_" .. ucs_init .. "_" .. "NONE"
-    end
+  -- Initials
+  ucs_init_final = "_" .. string.upper(ucs_init)
+
+  -- Name and Vendor
+  local s, e = string.find(ucs_name,"-")
+  if not s then s = 6 end
+  if (s <= 5) then
+    -- Vendor found
+    local vendorCat = string.sub(ucs_name, 1, s-1)
+    local name = string.sub(ucs_name, s+1)
+    ucs_name_num_final = "_" .. string.upper(vendorCat) .. "-" .. name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+  else
+    -- No Vendor
+    ucs_name_num_final = "_" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
   end
+
+  -- Show
+  if ret_show then
+    ucs_show_final = "_" .. string.upper(ucs_show)
+  else
+    ucs_show_final = "_NONE"
+  end
+
+  -- User Category
+  if ret_usca then
+    ucs_usca_final = "-" .. string.upper(ucs_usca)
+  else
+    ucs_usca_final = ""
+  end
+
+  -- Data
+  if ret_data then
+    ucs_data_final = "_" .. ucs_data
+  else
+    ucs_data_final = ""
+  end
+  
+  -- Build the final name!
+  ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
+
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -308,6 +335,13 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function incrementUCSNumStr()
   ucs_num = tostring(tonumber(ucs_num) + 1)
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~ Title Case Full Name ~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function toTitleCase(first, rest)
+  return first:upper()..rest:lower()
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -339,6 +373,7 @@ function ucsRetsToBool()
   if ret_show == 1 then ret_show = true else ret_show = false end
   if ret_type == 1 then ret_type = true else ret_type = false end
   if ret_area == 1 then ret_area = true else ret_area = false end
+  if ret_data == 1 then ret_data = true else ret_data = false end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -354,6 +389,7 @@ function debugUCSInput()
             "Initials: "    .. ucs_init .. " (" .. tostring(ret_init) .. ")" .. "\n" .. 
             "Show: "        .. ucs_show .. " (" .. tostring(ret_show) .. ")" .. "\n" .. 
             "Type: "        .. ucs_type .. " (" .. tostring(ret_type) .. ")" .. "\n" .. 
+            "Data: "        .. ucs_data .. " (" .. tostring(ret_data) .. ")" .. "\n" ..
             "Area: "        .. ucs_area .. " (" .. tostring(ret_area) .. ")" .. "\n" 
             , "UCS Renaming Tool", 0)
 end

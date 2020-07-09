@@ -340,7 +340,7 @@
                 <div class="form-group col-md-6">
                     <label for="userInputUserCatLabel">User Category (Optional)</label>
                     <input type="text" class="form-control" id="userInputUserCat" aria-describedby="userInputUserCatHelp" placeholder="Would you like to specify a custom User Category?" maxlength="4" pattern="^[A-Za-z0-9]{1,2,3,4}">
-                    <small id="userInputUserCatHelp" class="form-text text-muted">Up to four letter User Category. If no User Category, leave blank.</small>
+                    <small id="userInputUserCatHelp" class="form-text text-muted">Up to four letter User Category. If no User Category, leave blank.<br />Commonly used for 'INT' and 'EXT' (interior/exterior).</small>
                 </div>
 
                 <!-- Name w Var ID -->
@@ -364,6 +364,13 @@
                     <label for="userInputShowLabel">Source ID (Optional)</label>
                     <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="What project are you working on?" maxlength="4" pattern="^[A-Za-z0-9]{4}">
                     <small id="userInputShowHelp" class="form-text text-muted">Four letter code for your project. If no project, leave blank.</small>
+                </div>
+
+                <!-- User Data -->
+                <div class="form-group col-md-6">
+                    <label for="userDataLabel">User Data/Notes (Optional)</label>
+                    <input type="text" class="form-control" id="userInputData" aria-describedby="userInputDataHelp" placeholder="Microphones, perspective, location, or other.">
+                    <small id="userInputDataHelp" class="form-text text-muted">Anything else you'd like to add? If no notes, leave blank.</small>
                 </div>
             </div>
 
@@ -537,6 +544,7 @@
             var cleanUserCat  = removeLeadingTrailingWhitespace($("#userInputUserCat").val());
             var cleanInitials = removeLeadingTrailingWhitespace($("#userInputInitials").val());
             var cleanShow = removeLeadingTrailingWhitespace($("#userInputShow").val());
+            var cleanUserData = removeLeadingTrailingWhitespace($("#userInputData").val());
 
             // Alert user of invalid entries and bypass triggering ReaScript
             if (selectedCatID == "CATID_INVALID") { return; }                           // Alert is included in getCatID above
@@ -560,6 +568,7 @@
             setProjExtState(cleanUserCat, "UserCategory");
             setProjExtState(cleanInitials, "Initials");
             setProjExtState(cleanShow, "Show");
+            setProjExtState(cleanUserData, "Data");
 
             // Set project extstates from HTML vals
             setProjExtState("userInputItems");
