@@ -25,6 +25,7 @@ If you would like to import the scripts here that are not packaged with ReaTeams
  - acendan_Stretch overlapping regions edges to time selection.lua
  - acendan_Shrink overlapping regions to edges of selected media items.lua
  - acendan_Stretch overlapping regions to edges of selected media items.lua
+ - acendan_Change region color if region exceeds length.lua
  - acendan_Clear saved URL by track name.lua
  - acendan_Store and Open saved URL by track name.lua
  - acendan_View saved URLs by track name.lua
