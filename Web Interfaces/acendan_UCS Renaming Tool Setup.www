@@ -1,6 +1,6 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 1.5
+@version 1.6
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
@@ -8,3 +8,18 @@
 @about Universal Category System Renaming Tool
 @changelog
   Added User Data field for additional notes
+  The tool now fully supports the following languages, using the Language dropdown in the navigation bar:
+  - English
+  - Spanish
+  - French
+  - German
+  - Italian
+  - Polish
+  - Dutch
+  - Danish
+  - Finnish
+  - Portuguese
+  - Portuguese - Brazil
+  - Chinese
+  - Japanese
+  Language support covers both online and offline modes

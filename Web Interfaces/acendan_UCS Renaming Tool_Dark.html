@@ -318,6 +318,26 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#formSubmitButton">Data Table</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Language
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#" id="langEN">English</a>
+                        <a class="dropdown-item" href="#" id="langES">Spanish</a>
+                        <a class="dropdown-item" href="#" id="langFR">French</a>
+                        <a class="dropdown-item" href="#" id="langDE">German</a>
+                        <a class="dropdown-item" href="#" id="langIT">Italian</a>
+                        <a class="dropdown-item" href="#" id="langPL">Polish</a>
+                        <a class="dropdown-item" href="#" id="langNL">Dutch</a>
+                        <a class="dropdown-item" href="#" id="langDA">Danish</a>
+                        <a class="dropdown-item" href="#" id="langFI">Finnish</a>
+                        <a class="dropdown-item" href="#" id="langPT">Portuguese</a>
+                        <a class="dropdown-item" href="#" id="langPTBR">Portuguese-Brazil</a>
+                        <a class="dropdown-item" href="#" id="langZH">Chinese</a>
+                        <a class="dropdown-item" href="#" id="langJA">Japanese</a>
+                    </div>
+                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <button class="btn btn-outline-success" onclick="window.location.href='https://forms.gle/DaVCaesTLcRLrJVt7';">Provide Feedback</button>
@@ -485,6 +505,21 @@
         // Reaper-side Lua Script
         // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various
         var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various
+
+        // UCS Google Sheet Languages
+        var ucs_gsheet_en = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/1/public/full?alt=json";
+        var ucs_gsheet_fr = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/2/public/full?alt=json";
+        var ucs_gsheet_pl = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/3/public/full?alt=json";
+        var ucs_gsheet_de = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/4/public/full?alt=json";
+        var ucs_gsheet_pt = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/5/public/full?alt=json";
+        var ucs_gsheet_pt_br = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/6/public/full?alt=json";
+        var ucs_gsheet_zh = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/7/public/full?alt=json";
+        var ucs_gsheet_nl = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/8/public/full?alt=json";
+        var ucs_gsheet_es = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/9/public/full?alt=json";
+        var ucs_gsheet_ja = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/10/public/full?alt=json";
+        var ucs_gsheet_it = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/11/public/full?alt=json";
+        var ucs_gsheet_da = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/12/public/full?alt=json";
+        var ucs_gsheet_fi = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/13/public/full?alt=json";
 
         // Arrays populated by Google Sheet public JSON
         // Cleaned up arrays for auto-filter
@@ -708,6 +743,110 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - English
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langEN").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_en);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Spanish
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langES").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_es);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - French
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langFR").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_fr);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - German
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langDE").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_de);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Italian
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langIT").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_it);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Polish
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langPL").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_pl);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Dutch
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langNL").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_nl);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Danish
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langDA").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_da);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Finnish
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langFI").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_fi);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Portuguese
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langPT").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_pt);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Portuguese - Brazil
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langPTBR").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_pt_br);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Chinese
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langZH").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_zh);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Japanese
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langJA").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_ja);
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // CHECK FOR OFFLINE USC DOC
         // ~~~~~~~~~~~~~~~~~~~~
         function loadOfflineUCSDoc() {
@@ -812,8 +951,18 @@
             $("#downloadUCSButtonText").show();
 
             // Parse JSON from Google Sheet
-            var UCSgsheetjson = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/1/public/full?alt=json";
-            $.getJSON(UCSgsheetjson, function (data) {
+            var ucs_gsheet = "";
+
+            if (localStorage.getItem("ucs_language") !== null) {
+                console.log("Language preference found in local storage.")
+                ucs_gsheet = localStorage.getItem("ucs_language");
+            } else {
+                console.log("No language preference set. Default: English.");
+                localStorage.setItem("ucs_language", ucs_gsheet_en);
+                ucs_gsheet = ucs_gsheet_en;
+            }
+
+            $.getJSON(ucs_gsheet, function (data) {
                 var entry = data.feed.entry;
                 // Loop through the JSON, starting on the second row (skip headers)
                 // For this process to work, there CANNOT be any blank cells

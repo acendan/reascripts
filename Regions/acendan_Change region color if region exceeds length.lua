@@ -1,10 +1,12 @@
 -- @description Change region color if region exceeds length
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @link https://aaroncendan.me
 -- @about Change Region Color if Region Exceeds Length
 --  This is a toggle script. If prompted whether you should terminate or start new instances,
 --  click "Remember my answer" and "Terminate". Works well on toolbars.
+-- @changelog
+--	Minor efficiency improvement
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES - EDIT THESE ~~~~~~~~~~~
@@ -113,9 +115,7 @@ function main()
             else
               -- If default color, then use the short color value above. Otherwise, use current color
               if color ~= 0 then
-                r, g, b = reaper.ColorFromNative( color )
-                original_color_to_hex = rgb2int(r,g,b)
-                original_color_table[markrgnindexnumber] = original_color_to_hex
+                original_color_table[markrgnindexnumber] = color
               else
                 original_color_table[markrgnindexnumber] = default_short_color
               end
