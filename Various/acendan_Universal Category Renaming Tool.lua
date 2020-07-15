@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 1.7
+-- @version 1.8
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
