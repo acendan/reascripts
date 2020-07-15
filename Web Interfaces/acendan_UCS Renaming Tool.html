@@ -291,7 +291,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto f32">
+            <ul class="navbar-nav mr-auto f32" style="display: flex; align-items: center; justify-content: center;">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Naming<span class="sr-only">(current)</span></a>
                 </li>
@@ -303,7 +303,7 @@
                 </li>
                 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
                         Language
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -521,6 +521,9 @@
         // Determine Online or Offline Mode
         // ~~~~~~~~~~~~~~~~~~~~
         $(function () {
+            // Assigns country icon for current language to navbar language dropdown
+            getUCSLanguage();
+
             // Attempt to load offline "UCS.txt" file if available. If successful: useOfflineUSCData()
             // If not, get data from public Google sheet via function: useGSheetsUSCData()
             loadOfflineUCSDoc();
@@ -731,6 +734,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langEN").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_en);
+            localStorage.setItem("ucs_language_country", "us");
             location.reload();
         });
 
@@ -739,6 +743,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langES").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_es);
+            localStorage.setItem("ucs_language_country", "es");
             location.reload();
         });
 
@@ -747,6 +752,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langFR").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_fr);
+            localStorage.setItem("ucs_language_country", "fr");
             location.reload();
         });
 
@@ -755,6 +761,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langDE").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_de);
+            localStorage.setItem("ucs_language_country", "de");
             location.reload();
         });
 
@@ -763,6 +770,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langIT").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_it);
+            localStorage.setItem("ucs_language_country", "it");
             location.reload();
         });
 
@@ -771,6 +779,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langPL").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_pl);
+            localStorage.setItem("ucs_language_country", "pl");
             location.reload();
         });
 
@@ -779,6 +788,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langNL").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_nl);
+            localStorage.setItem("ucs_language_country", "nl");
             location.reload();
         });
 
@@ -787,6 +797,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langDA").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_da);
+            localStorage.setItem("ucs_language_country", "dk");
             location.reload();
         });
 
@@ -795,6 +806,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langFI").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_fi);
+            localStorage.setItem("ucs_language_country", "fi");
             location.reload();
         });
 
@@ -803,6 +815,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langPT").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_pt);
+            localStorage.setItem("ucs_language_country", "pt");
             location.reload();
         });
 
@@ -811,6 +824,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langPTBR").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_pt_br);
+            localStorage.setItem("ucs_language_country", "br");
             location.reload();
         });
 
@@ -819,6 +833,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langZH").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_zh);
+            localStorage.setItem("ucs_language_country", "cn");
             location.reload();
         });
 
@@ -827,8 +842,27 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langJA").click(function (e) {
             localStorage.setItem("ucs_language", ucs_gsheet_ja);
+            localStorage.setItem("ucs_language_country", "jp");
             location.reload();
         });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // GET UCS LANGUAGE COUNTRY ICON
+        // ~~~~~~~~~~~~~~~~~~~~
+        function getUCSLanguage() {
+            // Parse JSON from Google Sheet
+            var ucs_lang_country = "";
+
+            if (localStorage.getItem("ucs_language_country") !== null) {
+                ucs_lang_country = localStorage.getItem("ucs_language_country");
+            } else {
+                // Default to English/US
+                localStorage.setItem("ucs_language_country", "us");
+                ucs_lang_country = "us";
+            }
+
+            $("#navbarDropdown").html('<i class="flag ' + ucs_lang_country + '"></i>&nbsp;&nbsp;Language');
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~
         // CHECK FOR OFFLINE USC DOC
@@ -943,6 +977,7 @@
             } else {
                 console.log("No language preference set. Default: English.");
                 localStorage.setItem("ucs_language", ucs_gsheet_en);
+                localStorage.setItem("ucs_language_country", "us");
                 ucs_gsheet = ucs_gsheet_en;
             }
 
