@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5fe39241a20cd10f4d9f0412a908aa6e3bcc6b1d" name="ACendan Scripts">
+<index version="1" commit="7afa4e4e72f27afc54255414d500edbc543c99a8" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -247,6 +247,12 @@ Added User Data field]]></changelog>
         <changelog><![CDATA[Proper name capitalization per v8 standards
 Added User Data field]]></changelog>
         <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="1.6" author="Aaron Cendan" time="2020-07-15T15:55:37Z">
+        <changelog><![CDATA[Proper name capitalization per v8 standards
+Added User Data field
+Added 13 supported languages to the web interface!]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/7afa4e4e72f27afc54255414d500edbc543c99a8/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
