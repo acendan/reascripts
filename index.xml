@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<index version="1" commit="7afa4e4e72f27afc54255414d500edbc543c99a8">
+  <category name="Items Editing">
+    <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.2" author="Aaron Cendan" time="2020-07-08T17:43:26Z">
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sTAKE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sSCENE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sFILENAME.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sTAPE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+        <source main="main" file="acendan_Append selected items BWF metadata subfield to item name-sNOTE.lua">https://github.com/acendan/reascripts/raw/c97d03808c7f3d2ccb7dfae2bcf507bfa0ff2e55/Items%20Editing/acendan_Append%20selected%20items%20BWF%20metadata%20subfield%20to%20item%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Clear glitchy stutter generator stored values.lua" type="script" desc="Clear glitchy stutter generator stored values">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T19:54:38Z">
+        <source main="main" file="acendan_Clear glitchy stutter generator stored values.lua">https://github.com/acendan/reascripts/raw/03a6a0377051f69592b47bf0e52f5b9cf56021c6/Items%20Editing/acendan_Clear%20glitchy%20stutter%20generator%20stored%20values.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
+        <source main="main" file="acendan_Clear glitchy stutter generator stored values.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Clear%20glitchy%20stutter%20generator%20stored%20values.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script is pretty whacky, and the best way to get a feel for it is to just plug in some numbers and try it out.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab I recommend starting with something like max 30 splices and max slice length of 150ms.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab "Create automatic fade-in/fade-out for new items" in Media Item Defaults of the preferences window will play a big role in the pops/smoothness of the glitches\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T19:53:03Z">
+        <source main="main" file="Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/e28bb52f9cf1474b2291929fddf25fd14826bc9c/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
+        <source main="main" file="acendan_Random glitchy stutter generator.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Random%20glitchy%20stutter%20generator.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Set selected items BWF metadata subfield to track name.lua" type="script" desc="Set selected items BWF metadata subfield to track name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.2" author="Aaron Cendan" time="2020-07-08T18:18:11Z">
+        <source main="main" file="acendan_Set selected items BWF metadata subfield to track name-sTAKE.lua">https://github.com/acendan/reascripts/raw/dedc00333dc183e14cdc95dfb7f6abff8b73bdb6/Items%20Editing/acendan_Set%20selected%20items%20BWF%20metadata%20subfield%20to%20track%20name.lua</source>
+        <source main="main" file="acendan_Set selected items BWF metadata subfield to track name-sSCENE.lua">https://github.com/acendan/reascripts/raw/dedc00333dc183e14cdc95dfb7f6abff8b73bdb6/Items%20Editing/acendan_Set%20selected%20items%20BWF%20metadata%20subfield%20to%20track%20name.lua</source>
+        <source main="main" file="acendan_Set selected items BWF metadata subfield to track name-sFILENAME.lua">https://github.com/acendan/reascripts/raw/dedc00333dc183e14cdc95dfb7f6abff8b73bdb6/Items%20Editing/acendan_Set%20selected%20items%20BWF%20metadata%20subfield%20to%20track%20name.lua</source>
+        <source main="main" file="acendan_Set selected items BWF metadata subfield to track name-sTAPE.lua">https://github.com/acendan/reascripts/raw/dedc00333dc183e14cdc95dfb7f6abff8b73bdb6/Items%20Editing/acendan_Set%20selected%20items%20BWF%20metadata%20subfield%20to%20track%20name.lua</source>
+        <source main="main" file="acendan_Set selected items BWF metadata subfield to track name-sNOTE.lua">https://github.com/acendan/reascripts/raw/dedc00333dc183e14cdc95dfb7f6abff8b73bdb6/Items%20Editing/acendan_Set%20selected%20items%20BWF%20metadata%20subfield%20to%20track%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Stretch selected items to fit between nearest markers.lua" type="script" desc="Stretch selected items to fit between nearest markers">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-04T23:07:47Z">
+        <source main="main" file="acendan_Stretch selected items to fit between nearest markers.lua">https://github.com/acendan/reascripts/raw/0dca44c846f64c71bec7ec2ddafebea5b218680e/Items%20Editing/acendan_Stretch%20selected%20items%20to%20fit%20between%20nearest%20markers.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Markers">
+    <reapack name="acendan_Insert marker at start of selected items with item name.lua" type="script" desc="Insert marker at start of selected items with item name">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:06:00Z">
+        <source main="main" file="acendan_Insert marker at start of selected items with item name.lua">https://github.com/acendan/reascripts/raw/66ddf4f4a227b11d959bb57d5e4f22789143e35d/Markers/acendan_Insert%20marker%20at%20start%20of%20selected%20items%20with%20item%20name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Regions">
+    <reapack name="acendan_Add regions for selected items to render matrix name from active take.lua" type="script" desc="Add regions for selected items to render matrix name from active take">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:41:20Z">
+        <source main="main" file="acendan_Add regions for selected items to render matrix name from active take.lua">https://github.com/acendan/reascripts/raw/cbbfd5121115826e348f8f2004aa777c0ad04be3/Regions/acendan_Add%20regions%20for%20selected%20items%20to%20render%20matrix%20name%20from%20active%20take.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-02T14:47:05Z">
+        <source main="main" file="acendan_Add regions for selected items to render matrix name from active take.lua">https://github.com/acendan/reascripts/raw/6ee4fdb07aba97ec63f64320b6761bbbbe49daf9/Regions/acendan_Add%20regions%20for%20selected%20items%20to%20render%20matrix%20name%20from%20active%20take.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2020-07-02T15:15:08Z">
+        <changelog><![CDATA[Add color support]]></changelog>
+        <source main="main" file="acendan_Add regions for selected items to render matrix name from active take.lua">https://github.com/acendan/reascripts/raw/5b13219d2943dcb18c4e2f5c20e50fc19fb4c5b9/Regions/acendan_Add%20regions%20for%20selected%20items%20to%20render%20matrix%20name%20from%20active%20take.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Change region color if region exceeds length.lua" type="script" desc="Change region color if region exceeds length">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Change Region Color if Region Exceeds Length This is a toggle script. If prompted whether you should terminate or start new instances, click "Remember my answer" and "Terminate". Works well on toolbars.\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-13T17:56:20Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/a07b48e7836273f1aeaaa7b24415cb46a4a8ca72/Regions/acendan_Change%20region%20color%20if%20region%20exceeds%20length.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T16:21:11Z">
+        <source main="main" file="acendan_Shrink overlapping regions edges to time selection.lua">https://github.com/acendan/reascripts/raw/406bab8ae94fbee92b7d6e4202d4180bb623dc0a/Regions/acendan_Shrink%20overlapping%20regions%20edges%20to%20time%20selection.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T21:25:43Z">
+        <changelog><![CDATA[Fixed shrinking of multiple overlapping arrays]]></changelog>
+        <source main="main" file="acendan_Shrink overlapping regions edges to time selection.lua">https://github.com/acendan/reascripts/raw/e4b55d809108ac36963e7991c65daa5129f53724/Regions/acendan_Shrink%20overlapping%20regions%20edges%20to%20time%20selection.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Shrink overlapping regions to edges of selected media items.lua" type="script" desc="Shrink overlapping regions to edges of selected media items">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T17:37:47Z">
+        <source main="main" file="acendan_Shrink overlapping regions to edges of selected media items.lua">https://github.com/acendan/reascripts/raw/2ecddd77cd38dc0ebb58b1cf24ec057994abeac3/Regions/acendan_Shrink%20overlapping%20regions%20to%20edges%20of%20selected%20media%20items.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T21:25:43Z">
+        <changelog><![CDATA[Fixed shrinking of multiple overlapping arrays]]></changelog>
+        <source main="main" file="acendan_Shrink overlapping regions to edges of selected media items.lua">https://github.com/acendan/reascripts/raw/e4b55d809108ac36963e7991c65daa5129f53724/Regions/acendan_Shrink%20overlapping%20regions%20to%20edges%20of%20selected%20media%20items.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Stretch overlapping regions edges to time selection.lua" type="script" desc="Stretch overlapping regions edges to time selection">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T16:32:56Z">
+        <source main="main" file="acendan_Stretch overlapping regions edges to time selection.lua">https://github.com/acendan/reascripts/raw/c02c3a949019481267fce512781582e319e0cc6e/Regions/acendan_Stretch%20overlapping%20regions%20edges%20to%20time%20selection.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-01T21:25:43Z">
+        <changelog><![CDATA[Cleaned up naming conventions.]]></changelog>
+        <source main="main" file="acendan_Stretch overlapping regions edges to time selection.lua">https://github.com/acendan/reascripts/raw/e4b55d809108ac36963e7991c65daa5129f53724/Regions/acendan_Stretch%20overlapping%20regions%20edges%20to%20time%20selection.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Stretch overlapping regions to edges of selected media items.lua" type="script" desc="Stretch overlapping regions to edges of selected media items">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-01T17:37:47Z">
+        <source main="main" file="acendan_Stretch overlapping regions to edges of selected media items.lua">https://github.com/acendan/reascripts/raw/2ecddd77cd38dc0ebb58b1cf24ec057994abeac3/Regions/acendan_Stretch%20overlapping%20regions%20to%20edges%20of%20selected%20media%20items.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Tracks Properties">
+    <reapack name="acendan_Clear Saved URL By Track Name.lua" type="script" desc="Clear Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_Store%20and%20Open%20saved%20URL%20by%20track%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_View Saved URLs By Track Name.lua" type="script" desc="View Saved URL By Track Name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-05-27T18:09:29Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/184c5b1c8d0e69481b45ab168d4b3f5026175acc/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Various">
+    <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="Universal Category Renaming Tool">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Universal Category Renaming Tool\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:30:19Z">
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/35bb93c511916029b0304aed63b72a423929e06f/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-17T17:09:50Z">
+        <changelog><![CDATA[Updated empty show field to display "_NONE"]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/7eda83b123d4c38abb4c1b580b24ce25798050f5/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2020-06-30T19:45:56Z">
+        <changelog><![CDATA[Updated empty show field to display "_NONE"]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/acb6b5d45c1b74fe7ae375270932a17effcef156/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2020-07-09T21:00:54Z">
+        <changelog><![CDATA[Proper name capitalization per v8 standards
+Added User Data field]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="1.5" author="Aaron Cendan" time="2020-07-09T22:06:00Z">
+        <changelog><![CDATA[Proper name capitalization per v8 standards
+Added User Data field]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="1.6" author="Aaron Cendan" time="2020-07-15T15:55:37Z">
+        <changelog><![CDATA[Proper name capitalization per v8 standards
+Added User Data field
+Added 13 supported languages to the web interface!]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/7afa4e4e72f27afc54255414d500edbc543c99a8/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Web Interfaces">
+    <reapack name="acendan_UCS Renaming Tool Setup.www" type="webinterface" desc="UCS Renaming Tool">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Universal Category System Renaming Tool\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-06-17T00:44:58Z">
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/0b02489c405cf004443cdfc047bba8a50ba3d27f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-06-17T16:56:03Z">
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/ed7c38ac1a8ee3e74d0073bf0184a1713bc464a0/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.1.1" author="Aaron Cendan" time="2020-06-17T23:46:49Z">
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/7639ff65380dca73b8f9a6465cbc34e9da9d1964/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.1.2" author="Aaron Cendan" time="2020-06-28T20:49:27Z">
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/808d3acb045b8c7b0a2907fa5125fd4477975fc7/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.1.3" author="Aaron Cendan" time="2020-06-29T18:15:19Z">
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/187562ac630f775735609ece249869344c7f983e/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2020-07-09T04:13:24Z">
+        <changelog><![CDATA[Updated CSS]]></changelog>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/7c0ae6a74cb81ddac58563c8c9b6da7692f14aa5/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2020-07-09T16:33:58Z">
+        <changelog><![CDATA[DARK MODE ENGAGED]]></changelog>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="acendan_UCS Renaming Tool_Dark.html">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/acendan_UCS%20Renaming%20Tool_Dark.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/bootstrap.min.css.map">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/bootstrap.min.css.map</source>
+        <source file="ucs_libraries/bootstrap.min.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/bootstrap.min.js</source>
+        <source file="ucs_libraries/bootstrap.min.js.map">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/bootstrap.min.js.map</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/popper.min.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/popper.min.js</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/31bf8d53fdb6c545dbcca1285f3d6668efe11115/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2020-07-09T21:00:54Z">
+        <changelog><![CDATA[Added User Data field for additional notes]]></changelog>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="acendan_UCS Renaming Tool_Dark.html">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/acendan_UCS%20Renaming%20Tool_Dark.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/bootstrap.min.css.map">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/bootstrap.min.css.map</source>
+        <source file="ucs_libraries/bootstrap.min.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/bootstrap.min.js</source>
+        <source file="ucs_libraries/bootstrap.min.js.map">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/bootstrap.min.js.map</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/popper.min.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/popper.min.js</source>
+        <source file="ucs_libraries/popper.min.js.map">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/popper.min.js.map</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/f0de9f2a04d7b775c80a6e5c90c648acc2204c8b/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.5" author="Aaron Cendan" time="2020-07-09T22:06:00Z">
+        <changelog><![CDATA[Added User Data field for additional notes]]></changelog>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="acendan_UCS Renaming Tool_Dark.html">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/acendan_UCS%20Renaming%20Tool_Dark.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/bootstrap.min.css.map">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/bootstrap.min.css.map</source>
+        <source file="ucs_libraries/bootstrap.min.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/bootstrap.min.js</source>
+        <source file="ucs_libraries/bootstrap.min.js.map">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/bootstrap.min.js.map</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/popper.min.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/popper.min.js</source>
+        <source file="ucs_libraries/popper.min.js.map">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/popper.min.js.map</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/420df730606fba718da0cfd7a0c0116749f722f0/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+      <version name="1.6" author="Aaron Cendan" time="2020-07-15T15:48:44Z">
+        <changelog><![CDATA[Added User Data field for additional notes
+The tool now fully supports the following languages, using the Language dropdown in the navigation bar:
+- English
+- Spanish
+- French
+- German
+- Italian
+- Polish
+- Dutch
+- Danish
+- Finnish
+- Portuguese
+- Portuguese - Brazil
+- Chinese
+- Japanese
+Language support covers both online and offline modes]]></changelog>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="acendan_UCS Renaming Tool_Dark.html">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/acendan_UCS%20Renaming%20Tool_Dark.html</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/bootstrap.min.css.map">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/bootstrap.min.css.map</source>
+        <source file="ucs_libraries/bootstrap.min.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/bootstrap.min.js</source>
+        <source file="ucs_libraries/bootstrap.min.js.map">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/bootstrap.min.js.map</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/popper.min.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/popper.min.js</source>
+        <source file="ucs_libraries/popper.min.js.map">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/popper.min.js.map</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/908dd76bfc6f35375627d09ac37983f0d92d6c50/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+      </version>
+    </reapack>
+  </category>
+</index>
