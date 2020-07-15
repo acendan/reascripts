@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="7afa4e4e72f27afc54255414d500edbc543c99a8">
+<index version="1" commit="7afa4e4e72f27afc54255414d500edbc543c99a8" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
