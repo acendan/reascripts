@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 1.6
+-- @version 1.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -11,6 +11,7 @@
 --   Proper name capitalization per v8 standards
 --   Added User Data field
 --   Added 13 supported languages to the web interface!
+--   Added country sprites for language dropdowns
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
