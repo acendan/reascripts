@@ -2,6 +2,8 @@
 -- @author Aaron Cendan
 -- @version 1.0
 -- @metapackage
+-- @provides
+--   [main] . > acendan_Insert markers every x seconds after edit cursor.lua
 -- @link https://aaroncendan.me
 -- @about Insert Marker Every X Seconds After Edit Cursor
 
