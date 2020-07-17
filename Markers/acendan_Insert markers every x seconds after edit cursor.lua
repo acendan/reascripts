@@ -36,6 +36,8 @@ function insertMarkers()
     reaper.Main_OnCommand(  reaper.NamedCommandLookup( "_S&M_INS_MARKER_EDIT" ), 0 ) --Insert marker at edit cursor
     reaper.MoveEditCursor( num_sec, 0 ) --Scoot edit cursor
   end
+  
+  reaper.SetEditCurPos( cursor_pos, 1, 0 )
 
 end
 
