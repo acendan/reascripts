@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c6eb09141eda33e6bf90af861712118ff15a93a6" name="ACendan Scripts">
+<index version="1" commit="0ab68984d2e556d9f09b0426af35729259a4755b" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -86,6 +86,21 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:06:00Z">
         <source main="main" file="acendan_Insert marker at start of selected items with item name.lua">https://github.com/acendan/reascripts/raw/66ddf4f4a227b11d959bb57d5e4f22789143e35d/Markers/acendan_Insert%20marker%20at%20start%20of%20selected%20items%20with%20item%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Insert markers every x seconds after edit cursor.lua" type="script" desc="Insert Marker Every X Seconds After Edit Cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Insert Marker Every X Seconds After Edit Cursor\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-17T23:16:13Z">
+        <source main="main" file="acendan_Insert markers every x seconds after edit cursor.lua">https://github.com/acendan/reascripts/raw/0ab68984d2e556d9f09b0426af35729259a4755b/Markers/acendan_Insert%20markers%20every%20x%20seconds%20after%20edit%20cursor.lua</source>
       </version>
     </reapack>
   </category>
