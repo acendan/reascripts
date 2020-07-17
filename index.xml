@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="bcde063e1854e44aa7971f0384e80dea74363e8e" name="ACendan Scripts">
+<index version="1" commit="5656294db3bacd564f19a3b2cb7f4cdb889a568f" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -104,6 +104,9 @@
       </version>
       <version name="1.0.1" author="Aaron Cendan" time="2020-07-17T23:17:28Z">
         <source main="main" file="acendan_Insert markers every x seconds after edit cursor.lua">https://github.com/acendan/reascripts/raw/bcde063e1854e44aa7971f0384e80dea74363e8e/Markers/acendan_Insert%20markers%20every%20x%20seconds%20after%20edit%20cursor.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-07-17T23:29:41Z">
+        <source main="main" file="acendan_Insert markers every x seconds after edit cursor.lua">https://github.com/acendan/reascripts/raw/5656294db3bacd564f19a3b2cb7f4cdb889a568f/Markers/acendan_Insert%20markers%20every%20x%20seconds%20after%20edit%20cursor.lua</source>
       </version>
     </reapack>
   </category>
