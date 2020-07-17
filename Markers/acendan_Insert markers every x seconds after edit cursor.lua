@@ -1,6 +1,6 @@
 -- @description Insert Marker Every X Seconds After Edit Cursor
 -- @author Aaron Cendan
--- @version 1.0.1
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert markers every x seconds after edit cursor.lua
@@ -37,6 +37,7 @@ function insertMarkers()
     reaper.MoveEditCursor( num_sec, 0 ) --Scoot edit cursor
   end
   
+  -- Reset cursor pos
   reaper.SetEditCurPos( cursor_pos, 1, 0 )
 
 end
