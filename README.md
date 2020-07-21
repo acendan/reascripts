@@ -36,6 +36,7 @@ If you would like to import the scripts here that are not packaged with ReaTeams
  - acendan_Stretch selected items to fit between nearest markers.lua
  - acendan_Append selected items BWF metadata subfield to item name.lua
  - acendan_Set selected items BWF metadata subfield to track name.lua
+ - acendan_Insert markers every x seconds after edit cursor.lua
  
 
 ## Manual Download Instructions (Optional)
