@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5656294db3bacd564f19a3b2cb7f4cdb889a568f" name="ACendan Scripts">
+<index version="1" commit="5b7e532f78aa783a808e0549d31a4b2221d6be07" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -183,6 +183,27 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-01T17:37:47Z">
         <source main="main" file="acendan_Stretch overlapping regions to edges of selected media items.lua">https://github.com/acendan/reascripts/raw/2ecddd77cd38dc0ebb58b1cf24ec057994abeac3/Regions/acendan_Stretch%20overlapping%20regions%20to%20edges%20of%20selected%20media%20items.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Time Selection">
+    <reapack name="acendan_Extend right edge of time selection by x seconds.lua" type="script" desc="Extend right edge of time selection by x seconds">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Extend right edge of time seleciton by x seconds\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-22T20:31:54Z">
+        <source main="main" file="acendan_Extend right edge of time selection by 1 second.lua">https://github.com/acendan/reascripts/raw/5b7e532f78aa783a808e0549d31a4b2221d6be07/Time%20Selection/acendan_Extend%20right%20edge%20of%20time%20selection%20by%20x%20seconds.lua</source>
+        <source main="main" file="acendan_Extend right edge of time selection by 2 seconds.lua">https://github.com/acendan/reascripts/raw/5b7e532f78aa783a808e0549d31a4b2221d6be07/Time%20Selection/acendan_Extend%20right%20edge%20of%20time%20selection%20by%20x%20seconds.lua</source>
+        <source main="main" file="acendan_Extend right edge of time selection by 3 seconds.lua">https://github.com/acendan/reascripts/raw/5b7e532f78aa783a808e0549d31a4b2221d6be07/Time%20Selection/acendan_Extend%20right%20edge%20of%20time%20selection%20by%20x%20seconds.lua</source>
+        <source main="main" file="acendan_Extend right edge of time selection by 4 seconds.lua">https://github.com/acendan/reascripts/raw/5b7e532f78aa783a808e0549d31a4b2221d6be07/Time%20Selection/acendan_Extend%20right%20edge%20of%20time%20selection%20by%20x%20seconds.lua</source>
+        <source main="main" file="acendan_Extend right edge of time selection by 5 seconds.lua">https://github.com/acendan/reascripts/raw/5b7e532f78aa783a808e0549d31a4b2221d6be07/Time%20Selection/acendan_Extend%20right%20edge%20of%20time%20selection%20by%20x%20seconds.lua</source>
       </version>
     </reapack>
   </category>
