@@ -37,6 +37,7 @@ If you would like to import the scripts here that are not packaged with ReaTeams
  - acendan_Append selected items BWF metadata subfield to item name.lua
  - acendan_Set selected items BWF metadata subfield to track name.lua
  - acendan_Insert markers every x seconds after edit cursor.lua
+ - acendan_Trim selected items at last zero crossing.lua
  
 
 ## Manual Download Instructions (Optional)
