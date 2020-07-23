@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5b7e532f78aa783a808e0549d31a4b2221d6be07" name="ACendan Scripts">
+<index version="1" commit="1e3a8e8834fa3d2d1eb5ae9db776e50b333bf45f" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -76,6 +76,14 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-04T23:07:47Z">
         <source main="main" file="acendan_Stretch selected items to fit between nearest markers.lua">https://github.com/acendan/reascripts/raw/0dca44c846f64c71bec7ec2ddafebea5b218680e/Items%20Editing/acendan_Stretch%20selected%20items%20to%20fit%20between%20nearest%20markers.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Trim selected items at last zero crossing.lua" type="script" desc="Trim selected items at last zero crossing">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-23T01:15:13Z">
+        <source main="main" file="acendan_Trim selected items at last zero crossing.lua">https://github.com/acendan/reascripts/raw/1e3a8e8834fa3d2d1eb5ae9db776e50b333bf45f/Items%20Editing/acendan_Trim%20selected%20items%20at%20last%20zero%20crossing.lua</source>
       </version>
     </reapack>
   </category>
