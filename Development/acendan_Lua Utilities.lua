@@ -1,6 +1,6 @@
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -37,7 +37,15 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ UTILITIES ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Deliver messages and add new line in console
+function dbg(dbg)
+  reaper.ShowConsoleMsg(dbg .. "\n")
+end
 
+-- Deliver messages using message box
+function msg(msg)
+  reaper.MB(msg, script_name, 0)
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
@@ -152,6 +160,38 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~ ITEMS ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Loop through all items
+local num_items = reaper.CountMediaItems( 0 )
+if num_items > 0 then
+  for i=0, num_items - 1 do
+    local item =  reaper.GetMediaItem( 0, i )
+    -- Process item
+    
+    local take = reaper.GetActiveTake( item )
+    if take ~= nil then 
+      -- Process active take
+    end
+  end
+else
+  msg("Project has no items!")
+end
+
+-- Loop through selected items
+local num_sel_items = reaper.CountSelectedMediaItems(0)
+if num_sel_items > 0 then
+  for i=0, num_sel_items - 1 do
+    local item = reaper.GetSelectedMediaItem( 0, i )
+    -- Process item
+    
+    local take = reaper.GetActiveTake( item )
+    if take ~= nil then 
+      -- Process active take
+    end
+  end
+else
+  msg("No items selected!")
+end
+
 -- Save initially selected items to table
 function saveSelectedItems (table)
   for i = 1, reaper.CountSelectedMediaItems(0) do
@@ -178,6 +218,110 @@ function getFilenameTrackActiveTake(item)
     end
   end
   return nil
+end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ TRACKS ~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Loop through all tracks
+local num_tracks =  reaper.CountTracks( 0 )
+if num_tracks > 0 then
+  for i = 0, num_tracks-1 do
+    local track = reaper.GetTrack(0,i)
+    -- Process track
+  end
+else
+  msg("Project has no tracks!")
+end
+    
+-- Loop through selected tracks
+local num_sel_tracks = reaper.CountSelectedTracks( 0 )
+if num_sel_tracks > 0 then
+  for i = 0, num_sel_tracks-1 do
+    local track = reaper.GetSelectedTrack(0,i)
+    -- Process track
+  end
+else
+  msg("No tracks selected!")
+end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ REGIONS ~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Loop through all regions
+local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+local num_total = num_markers + num_regions
+if num_regions > 0 then
+  local i = 0
+  while i < num_total do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+    if isrgn then
+      -- Process region
+    end
+    i = i + 1
+  end
+else
+  msg("Project has no regions!")
+end
+    
+-- Loop through regions in time selection
+local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+local num_total = num_markers + num_regions
+local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
+if start_time_sel ~= end_time_sel then
+  local i = 0
+  while i < num_total do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+    if isrgn then
+      if pos >= start_time_sel and rgnend <= end_time_sel then
+        -- Process regions
+      end
+    end
+    i = i + 1
+  end
+else
+  msg("You need to make a time selection!")
+end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ MARKERS ~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Loop through all markers
+local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+local num_total = num_markers + num_regions
+if num_markers > 0 then
+  local i = 0
+  while i < num_total do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+    if not isrgn then
+      -- Process markers
+    end
+    i = i + 1
+  end
+else
+  msg("Project has no markers!")
+end
+    
+-- Loop through markers in time selection
+local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+local num_total = num_markers + num_regions
+local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
+if start_time_sel ~= end_time_sel then
+  local i = 0
+  while i < num_total do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+    if not isrgn then
+      if pos >= start_time_sel and pos <= end_time_sel then
+        -- Process markers
+      end
+    end
+    i = i + 1
+  end
+else
+  msg("You need to make a time selection!")
 end
 
 
