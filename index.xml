@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="e6f69805dc0735046ffb7f20960da777feacfaf3" name="ACendan Scripts">
+<index version="1" commit="60d2df00c65a5b89f6cc4e72e93cb4a57ee1af3c" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="Lua Utility Functions and ReaScript Template">
       <metadata>
@@ -26,6 +26,9 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-07-24T19:07:25Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/e6f69805dc0735046ffb7f20960da777feacfaf3/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2020-07-27T21:13:29Z">
+        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/60d2df00c65a5b89f6cc4e72e93cb4a57ee1af3c/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -176,6 +179,14 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-13T17:56:20Z">
         <source main="main">https://github.com/acendan/reascripts/raw/a07b48e7836273f1aeaaa7b24415cb46a4a8ca72/Regions/acendan_Change%20region%20color%20if%20region%20exceeds%20length.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Create one region for all items on selected tracks.lua" type="script" desc="Create one region for all items on selected tracks">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-07-27T21:13:29Z">
+        <source main="main" file="acendan_Create one region for all items on selected tracks.lua">https://github.com/acendan/reascripts/raw/60d2df00c65a5b89f6cc4e72e93cb4a57ee1af3c/Regions/acendan_Create%20one%20region%20for%20all%20items%20on%20selected%20tracks.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
