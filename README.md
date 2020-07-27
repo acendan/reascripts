@@ -45,6 +45,6 @@ If you would like to import the scripts here that are not packaged with ReaTeams
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
 
 ## Special Thanks To
-- [X-Raym](https://www.extremraym.com/en/): A ReaScripting guru that inspired me to start writing scripts for Reaper in the first place. He has also directly assisted in code-reviewing the content in this repository.
+- [X-Raym](https://www.extremraym.com/en/): A ReaScripting guru that inspired me to start writing scripts for Reaper in the first place. He has also directly assisted in code-reviewing some of the content in this repository.
 - [The REAPER Blog](https://reaperblog.net/): A blog run by Jon Tidey, who has helped serve as one of the leading sources for up to date Reaper documentation, tips, tricks, and ideas.
 - [cfillion](https://cfillion.ca/): The creator of ReaPack, who has helped to ensure these scripts make it into the hands of far more Reaper users than I'd ever be able to reach solo.
