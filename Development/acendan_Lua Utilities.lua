@@ -1,6 +1,6 @@
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -118,6 +118,12 @@ function clampValue(input,min,max)
   return math.min(math.max(input,min),max)
 end
 
+-- Scale value from range to range
+function scaleBetween(unscaled_val, min_new_range, max_new_range, min_old_range, max_old_range)
+  return (max_new_range - min_new_range) * (unscaled_val - min_old_range) / (max_old_range - min_old_range) + min_new_range
+end
+
+
 -- Round the input value // returns Number
 function roundValue(input)
   return math.floor(input + 0.5)
@@ -156,6 +162,50 @@ function tableAppend(table, item)
   table[#table+1] = item
 end
 
+-- CSV to Table
+-- http://lua-users.org/wiki/LuaCsv
+function parseCSVLine (line,sep) 
+  local res = {}
+  local pos = 1
+  sep = sep or ','
+  while true do 
+    local c = string.sub(line,pos,pos)
+    if (c == "") then break end
+    if (c == '"') then
+      -- quoted value (ignore separator within)
+      local txt = ""
+      repeat
+        local startp,endp = string.find(line,'^%b""',pos)
+        txt = txt..string.sub(line,startp+1,endp-1)
+        pos = endp + 1
+        c = string.sub(line,pos,pos) 
+        if (c == '"') then txt = txt..'"' end 
+        -- check first char AFTER quoted string, if it is another
+        -- quoted string without separator, then append it
+        -- this is the way to "escape" the quote char in a quote. example:
+        --   value1,"blub""blip""boing",value3  will result in blub"blip"boing  for the middle
+      until (c ~= '"')
+      table.insert(res,txt)
+      assert(c == sep or c == "")
+      pos = pos + 1
+    else     
+      -- no quotes used, just look for the first separator
+      local startp,endp = string.find(line,sep,pos)
+      if (startp) then 
+        table.insert(res,string.sub(line,pos,startp-1))
+        pos = endp + 1
+      else
+        -- no separator found -> use rest of string and terminate
+        table.insert(res,string.sub(line,pos))
+        break
+      end 
+    end
+  end
+  return res
+end
+
+-- Other useful table statistics functions available at:
+-- http://lua-users.org/wiki/SimpleStats
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~ ITEMS ~~~~~~~~~~~~~~
@@ -244,6 +294,20 @@ if num_sel_tracks > 0 then
   end
 else
   msg("No tracks selected!")
+end
+
+-- Save initially selected tracks to table
+function saveSelectedTracks (table)
+  for i = 1, reaper.CountSelectedTracks(0) do
+    table[i] = reaper.GetSelectedTrack(0, i-1)
+  end
+end
+
+-- Restore selected tracks from table. Requires tableLength() above
+function restoreSelectedTracks(table)
+  for i = 1, tableLength(table) do
+    reaper.SetTrackSelected( table[i], true )
+  end
 end
 
 
