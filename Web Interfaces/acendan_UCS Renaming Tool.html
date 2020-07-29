@@ -296,7 +296,7 @@
                     <a class="nav-link" href="#">Naming<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#userInputShow">Processing</a>
+                    <a class="nav-link" href="#userInputData">Processing</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#formSubmitButton">Data Table</a>
@@ -324,8 +324,8 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success" onclick="window.location.href='https://forms.gle/DaVCaesTLcRLrJVt7';">Provide Feedback</button>
-                <button class="btn btn-outline-dark" onclick="window.location.href='https://universalcategorysystem.com/';"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</button>
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-success" target="_blank">Provide Feedback</a>
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
             </form>
         </div>
     </nav>
@@ -368,6 +368,12 @@
                 <div class="form-group col-md-6 required" id="fileNameGroup">
                     <label for="userInputNameLabel">File Name*</label>
                     <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
+                    <div class="form-check" style="margin-left:0px">
+                        <input class="form-check-input" type="checkbox" checked id="userInputVarNumCheckbox">
+                        <label class="form-check-label" for="userInputVarNumCheckbox">
+                            Enable variation numbering? If unsure, keep checked.
+                        </label>
+                    </div>                                
                     <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
                     <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br />'Dog Toy' => 'Dog Toy 01', 'Dog Toy 02', etc.<br />'Dog Toy 07' => 'Dog Toy 07', 'Dog Toy 08', etc.</small>
                 </div>
@@ -521,6 +527,10 @@
         // Determine Online or Offline Mode
         // ~~~~~~~~~~~~~~~~~~~~
         $(function () {
+            // Alert Safari users of issues with browser
+            var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+            if (isSafari) alert("Safari does not play nicely with this tool. I am working to resolve these issues, but until then, please consider using Google Chrome. Thank you for your understanding!");
+
             // Assigns country icon for current language to navbar language dropdown
             getUCSLanguage();
 
@@ -577,9 +587,10 @@
             var selectedCategory = $("#userInputCategory").val();
             var selectedSubcategory = $("select#userSelectSubCategory option:checked").val();
             var selectedCatID = getCatID(selectedCategory, selectedSubcategory); // This function also alerts user if cat/subcat combo is invalid
-            var nameAndNum = getNameAndNumber($("#userInputName").val());
+            var nameAndNum = getNameAndNumber($("#userInputName").val());            
             var nameOnly = nameAndNum[0];
             var numOnly = nameAndNum[1];
+            var enableNum = $("#userInputVarNumCheckbox").prop("checked");
             var cleanUserCat  = removeLeadingTrailingWhitespace($("#userInputUserCat").val());
             var cleanInitials = removeLeadingTrailingWhitespace($("#userInputInitials").val());
             var cleanShow = removeLeadingTrailingWhitespace($("#userInputShow").val());
@@ -604,6 +615,7 @@
             setProjExtState(selectedCatID, "CatID");
             setProjExtState(nameOnly, "Name");
             setProjExtState(numOnly, "Number");
+            setProjExtState(enableNum, "EnableNum");
             setProjExtState(cleanUserCat, "UserCategory");
             setProjExtState(cleanInitials, "Initials");
             setProjExtState(cleanShow, "Show");
@@ -1106,10 +1118,11 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // RegEx to clean up user input fields, see comments on right
         function removeLeadingTrailingWhitespace(inString) {
-            var noLeadingWhitespace = inString.replace(/^\s+/, "");                 // Removes whitespace at start of string
-            var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");     // Removes whitespace at end of string
-            var noUnderscores = noTrailingWhitespace.replace(/_/g, " ");            // Replaces underscores with spaces
-            var noDoubleSpaces = noUnderscores.replace(/\s\s+/g, " ");              // Removes double spaces, tabs, or multiple spaces in the middle of a string
+            var noIllegalChars = inString.replace(/[\"\&\*\/\:\<\>\?\|\%\#\$\!\+\[\]\{\}]/g, "");  // Removes illegal characters
+            var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
+            var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");                    // Removes whitespace at end of string
+            var noUnderscores = noTrailingWhitespace.replace(/_/g, " ");                           // Replaces underscores with spaces
+            var noDoubleSpaces = noUnderscores.replace(/\s\s+/g, " ");                             // Removes double spaces, tabs, or multiple spaces in the middle of a string            
             return noDoubleSpaces;
         }
 

@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 1.8
+-- @version 1.9
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -8,10 +8,7 @@
 -- @about
 --   # Universal Category Renaming Tool
 -- @changelog
---   Proper name capitalization per v8 standards
---   Added User Data field
---   Added 13 supported languages to the web interface!
---   Added country sprites for language dropdowns
+--   Toggle to enable or disable enumeration
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -27,6 +24,7 @@ local ret_usca, ucs_usca = reaper.GetProjExtState( 0, "UCS_WebInterface", "UserC
 local ret_id,   ucs_id   = reaper.GetProjExtState( 0, "UCS_WebInterface", "CatID" )
 local ret_name, ucs_name = reaper.GetProjExtState( 0, "UCS_WebInterface", "Name" )
 local ret_num,  ucs_num  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Number" )
+local ret_enum, ucs_enum = reaper.GetProjExtState( 0, "UCS_WebInterface", "EnableNum" )
 local ret_init, ucs_init = reaper.GetProjExtState( 0, "UCS_WebInterface", "Initials" )
 local ret_show, ucs_show = reaper.GetProjExtState( 0, "UCS_WebInterface", "Show" )
 local ret_type, ucs_type = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputItems" )
@@ -300,10 +298,18 @@ function setFullName()
     -- Vendor found
     local vendorCat = string.sub(ucs_name, 1, s-1)
     local name = string.sub(ucs_name, s+1)
-    ucs_name_num_final = "_" .. string.upper(vendorCat) .. "-" .. name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+    if (ucs_enum == "true") then
+      ucs_name_num_final = "_" .. string.upper(vendorCat) .. "-" .. name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+    else
+      ucs_name_num_final = "_" .. string.upper(vendorCat) .. "-" .. name:gsub("(%a)([%w_']*)", toTitleCase)
+    end
   else
     -- No Vendor
-    ucs_name_num_final = "_" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+    if (ucs_enum == "true") then
+      ucs_name_num_final = "_" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+    else
+      ucs_name_num_final = "_" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase)
+    end
   end
 
   -- Show
@@ -371,6 +377,7 @@ function ucsRetsToBool()
   if ret_id   == 1 then ret_id   = true else ret_id   = false end
   if ret_name == 1 then ret_name = true else ret_name = false end
   if ret_num  == 1 then ret_num  = true else ret_num  = false end
+  if ret_enum == 1 then ret_enum = true else ret_enum = false end
   if ret_init == 1 then ret_init = true else ret_init = false end
   if ret_show == 1 then ret_show = true else ret_show = false end
   if ret_type == 1 then ret_type = true else ret_type = false end
@@ -388,6 +395,7 @@ function debugUCSInput()
             "CatID: "       .. ucs_id   .. " (" .. tostring(ret_id)   .. ")" .. "\n" .. 
             "Name: "        .. ucs_name .. " (" .. tostring(ret_name) .. ")" .. "\n" .. 
             "Number: "      .. ucs_num  .. " (" .. tostring(ret_num)  .. ")" .. "\n" .. 
+            "Enum: "        .. ucs_enum .. " (" .. tostring(ret_enum) .. ")" .. "\n" ..
             "Initials: "    .. ucs_init .. " (" .. tostring(ret_init) .. ")" .. "\n" .. 
             "Show: "        .. ucs_show .. " (" .. tostring(ret_show) .. ")" .. "\n" .. 
             "Type: "        .. ucs_type .. " (" .. tostring(ret_type) .. ")" .. "\n" .. 

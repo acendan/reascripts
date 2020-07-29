@@ -1,13 +1,13 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 1.8.2
+@version 1.9
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map}
 @about Universal Category System Renaming Tool
 @changelog
-  The tool now fully supports 13 different languages, using the Language dropdown in the navigation bar
-  Language support covers both online and offline modes
-  Added country sprites for language dropdowns
-  Use current country sprite for Navbar
+  Fixed navbar hyperlinks/buttons
+  Toggleable enumeration
+  Automatically remove the following illegal characters "&*/:<>?\|%#$!+[]{}
+  Alert safari users of issues with browser
