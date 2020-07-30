@@ -1,0 +1,47 @@
+UCS Reaper Renaming Tool - User Presets
+
+~~~
+INSTRUCTIONS
+- Fill out the information below, copying the fields for as many presets as needed.
+- #Preset Name is the only mandatory field, and must be filled out for each preset. 
+- All other fields are optional. 
+- Do NOT remove field headers, even if the info in that field is blank.
+- Category, Subcategory, and File Name are not included, as they will likely differ for each file.
+- Processing fields (#Items to Rename & #Search Area) must match the renaming tool's options exactly, see below:
+    Regions
+	Time Selection
+  	Full Project
+    Markers
+  	Time Selection
+  	Full Project
+    Media Items
+  	Selected Items
+  	All Items
+    Tracks
+  	Selected Tracks
+  	All Tracks
+~~~
+
+#Preset Name: Example
+#User Category:
+#Creator ID: AC
+#Source ID: MDDN
+#User Data/Notes:
+#Items to Rename: Media Items
+#Search Area: Selected Items
+
+#Preset Name:
+#User Category:
+#Creator ID:
+#Source ID:
+#User Data/Notes:
+#Items to Rename:
+#Search Area:
+
+#Preset Name:
+#User Category:
+#Creator ID:
+#Source ID:
+#User Data/Notes:
+#Items to Rename:
+#Search Area:

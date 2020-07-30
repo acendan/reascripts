@@ -1,13 +1,11 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 1.9
+@version 2.0
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
-  ucs_libraries/*.{js,png,css,svg,map}
+  ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Fixed navbar hyperlinks/buttons
-  Toggleable enumeration
-  Automatically remove the following illegal characters "&*/:<>?\|%#$!+[]{}
-  Alert safari users of issues with browser
+  Introducing User Presets!
+  Automatically open Reaper resource path for Offline mode and User Preset setup

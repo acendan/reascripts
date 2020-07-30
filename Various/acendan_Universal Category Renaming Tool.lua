@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 1.9
+-- @version 2.0
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Universal Category Renaming Tool
 -- @changelog
---   Toggle to enable or disable enumeration
+--   User presets enabled in web interface!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~

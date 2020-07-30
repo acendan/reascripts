@@ -301,12 +301,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#formSubmitButton">Data Table</a>
                 </li>
-                
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarPresetsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
+                        Presets
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarPresetsDropdown" id="navbarPresetsDropdownOptions">
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLangDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
                         Language
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu" aria-labelledby="navbarLangDropdown">
                         <a class="dropdown-item" href="#" id="langEN" style="display: flex; align-items: center;"><i class="flag us"></i>&nbsp;&nbsp;English</a>
                         <a class="dropdown-item" href="#" id="langES" style="display: flex; align-items: center;"><i class="flag es"></i>&nbsp;&nbsp;Spanish</a>
                         <a class="dropdown-item" href="#" id="langFR" style="display: flex; align-items: center;"><i class="flag fr"></i>&nbsp;&nbsp;French</a>
@@ -337,6 +346,27 @@
         <!-- Renaming Tool Form -->
         <!------------------------>
         <form id="ucsForm">
+
+            <!-- USER PRESET SETUP -->
+            <div class="card w-75" id="userPresetsInstructions" style="display: none">
+                <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
+                    <h6 class="card-title">User Presets Setup Instructions</h6>
+                    <ul>
+                        <li>
+                            To set up user presets, open the file path /REAPER/reaper_www_root (and verify that "acendan_Universal Category Renaming Tool Interface.html" is present).
+                        </li>
+                        <li>
+                            Next, move the file "UCS_presets.txt" from the "ucs_libraries" folder to its parent folder, "reaper_www_root".
+                        </li>
+                        <li>
+                            To add or edit presets, open "UCS_presets.txt" in a text editor like Notepad and follow the instructions.
+                        </li>
+                        <li>
+                            Reload the UCS Renaming Tool and you should see your new presets in the "Presets" dropdown in the navigation bar!
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
             <!-- NAMING SECTION -->
             <div style="margin-top:40px;"><h5 id="naming"><i>Naming</i></h5></div>
@@ -370,10 +400,8 @@
                     <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
                     <div class="form-check" style="margin-left:0px">
                         <input class="form-check-input" type="checkbox" checked id="userInputVarNumCheckbox">
-                        <label class="form-check-label" for="userInputVarNumCheckbox">
-                            Enable variation numbering? If unsure, keep checked.
-                        </label>
-                    </div>                                
+                        <h7>Enable variation numbering? If unsure, keep checked.</h7>
+                    </div>
                     <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
                     <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br />'Dog Toy' => 'Dog Toy 01', 'Dog Toy 02', etc.<br />'Dog Toy 07' => 'Dog Toy 07', 'Dog Toy 08', etc.</small>
                 </div>
@@ -496,6 +524,9 @@
         // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various
         var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various
 
+        // Open Reaper resource path
+        var REApath = "40027";
+
         // UCS Google Sheet Languages
         var ucs_gsheet_en = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/1/public/full?alt=json";
         var ucs_gsheet_fr = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/2/public/full?alt=json";
@@ -519,6 +550,9 @@
         var jsonCategorySubcategoryArr = [];
         var jsonCatIDArr = [];
 
+        // Init user preset array
+        let userPresets = [];
+
         // Instructions toggle bool
         var onlineModeInstructionsToggle = true;
 
@@ -533,6 +567,9 @@
 
             // Assigns country icon for current language to navbar language dropdown
             getUCSLanguage();
+
+            // Check for User Presets
+            loadUserPresets();
 
             // Attempt to load offline "UCS.txt" file if available. If successful: useOfflineUSCData()
             // If not, get data from public Google sheet via function: useGSheetsUSCData()
@@ -591,10 +628,10 @@
             var nameOnly = nameAndNum[0];
             var numOnly = nameAndNum[1];
             var enableNum = $("#userInputVarNumCheckbox").prop("checked");
-            var cleanUserCat  = removeLeadingTrailingWhitespace($("#userInputUserCat").val());
-            var cleanInitials = removeLeadingTrailingWhitespace($("#userInputInitials").val());
-            var cleanShow = removeLeadingTrailingWhitespace($("#userInputShow").val());
-            var cleanUserData = removeLeadingTrailingWhitespace($("#userInputData").val());
+            var cleanUserCat  = stringCleaning($("#userInputUserCat").val());
+            var cleanInitials = stringCleaning($("#userInputInitials").val());
+            var cleanShow = stringCleaning($("#userInputShow").val());
+            var cleanUserData = stringCleaning($("#userInputData").val());
 
             // Alert user of invalid entries and bypass triggering ReaScript
             if (selectedCatID == "CATID_INVALID") { return; }                           // Alert is included in getCatID above
@@ -654,6 +691,8 @@
             if (onlineModeInstructionsToggle) {
                 $("#UCSOnlineModeInstructions").show();
                 onlineModeInstructionsToggle = false;
+                // Open Reaper resource path
+                wwr_req(encodeURIComponent(REApath));
             } else {
                 $("#UCSOnlineModeInstructions").hide();
                 onlineModeInstructionsToggle = true;
@@ -873,11 +912,11 @@
                 ucs_lang_country = "us";
             }
 
-            $("#navbarDropdown").html('<i class="flag ' + ucs_lang_country + '"></i>&nbsp;&nbsp;Language');
+            $("#navbarLangDropdown").html('<i class="flag ' + ucs_lang_country + '"></i>&nbsp;&nbsp;Language');
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
-        // CHECK FOR OFFLINE USC DOC
+        // CHECK FOR OFFLINE UCS DOC
         // ~~~~~~~~~~~~~~~~~~~~
         function loadOfflineUCSDoc() {
             var xhttp = new XMLHttpRequest();
@@ -906,7 +945,142 @@
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
-        // USE OFFLINE USC DATA IF AVAILABLE
+        // CHECK FOR OFFLINE USER PRESETS DOC
+        // ~~~~~~~~~~~~~~~~~~~~
+        function loadUserPresets() {
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("Found local user presets file.");
+                    displayPresets(this.responseText);
+                }
+            };
+            xhttp.onloadend = function () {
+                if (xhttp.status == 404) {
+                    console.log("No local user presets file found.");
+                    $("#navbarPresetsDropdownOptions").append('<a class="dropdown-item" href="#" id="showPresetInstructions" onClick="showPresetInstructions()" style="display: flex; align-items: center;">Setup Instructions</a>');
+                }
+            }
+            xhttp.open("GET", "UCS_Presets.txt", true);
+            // XML HTTP Cache will try to pull old information if the file is update but keeps the same name.
+            // Disable cache controls to get the latest.
+            xhttp.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
+            xhttp.setRequestHeader('cache-control', 'max-age=0');
+            xhttp.setRequestHeader('expires', '0');
+            xhttp.setRequestHeader('expires', 'Tue, 01 Jan 1980 1:00:00 GMT');
+            xhttp.setRequestHeader('pragma', 'no-cache');
+            xhttp.send();
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SHOW PRESET INSTRUCTIONS
+        // ~~~~~~~~~~~~~~~~~~~~
+        function showPresetInstructions() {
+            // Open Reaper resource path
+            wwr_req(encodeURIComponent(REApath));
+
+            // Show instructions in HTML
+            $("#userPresetsInstructions").show();
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // DISPLAY USER PRESETS IF AVAILABLE
+        // ~~~~~~~~~~~~~~~~~~~~
+        function displayPresets(userPresetsFile) {
+            // Parse preset file by line
+            var presetsFile = userPresetsFile.split('\n');
+
+            // Hard-coded preset headers
+            var presetNameHeader = "#Preset Name:";
+            var presetUserCatHeader = "#User Category:";
+            var presetCreatorIDHeader = "#Creator ID:";
+            var presetSourceIDHeader = "#Source ID:";
+            var presetUserDataHeader = "#User Data/Notes:";
+            var presetItemsHeader = "#Items to Rename:";
+            var presetSearchAreaHeader = "#Search Area:";
+
+            // Build array of user presets
+            for (var line = 0; line < presetsFile.length; line++) {
+                var presetsLine = presetsFile[line].toString();
+                // Check for start of new preset
+                if (presetsLine.startsWith(presetNameHeader)) {
+                    // Prep preset
+                    var presetName = stringCleaning(presetsLine.slice(presetNameHeader.length, presetsLine.length));
+                    var presetUserCat = "";
+                    var presetCreatorID = "";
+                    var presetSourceID = "";
+                    var presetUserData = "";
+                    var presetItems = "";
+                    var presetSearchArea = "";
+
+                    // Confirm preset name isn't blank
+                    if (presetName.length > 1) {
+                        // User Cat
+                        if (presetsFile[line + 1].startsWith(presetUserCatHeader)) presetUserCat = stringCleaning(presetsFile[line + 1].slice(presetUserCatHeader.length, presetsFile[line + 1].length));                                               
+                        // Creator ID
+                        if (presetsFile[line + 2].startsWith(presetCreatorIDHeader)) presetCreatorID = stringCleaning(presetsFile[line + 2].slice(presetCreatorIDHeader.length, presetsFile[line + 2].length));                       
+                        // Source ID
+                        if (presetsFile[line + 3].startsWith(presetSourceIDHeader)) presetSourceID = stringCleaning(presetsFile[line + 3].slice(presetSourceIDHeader.length, presetsFile[line + 3].length));                       
+                        // User Data
+                        if (presetsFile[line + 4].startsWith(presetUserDataHeader)) presetUserData = stringCleaning(presetsFile[line + 4].slice(presetUserDataHeader.length, presetsFile[line + 4].length));                        
+                        // Items
+                        if (presetsFile[line + 5].startsWith(presetItemsHeader)) presetItems = stringCleaning(presetsFile[line + 5].slice(presetItemsHeader.length, presetsFile[line + 5].length));                        
+                        // Search Area
+                        if (presetsFile[line + 6].startsWith(presetSearchAreaHeader)) presetSearchArea = stringCleaning(presetsFile[line + 6].slice(presetSearchAreaHeader.length, presetsFile[line + 6].length));
+                        
+                        // Add new preset to presets array
+                        userPresets.push([presetName, presetUserCat, presetCreatorID, presetSourceID, presetUserData, presetItems, presetSearchArea]);
+                    }
+                }
+            }
+
+            // Loop through user presets
+            userPresets.forEach((preset, index) => {
+                $("#navbarPresetsDropdownOptions").append('<a class="dropdown-item" href="#" id="userPreset' + index + '" onClick="loadUserPreset(' + index + ')" style="display: flex; align-items: center;">' + preset[0] + '</a>');
+                
+            });
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // LOAD USER PRESETS
+        // ~~~~~~~~~~~~~~~~~~~~
+        function loadUserPreset(index) {
+            // console.log(index + ": " + userPresets[index][0]);
+            // Loop through preset fields
+            userPresets[index].forEach((field, fieldIdx) => {
+                // If preset field isn't blank...
+                if (field) {
+                    switch (fieldIdx) {
+                        case 0: // Preset Name
+                            break;
+                        case 1: // User Category
+                            $("#userInputUserCat").val(field).trigger('change');
+                            break;
+                        case 2: // Creator ID
+                            $("#userInputInitials").val(field).trigger('change');
+                            break;
+                        case 3: // Source ID
+                            $("#userInputShow").val(field).trigger('change');
+                            break;
+                        case 4: // User Data/Notes
+                            $("#userInputData").val(field).trigger('change');
+                            break;
+                        case 5: // Items to rename
+                            $("#userInputItems").val(field).trigger('change');
+                            break;
+                        case 6: // Search Area
+                            $("#userInputArea").val(field).trigger('change');
+                            break;
+                        default:
+                            console.log("Invalid user preset array element. Index: " + fieldIdx + " Field: " + field);
+                    }
+                }
+            });
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // USE OFFLINE UCS DATA IF AVAILABLE
         // ~~~~~~~~~~~~~~~~~~~~
         function useOfflineUSCData(offlineTableData) {
             // Display appropriate HTML elements
@@ -973,7 +1147,7 @@
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
-        // USE GOOGLE SHEET DATA IF USC OFFLINE NOT AVAILABLE
+        // USE GOOGLE SHEET DATA IF UCS OFFLINE NOT AVAILABLE
         // ~~~~~~~~~~~~~~~~~~~~
         function useGSheetsUSCData() {
             // Display appropriate HTML elements
@@ -1096,13 +1270,13 @@
         // Splits into name & number (formatted as string)
         // Uses RegEx to ensure name conforms to UCS standard (see RegEx function below)
         function getNameAndNumber(name) {
-            var cleanName = removeLeadingTrailingWhitespace(name);
+            var cleanName = stringCleaning(name);
             var matches = cleanName.match(/\d+$/);
             if (matches) {
                 // If user included a number at the end of the name...
                 var number = String(parseInt(matches[0], 10));
                 var noNum = cleanName.replace(/\d+$/, "");
-                var noSpace = removeLeadingTrailingWhitespace(noNum);
+                var noSpace = stringCleaning(noNum);
                 console.log("Name: " + noSpace + " | Number: " + number);
                 return [noSpace, number];
             } else {
@@ -1117,7 +1291,7 @@
         // REGEX USER INPUT CLEANING
         // ~~~~~~~~~~~~~~~~~~~~
         // RegEx to clean up user input fields, see comments on right
-        function removeLeadingTrailingWhitespace(inString) {
+        function stringCleaning(inString) {
             var noIllegalChars = inString.replace(/[\"\&\*\/\:\<\>\?\|\%\#\$\!\+\[\]\{\}]/g, "");  // Removes illegal characters
             var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
             var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");                    // Removes whitespace at end of string
@@ -1132,6 +1306,9 @@
         // Creates a text file from the Univ Cat System array
         // Spoofs a download link on the page for the created file, clicks it then removes spoof (sneaky)
         function downloadBlobFile() {
+            // Open Reaper resource path
+            wwr_req(encodeURIComponent(REApath));
+
             // Create text file from array input
             var textFile = null,
                 makeTextFile = function (arr) {
