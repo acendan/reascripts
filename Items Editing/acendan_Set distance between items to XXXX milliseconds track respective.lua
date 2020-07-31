@@ -1,13 +1,16 @@
 -- @description Set Distance Between Items Track Respective
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
+--   [main] . > acendan_Set distance between selected items to 250 milliseconds track respective.lua
+--   [main] . > acendan_Set distance between selected items to 500 milliseconds track respective.lua
+--   [main] . > acendan_Set distance between selected items to 750 milliseconds track respective.lua
 --   [main] . > acendan_Set distance between selected items to 1500 milliseconds track respective.lua
 --   [main] . > acendan_Set distance between selected items to 2500 milliseconds track respective.lua
 -- @link https://aaroncendan.me
 -- @about
---   # Set Distance Between Items, Track Respective
+--   # Set Distance Between Items, Track Respective, Milliseconds
 --   By Aaron Cendan - July 2020
 --
 --   * Similar to SWS Reposition items and me2beats set distance between items.
