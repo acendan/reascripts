@@ -10,6 +10,7 @@ INSTRUCTIONS
 - Processing fields (#Items to Rename & #Search Area) must match the renaming tool's options exactly, see below:
     Regions
 	Time Selection
+	Edit Cursor
   	Full Project
     Markers
   	Time Selection

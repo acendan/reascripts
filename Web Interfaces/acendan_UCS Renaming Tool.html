@@ -731,7 +731,9 @@
             var $dropdown = $(this);
             var key = $dropdown.val();
             var vals = [];
-            if (key == "Regions" || key == "Markers") {
+            if (key == "Regions") {
+                vals = ["Time Selection", "Edit Cursor", "Full Project"];
+            } else if (key == "Markers") {
                 vals = ["Time Selection", "Full Project"];
             } else if (key == "Media Items") {
                 vals = ["Selected Items", "All Items"];

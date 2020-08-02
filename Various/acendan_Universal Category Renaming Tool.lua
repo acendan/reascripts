@@ -1,6 +1,6 @@
 -- @description Universal Category Renaming Tool
 -- @author Aaron Cendan
--- @version 2.0
+-- @version 2.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Universal Category Renaming Tool
 -- @changelog
---   User presets enabled in web interface!
+--   Add support for editing region at edit cursor
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -142,7 +142,19 @@ function renameRegions(num_markers,num_regions)
       end
       i = i + 1
     end
- 
+
+  elseif ucs_area == "Edit Cursor" then
+    local markeridx, regionidx = reaper.GetLastMarkerAndCurRegion(0, reaper.GetCursorPosition())
+	if regionidx ~= nil then
+      local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, regionidx )
+      if isrgn then
+        leadingZeroUCSNumStr()
+        setFullName()
+        reaper.SetProjectMarkerByIndex( 0, regionidx, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
+        incrementUCSNumStr()
+      end
+	end
+    
   else
     if ret_area then
       reaper.MB("Invalid search area type. Did you tweak the 'userInputArea' options in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
