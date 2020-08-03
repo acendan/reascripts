@@ -1,6 +1,6 @@
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -66,6 +66,7 @@ reaper.UpdateArrange()
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if false then   -- Don't actually evaluate anything here if this script is run from the actions menu
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -146,9 +147,10 @@ end
 -- ~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Get length/number of entries in a table // returns Number
-function tableLength(T)
+-- This is relatively unnecessary, as table length can just be acquired with #table
+function tableLength(table)
   local i = 0
-  for _ in pairs(T) do i = i + 1 end
+  for _ in pairs(table) do i = i + 1 end
   return i
 end
 
@@ -204,7 +206,7 @@ function parseCSVLine (line,sep)
   return res
 end
 
--- Other useful table statistics functions available at:
+-- Useful table statistics functions available at:
 -- http://lua-users.org/wiki/SimpleStats
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -255,6 +257,8 @@ function restoreSelectedItems(table)
     reaper.SetMediaItemSelected( table[i], true )
   end
 end
+
+reaper.Main_OnCommand(40289,0) -- Unselect all items
 
 -- Get source file name of active take from item input  // returns String
 function getFilenameTrackActiveTake(item)
@@ -437,6 +441,21 @@ function fileExists(filename)
    if f~=nil then io.close(f) return true else return false end
 end
 
+-- Check if a directory/folder exists. // returns Boolean
+function directoryExists(folder)
+  local fileHandle, strError = io.open(folder .. "\\*.*","r")
+  if fileHandle ~= nil then
+    io.close(fileHandle)
+    return true
+  else
+    if string.match(strError,"No such file or directory") then
+      return false
+    else
+      return true
+    end
+  end
+end
+
 -- Get 3 character all caps extension from a file path input // returns String
 function fileExtension(filename)
   return filename:sub(-3):upper()
@@ -453,4 +472,9 @@ function fileToTable(filename)
   table.insert(t, "")
   io.close(file)
   return t
+end
+
+-- Notification message when run from actions
+else
+  msg("To view, copy, or edit the Lua Utilities, click 'Edit Action...'")
 end
