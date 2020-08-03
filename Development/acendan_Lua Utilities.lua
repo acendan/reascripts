@@ -1,3 +1,4 @@
+-- @noindex
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
 -- @version 1.4
