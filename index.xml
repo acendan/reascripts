@@ -1,40 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="80dfa2747daa56f68b7354d6c3d60b73ea2aa738" name="ACendan Scripts">
-  <category name="Development">
-    <reapack name="acendan_Lua Utilities.lua" type="script" desc="Lua Utility Functions and ReaScript Template">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Lua Utilities\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Upper Section - Template\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Provides a basic template for lua scripts.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab I found myself copy pasting from old scripts so hopefully no more of that.\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Lower Section - Utilities\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty much just a big pile of helper functions.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Ctrl + F is your friend here.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab I wish I kept better documentation of the original script creators, as not all of these are my own original functions.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab If you recognize one of your functions in here, I will gladly credit you directly next to that script, reach out at my website above.\sa180\par}
-}
-]]></description>
-        <link rel="website">https://aaroncendan.me</link>
-      </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-07-24T18:21:25Z">
-        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/e734eaaca7fbfec36ced2fcd1d594f7bf7d5ae84/Development/acendan_Lua%20Utilities.lua</source>
-      </version>
-      <version name="1.1" author="Aaron Cendan" time="2020-07-24T19:07:25Z">
-        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/e6f69805dc0735046ffb7f20960da777feacfaf3/Development/acendan_Lua%20Utilities.lua</source>
-      </version>
-      <version name="1.3" author="Aaron Cendan" time="2020-07-27T21:13:29Z">
-        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/60d2df00c65a5b89f6cc4e72e93cb4a57ee1af3c/Development/acendan_Lua%20Utilities.lua</source>
-      </version>
-      <version name="1.4" author="Aaron Cendan" time="2020-08-03T16:12:06Z">
-        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/80dfa2747daa56f68b7354d6c3d60b73ea2aa738/Development/acendan_Lua%20Utilities.lua</source>
-      </version>
-    </reapack>
-  </category>
+<index version="1" commit="1e89f2af44238bbe5a38234b7497045bfddb3f40" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
