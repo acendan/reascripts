@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b0ea3fd9027c002207f3ccf96c2a8bf274641033" name="ACendan Scripts">
+<index version="1" commit="e716d196a5f6805ac43e41a70f1660cc11113cc4" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -136,6 +136,23 @@
     </reapack>
   </category>
   <category name="Markers">
+    <reapack name="acendan_Export markers and regions for Izotope RX relative to items with shared take source.lua" type="script" desc="Export Markers and Regions for RX">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Lua Utilities\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from XRaym's script: Export markers and regions to tab-delimited CSV file\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-08-07T19:14:22Z">
+        <source main="main" file="acendan_Export markers and regions for Izotope RX relative to items with shared take source.lua">https://github.com/acendan/reascripts/raw/e716d196a5f6805ac43e41a70f1660cc11113cc4/Markers/acendan_Export%20markers%20and%20regions%20for%20Izotope%20RX%20relative%20to%20items%20with%20shared%20take%20source.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Export markers and regions for Izotope RX relative to selected item.lua" type="script" desc="Export Markers and Regions for RX">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
