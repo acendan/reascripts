@@ -1,6 +1,6 @@
 -- @description Export Markers and Regions for RX
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Export markers and regions for Izotope RX relative to selected item.lua
@@ -11,8 +11,14 @@
 --   * Adapted from XRaym's script: Export markers and regions to tab-delimited CSV file
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
+-- ~~~~~~~~~~~~ VARIABLES ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Copy file path to clipboard on save
+local copy_path = true
+
+-- Show copy path notification message
+local copy_path_notification = true
 
 -- Get script name for undo text and extracting numbers/other info, if needed
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
@@ -139,10 +145,16 @@ else
     if not ret then item_name = "" end
     
     local project_directory = getProjDir()
-    retval, file = reaper.JS_Dialog_BrowseForSaveFile( "Export Markers and Regions for RX", project_directory, "Markers and Regions - " .. item_name, 'Text Files (.txt)\0*.csv\0All Files (*.*)\0*.*\0' )
+    retval, file = reaper.JS_Dialog_BrowseForSaveFile( "Export Markers and Regions for RX", project_directory, "Markers and Regions - " .. item_name .. ".txt", 'Text Files (.txt)\0*.csv\0All Files (*.*)\0*.*\0' )
     
     if retval and file ~= '' then
       if not file:find('.txt') then file = file .. ".txt" end
+      if copy_path then
+        reaper.CF_SetClipboard( file )
+        if copy_path_notification then
+          msg("File path copied to clipboard!\n\nTo disable this, click 'Edit Action' and set the 'copy_path' variable to false.")
+        end
+      end
       reaper.defer(Main)
     end
   else
