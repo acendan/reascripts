@@ -1,4 +1,7 @@
 -- @noindex
+
+
+
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
 -- @version 1.5
@@ -92,14 +95,16 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~ GET USER INPUT ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Take the contents out of this function and just paste wherever necessary, easier than returning the split up vars
-function getUserInputs() 
-  local ret_input, user_input = reaper.GetUserInputs(script_name,  2,
-                            "Input Field 1,Input Field 2" .. ",extrawidth=100",
-                            "Placeholder 1,Placeholder 2")
-  if not ret_input then return end
-  local input_1, input_2 = user_input:match("([^,]+),([^,]+)")
-end
+-- Single field
+local ret_input, user_input = reaper.GetUserInputs( script_name, 1, "Input Field", "Placeholder" )
+if not ret_input then return end
+
+-- Multiple fields
+local ret_input, user_input = reaper.GetUserInputs( script_name, 2,
+                          "Input Field 1,Input Field 2" .. ",extrawidth=100",
+                          "Placeholder 1,Placeholder 2" )
+if not ret_input then return end
+local input_1, input_2 = user_input:match("([^,]+),([^,]+)")
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,7 +184,7 @@ function parseCSVLine (line,sep)
       local txt = ""
       repeat
         local startp,endp = string.find(line,'^%b""',pos)
-        txt = txt..string.sub(line,startp+1,endp-1)
+        txt = txt .. string.sub(line,startp+1,endp-1)
         pos = endp + 1
         c = string.sub(line,pos,pos) 
         if (c == '"') then txt = txt..'"' end 
@@ -354,6 +359,42 @@ else
   msg("You need to make a time selection!")
 end
 
+-- Get selected regions in RRM using JS_Reaper API, requires getRegionManager
+-- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
+function getSelectedRegionsRRM()
+  local hWnd = getRegionManager()
+  if hWnd == nil then return end  
+
+  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
+
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  if sel_count == 0 then return end 
+
+  names = {}
+  i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do 
+    i = i+1
+    names[i] = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+  end
+  
+  -- Return table of selected regions
+  return names
+end
+
+function getRegionManager()
+  local title = reaper.JS_Localize("Region/Marker Manager", "common")
+  local arr = reaper.new_array({}, 1024)
+  reaper.JS_Window_ArrayFind(title, true, arr)
+  local adr = arr.table()
+  for j = 1, #adr do
+    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
+    -- verify window by checking if it also has a specific child.
+    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
+      return hwnd
+    end 
+  end
+end
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ MARKERS ~~~~~~~~~~~~~
@@ -457,6 +498,27 @@ function directoryExists(folder)
   end
 end
 
+-- Get project directory (folder) // returns String
+function getProjDir()
+  if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
+    separator = "\\"
+  else
+    separator = "/"
+  end
+  retval, project_path_name = reaper.EnumProjects(-1, "")
+  if project_path_name ~= "" then
+    dir = project_path_name:match("(.*" .. separator ..")")
+    return dir
+  else
+    return ""
+  end
+end
+
+-- Open a webpage or file directory
+function openDirectoryOrURL(path)
+  reaper.CF_ShellExecute(path)
+end
+
 -- Get 3 character all caps extension from a file path input // returns String
 function fileExtension(filename)
   return filename:sub(-3):upper()
@@ -474,6 +536,33 @@ function fileToTable(filename)
   io.close(file)
   return t
 end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ RENDERING ~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Get/Set render settings to/from table
+function getRenderSettings()
+  local t = {}
+  t.rendersettings   = reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", -1, false)            -- Master mix, stems, etc
+  t.boundsflag       = reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", -1, false)          -- Time selection, project, etc
+  t._, t.renderformat    = reaper.GetSetProjectInfo_String(0, 'RENDER_FORMAT', "", false)   -- File format, i.e. "ewav"
+  t._, t.renderdirectory = reaper.GetSetProjectInfo_String(0, "RENDER_FILE", "", false)     -- C:\users\aaron\docs\blah
+  t._, t.renderfilename  = reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "", false)  -- $item_$itemnumber_JU20
+  return t
+end
+
+function setRenderSettings(t)
+  reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", t.rendersettings, true)
+  reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", t.boundsflag, true)
+  reaper.GetSetProjectInfo_String(0, 'RENDER_FORMAT', t.renderformat, true)
+  reaper.GetSetProjectInfo_String(0, "RENDER_FILE", t.renderdirectory, true)
+  reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", t.renderfilename, true)
+end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Notification message when run from actions
 else
