@@ -1,3 +1,5 @@
+-- @noindex
+
 -- @description Export Markers and Regions for RX
 -- @author Aaron Cendan
 -- @version 1.1
