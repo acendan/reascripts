@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6cb369c4fe558df7039c2d9e264e9f0b7aed3ce5" name="ACendan Scripts">
+<index version="1" commit="f6a83becfe837c43a8f1c2349e20649ee024d0ac" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -342,7 +342,7 @@
     </reapack>
   </category>
   <category name="Various">
-    <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="Universal Category Renaming Tool">
+    <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="UCS Renaming Tool Processor">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -405,6 +405,10 @@ Added country sprites for language dropdowns]]></changelog>
       <version name="2.1" author="Aaron Cendan" time="2020-08-02T16:42:54Z">
         <changelog><![CDATA[Add support for editing region at edit cursor]]></changelog>
         <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/58b45e2ef52daebf0f33fac723e1e894ddb747bb/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="2.2" author="Aaron Cendan" time="2020-08-08T23:33:27Z">
+        <changelog><![CDATA[Add support for editing region at edit cursor]]></changelog>
+        <source main="main" file="acendan_Universal Category Renaming Tool.lua">https://github.com/acendan/reascripts/raw/f6a83becfe837c43a8f1c2349e20649ee024d0ac/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
