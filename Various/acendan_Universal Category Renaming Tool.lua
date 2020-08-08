@@ -1,6 +1,6 @@
--- @description Universal Category Renaming Tool
+-- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.1
+-- @version 2.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
