@@ -1,14 +1,26 @@
 -- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.3.1
+-- @version 2.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
 -- @link https://aaroncendan.me
 -- @about
---   # Universal Category Renaming Tool
+--   # Universal Category System (UCS) Renaming Tool
+--   Developed by Aaron Cendan
+--   https://aaroncendan.me
+--   aaron.cendan@gmail.com
+--
+--   ### Useful Resources
+--   * Blog post: https://www.aaroncendan.me/side-projects/ucs
+--   * Tutorial vid: https://youtu.be/fO-2At7eEQ0
+--   * Universal Category System: https://universalcategorysystem.com
+--   * UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo
 -- @changelog
---   Add support for editing selected regions/markers in region/marker manager
+--   Load 'Default' User Preset on page load, if available.
+--   Cleaned up naming of region/marker manager functions.
+--   Clicking on rows copies data to form! (Idea Credits: Thomazz Kauffman)
+--   Prevent form submission with enter key if category field focused. (Idea Credits: Thomazz Kauffman)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -103,9 +115,6 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~ REGIONS ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Ideally, it would be possible to run this on regions
--- that are selected in the Region Render Matrix, but unfortunately, that info is not
--- exposed via the API as of Reaper v6.12
 function renameRegions(num_markers,num_regions)
   local num_total = num_markers + num_regions
   
@@ -155,7 +164,7 @@ function renameRegions(num_markers,num_regions)
       end
     end
     
-  elseif ucs_area == "Selected Regions in Rgn/Mkr Manager" then
+  elseif ucs_area == "Selected Regions in Region Manager" then
     local sel_rgn_table = getSelectedRegions()
     if sel_rgn_table then 
       for _, regionidx in pairs(sel_rgn_table) do 
@@ -225,7 +234,7 @@ function renameMarkers(num_markers,num_regions)
       i = i + 1
     end
     
-  elseif ucs_area == "Selected Markers in Rgn/Mkr Manager" then
+  elseif ucs_area == "Selected Markers in Marker Manager" then
     local sel_mkr_table = getSelectedMarkers()
     if sel_mkr_table then 
       for _, regionidx in pairs(sel_mkr_table) do 

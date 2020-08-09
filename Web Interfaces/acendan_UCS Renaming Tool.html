@@ -58,6 +58,16 @@
             margin-top: 10px;
         }
 
+        .notification {
+            display: none;
+            position: sticky;
+            top: 100px;
+            right: 20px;
+            width: 250px;
+            justify-content: right;
+            box-sizing: border-box;
+        }
+
         @font-face {
             font-family: 'Helvetica';
         }
@@ -281,6 +291,9 @@
     <script type="text/javascript" src="ucs_libraries/typeahead.bundle.js"></script>
 </head>
 <body class="light">
+    <!--------------->
+    <!--- NAVBAR ---->
+    <!--------------->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #cccccc; color: #000000;" id="ucsNavbar">
         <a class="navbar-brand" href="#">
             <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -338,9 +351,14 @@
             </form>
         </div>
     </nav>
-    
-    
-    
+
+    <!------------------------>
+    <!--- ROW CLICK ALERT ---->
+    <!------------------------>
+    <div class="alert alert-success notification float-right" role="alert" id="copiedRowAlert">
+        Copied data to form!
+    </div>
+
     <div class="main_wrap">
         <!------------------------>
         <!-- Renaming Tool Form -->
@@ -448,9 +466,9 @@
                 <div class="form-group col-md-6">
                     <h7>Search Area*</h7>
                     <select id="userInputArea" class="form-control">
-                        <option>Selected Regions in Rgn/Mkr Manager</option>
+                        <option>Selected Regions in Region Manager</option>
                         <option>Edit Cursor</option>
-                        <option>Time Selection</option>                        
+                        <option>Time Selection</option>
                         <option>Full Project</option>
                     </select>
                     <small id="userInputCategoryHelp" class="form-text text-muted">Select the area of the project you would like to affect.</small>
@@ -626,11 +644,11 @@
             var selectedCategory = $("#userInputCategory").val();
             var selectedSubcategory = $("select#userSelectSubCategory option:checked").val();
             var selectedCatID = getCatID(selectedCategory, selectedSubcategory); // This function also alerts user if cat/subcat combo is invalid
-            var nameAndNum = getNameAndNumber($("#userInputName").val());            
+            var nameAndNum = getNameAndNumber($("#userInputName").val());
             var nameOnly = nameAndNum[0];
             var numOnly = nameAndNum[1];
             var enableNum = $("#userInputVarNumCheckbox").prop("checked");
-            var cleanUserCat  = stringCleaning($("#userInputUserCat").val());
+            var cleanUserCat = stringCleaning($("#userInputUserCat").val());
             var cleanInitials = stringCleaning($("#userInputInitials").val());
             var cleanShow = stringCleaning($("#userInputShow").val());
             var cleanUserData = stringCleaning($("#userInputData").val());
@@ -669,13 +687,30 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // CLICK ON TABLE ROW
+        // ~~~~~~~~~~~~~~~~~~~~
+        $('#UCRTDataTable').on('click', 'tbody tr', function () {
+            var tbl = $('#UCRTDataTable').DataTable();
+            var row = tbl.row($(this)).data();            
+
+            $("#userInputCategory").val(row[0]).trigger('change');
+            $("select#userSelectSubCategory").val(row[1]).trigger('change');
+
+            $("#copiedRowAlert").html("<i>Copied data to form!</i><br />Cat: <b>" + row[0] + "</b><br />Sub: <b>" + row[1] + "</b>");
+            $(".alert").fadeTo(4000, 500).slideUp(750);
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // TRIGGER SUBMIT ON ENTER KEY
         // ~~~~~~~~~~~~~~~~~~~~
         $(document).keydown(function (event) {
             if (event.which === 13) {
-                $("#formSubmitButton").click();
+                var categoryFocused = $('#userInputCategory').is(':focus');
+                if (!categoryFocused) {
+                    $("#formSubmitButton").click();
+                }                
             }
-        }); 
+        });
 
         // ~~~~~~~~~~~~~~~~~~~~
         // DOWNLOAD "UCS.txt" FILE
@@ -734,9 +769,9 @@
             var key = $dropdown.val();
             var vals = [];
             if (key == "Regions") {
-                vals = ["Selected Regions in Rgn/Mkr Manager", "Edit Cursor", "Time Selection", "Full Project"];
+                vals = ["Selected Regions in Region Manager", "Edit Cursor", "Time Selection", "Full Project"];
             } else if (key == "Markers") {
-                vals = ["Selected Markers in Rgn/Mkr Manager", "Time Selection", "Full Project"];
+                vals = ["Selected Markers in Marker Manager", "Time Selection", "Full Project"];
             } else if (key == "Media Items") {
                 vals = ["Selected Items", "All Items"];
             } else if (key == "Tracks") {
@@ -761,7 +796,7 @@
             if (form[0].checkValidity() === false) {
                 event.preventDefault()
                 event.stopPropagation()
-            }            
+            }
 
             form.addClass('was-validated');
         });
@@ -770,16 +805,16 @@
         // VALIDATE NAME FIELD
         // ~~~~~~~~~~~~~~~~~~~~
         $("#userInputName").keyup(function () {
-            if (document.getElementById("userInputName").checkValidity() === true ) {
+            if (document.getElementById("userInputName").checkValidity() === true) {
                 $("#userInputNameError").hide();
             }
         });
-        
+
         // ~~~~~~~~~~~~~~~~~~~~
         // VALIDATE INITIALS FIELD
         // ~~~~~~~~~~~~~~~~~~~~
         $("#userInputInitials").keyup(function () {
-            if (document.getElementById("userInputInitials").checkValidity() === true ) {
+            if (document.getElementById("userInputInitials").checkValidity() === true) {
                 $("#userInitialsError").hide();
             }
         });
@@ -1021,18 +1056,18 @@
                     // Confirm preset name isn't blank
                     if (presetName.length > 1) {
                         // User Cat
-                        if (presetsFile[line + 1].startsWith(presetUserCatHeader)) presetUserCat = stringCleaning(presetsFile[line + 1].slice(presetUserCatHeader.length, presetsFile[line + 1].length));                                               
+                        if (presetsFile[line + 1].startsWith(presetUserCatHeader)) presetUserCat = stringCleaning(presetsFile[line + 1].slice(presetUserCatHeader.length, presetsFile[line + 1].length));
                         // Creator ID
-                        if (presetsFile[line + 2].startsWith(presetCreatorIDHeader)) presetCreatorID = stringCleaning(presetsFile[line + 2].slice(presetCreatorIDHeader.length, presetsFile[line + 2].length));                       
+                        if (presetsFile[line + 2].startsWith(presetCreatorIDHeader)) presetCreatorID = stringCleaning(presetsFile[line + 2].slice(presetCreatorIDHeader.length, presetsFile[line + 2].length));
                         // Source ID
-                        if (presetsFile[line + 3].startsWith(presetSourceIDHeader)) presetSourceID = stringCleaning(presetsFile[line + 3].slice(presetSourceIDHeader.length, presetsFile[line + 3].length));                       
+                        if (presetsFile[line + 3].startsWith(presetSourceIDHeader)) presetSourceID = stringCleaning(presetsFile[line + 3].slice(presetSourceIDHeader.length, presetsFile[line + 3].length));
                         // User Data
-                        if (presetsFile[line + 4].startsWith(presetUserDataHeader)) presetUserData = stringCleaning(presetsFile[line + 4].slice(presetUserDataHeader.length, presetsFile[line + 4].length));                        
+                        if (presetsFile[line + 4].startsWith(presetUserDataHeader)) presetUserData = stringCleaning(presetsFile[line + 4].slice(presetUserDataHeader.length, presetsFile[line + 4].length));
                         // Items
-                        if (presetsFile[line + 5].startsWith(presetItemsHeader)) presetItems = stringCleaning(presetsFile[line + 5].slice(presetItemsHeader.length, presetsFile[line + 5].length));                        
+                        if (presetsFile[line + 5].startsWith(presetItemsHeader)) presetItems = stringCleaning(presetsFile[line + 5].slice(presetItemsHeader.length, presetsFile[line + 5].length));
                         // Search Area
                         if (presetsFile[line + 6].startsWith(presetSearchAreaHeader)) presetSearchArea = stringCleaning(presetsFile[line + 6].slice(presetSearchAreaHeader.length, presetsFile[line + 6].length));
-                        
+
                         // Add new preset to presets array
                         userPresets.push([presetName, presetUserCat, presetCreatorID, presetSourceID, presetUserData, presetItems, presetSearchArea]);
                     }
@@ -1042,7 +1077,9 @@
             // Loop through user presets
             userPresets.forEach((preset, index) => {
                 $("#navbarPresetsDropdownOptions").append('<a class="dropdown-item" href="#" id="userPreset' + index + '" onClick="loadUserPreset(' + index + ')" style="display: flex; align-items: center;">' + preset[0] + '</a>');
-                
+                if (preset[0] == "Default") {
+                    loadUserPreset(index);
+                }
             });
         }
 
@@ -1229,7 +1266,7 @@
                 });
 
                 $('.dataTables_filter input[type="search"]').css(
-                    { 'width':'100%', 'box-sizing':'border-box', 'max-width':'500px', 'display':'inline-block' }
+                    { 'width': '100%', 'box-sizing': 'border-box', 'max-width': '500px', 'display': 'inline-block' }
                 );
             })
         }
@@ -1300,7 +1337,7 @@
             var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
             var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");                    // Removes whitespace at end of string
             var noUnderscores = noTrailingWhitespace.replace(/_/g, " ");                           // Replaces underscores with spaces
-            var noDoubleSpaces = noUnderscores.replace(/\s\s+/g, " ");                             // Removes double spaces, tabs, or multiple spaces in the middle of a string            
+            var noDoubleSpaces = noUnderscores.replace(/\s\s+/g, " ");                             // Removes double spaces, tabs, or multiple spaces in the middle of a string
             return noDoubleSpaces;
         }
 

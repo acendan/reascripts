@@ -1,10 +1,13 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 2.3.1
+@version 2.4
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Add support for editing selected regions/markers in region/marker manager
+  Load 'Default' User Preset on page load, if available.
+  Cleaned up naming of region/marker manager functions.
+  Clicking on rows copies data to form! (Idea Credits: Thomazz Kauffman)
+  Prevent form submission with enter key if category field focused. (Idea Credits: Thomazz Kauffman)
