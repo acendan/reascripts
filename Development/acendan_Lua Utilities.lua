@@ -359,9 +359,21 @@ else
   msg("You need to make a time selection!")
 end
 
--- Get selected regions in RRM using JS_Reaper API, requires getRegionManager
+-- Get selected regions in Rgn Mrkr Manager using JS_Reaper API, requires getRegionManager
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
-function getSelectedRegionsRRM()
+--[[ EXAMPLE USAGE
+
+  local sel_rgn_table = getSelectedRegions()
+  if sel_rgn_table and #sel_rgn_table > 0 then 
+    for _, rgn_idx in pairs(sel_rgn_table) do 
+      dbg(rgn_idx)
+    end
+  else
+    msg("No regions selected!\n\nPlease go to View > Region/Marker Manager to select regions.") 
+  end
+  
+]]--
+function getSelectedRegions()
   local hWnd = getRegionManager()
   if hWnd == nil then return end  
 
@@ -374,7 +386,10 @@ function getSelectedRegionsRRM()
   i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do 
     i = i+1
-    names[i] = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    if sel_item:find("R") ~= nil then
+      names[i] = tonumber(sel_item:sub(2))
+    end
   end
   
   -- Return table of selected regions
@@ -433,6 +448,57 @@ if start_time_sel ~= end_time_sel then
 else
   msg("You need to make a time selection!")
 end
+
+-- Get selected markers in Rgn Mrkr Manager using JS_Reaper API, requires getRegionManager
+--[[ EXAMPLE USAGE
+
+  local sel_mkr_table = getSelectedMarkers()
+  if sel_mkr_table and #sel_mkr_table > 0 then 
+    for _, mkr_idx in pairs(sel_mkr_table) do 
+      dbg(mkr_idx)
+    end
+  else
+    msg("No markers selected!\n\nPlease go to View > Region/Marker Manager to select regions.") 
+  end
+  
+]]--
+function getSelectedMarkers()
+  local hWnd = getRegionManager()
+  if hWnd == nil then return end  
+
+  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
+
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  if sel_count == 0 then return end 
+
+  names = {}
+  i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do 
+    i = i+1
+    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    if sel_item:find("M") ~= nil then
+      names[i] = tonumber(sel_item:sub(2))
+    end
+  end
+  
+  -- Return table of selected regions
+  return names
+end
+
+function getRegionManager()
+  local title = reaper.JS_Localize("Region/Marker Manager", "common")
+  local arr = reaper.new_array({}, 1024)
+  reaper.JS_Window_ArrayFind(title, true, arr)
+  local adr = arr.table()
+  for j = 1, #adr do
+    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
+    -- verify window by checking if it also has a specific child.
+    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
+      return hwnd
+    end 
+  end
+end
+
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

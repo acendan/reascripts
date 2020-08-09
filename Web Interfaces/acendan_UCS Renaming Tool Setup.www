@@ -1,10 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 2.2
+@version 2.3
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Updated naming of lua tool to be more easily find-able in the ReaPack broswer.
+  Add support for editing selected regions/markers in region/marker manager

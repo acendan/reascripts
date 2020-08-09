@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.2
+-- @version 2.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Universal Category Renaming Tool
 -- @changelog
---   Add support for editing region at edit cursor
+--   Add support for editing selected regions/markers in region/marker manager
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -145,7 +145,7 @@ function renameRegions(num_markers,num_regions)
 
   elseif ucs_area == "Edit Cursor" then
     local markeridx, regionidx = reaper.GetLastMarkerAndCurRegion(0, reaper.GetCursorPosition())
-	if regionidx ~= nil then
+    if regionidx ~= nil then
       local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, regionidx )
       if isrgn then
         leadingZeroUCSNumStr()
@@ -153,8 +153,29 @@ function renameRegions(num_markers,num_regions)
         reaper.SetProjectMarkerByIndex( 0, regionidx, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
       end
-	end
+    end
     
+  elseif ucs_area == "Selected Regions in Rgn/Mkr Manager" then
+    local sel_rgn_table = getSelectedRegions()
+    if sel_rgn_table and #sel_rgn_table > 0 then 
+      for _, regionidx in pairs(sel_rgn_table) do 
+        local i = 0
+        while i < num_total do
+          local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+          if isrgn and markrgnindexnumber == regionidx then
+            leadingZeroUCSNumStr()
+            setFullName()
+            reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
+            incrementUCSNumStr()
+            break
+          end
+          i = i + 1
+        end
+      end
+    else
+      reaper.MB("No regions selected!\n\nPlease go to View > Region/Marker Manager to select regions.","UCS Renaming Tool", 0)
+    end
+  
   else
     if ret_area then
       reaper.MB("Invalid search area type. Did you tweak the 'userInputArea' options in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
@@ -202,6 +223,27 @@ function renameMarkers(num_markers,num_regions)
         incrementUCSNumStr()
       end
       i = i + 1
+    end
+    
+  elseif ucs_area == "Selected Markers in Rgn/Mkr Manager" then
+    local sel_mkr_table = getSelectedMarkers()
+    if sel_mkr_table and #sel_mkr_table > 0 then 
+      for _, regionidx in pairs(sel_mkr_table) do 
+        local i = 0
+        while i < num_total do
+          local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+          if not isrgn and markrgnindexnumber == regionidx then
+            leadingZeroUCSNumStr()
+            setFullName()
+            reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
+            incrementUCSNumStr()
+            break
+          end
+          i = i + 1
+        end
+      end
+    else
+      reaper.MB("No markers selected!\n\nPlease go to View > Region/Marker Manager to select regions.","UCS Renaming Tool", 0)
     end
   
   else
@@ -348,6 +390,70 @@ function setFullName()
   -- Build the final name!
   ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
 
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~ GET SELECTED REGIONS ~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
+function getSelectedRegions()
+  local hWnd = getRegionManager()
+  if hWnd == nil then return end  
+
+  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
+
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  if sel_count == 0 then return end 
+
+  names = {}
+  i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do 
+    i = i+1
+    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    if sel_item:find("R") ~= nil then
+      names[i] = tonumber(sel_item:sub(2))
+    end
+  end
+  
+  -- Return table of selected regions
+  return names
+end
+
+function getSelectedMarkers()
+  local hWnd = getRegionManager()
+  if hWnd == nil then return end  
+
+  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
+
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  if sel_count == 0 then return end 
+
+  names = {}
+  i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do 
+    i = i+1
+    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    if sel_item:find("R") ~= nil then
+      names[i] = tonumber(sel_item:sub(2))
+    end
+  end
+  
+  -- Return table of selected regions
+  return names
+end
+
+function getRegionManager()
+  local title = reaper.JS_Localize("Region/Marker Manager", "common")
+  local arr = reaper.new_array({}, 1024)
+  reaper.JS_Window_ArrayFind(title, true, arr)
+  local adr = arr.table()
+  for j = 1, #adr do
+    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
+    -- verify window by checking if it also has a specific child.
+    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
+      return hwnd
+    end 
+  end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -9,11 +9,13 @@ INSTRUCTIONS
 - Category, Subcategory, and File Name are not included, as they will likely differ for each file.
 - Processing fields (#Items to Rename & #Search Area) must match the renaming tool's options exactly, see below:
     Regions
-	Time Selection
+	Selected Regions in Rgn/Mkr Manager	
 	Edit Cursor
+	Time Selection
   	Full Project
     Markers
-  	Time Selection
+	Selected Markers in Rgn/Mkr Manager  	
+	Time Selection
   	Full Project
     Media Items
   	Selected Items
