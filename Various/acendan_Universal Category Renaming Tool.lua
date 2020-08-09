@@ -433,7 +433,7 @@ function getSelectedMarkers()
   for index in string.gmatch(sel_indexes, '[^,]+') do 
     i = i+1
     local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
-    if sel_item:find("R") ~= nil then
+    if sel_item:find("M") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
     end
   end
