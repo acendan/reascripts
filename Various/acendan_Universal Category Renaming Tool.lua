@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.3
+-- @version 2.3.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -157,7 +157,7 @@ function renameRegions(num_markers,num_regions)
     
   elseif ucs_area == "Selected Regions in Rgn/Mkr Manager" then
     local sel_rgn_table = getSelectedRegions()
-    if sel_rgn_table and #sel_rgn_table > 0 then 
+    if sel_rgn_table then 
       for _, regionidx in pairs(sel_rgn_table) do 
         local i = 0
         while i < num_total do
@@ -227,7 +227,7 @@ function renameMarkers(num_markers,num_regions)
     
   elseif ucs_area == "Selected Markers in Rgn/Mkr Manager" then
     local sel_mkr_table = getSelectedMarkers()
-    if sel_mkr_table and #sel_mkr_table > 0 then 
+    if sel_mkr_table then 
       for _, regionidx in pairs(sel_mkr_table) do 
         local i = 0
         while i < num_total do

@@ -364,7 +364,7 @@ end
 --[[ EXAMPLE USAGE
 
   local sel_rgn_table = getSelectedRegions()
-  if sel_rgn_table and #sel_rgn_table > 0 then 
+  if sel_rgn_table then 
     for _, rgn_idx in pairs(sel_rgn_table) do 
       dbg(rgn_idx)
     end
@@ -453,7 +453,7 @@ end
 --[[ EXAMPLE USAGE
 
   local sel_mkr_table = getSelectedMarkers()
-  if sel_mkr_table and #sel_mkr_table > 0 then 
+  if sel_mkr_table then 
     for _, mkr_idx in pairs(sel_mkr_table) do 
       dbg(mkr_idx)
     end
