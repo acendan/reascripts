@@ -1,6 +1,6 @@
 -- @description Copy Selected Items to Selected Track
 -- @author Aaron Cendan
--- @version 0.1
+-- @version 1.0
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Copy selected items to selected track.lua
@@ -24,19 +24,27 @@ local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function copyPasteSelItems()
-    
-  reaper.Main_OnCommand(40297, 0) -- Unselect all tracks (so that it can copy items)
-  reaper.Main_OnCommand(40698, 0) -- Copy selected items
   
-  -- Place cursor at start of selected items
-  local pos = getStartPosSelItems()
-  reaper.SetEditCurPos2(0, pos, false, false)
-  
-  RestoreSelectedTracks(init_sel_tracks)
-  
-  reaper.Main_OnCommand(40914,0) -- Set first selected track as last touched
-  reaper.Main_OnCommand(40058,0) -- Paste
-  
+  if reaper.CountSelectedTracks() > 0 then
+    if reaper.CountSelectedMediaItems() > 0 then
+      reaper.Main_OnCommand(40297, 0) -- Unselect all tracks (so that it can copy items)
+      reaper.Main_OnCommand(40698, 0) -- Copy selected items
+      
+      -- Place cursor at start of selected items
+      local pos = getStartPosSelItems()
+      reaper.SetEditCurPos2(0, pos, false, false)
+      
+      -- Select first track in initially selected tracks
+      reaper.SetTrackSelected(init_sel_tracks[1], true)
+      
+      reaper.Main_OnCommand(40914,0) -- Set first selected track as last touched
+      reaper.Main_OnCommand(40058,0) -- Paste
+    else
+      msg("No items selected!")
+    end
+  else
+    msg("No track selected!")
+  end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
