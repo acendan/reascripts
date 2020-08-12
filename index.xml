@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="20fd6416367c8a49210b8a38403f402b285a5caf" name="ACendan Scripts">
+<index version="1" commit="3ce7c902c65bd13fe6ae9aa2e3f61094d984413d" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -47,6 +47,9 @@
       </metadata>
       <version name="0.1" author="Aaron Cendan" time="2020-08-12T16:15:14Z">
         <source main="main" file="acendan_Copy selected items to selected track.lua">https://github.com/acendan/reascripts/raw/20fd6416367c8a49210b8a38403f402b285a5caf/Items%20Editing/acendan_Copy%20selected%20items%20to%20selected%20track.lua</source>
+      </version>
+      <version name="1.0" author="Aaron Cendan" time="2020-08-12T16:22:44Z">
+        <source main="main" file="acendan_Copy selected items to selected track.lua">https://github.com/acendan/reascripts/raw/3ce7c902c65bd13fe6ae9aa2e3f61094d984413d/Items%20Editing/acendan_Copy%20selected%20items%20to%20selected%20track.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
