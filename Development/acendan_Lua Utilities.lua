@@ -266,6 +266,27 @@ end
 
 reaper.Main_OnCommand(40289,0) -- Unselect all items
 
+-- Get starting position of selected items // returns Number (position)
+function getStartPosSelItems()
+  local position = math.huge
+
+  -- Loop through selected items
+  local num_sel_items = reaper.CountSelectedMediaItems(0)
+  if num_sel_items > 0 then
+    for i=0, num_sel_items - 1 do
+      local item = reaper.GetSelectedMediaItem( 0, i )
+      local item_start_pos = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+      if item_start_pos < position then
+        position = item_start_pos
+      end
+    end
+  else
+    msg("No items selected!")
+  end
+
+  return position
+end
+
 -- Get source file name of active take from item input  // returns String
 function getFilenameTrackActiveTake(item)
   if item ~= nil then
@@ -653,5 +674,5 @@ end
 
 -- Notification message when run from actions
 else
-  msg("To view, copy, or edit the Lua Utilities, click 'Edit Action...'")
+  -- msg("To view, copy, or edit the Lua Utilities, click 'Edit Action...'")
 end
