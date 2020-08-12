@@ -43,6 +43,8 @@ If you would like to import the remainder of my scripts, those that are not pack
  - acendan_Set distance between items to X seconds track respective
  - acendan_Export markers and regions for Izotope RX relative to selected item.lua
  - acendan_Export markers and regions for Izotope RX relative to items with shared take source.lua
+ - acendan_Copy selected items to selected track.lua
+ - acendan_Copy selected items to track - prompt for track.lua
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
