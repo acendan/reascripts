@@ -23,6 +23,12 @@
 --   * I wish I kept better documentation of the original script creators, as not all of these are my own original functions.
 --   * If you recognize one of your functions in here, I will gladly credit you directly next to that script, reach out at my website above.
 
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
