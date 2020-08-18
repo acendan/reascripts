@@ -1,12 +1,12 @@
 -- @description Add regions for selected items to render matrix name from active take
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
---   [main] . > acendan_Add regions for selected items to render matrix name from active take.lua
+--   [main] . > acendan_Create unique regions for selected items and link to track in RRM.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   Add color support
+--   Renaming to align with other region scripts
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
