@@ -32,14 +32,14 @@ If you would like to import the remainder of my scripts, those that are not pack
  - acendan_Random glitchy stutter generator.lua
  - acendan_Clear glitchy stutter generator stored values.lua
  - acendan_Insert marker at start of selected items with item name.lua
- - acendan_Add regions for selected items to render matrix name from active take.lua
+ - acendan_Create unique regions for selected items and link to track in RRM.lua
+ - acendan_Create one region for all items on selected tracks.lua
+ - acendan_Create one region for selected items across tracks and link to parent in RRM.lua
  - acendan_Stretch selected items to fit between nearest markers.lua
  - acendan_Append selected items BWF metadata subfield to item name.lua
  - acendan_Set selected items BWF metadata subfield to track name.lua
  - acendan_Insert markers every x seconds after edit cursor.lua
  - acendan_Trim selected items at last zero crossing.lua
- - acendan_Create one region for all items on selected tracks.lua
- - acendan_Create one region for selected items across tracks and link to parent in RRM.lua
  - acendan_Lua Utilities.lua
  - acendan_Set distance between items to X seconds track respective
  - acendan_Export markers and regions for Izotope RX relative to selected item.lua
