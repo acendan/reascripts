@@ -39,6 +39,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - acendan_Insert markers every x seconds after edit cursor.lua
  - acendan_Trim selected items at last zero crossing.lua
  - acendan_Create one region for all items on selected tracks.lua
+ - acendan_Create one region for selected items across tracks and link to parent in RRM.lua
  - acendan_Lua Utilities.lua
  - acendan_Set distance between items to X seconds track respective
  - acendan_Export markers and regions for Izotope RX relative to selected item.lua
