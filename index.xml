@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6eb71b79c6392b0238d3117c92c65b1fb0b28e0e" name="ACendan Scripts">
+<index version="1" commit="facec6fa6d14ef570e8b2fb6e060e08693782c81" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Append selected items BWF metadata subfield to item name">
       <metadata>
@@ -262,6 +262,25 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-27T21:13:29Z">
         <source main="main" file="acendan_Create one region for all items on selected tracks.lua">https://github.com/acendan/reascripts/raw/60d2df00c65a5b89f6cc4e72e93cb4a57ee1af3c/Regions/acendan_Create%20one%20region%20for%20all%20items%20on%20selected%20tracks.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Create one region for selected items across tracks and link to parent in RRM.lua" type="script" desc="Create Region for Selected Items Across Tracks">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Create Region for Selected Items Across Tracks\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 About this script...\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select some items in a folder then run the script.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab A region will be created and linked to the parent track of the folder.\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-08-18T14:31:55Z">
+        <source main="main" file="acendan_Create one region for selected items across tracks and link to parent in RRM.lua">https://github.com/acendan/reascripts/raw/facec6fa6d14ef570e8b2fb6e060e08693782c81/Regions/acendan_Create%20one%20region%20for%20selected%20items%20across%20tracks%20and%20link%20to%20parent%20in%20RRM.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
