@@ -7,6 +7,7 @@ INSTRUCTIONS
 - If a preset is named "Default", it will automatically be loaded when the UCS renaming tool is loaded.
 - All other fields are optional. 
 - Do NOT remove field headers, even if the info in that field is blank.
+- #Variation Numbers must be exactly "True" or "False", otherwise it will default to "True".
 - Category, Subcategory, and File Name are not included, as they will likely differ for each file.
 - Processing fields (#Items to Rename & #Search Area) must match the renaming tool's options exactly, see below:
     #Items to Rename    
@@ -35,6 +36,7 @@ INSTRUCTIONS
 #User Data/Notes:
 #Items to Rename: Media Items
 #Search Area: Selected Items
+#Variation Numbers:
 
 #Preset Name:
 #User Category:
@@ -43,6 +45,7 @@ INSTRUCTIONS
 #User Data/Notes:
 #Items to Rename:
 #Search Area:
+#Variation Numbers:
 
 #Preset Name:
 #User Category:
@@ -51,3 +54,4 @@ INSTRUCTIONS
 #User Data/Notes:
 #Items to Rename:
 #Search Area:
+#Variation Numbers:

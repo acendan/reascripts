@@ -1060,6 +1060,7 @@
             var presetUserDataHeader = "#User Data/Notes:";
             var presetItemsHeader = "#Items to Rename:";
             var presetSearchAreaHeader = "#Search Area:";
+            var presetVariationNumHeader = "#Variation Numbers:";
 
             // Build array of user presets
             for (var line = 0; line < presetsFile.length; line++) {
@@ -1074,6 +1075,7 @@
                     var presetUserData = "";
                     var presetItems = "";
                     var presetSearchArea = "";
+                    var presetVariationNum = "";
 
                     // Confirm preset name isn't blank
                     if (presetName.length > 1) {
@@ -1089,9 +1091,12 @@
                         if (presetsFile[line + 5].startsWith(presetItemsHeader)) presetItems = stringCleaning(presetsFile[line + 5].slice(presetItemsHeader.length, presetsFile[line + 5].length));
                         // Search Area
                         if (presetsFile[line + 6].startsWith(presetSearchAreaHeader)) presetSearchArea = stringCleaning(presetsFile[line + 6].slice(presetSearchAreaHeader.length, presetsFile[line + 6].length));
+                        // Variation Numbers
+                        if (presetsFile[line + 7].startsWith(presetVariationNumHeader)) presetVariationNum = stringCleaning(presetsFile[line + 7].slice(presetVariationNumHeader.length, presetsFile[line + 7].length));
+
 
                         // Add new preset to presets array
-                        userPresets.push([presetName, presetUserCat, presetCreatorID, presetSourceID, presetUserData, presetItems, presetSearchArea]);
+                        userPresets.push([presetName, presetUserCat, presetCreatorID, presetSourceID, presetUserData, presetItems, presetSearchArea, presetVariationNum]);
                     }
                 }
             }
@@ -1134,6 +1139,13 @@
                             break;
                         case 6: // Search Area
                             $("#userInputArea").val(field).trigger('change');
+                            break;
+                        case 7: // Variation Numbering
+                            if (field == "False") {
+                                $("#userInputVarNumCheckbox").prop("checked", false);
+                            } else {
+                                $("#userInputVarNumCheckbox").prop("checked", true);
+                            }
                             break;
                         default:
                             console.log("Invalid user preset array element. Index: " + fieldIdx + " Field: " + field);
