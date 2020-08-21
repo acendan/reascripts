@@ -171,9 +171,25 @@ function tableContainsKey(table, key)
     return table[key] ~= nil
 end
 
+-- Check if a table contains a value in any one of its keys // returns Boolean
+function tableContainsVal(table, val)
+  for index, value in ipairs(table) do
+      if value == val then
+          return true
+      end
+  end
+  return false
+end
+
 -- Append new item to end of table
 function tableAppend(table, item)
   table[#table+1] = item
+end
+
+-- Clear all elements of a table
+function clearTable(t)
+  count = #t
+  for i=0, count do t[i]=nil end
 end
 
 -- CSV to Table
@@ -655,6 +671,57 @@ end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~ MEDIA EXPLORER ~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Count selected items media explorer // returns Number
+function countSelectedItemsMediaExplorer()
+  local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
+  if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
+  
+  local container = reaper.JS_Window_FindChildByID(hWnd, 0)
+  local file_LV = reaper.JS_Window_FindChildByID(container, 1000)
+  
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
+  if sel_count == 0 then 
+    msg("No items selected in media explorer!")
+  elseif sel_count == 1 then
+    msg("1 item selected in media explorer.")
+  else
+    msg(sel_count .. " items selected in media explorer.")
+  end 
+  
+  return sel_count
+end
+
+-- Get selected item details media explorer
+function getSelectedItemsDetailsMediaExplorer()
+  local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
+  if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
+  
+  local container = reaper.JS_Window_FindChildByID(hWnd, 0)
+  local file_LV = reaper.JS_Window_FindChildByID(container, 1000)
+  
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
+  if sel_count == 0 then msg("No items selected in media explorer!") return end
+
+  for ndx in string.gmatch(sel_indexes, '[^,]+') do 
+    index = tonumber(ndx)
+    local fname = reaper.JS_ListView_GetItemText(file_LV, index, 0)
+    local size = reaper.JS_ListView_GetItemText(file_LV, index, 1)
+    local date = reaper.JS_ListView_GetItemText(file_LV, index, 2)
+    local ftype = reaper.JS_ListView_GetItemText(file_LV, index, 3)
+    dbg(fname .. ', ' .. size .. ', ' .. date .. ', ' .. ftype) 
+  end
+  
+  -- Get selected path  from edit control inside combobox
+  local combo = reaper.JS_Window_FindChildByID(hWnd, 1002)
+  local edit = reaper.JS_Window_FindChildByID(combo, 1001)
+  local path = reaper.JS_Window_GetTitle(edit, "", 255)
+  dbg(path)
+
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~ REAPACK ~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Open ReaPack About page for this script
@@ -674,6 +741,12 @@ function help()
   reaper.ReaPack_FreeEntry(owner)
 end
 
+-- Check for JS_ReaScript Extension
+if reaper.JS_Dialog_BrowseForSaveFile then
+
+else
+  msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

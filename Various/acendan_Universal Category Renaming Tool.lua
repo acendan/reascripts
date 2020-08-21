@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.4
+-- @version 2.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -17,10 +17,7 @@
 --   * Universal Category System: https://universalcategorysystem.com
 --   * UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo
 -- @changelog
---   Load 'Default' User Preset on page load, if available.
---   Cleaned up naming of region/marker manager functions.
---   Clicking on rows copies data to form! (Idea Credits: Thomazz Kauffman)
---   Prevent form submission with enter key if category field focused. (Idea Credits: Thomazz Kauffman)
+--   Warn users if missing JS Reascript Extension
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -537,7 +534,12 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 reaper.PreventUIRefresh(1)
 
-parseUCSWebInterfaceInput()
+-- Check for JS_ReaScript Extension
+if reaper.JS_Dialog_BrowseForSaveFile then
+  parseUCSWebInterfaceInput()
+else
+  msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
+end
 
 reaper.PreventUIRefresh(-1)
 
