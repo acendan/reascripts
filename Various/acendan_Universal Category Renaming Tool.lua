@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.5
+-- @version 2.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -18,6 +18,7 @@
 --   * UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo
 -- @changelog
 --   Warn users if missing JS Reascript Extension
+--   Fixed missing msg box
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -538,7 +539,7 @@ reaper.PreventUIRefresh(1)
 if reaper.JS_Dialog_BrowseForSaveFile then
   parseUCSWebInterfaceInput()
 else
-  msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
+  reaper.MB("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.","UCS Renaming Tool", 0)
 end
 
 reaper.PreventUIRefresh(-1)
