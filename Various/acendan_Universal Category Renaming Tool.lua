@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool Processor
 -- @author Aaron Cendan
--- @version 2.6
+-- @version 2.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Universal Category Renaming Tool.lua
@@ -17,8 +17,7 @@
 --   * Universal Category System: https://universalcategorysystem.com
 --   * UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo
 -- @changelog
---   Warn users if missing JS Reascript Extension
---   Fixed missing msg box
+--   Added debug tools to try and fix Region/Marker Manager issues on Mac
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -405,12 +404,14 @@ end
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 function getSelectedRegions()
   local hWnd = getRegionManager()
-  if hWnd == nil then return end  
+  if hWnd == nil then reaper.MB("Failed to get selected regions hWnd.\n\nPlease report this error to aaron.cendan@gmail.com with 'UCS ERROR #1' in the message.","UCS ERROR #1", 0) return end  
 
   local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
 
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
-  if sel_count == 0 then return end 
+  if sel_count == 0 then reaper.MB("Nothing selected in the region/marker manager!\n\nIf you have a region or marker selected but are seeing this, then please report this error to aaron.cendan@gmail.com with 'UCS ERROR #2' in the message.","UCS ERROR #2", 0) return end 
+
+  local rgn_selected_bool = false
 
   names = {}
   i = 0
@@ -419,21 +420,26 @@ function getSelectedRegions()
     local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
     if sel_item:find("R") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
+      rgn_selected_bool = true
     end
   end
   
+  if not rgn_selected_bool then reaper.MB("No regions selected in the region/marker manager!\n\nIf you have a region selected but are seeing this, then please report this error to aaron.cendan@gmail.com with 'UCS ERROR #3' in the message.","UCS ERROR #3", 0) return end
+
   -- Return table of selected regions
   return names
 end
 
 function getSelectedMarkers()
   local hWnd = getRegionManager()
-  if hWnd == nil then return end  
+  if hWnd == nil then reaper.MB("Failed to get selected markers hWnd.\n\nPlease report this error to aaron.cendan@gmail.com with 'UCS ERROR #1' in the message.","UCS ERROR #1", 0) return end  
 
   local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
 
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
-  if sel_count == 0 then return end 
+  if sel_count == 0 then reaper.MB("Nothing selected in the region/marker manager!\n\nIf you have a region or marker selected but are seeing this, then please report this error to aaron.cendan@gmail.com with 'UCS ERROR #2' in the message.","UCS ERROR #2", 0) return end 
+
+  local rgn_selected_bool = false
 
   names = {}
   i = 0
@@ -442,9 +448,12 @@ function getSelectedMarkers()
     local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
     if sel_item:find("M") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
+      rgn_selected_bool = true
     end
   end
   
+  if not rgn_selected_bool then reaper.MB("No markers selected in the region/marker manager!\n\nIf you have a marker selected but are seeing this, then please report this error to aaron.cendan@gmail.com with 'UCS ERROR #3' in the message.","UCS ERROR #3", 0) return end
+
   -- Return table of selected regions
   return names
 end
@@ -454,6 +463,7 @@ function getRegionManager()
   local arr = reaper.new_array({}, 1024)
   reaper.JS_Window_ArrayFind(title, true, arr)
   local adr = arr.table()
+
   for j = 1, #adr do
     local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
     -- verify window by checking if it also has a specific child.
