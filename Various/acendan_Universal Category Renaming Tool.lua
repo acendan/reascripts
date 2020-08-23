@@ -404,7 +404,7 @@ end
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 function getSelectedRegions()
   local hWnd = getRegionManager()
-  if hWnd == nil then reaper.MB("Failed to get selected regions hWnd.\n\nPlease report this error to aaron.cendan@gmail.com with 'UCS ERROR #1' in the message.","UCS ERROR #1", 0) return end  
+  if hWnd == nil then reaper.MB("Failed to get region/marker manager window. Make sure you have the window open: View > Region/Marker Manager.\n\nPlease report this error to aaron.cendan@gmail.com with 'UCS ERROR #1' in the message.","UCS ERROR #1", 0) return end  
 
   local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
 
@@ -432,8 +432,8 @@ end
 
 function getSelectedMarkers()
   local hWnd = getRegionManager()
-  if hWnd == nil then reaper.MB("Failed to get selected markers hWnd.\n\nPlease report this error to aaron.cendan@gmail.com with 'UCS ERROR #1' in the message.","UCS ERROR #1", 0) return end  
-
+  if hWnd == nil then reaper.MB("Failed to get region/marker manager window. Make sure you have the window open: View > Region/Marker Manager.\n\nPlease report this error to aaron.cendan@gmail.com with 'UCS ERROR #1' in the message.","UCS ERROR #1", 0) return end
+  
   local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
 
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
