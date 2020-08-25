@@ -1,13 +1,13 @@
--- @description Append selected items BWF metadata subfield to item name
+-- @description Sound Devices MixPre Metadata Tools - Item Name
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
---   [main] . > acendan_Append selected items BWF metadata subfield to item name-sTAKE.lua
---   [main] . > acendan_Append selected items BWF metadata subfield to item name-sSCENE.lua
---   [main] . > acendan_Append selected items BWF metadata subfield to item name-sFILENAME.lua
---   [main] . > acendan_Append selected items BWF metadata subfield to item name-sTAPE.lua
---   [main] . > acendan_Append selected items BWF metadata subfield to item name-sNOTE.lua
+--   [main] . > acendan_MixPre items BWF description subfield to item name-sTAKE.lua
+--   [main] . > acendan_MixPre items BWF description subfield to item name-sSCENE.lua
+--   [main] . > acendan_MixPre items BWF description subfield to item name-sFILENAME.lua
+--   [main] . > acendan_MixPre items BWF description subfield to item name-sTAPE.lua
+--   [main] . > acendan_MixPre items BWF description subfield to item name-sNOTE.lua
 -- @link https://aaroncendan.me
 -- @about
 --   Appends BWF sub-field after hyphen (-) in script name to original item name.
