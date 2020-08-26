@@ -1,10 +1,11 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 2.6
+@version 3.0
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Added variation number disabling to User Presets (Nikolaj de Haan)
+  Renamed processor on Reaper side of things to align with overall naming conventions
+  Open UCS Web Interface when running this from within Reaper

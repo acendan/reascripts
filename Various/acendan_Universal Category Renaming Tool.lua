@@ -1,9 +1,9 @@
--- @description UCS Renaming Tool Processor
+-- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 2.7.1
+-- @version 3.0
 -- @metapackage
 -- @provides
---   [main] . > acendan_Universal Category Renaming Tool.lua
+--   [main] . > acendan_UCS Renaming Tool.lua
 -- @link https://aaroncendan.me
 -- @about
 --   # Universal Category System (UCS) Renaming Tool
@@ -16,8 +16,16 @@
 --   * Tutorial vid: https://youtu.be/fO-2At7eEQ0
 --   * Universal Category System: https://universalcategorysystem.com
 --   * UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo
+--
+--   ### Toolbar Icon Setup
+--   * If you would like to set up the UCS logo as a toolbar icon, go to:
+--        REAPER\reaper_www_root\ucs_libraries\ucs_toolbar_icon_black.png
+--   * Then copy the image(s) from that folder into:
+--        REAPER\Data\toolbar_icons
+--   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   Added debug tools to try and fix Region/Marker Manager issues on Mac
+--   Renamed processor on Reaper side of things to align with overall naming conventions
+--   Open UCS Web Interface when running this from within Reaper
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -539,6 +547,59 @@ function debugUCSInput()
             , "UCS Renaming Tool", 0)
 end
 
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~ Open Web Interface ~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function openUCSWebInterface()
+  local ini_file = fileToTable(reaper.get_ini_file())
+  local localhost = "http://localhost:"
+  local ucs_path = ""
+  
+  for _, line in pairs(ini_file) do
+    if line:find("acendan_UCS Renaming Tool.html") then
+      local port = getPort(line)
+      ucs_path = localhost .. port
+      break
+    
+    elseif line:find("acendan_UCS Renaming Tool_Dark.html") then
+      local port = getPort(line)
+      ucs_path = localhost .. port
+      break
+    end
+  end
+  
+  if ucs_path ~= "" then
+    openURL(ucs_path)
+  else
+    local response = reaper.MB("UCS Renaming Tool not found in Reaper Web Interface settings!\n\nWould you like to open the installation tutorial video?","Open UCS Renaming Tool",4)
+    if response == 6 then openURL("https://youtu.be/fO-2At7eEQ0") end
+  end
+end
+
+-- Open a webpage or file directory
+function openURL(path)
+  reaper.CF_ShellExecute(path)
+end
+
+-- Convert file input to table, each line = new entry // returns Table
+function fileToTable(filename)
+  local file = io.open(filename)
+  io.input(file)
+  local t = {}
+  for line in io.lines() do
+    if line:find("csurf_") then table.insert(t, line) end
+  end
+  table.insert(t, "")
+  io.close(file)
+  return t
+end
+
+-- Get localhost port from reaper.ini file line
+function getPort(line)
+  local port = line:sub(line:find(" ")+3,line:find("'")-2)
+  return port
+end
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~  
@@ -547,7 +608,24 @@ reaper.PreventUIRefresh(1)
 
 -- Check for JS_ReaScript Extension
 if reaper.JS_Dialog_BrowseForSaveFile then
-  parseUCSWebInterfaceInput()
+  
+  if reaper.HasExtState( "UCS_WebInterface", "runFromWeb" ) then
+
+    if reaper.GetExtState( "UCS_WebInterface", "runFromWeb" ) == "true" then
+      -- RUN FROM WEB INTERFACE, EXECUTE SCRIPT
+      reaper.SetExtState( "UCS_WebInterface", "runFromWeb", "false", true )
+      parseUCSWebInterfaceInput()
+
+    else
+      -- RUN FROM REAPER, OPEN INTERFACE
+      openUCSWebInterface()
+    end
+
+  else
+    -- NO EXTSTATE FOUND, OPEN INTERFACE
+    openUCSWebInterface()
+  end
+
 else
   reaper.MB("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.","UCS Renaming Tool", 0)
 end

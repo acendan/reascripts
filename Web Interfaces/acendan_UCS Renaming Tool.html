@@ -542,7 +542,8 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // Reaper-side Lua Script
         // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various
-        var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various
+        // var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various/Universal Category Renaming Tool.lua
+        var UCSRTLua = "_RS0d2de1418a084e66229cb513cdb6e8cc99fc7593"; //ACendan Scripts/Various/UCS Renaming Tool.lua
 
         // Open Reaper resource path
         var REApath = "40027";
@@ -681,6 +682,9 @@
             // Set project extstates from HTML vals
             setProjExtState("userInputItems");
             setProjExtState("userInputArea");
+
+            // Tell ReaScript that this is being run from a web interface
+            wwr_req("SET/EXTSTATEPERSIST/UCS_WebInterface/" + "runFromWeb" + "/" + "true");
 
             // Run ReaScript
             wwr_req(encodeURIComponent(UCSRTLua));
