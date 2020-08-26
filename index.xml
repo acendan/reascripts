@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="ac6056809d0667a5fdb7c1b02055ee612323480e" name="ACendan Scripts">
+<index version="1" commit="31b2561d866538d44c1af7d936c5dc6c5ce39b61" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -568,6 +568,12 @@ Fixed missing msg box]]></changelog>
         <changelog><![CDATA[Renamed processor on Reaper side of things to align with overall naming conventions
 Open UCS Web Interface when running this from within Reaper]]></changelog>
         <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/ac6056809d0667a5fdb7c1b02055ee612323480e/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="3.0.1" author="Aaron Cendan" time="2020-08-26T17:37:27Z">
+        <changelog><![CDATA[Renamed processor on Reaper side of things to align with overall naming conventions
+Open UCS Web Interface when running this from within Reaper
+Slight optimization to ini file parsing]]></changelog>
+        <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/31b2561d866538d44c1af7d936c5dc6c5ce39b61/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
