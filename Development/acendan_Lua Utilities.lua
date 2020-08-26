@@ -588,8 +588,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Check if a file exists // returns Boolean
 function fileExists(filename)
-   local f=io.open(filename,"r")
-   if f~=nil then io.close(f) return true else return false end
+   return reaper.file_exists(filename)
 end
 
 -- Check if a directory/folder exists. // returns Boolean
@@ -646,6 +645,25 @@ function fileToTable(filename)
   return t
 end
 
+-- Get web interface info from REAPER.ini // returns Table
+function getWebInterfaceSettings()
+  local ini_file = reaper.get_ini_file()
+  local ret, num_webs = reaper.BR_Win32_GetPrivateProfileString( "reaper", "csurf_cnt", "", ini_file )
+  local t = {}
+  if ret then
+    for i = 0, num_webs do
+      local ret, web_int = reaper.BR_Win32_GetPrivateProfileString( "reaper", "csurf_" .. i, "", ini_file )
+      table.insert(t, web_int)
+    end
+  end
+  return t
+end
+
+-- Get localhost port from reaper.ini web interface file line. Works best with getWebInterfaceSettings()// returns String
+function getPort(line)
+  local port = line:sub(line:find(" ")+3,line:find("'")-2)
+  return port
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ RENDERING ~~~~~~~~~~~

@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.0
+-- @version 3.0.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -26,6 +26,7 @@
 -- @changelog
 --   Renamed processor on Reaper side of things to align with overall naming conventions
 --   Open UCS Web Interface when running this from within Reaper
+--   Slight optimization to ini file parsing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -551,11 +552,11 @@ end
 -- ~~~ Open Web Interface ~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function openUCSWebInterface()
-  local ini_file = fileToTable(reaper.get_ini_file())
+  local web_int_settings = getWebInterfaceSettings()
   local localhost = "http://localhost:"
   local ucs_path = ""
   
-  for _, line in pairs(ini_file) do
+  for _, line in pairs(web_int_settings) do
     if line:find("acendan_UCS Renaming Tool.html") then
       local port = getPort(line)
       ucs_path = localhost .. port
@@ -581,16 +582,17 @@ function openURL(path)
   reaper.CF_ShellExecute(path)
 end
 
--- Convert file input to table, each line = new entry // returns Table
-function fileToTable(filename)
-  local file = io.open(filename)
-  io.input(file)
+-- Get web interface info from REAPER.ini // returns Table
+function getWebInterfaceSettings()
+  local ini_file = reaper.get_ini_file()
+  local ret, num_webs = reaper.BR_Win32_GetPrivateProfileString( "reaper", "csurf_cnt", "", ini_file )
   local t = {}
-  for line in io.lines() do
-    if line:find("csurf_") then table.insert(t, line) end
+  if ret then
+    for i = 0, num_webs do
+      local ret, web_int = reaper.BR_Win32_GetPrivateProfileString( "reaper", "csurf_" .. i, "", ini_file )
+      table.insert(t, web_int)
+    end
   end
-  table.insert(t, "")
-  io.close(file)
   return t
 end
 
