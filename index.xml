@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="e6e80fb9adaa84f3326451708ce42d4fc7c9cddb" name="ACendan Scripts">
+<index version="1" commit="d40ab0583d4602c4566deaf3704184354a98cf67" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -454,6 +454,26 @@
     </reapack>
   </category>
   <category name="Various">
+    <reapack name="acendan_Open UCS Renaming Tool Interface.lua" type="script" desc="Open UCS Renaming Tool">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Open UCS Renaming Tool Web Interface\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Will use whichever light/dark UCS interface you have first in the Options > Preferences > Control/OSC/Web menu.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab If you would like to set up the UCS logo as a toolbar icon, go to: REAPER/Scripts/ACendan Scripts/Various/UCS Toolbar Icon then copy the image(s) from that folder into: REAPER/Data/toolbar_icons\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab It should then show up when you are customizing toolbar icons in Reaper.\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-08-26T05:05:01Z">
+        <source main="main" file="acendan_Open UCS Renaming Tool Interface.lua">https://github.com/acendan/reascripts/raw/d40ab0583d4602c4566deaf3704184354a98cf67/Various/acendan_Open%20UCS%20Renaming%20Tool%20Interface.lua</source>
+        <source file="UCS Toolbar Icon/ucs_logo_black.png">https://github.com/acendan/reascripts/raw/d40ab0583d4602c4566deaf3704184354a98cf67/Various/UCS%20Toolbar%20Icon/ucs_logo_black.png</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="UCS Renaming Tool Processor">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
