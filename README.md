@@ -45,11 +45,14 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Shrink overlapping regions to edges of selected media items
  - Regions\acendan_Stretch overlapping regions edges to time selection
  - Regions\acendan_Stretch overlapping regions to edges of selected media items
+ - Rendering\acendan_Load render directory from slot
+ - Rendering\acendan_Save render directory to slot
  - Time Selection\acendan_Extend right edge of time selection by x seconds
  - Tracks Properties\acendan_Clear Saved URL By Track Name
  - Tracks Properties\acendan_Search all tracks for FX by name
  - Tracks Properties\acendan_Store and Open saved URL by track name
  - Tracks Properties\acendan_View Saved URLs By Track Name
+ - Various\acendan_Auto generate scripts to open web interfaces
  - Various\acendan_Universal Category Renaming Tool
  
 ## Manual Download Instructions (Optional)
