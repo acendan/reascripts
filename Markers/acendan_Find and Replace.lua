@@ -1,4 +1,6 @@
--- @description Find and Replace v2 Legendary Collectors Edition
+-- @noindex
+
+-- @description Find and Replace w GUI WORK IN PROGRESS
 -- @author Aaron Cendan
 -- @version 0.1
 -- @changelog
