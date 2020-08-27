@@ -33,8 +33,9 @@
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- Get script name for undo text and extracting numbers/other info, if needed
+-- Get this script's name and directory
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
+local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -606,6 +607,14 @@ function directoryExists(folder)
   end
 end
 
+-- Loop through the files in a directory
+local a = 0
+repeat
+   local dir_file = reaper.EnumerateFiles( directory, a )
+   dbg(dir_file)
+   a = a + 1
+until not reaper.EnumerateFiles( directory, a )
+
 -- Get project directory (folder) // returns String
 function getProjDir()
   if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
@@ -737,6 +746,20 @@ function getSelectedItemsDetailsMediaExplorer()
   local path = reaper.JS_Window_GetTitle(edit, "", 255)
   dbg(path)
 
+end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~ ACTIONS LIST ~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Filter actions list for scripts or search term
+function filterActionsList(search)
+  if reaper.APIExists("JS_Window_Find")then;
+    reaper.ShowActionList();
+    local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Actions", "common"),true);
+    local filter_Act = reaper.JS_Window_FindChildByID(winHWND,1324);
+    reaper.JS_Window_SetTitle(filter_Act,search);
+  end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
