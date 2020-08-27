@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="31b2561d866538d44c1af7d936c5dc6c5ce39b61" name="ACendan Scripts">
+<index version="1" commit="842f3d58e8c8edb0073d1938d43bfcd1ccc0bd7d" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -362,6 +362,50 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-01T17:37:47Z">
         <source main="main" file="acendan_Stretch overlapping regions to edges of selected media items.lua">https://github.com/acendan/reascripts/raw/2ecddd77cd38dc0ebb58b1cf24ec057994abeac3/Regions/acendan_Stretch%20overlapping%20regions%20to%20edges%20of%20selected%20media%20items.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Rendering">
+    <reapack name="acendan_Load render directory from slot.lua" type="script" desc="Load Render Directory from Slot">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Load Render Directory from Slot\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Requirements\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab SWS Extension: https://www.sws-extension.org/\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-08-27T01:59:44Z">
+        <source main="main" file="acendan_Load render directory from slot 1.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Load%20render%20directory%20from%20slot.lua</source>
+        <source main="main" file="acendan_Load render directory from slot 2.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Load%20render%20directory%20from%20slot.lua</source>
+        <source main="main" file="acendan_Load render directory from slot 3.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Load%20render%20directory%20from%20slot.lua</source>
+        <source main="main" file="acendan_Load render directory from slot 4.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Load%20render%20directory%20from%20slot.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Save render directory to slot.lua" type="script" desc="Save Render Directory to Slot">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Save Render Directory to Slot\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Requirements\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab SWS Extension: https://www.sws-extension.org/\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-08-27T01:59:44Z">
+        <source main="main" file="acendan_Save render directory to slot 1.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Save%20render%20directory%20to%20slot.lua</source>
+        <source main="main" file="acendan_Save render directory to slot 2.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Save%20render%20directory%20to%20slot.lua</source>
+        <source main="main" file="acendan_Save render directory to slot 3.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Save%20render%20directory%20to%20slot.lua</source>
+        <source main="main" file="acendan_Save render directory to slot 4.lua">https://github.com/acendan/reascripts/raw/3cf624535724fd03b674246487328ca3d872ad60/Rendering/acendan_Save%20render%20directory%20to%20slot.lua</source>
       </version>
     </reapack>
   </category>
