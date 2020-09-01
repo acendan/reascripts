@@ -457,7 +457,7 @@
                 <div class="form-group col-md-6">
                     <label for="userInputShowLabel">Source ID (Optional)</label>
                     <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="What project are you working on?">
-                    <small id="userInputShowHelp" class="form-text text-muted">If no project, leave blank.</small>
+                    <small id="userInputShowHelp" class="form-text text-muted">If no project, leave blank; it will automatically be replaced with "NONE" per the UCS guidelines.</small>
                 </div>
 
                 <!-- User Data -->
@@ -548,6 +548,9 @@
                     </ul>
                 </div>
             </div>
+            <div style="margin-bottom:0px;margin-top:25px;">
+                <h7><i>Search for an appropriate category then click on a row in the table to instantly fill out the form!</i></h7>
+            </div>
         </div>
         <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive table-dark" style="width:100%"></table>
         <div>
@@ -598,15 +601,22 @@
         // Instructions toggle bool
         var onlineModeInstructionsToggle = true;
 
+        // Platform specific bools
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+        var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+
+
         // ~~~~~~~~~~~~~~~~~~~~
         // ON PAGE LOAD
         // Determine Online or Offline Mode
         // ~~~~~~~~~~~~~~~~~~~~
         $(function () {
             // Alert Safari users of issues with browser
-            var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
             if (isSafari) alert("Safari does not play nicely with this tool. I am working to resolve these issues, but until then, please consider using Google Chrome. Thank you for your understanding!");
 
+            // Remove selected regions in region manager option for mac users
+            // https://forum.cockos.com/showpost.php?p=2337785&postcount=1326
+            if (isMac) $("#userInputArea option:contains('Selected Regions in Region Manager')").remove();
 
             // Assigns country icon for current language to navbar language dropdown
             getUCSLanguage();
@@ -795,9 +805,19 @@
             var key = $dropdown.val();
             var vals = [];
             if (key == "Regions") {
-                vals = ["Selected Regions in Region Manager", "Edit Cursor", "Time Selection", "Full Project"];
+                // Remove selected regions option for mac users for now
+                if (isMac) {
+                    vals = ["Edit Cursor", "Time Selection", "Full Project"];
+                } else {
+                    vals = ["Selected Regions in Region Manager", "Edit Cursor", "Time Selection", "Full Project"];
+                }
             } else if (key == "Markers") {
-                vals = ["Selected Markers in Marker Manager", "Time Selection", "Full Project"];
+                // Remove selected markers option for mac users for now
+                if (isMac) {
+                    vals = ["Time Selection", "Full Project"];
+                } else {
+                    vals = ["Selected Markers in Marker Manager", "Time Selection", "Full Project"];
+                }
             } else if (key == "Media Items") {
                 vals = ["Selected Items", "All Items"];
             } else if (key == "Tracks") {

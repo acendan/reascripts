@@ -1,11 +1,12 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 3.0
+@version 3.1
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Renamed processor on Reaper side of things to align with overall naming conventions
-  Open UCS Web Interface when running this from within Reaper
+  Updated Source ID description field to clarify "NONE"
+  Removed options for mac users to use selected regions/markers in region/marker manager
+  Add pro tip above search bar

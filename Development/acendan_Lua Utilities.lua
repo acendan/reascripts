@@ -608,12 +608,24 @@ function directoryExists(folder)
 end
 
 -- Loop through the files in a directory
-local a = 0
+local fil_idx = 0
 repeat
-   local dir_file = reaper.EnumerateFiles( directory, a )
+   local dir_file = reaper.EnumerateFiles( directory, fil_idx )
+   -- Do stuff to the dir_files
    dbg(dir_file)
-   a = a + 1
-until not reaper.EnumerateFiles( directory, a )
+   
+   fil_idx = fil_idx + 1
+until not reaper.EnumerateFiles( directory, fil_idx )
+
+-- Loop through subdirectories in a directory
+local dir_idx = 0
+repeat
+  local sub_dir = reaper.EnumerateSubdirectories( directory, dir_idx)
+  -- Do stuff to the sub_dirs
+  dbg(sub_dir)
+  
+  dir_idx = dir_idx + 1
+until not  reaper.EnumerateSubdirectories( directory, dir_idx )
 
 -- Get project directory (folder) // returns String
 function getProjDir()
