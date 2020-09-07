@@ -676,6 +676,8 @@
         // FORMAT: CatID_File Name with Variation Number_Initials_(Show)
         // NEW FORMAT: CatID(-UserCategory)_(VendorCategory-)File Name with Variation Number_Initials_(Show)
         $("#formSubmitButton").click(function (e) {
+            // Check for wildcard/search type mismatch
+            wildcardCleanup();
 
             // Process user input
             var selectedCategory = $("#userInputCategory").val();
@@ -808,65 +810,41 @@
         // BUILD SEARCH AREA OPTIONS BASED ON REGION/MARKER/ITEM/TRACK SELECTION
         // ~~~~~~~~~~~~~~~~~~~~
         $("#userInputItems").change(function () {
-            var $dropdown = $(this);
-            var key = $dropdown.val();
+            var key = $(this).val();
             var vals = [];
-            var number_info = "Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>";
-            if (key == "Regions") {
-                // Remove selected regions option for mac users for now
-                if (isMac) {
-                    vals = ["Edit Cursor", "Time Selection", "Full Project"];
-                } else {
-                    vals = ["Selected Regions in Region Manager", "Edit Cursor", "Time Selection", "Full Project"];
-                }
 
-                // Change text below filenaming section to clarify wildcard support
-                var wildcard_info = "$region";
-                $("#userInputNameHelp").html(number_info + wildcard_info);
+            // Clean up wildcard info based on search type
+            wildcardCleanup();
 
-                // If contains other wildcard, then swap it
-                var cur_name = $("#userInputName").val();
-                if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$region"));
-                if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$region"));
-                if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$region"));
+            switch (key) {
+                case "Regions":
+                    // Remove selected regions option for mac users for now
+                    if (isMac) {
+                        vals = ["Edit Cursor", "Time Selection", "Full Project"];
+                    } else {
+                        vals = ["Selected Regions in Region Manager", "Edit Cursor", "Time Selection", "Full Project"];
+                    }
+                    break;
 
-            } else if (key == "Markers") {
-                // Remove selected markers option for mac users for now
-                if (isMac) {
-                    vals = ["Time Selection", "Full Project"];
-                } else {
-                    vals = ["Selected Markers in Marker Manager", "Time Selection", "Full Project"];
-                }
+                case "Markers":
+                    // Remove selected markers option for mac users for now
+                    if (isMac) {
+                        vals = ["Time Selection", "Full Project"];
+                    } else {
+                        vals = ["Selected Markers in Marker Manager", "Time Selection", "Full Project"];
+                    }
+                    break;
 
-                var wildcard_info = "$marker";
-                $("#userInputNameHelp").html(number_info + wildcard_info);
+                case "Media Items":
+                    vals = ["Selected Items", "All Items"];
+                    break;
 
-                var cur_name = $("#userInputName").val();
-                if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$marker"));
-                if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$marker"));
-                if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$marker"));
+                case "Tracks":
+                    vals = ["Selected Tracks", "All Tracks"];
+                    break;
 
-            } else if (key == "Media Items") {
-                vals = ["Selected Items", "All Items"];
-
-                var wildcard_info = "$item";
-                $("#userInputNameHelp").html(number_info + wildcard_info);
-
-                var cur_name = $("#userInputName").val();
-                if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$item"));
-                if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$item"));
-                if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$item"));
-
-            } else if (key == "Tracks") {
-                vals = ["Selected Tracks", "All Tracks"];
-
-                var wildcard_info = "$track";
-                $("#userInputNameHelp").html(number_info + wildcard_info);
-
-                var cur_name = $("#userInputName").val();
-                if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$track"));
-                if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$track"));
-                if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$track"));
+                default:
+                    break;
             }
 
             // Set up search area options based on search item
@@ -876,6 +854,61 @@
                 $secondChoice.append("<option>" + value + "</option>");
             });
         });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // WILDCARD CLEANUP
+        // ~~~~~~~~~~~~~~~~~~~~
+        // Change info under file name field to match current supported wildcards
+        // If filename field has wildcard info that doesn't match current item selection, then change it
+        function wildcardCleanup() {
+            var search_field = $("#userInputItems").val();
+            var cur_name = $("#userInputName").val();
+
+            var number_info = "Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>";
+
+            switch (search_field) {
+                case "Regions":
+                    // Change text below filenaming section to clarify wildcard support
+                    var wildcard_info = "$region";
+                    $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                    // If contains other wildcard, then swap it
+                    if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$region"));
+                    if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$region"));
+                    if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$region"));
+                    break;
+
+                case "Markers":
+                    var wildcard_info = "$marker";
+                    $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                    if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$marker"));
+                    if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$marker"));
+                    if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$marker"));
+                    break;
+
+                case "Media Items":
+                    var wildcard_info = "$item";
+                    $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                    if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$item"));
+                    if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$item"));
+                    if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$item"));
+                    break;
+
+                case "Tracks":
+                    var wildcard_info = "$track";
+                    $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                    if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$track"));
+                    if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$track"));
+                    if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$track"));
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~
         // VALIDATE ALL FIELDS ON KEYPRESS
