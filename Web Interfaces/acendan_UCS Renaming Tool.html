@@ -421,7 +421,7 @@
                         <h7>Enable variation numbering? If unsure, keep checked.</h7>
                     </div>
                     <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
-                    <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br />'Dog Toy' => 'Dog Toy 01', 'Dog Toy 02', etc.<br />'Dog Toy 07' => 'Dog Toy 07', 'Dog Toy 08', etc.</small>
+                    <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>$region</small>
                 </div>
 
                 <!-- Initials -->
@@ -529,6 +529,10 @@
             </div>
             <div style="margin-bottom:0px;margin-top:25px;">
                 <h7><i>Search for an appropriate category then click on a row in the table to instantly fill out the form!</i></h7>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="autoSubmitCheckbox">
+                    <h7>Auto-submit form on row click? If unsure, keep unchecked.</h7>
+                </div>
             </div>
         </div>
         <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive table-light" style="width:100%"></table>
@@ -705,13 +709,16 @@
         // ~~~~~~~~~~~~~~~~~~~~
         $('#UCRTDataTable').on('click', 'tbody tr', function () {
             var tbl = $('#UCRTDataTable').DataTable();
-            var row = tbl.row($(this)).data();            
+            var row = tbl.row($(this)).data();
+            var autoSubmit = $("#autoSubmitCheckbox").prop("checked");
 
             $("#userInputCategory").val(row[0]).trigger('change');
             $("select#userSelectSubCategory").val(row[1]).trigger('change');
 
             $("#copiedRowAlert").html("<i>Copied data to form!</i><br />Cat: <b>" + row[0] + "</b><br />Sub: <b>" + row[1] + "</b>");
             $(".alert").fadeTo(4000, 500).slideUp(750);
+
+            if (autoSubmit) $("#formSubmitButton").click();
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -782,13 +789,25 @@
             var $dropdown = $(this);
             var key = $dropdown.val();
             var vals = [];
+            var number_info = "Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>";
             if (key == "Regions") {
                 // Remove selected regions option for mac users for now
                 if (isMac) {
                     vals = ["Edit Cursor", "Time Selection", "Full Project"];
                 } else {
                     vals = ["Selected Regions in Region Manager", "Edit Cursor", "Time Selection", "Full Project"];
-                }                
+                } 
+
+                // Change text below filenaming section to clarify wildcard support
+                var wildcard_info = "$region";
+                $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                // If contains other wildcard, then swap it
+                var cur_name = $("#userInputName").val();
+                if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$region"));
+                if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$region"));
+                if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$region"));
+
             } else if (key == "Markers") {
                 // Remove selected markers option for mac users for now
                 if (isMac) {
@@ -796,12 +815,39 @@
                 } else {
                     vals = ["Selected Markers in Marker Manager", "Time Selection", "Full Project"];
                 }
+
+                var wildcard_info = "$marker";
+                $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                var cur_name = $("#userInputName").val();
+                if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$marker"));
+                if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$marker"));
+                if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$marker"));
+
             } else if (key == "Media Items") {
                 vals = ["Selected Items", "All Items"];
+
+                var wildcard_info = "$item";
+                $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                var cur_name = $("#userInputName").val();
+                if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$item"));
+                if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$item"));
+                if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$item"));
+
             } else if (key == "Tracks") {
                 vals = ["Selected Tracks", "All Tracks"];
+
+                var wildcard_info = "$track";
+                $("#userInputNameHelp").html(number_info + wildcard_info);
+
+                var cur_name = $("#userInputName").val();
+                if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$track"));
+                if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$track"));
+                if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$track"));
             }
 
+            // Set up search area options based on search item
             var $secondChoice = $("#userInputArea");
             $secondChoice.empty();
             $.each(vals, function (index, value) {
@@ -1369,7 +1415,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // RegEx to clean up user input fields, see comments on right
         function stringCleaning(inString) {
-            var noIllegalChars = inString.replace(/[\"\&\*\/\:\<\>\?\|\%\#\$\!\+\[\]\{\}]/g, "");  // Removes illegal characters
+            var noIllegalChars = inString.replace(/[\"\&\*\/\:\<\>\?\|\%\#\!\+\[\]\{\}]/g, "");    // Removes illegal characters
             var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
             var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");                    // Removes whitespace at end of string
             var noUnderscores = noTrailingWhitespace.replace(/_/g, " ");                           // Replaces underscores with spaces

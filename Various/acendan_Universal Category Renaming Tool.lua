@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.1
+-- @version 3.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   Removed debugging tools to sort out issue with Mac OS JS_Reascript API
+--   Introducing basic $wildcard support!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -131,9 +131,14 @@ function renameRegions(num_markers,num_regions)
         local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
         if isrgn then
           if pos >= StartTimeSel and rgnend <= EndTimeSel then
+            -- BUILD NAME
             leadingZeroUCSNumStr()
             setFullName()
+            -- SET WILDCARDS
+            if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
+            -- SET NAME
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
+            -- INCREMENT
             incrementUCSNumStr()
           end
         end
@@ -150,6 +155,7 @@ function renameRegions(num_markers,num_regions)
       if isrgn then
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
       end
@@ -163,6 +169,7 @@ function renameRegions(num_markers,num_regions)
       if isrgn then
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, regionidx, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
       end
@@ -178,6 +185,7 @@ function renameRegions(num_markers,num_regions)
           if isrgn and markrgnindexnumber == regionidx then
             leadingZeroUCSNumStr()
             setFullName()
+            if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             incrementUCSNumStr()
             break
@@ -215,6 +223,7 @@ function renameMarkers(num_markers,num_regions)
           if pos >= StartTimeSel and pos <= EndTimeSel then
             leadingZeroUCSNumStr()
             setFullName()
+            if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             incrementUCSNumStr()
           end
@@ -232,6 +241,7 @@ function renameMarkers(num_markers,num_regions)
       if not isrgn then
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
       end
@@ -248,6 +258,7 @@ function renameMarkers(num_markers,num_regions)
           if not isrgn and markrgnindexnumber == regionidx then
             leadingZeroUCSNumStr()
             setFullName()
+            if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             incrementUCSNumStr()
             break
@@ -281,6 +292,11 @@ function renameMediaItems(num_items)
         if take ~= nil then 
           leadingZeroUCSNumStr()
           setFullName()
+          if ucs_full_name:find("$Item") then 
+            local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
+            if ret_name then ucs_full_name = ucs_full_name:gsub("$Item",item_name)
+            else ucs_full_name = ucs_full_name:gsub("$Item","") end
+          end
           reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", ucs_full_name, true )
           incrementUCSNumStr()
         end
@@ -296,6 +312,11 @@ function renameMediaItems(num_items)
       if take ~= nil then 
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Item") then 
+          local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
+          if ret_name then ucs_full_name = ucs_full_name:gsub("$Item",item_name)
+          else ucs_full_name = ucs_full_name:gsub("$Item","") end
+        end
         reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", ucs_full_name, true )
         incrementUCSNumStr()
       end
@@ -320,6 +341,11 @@ function renameTracks(num_tracks)
         track = reaper.GetSelectedTrack(0,i)
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Track") then 
+          local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
+          if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
+          else ucs_full_name = ucs_full_name:gsub("$Track","") end
+        end
         reaper.GetSetMediaTrackInfo_String( track, "P_NAME", ucs_full_name, true )
         incrementUCSNumStr()
       end
@@ -332,6 +358,11 @@ function renameTracks(num_tracks)
      track = reaper.GetTrack(0,i)
      leadingZeroUCSNumStr()
      setFullName()
+     if ucs_full_name:find("$Track") then 
+       local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
+       if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
+       else ucs_full_name = ucs_full_name:gsub("$Track","") end
+     end
      reaper.GetSetMediaTrackInfo_String( track, "P_NAME", ucs_full_name, true )
      incrementUCSNumStr()
     end

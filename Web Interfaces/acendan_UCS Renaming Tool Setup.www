@@ -1,12 +1,11 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 3.1
+@version 3.2
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Updated Source ID description field to clarify "NONE"
-  Removed options for mac users to use selected regions/markers in region/marker manager
-  Add pro tip above search bar
+  Introducing basic $wildcard support!
+  Added form auto-submit support for data table
