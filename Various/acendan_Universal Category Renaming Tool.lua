@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.2
+-- @version 3.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -25,6 +25,7 @@
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
 --   Introducing basic $wildcard support!
+--   Can now utilize contextual names and numbers
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -135,6 +136,9 @@ function renameRegions(num_markers,num_regions)
             leadingZeroUCSNumStr()
             setFullName()
             -- SET WILDCARDS
+            local rgn_num = tostring(markrgnindexnumber)
+            if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
+            if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num) end
             if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
             -- SET NAME
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
@@ -155,6 +159,9 @@ function renameRegions(num_markers,num_regions)
       if isrgn then
         leadingZeroUCSNumStr()
         setFullName()
+        local rgn_num = tostring(markrgnindexnumber)
+        if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
+        if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num) end
         if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
@@ -169,6 +176,9 @@ function renameRegions(num_markers,num_regions)
       if isrgn then
         leadingZeroUCSNumStr()
         setFullName()
+        local rgn_num = tostring(markrgnindexnumber)
+        if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
+        if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num) end
         if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, regionidx, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
@@ -185,6 +195,9 @@ function renameRegions(num_markers,num_regions)
           if isrgn and markrgnindexnumber == regionidx then
             leadingZeroUCSNumStr()
             setFullName()
+            local rgn_num = tostring(markrgnindexnumber)
+            if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
+            if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num) end
             if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             incrementUCSNumStr()
@@ -223,6 +236,9 @@ function renameMarkers(num_markers,num_regions)
           if pos >= StartTimeSel and pos <= EndTimeSel then
             leadingZeroUCSNumStr()
             setFullName()
+            local mkr_num = tostring(markrgnindexnumber)
+            if string.len(mkr_num) == 1 then mkr_num = "0" .. mkr_num end
+            if ucs_full_name:find("$Markernumber") then ucs_full_name = ucs_full_name:gsub("$Markernumber",mkr_num) end
             if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             incrementUCSNumStr()
@@ -241,6 +257,9 @@ function renameMarkers(num_markers,num_regions)
       if not isrgn then
         leadingZeroUCSNumStr()
         setFullName()
+        local mkr_num = tostring(markrgnindexnumber)
+        if string.len(mkr_num) == 1 then mkr_num = "0" .. mkr_num end
+        if ucs_full_name:find("$Markernumber") then ucs_full_name = ucs_full_name:gsub("$Markernumber",mkr_num) end
         if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         incrementUCSNumStr()
@@ -258,6 +277,9 @@ function renameMarkers(num_markers,num_regions)
           if not isrgn and markrgnindexnumber == regionidx then
             leadingZeroUCSNumStr()
             setFullName()
+            local mkr_num = tostring(markrgnindexnumber)
+            if string.len(mkr_num) == 1 then mkr_num = "0" .. mkr_num end
+            if ucs_full_name:find("$Markernumber") then ucs_full_name = ucs_full_name:gsub("$Markernumber",mkr_num) end
             if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             incrementUCSNumStr()
@@ -289,9 +311,12 @@ function renameMediaItems(num_items)
       for i=0, num_sel_items - 1 do
         local item = reaper.GetSelectedMediaItem( 0, i )
         local take = reaper.GetActiveTake( item )
+        local item_num = tostring(math.floor( reaper.GetMediaItemInfo_Value( item, "IP_ITEMNUMBER" ) + 1))
+        if string.len(item_num) == 1 then item_num = "0" .. item_num end
         if take ~= nil then 
           leadingZeroUCSNumStr()
           setFullName()
+          if ucs_full_name:find("$Itemnumber") then ucs_full_name = ucs_full_name:gsub("$Itemnumber", item_num) end
           if ucs_full_name:find("$Item") then 
             local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
             if ret_name then ucs_full_name = ucs_full_name:gsub("$Item",item_name)
@@ -309,9 +334,12 @@ function renameMediaItems(num_items)
     for i=0, num_items - 1 do
       local item =  reaper.GetMediaItem( 0, i )
       local take = reaper.GetActiveTake( item )
+      local item_num = tostring(math.floor( reaper.GetMediaItemInfo_Value( item, "IP_ITEMNUMBER" ) + 1))
+      if string.len(item_num) == 1 then item_num = "0" .. item_num end
       if take ~= nil then 
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Itemnumber") then ucs_full_name = ucs_full_name:gsub("$Itemnumber", item_num) end
         if ucs_full_name:find("$Item") then 
           local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
           if ret_name then ucs_full_name = ucs_full_name:gsub("$Item",item_name)
@@ -339,8 +367,11 @@ function renameTracks(num_tracks)
     if num_sel_tracks > 0 then
       for i = 0, num_sel_tracks-1 do
         track = reaper.GetSelectedTrack(0,i)
+        local track_num = tostring(math.floor(reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" )))
+        if string.len(track_num) == 1 then track_num = "0" .. track_num end
         leadingZeroUCSNumStr()
         setFullName()
+        if ucs_full_name:find("$Tracknumber") then ucs_full_name = ucs_full_name:gsub("$Tracknumber", track_num) end
         if ucs_full_name:find("$Track") then 
           local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
           if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
@@ -356,8 +387,11 @@ function renameTracks(num_tracks)
   elseif ucs_area == "All Tracks" then
     for i = 0, num_tracks-1 do
      track = reaper.GetTrack(0,i)
+     local track_num = tostring(math.floor(reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" )))
+     if string.len(track_num) == 1 then track_num = "0" .. track_num end
      leadingZeroUCSNumStr()
      setFullName()
+     if ucs_full_name:find("$Tracknumber") then ucs_full_name = ucs_full_name:gsub("$Tracknumber", track_num) end
      if ucs_full_name:find("$Track") then 
        local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
        if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)

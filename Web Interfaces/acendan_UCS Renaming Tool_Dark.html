@@ -442,7 +442,7 @@
                         <h7>Enable variation numbering? If unsure, keep checked.</h7>
                     </div>
                     <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
-                    <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>$region</small>
+                    <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>$region, $regionnumber<br />- Available wildcards are dependent on 'Items to Rename' field in <i>Processing</i> below.</small>
                 </div>
 
                 <!-- Initials -->
@@ -865,44 +865,70 @@
             var cur_name = $("#userInputName").val();
 
             var number_info = "Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>";
+            var closer_info = "<br />- Available wildcards are dependent on 'Items to Rename' field in <i>Processing</i> below.";
 
             switch (search_field) {
                 case "Regions":
                     // Change text below filenaming section to clarify wildcard support
-                    var wildcard_info = "$region";
-                    $("#userInputNameHelp").html(number_info + wildcard_info);
+                    var wildcard_info = "$region, $regionnumber";
+                    $("#userInputNameHelp").html(number_info + wildcard_info + closer_info);
 
-                    // If contains other wildcard, then swap it
-                    if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$region"));
-                    if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$region"));
-                    if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$region"));
+                    // Naming
+                    if (cur_name.includes("$marker")) cur_name = cur_name.replace("$marker", "$region");
+                    if (cur_name.includes("$item")) cur_name = cur_name.replace("$item", "$region");
+                    if (cur_name.includes("$track")) cur_name = cur_name.replace("$track", "$region");
+
+                    // Numbering
+                    if (cur_name.includes("$markernumber")) cur_name = cur_name.replace("$markernumber", "$regionnumber");
+                    if (cur_name.includes("$itemnumber")) cur_name = cur_name.replace("$itemnumber", "$regionnumber");
+                    if (cur_name.includes("$tracknumber")) cur_name = cur_name.replace("$tracknumber", "$regionnumber");
+
+                    $("#userInputName").val(cur_name)
                     break;
 
                 case "Markers":
-                    var wildcard_info = "$marker";
-                    $("#userInputNameHelp").html(number_info + wildcard_info);
+                    var wildcard_info = "$marker, $markernumber";
+                    $("#userInputNameHelp").html(number_info + wildcard_info + closer_info);
 
-                    if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$marker"));
-                    if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$marker"));
-                    if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$marker"));
+                    if (cur_name.includes("$region")) cur_name = cur_name.replace("$region", "$marker");
+                    if (cur_name.includes("$item")) cur_name = cur_name.replace("$item", "$marker");
+                    if (cur_name.includes("$track")) cur_name = cur_name.replace("$track", "$marker");
+
+                    if (cur_name.includes("$regionnumber")) cur_name = cur_name.replace("$regionnumber", "$markernumber");
+                    if (cur_name.includes("$itemnumber")) cur_name = cur_name.replace("$itemnumber", "$markernumber");
+                    if (cur_name.includes("$tracknumber")) cur_name = cur_name.replace("$tracknumber", "$markernumber");
+
+                    $("#userInputName").val(cur_name)
                     break;
 
                 case "Media Items":
-                    var wildcard_info = "$item";
-                    $("#userInputNameHelp").html(number_info + wildcard_info);
+                    var wildcard_info = "$item, $itemnumber";
+                    $("#userInputNameHelp").html(number_info + wildcard_info + closer_info);
 
-                    if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$item"));
-                    if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$item"));
-                    if (cur_name.includes("$track")) $("#userInputName").val(cur_name.replace("$track", "$item"));
+                    if (cur_name.includes("$marker")) cur_name = cur_name.replace("$marker", "$item");
+                    if (cur_name.includes("$region")) cur_name = cur_name.replace("$region", "$item");
+                    if (cur_name.includes("$track")) cur_name = cur_name.replace("$track", "$item");
+
+                    if (cur_name.includes("$markernumber")) cur_name = cur_name.replace("$markernumber", "$itemnumber");
+                    if (cur_name.includes("$regionnumber")) cur_name = cur_name.replace("$regionnumber", "$itemnumber");
+                    if (cur_name.includes("$tracknumber")) cur_name = cur_name.replace("$tracknumber", "$itemnumber");
+
+                    $("#userInputName").val(cur_name)
                     break;
 
                 case "Tracks":
-                    var wildcard_info = "$track";
-                    $("#userInputNameHelp").html(number_info + wildcard_info);
+                    var wildcard_info = "$track, $tracknumber";
+                    $("#userInputNameHelp").html(number_info + wildcard_info + closer_info);
 
-                    if (cur_name.includes("$marker")) $("#userInputName").val(cur_name.replace("$marker", "$track"));
-                    if (cur_name.includes("$item")) $("#userInputName").val(cur_name.replace("$item", "$track"));
-                    if (cur_name.includes("$region")) $("#userInputName").val(cur_name.replace("$region", "$track"));
+                    if (cur_name.includes("$marker")) cur_name = cur_name.replace("$marker", "$track");
+                    if (cur_name.includes("$item")) cur_name = cur_name.replace("$item", "$track");
+                    if (cur_name.includes("$region")) cur_name = cur_name.replace("$region", "$track");
+
+                    if (cur_name.includes("$markernumber")) cur_name = cur_name.replace("$markernumber", "$tracknumber");
+                    if (cur_name.includes("$itemnumber")) cur_name = cur_name.replace("$itemnumber", "$tracknumber");
+                    if (cur_name.includes("$regionnumber")) cur_name = cur_name.replace("$regionnumber", "$tracknumber");
+
+                    $("#userInputName").val(cur_name)
                     break;
 
                 default:

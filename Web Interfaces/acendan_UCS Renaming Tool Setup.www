@@ -1,6 +1,6 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 3.2.1
+@version 3.3
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
@@ -10,3 +10,4 @@
   Introducing basic $wildcard support!
   Added form auto-submit support for data table
   Cleaned up wildcard functions on submit
+  Added support for region, marker, item, and track number
