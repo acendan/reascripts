@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="abd3a665fb1cc67d25ed94b81f3a733c932f0dc6" name="ACendan Scripts">
+<index version="1" commit="291638678e222ae04beb781ac7a3c2b0d7aa49e1" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -320,7 +320,7 @@
         <source main="main" file="acendan_Create one region for selected items across tracks and link to parent in RRM.lua">https://github.com/acendan/reascripts/raw/facec6fa6d14ef570e8b2fb6e060e08693782c81/Regions/acendan_Create%20one%20region%20for%20selected%20items%20across%20tracks%20and%20link%20to%20parent%20in%20RRM.lua</source>
       </version>
     </reapack>
-    <reapack name="acendan_Extend all regions by length lua.lua" type="script" desc="Extend All Regions by Length">
+    <reapack name="acendan_Extend all regions by length.lua" type="script" desc="Extend All Regions by Length">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -332,8 +332,8 @@
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
-      <version name="1.0" author="Aaron Cendan" time="2020-09-14T16:49:05Z">
-        <source main="main" file="acendan_Extend all regions by length.lua">https://github.com/acendan/reascripts/raw/abd3a665fb1cc67d25ed94b81f3a733c932f0dc6/Regions/acendan_Extend%20all%20regions%20by%20length%20lua.lua</source>
+      <version name="1.1" author="Aaron Cendan" time="2020-09-14T17:52:06Z">
+        <source main="main" file="acendan_Extend all regions by length.lua">https://github.com/acendan/reascripts/raw/291638678e222ae04beb781ac7a3c2b0d7aa49e1/Regions/acendan_Extend%20all%20regions%20by%20length.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
