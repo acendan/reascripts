@@ -1,11 +1,13 @@
 --@noindex
 
+-- Get directories
+local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$")-1)
+local repo_directory = script_directory:sub(1,script_directory:find("\\[^\\]*$"))
+local self_name = "acendan_" .. ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$") .. ".lua"
+local script_table = {}
+
 -- List reascripts in repo
 function listReascripts()
-  -- Get directories
-  local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$")-1)
-  local repo_directory = script_directory:sub(1,script_directory:find("\\[^\\]*$"))
-  local self_name = "acendan_" .. ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$") .. ".lua"
   
   -- Prep temp file
   local filepath = repo_directory .. "acendan_reascripts.txt"
@@ -25,7 +27,9 @@ function listReascripts()
         
         -- Scrape for lua files and don't include this script
         if dir_file:find(".lua") and dir_file ~= self_name then
-          file:write(" - " .. subdir .. "\\" .. dir_file:sub(1,-5) .. "\n")
+          local file_line = " - " .. subdir .. "\\" .. dir_file:sub(1,-5)
+          script_table[#script_table+1] = file_line
+          file:write( file_line  .. "\n")
         end
         
         fil_idx = fil_idx + 1
@@ -36,9 +40,43 @@ function listReascripts()
   until not  reaper.EnumerateSubdirectories( repo_directory, dir_idx )
   
   file:close()
+end
+
+function editReadme()
+  local readme = io.open(repo_directory .. "README.md","r")
+  io.input(readme)
+  local readme_info = {}
+  local save_line = true
+  local insert_here = 0
   
-  openTextFile(repo_directory .. "README.md")
-  openTextFile(filepath)
+  for line in io.lines() do
+    if save_line then
+      table.insert(readme_info, line)
+    end
+    
+    if line:find("Scripts included in my GitHub") then 
+      insert_here = #readme_info
+      for _, script in pairs(script_table) do
+        table.insert(readme_info, script)
+      end
+      save_line = false 
+    end
+    
+    if line:find("Manual Download Instructions") then 
+      table.insert(readme_info, "\n" .. line)
+      save_line = true 
+    end
+  end
+  io.close()
+  
+  local readme = io.open(repo_directory .. "README.md","w")
+  for _, line in pairs(readme_info) do
+    readme:write(line, "\n")
+  end
+  readme:lines()
+  readme:close()
+  
+  reaper.MB("Updated GitHub README.md!","Success",0)
 end
 
 -- Deliver messages and add new line in console
@@ -60,6 +98,11 @@ end
 reaper.PreventUIRefresh(1)
 
 listReascripts()
+
+editReadme()
+
+--openTextFile(repo_directory .. "README.md")
+--openTextFile(filepath)
 
 reaper.PreventUIRefresh(-1)
 

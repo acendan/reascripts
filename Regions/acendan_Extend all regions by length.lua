@@ -1,6 +1,6 @@
 -- @description Extend All Regions by Length
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Extend all regions by length.lua

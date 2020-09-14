@@ -41,6 +41,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Change region color if region exceeds length
  - Regions\acendan_Create one region for all items on selected tracks
  - Regions\acendan_Create one region for selected items across tracks and link to parent in RRM
+ - Regions\acendan_Extend all regions by length
  - Regions\acendan_Shrink overlapping regions edges to time selection
  - Regions\acendan_Shrink overlapping regions to edges of selected media items
  - Regions\acendan_Stretch overlapping regions edges to time selection
@@ -54,7 +55,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Tracks Properties\acendan_View Saved URLs By Track Name
  - Various\acendan_Auto generate scripts to open web interfaces
  - Various\acendan_Universal Category Renaming Tool
- 
+
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
 
