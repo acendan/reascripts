@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="68dd7ae8851f4538b0b33256e8298567e3630493" name="ACendan Scripts">
+<index version="1" commit="9a63a7dda301d1af165a8b9742d6355488206f59" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -488,7 +488,7 @@
 
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Insert New Track Respect Folders\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Reaper's defaults suck\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Reaper's defaults aren't particularly intuitive.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Bind this to ctrl + T and now when you insert a track with the last track in a folder selected, it will be added to the end of the folder.\sa180\par}
 }
 ]]></description>
@@ -505,6 +505,9 @@
       </version>
       <version name="1.2.1" author="Aaron Cendan" time="2020-09-17T20:53:23Z">
         <source main="main" file="acendan_Insert new track respect folders.lua">https://github.com/acendan/reascripts/raw/68dd7ae8851f4538b0b33256e8298567e3630493/Tracks%20Properties/acendan_Insert%20new%20track%20respect%20folders.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2020-09-17T21:07:00Z">
+        <source main="main" file="acendan_Insert new track respect folders.lua">https://github.com/acendan/reascripts/raw/9a63a7dda301d1af165a8b9742d6355488206f59/Tracks%20Properties/acendan_Insert%20new%20track%20respect%20folders.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Search all tracks for FX by name.lua" type="script" desc="Search Tracks for FX">
