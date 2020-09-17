@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="9cb27ab195f4754ecfd3d318bc1bb9204e4cb3b8" name="ACendan Scripts">
+<index version="1" commit="fda368a709152f3017b4e7235179da361a9c5f19" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -496,6 +496,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-17T20:01:15Z">
         <source main="main" file="acendan_Insert new track respect folders.lua">https://github.com/acendan/reascripts/raw/9cb27ab195f4754ecfd3d318bc1bb9204e4cb3b8/Tracks%20Properties/acendan_Insert%20new%20track%20respect%20folders.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-09-17T20:13:12Z">
+        <source main="main" file="acendan_Insert new track respect folders.lua">https://github.com/acendan/reascripts/raw/fda368a709152f3017b4e7235179da361a9c5f19/Tracks%20Properties/acendan_Insert%20new%20track%20respect%20folders.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Search all tracks for FX by name.lua" type="script" desc="Search Tracks for FX">
