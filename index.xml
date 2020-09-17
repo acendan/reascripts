@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="d8547f8ff0b8acad696c8110d64343d3ce0bca46" name="ACendan Scripts">
+<index version="1" commit="9cb27ab195f4754ecfd3d318bc1bb9204e4cb3b8" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -478,6 +478,24 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
         <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_Clear%20Saved%20URL%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Insert new track respect folders.lua" type="script" desc="Insert New Track Respect Folders">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Insert New Track Respect Folders\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Reaper's defaults suck\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Bind this to ctrl + T and now when you insert a track with the last track in a folder selected, it will be added to the end of the folder.\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-09-17T20:01:15Z">
+        <source main="main" file="acendan_Insert new track respect folders.lua">https://github.com/acendan/reascripts/raw/9cb27ab195f4754ecfd3d318bc1bb9204e4cb3b8/Tracks%20Properties/acendan_Insert%20new%20track%20respect%20folders.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Search all tracks for FX by name.lua" type="script" desc="Search Tracks for FX">
