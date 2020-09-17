@@ -1,6 +1,6 @@
 -- @description Insert New Track Respect Folders
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert new track respect folders.lua
@@ -40,10 +40,6 @@ function main()
       -- Set new track color
       local new_track = reaper.GetTrack(0, sel_track_idx)
       reaper.SetMediaTrackInfo_Value( new_track, "I_CUSTOMCOLOR", reaper.GetMediaTrackInfo_Value( sel_track, "I_CUSTOMCOLOR" ) )
-      
-      -- Move new track below originally selected track
-      reaper.SetOnlyTrackSelected( sel_track )
-      reaper.ReorderSelectedTracks( sel_track_idx - 1, 2 )
     
     else
       -- NOT THE PARENT, INSERT AFTER SELECTED
