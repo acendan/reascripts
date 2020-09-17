@@ -1,6 +1,6 @@
 -- @description Insert New Track Respect Folders
 -- @author Aaron Cendan
--- @version 1.2.1
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert new track respect folders.lua
@@ -9,7 +9,7 @@
 --   # Insert New Track Respect Folders
 --   By Aaron Cendan - Sept 2020
 --
---   ### Reaper's defaults suck
+--   ### Reaper's defaults aren't particularly intuitive.
 --   * Bind this to ctrl + T and now when you insert a track with the last track in a folder selected, it will be added to the end of the folder.
 
 
@@ -37,8 +37,8 @@ function main()
       folder_depth_prev_track = reaper.GetMediaTrackInfo_Value( reaper.GetTrack(0, sel_track_idx - 2), "I_FOLDERDEPTH" )
     end
     
-    --dbg(tostring("Selected track folder depth: " .. folder_depth))
-    --dbg(tostring("Previous track folder depth: " .. folder_depth_prev_track))
+    -- dbg(tostring("Selected track folder depth: " .. folder_depth))
+    -- dbg(tostring("Previous track folder depth: " .. folder_depth_prev_track))
     
     -- Normal track right after the last track in a nested folder
     if folder_depth == 0 and folder_depth_prev_track < 0 then
@@ -51,6 +51,20 @@ function main()
       
       -- Select new track
       reaper.SetOnlyTrackSelected( new_track )
+
+    -- Last track in a folder right after the last track in a nested folder
+    elseif folder_depth < 0 and folder_depth_prev_track < 0 then
+      
+      -- Insert new track below selected
+      reaper.InsertTrackAtIndex( sel_track_idx, true )
+      
+      -- Set new track color
+      local new_track = reaper.GetTrack(0, sel_track_idx)
+      reaper.SetMediaTrackInfo_Value( new_track, "I_CUSTOMCOLOR", reaper.GetMediaTrackInfo_Value( sel_track, "I_CUSTOMCOLOR" ) )
+      
+      -- Select new track
+      reaper.SetOnlyTrackSelected( new_track )
+      reaper.ReorderSelectedTracks( sel_track_idx, 2 )
 
     -- Folder parent
     elseif folder_depth == 1 then
