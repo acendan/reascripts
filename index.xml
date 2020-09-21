@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="9a63a7dda301d1af165a8b9742d6355488206f59" name="ACendan Scripts">
+<index version="1" commit="cafcbd7a6c92f9358b62f31aaadef9edc4561f51" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -94,6 +94,24 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-08-12T16:53:40Z">
         <source main="main" file="acendan_Copy selected items to track - prompt for track.lua">https://github.com/acendan/reascripts/raw/a910eaa869694363366983b69acce73eed56f227/Items%20Editing/acendan_Copy%20selected%20items%20to%20track%20-%20prompt%20for%20track.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Count number of selected items in media explorer.lua" type="script" desc="Count Selection in Media Explorer">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Count Selection in Media Explorer\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Requires the JS_ReascriptAPI extension.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Script adapted from: http://forum.cockos.com/showthread.php?p=2071080#post2071080\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-09-21T13:51:14Z">
+        <source main="main" file="acendan_Count number of selected items in media explorer.lua">https://github.com/acendan/reascripts/raw/cafcbd7a6c92f9358b62f31aaadef9edc4561f51/Items%20Editing/acendan_Count%20number%20of%20selected%20items%20in%20media%20explorer.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
