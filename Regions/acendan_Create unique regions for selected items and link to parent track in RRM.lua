@@ -1,9 +1,9 @@
 -- @description acendan_Create unique regions for selected items and link to parent track in RRM
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
---   [main] . > acendan_acendan_Create unique regions for selected items and link to parent track in RRM.lua
+--   [main] . > acendan_Create unique regions for selected items and link to parent track in RRM.lua
 -- @link https://aaroncendan.me
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
