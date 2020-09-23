@@ -76,7 +76,7 @@ function editReadme()
   readme:lines()
   readme:close()
   
-  reaper.MB("Updated GitHub README.md!","Success",0)
+  reaper.MB("Updated GitHub 'README.md'\n\nYou've uploaded " .. tostring(#script_table) .. " scripts!","Success",0)
 end
 
 -- Deliver messages and add new line in console

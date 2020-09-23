@@ -42,6 +42,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Change region color if region exceeds length
  - Regions\acendan_Create one region for all items on selected tracks
  - Regions\acendan_Create one region for selected items across tracks and link to parent in RRM
+ - Regions\acendan_Create unique regions for selected items and link to parent track in RRM
  - Regions\acendan_Extend all regions by length
  - Regions\acendan_Extend regions in time selection by length
  - Regions\acendan_Shrink overlapping regions edges to time selection
