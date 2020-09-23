@@ -1,6 +1,6 @@
 -- @description Create Region for Selected Items Across Tracks
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create one region for selected items across tracks and link to parent in RRM.lua
@@ -12,6 +12,8 @@
 --   ### About this script...
 --   * Select some items in a folder then run the script. 
 --   * A region will be created and linked to the parent track of the folder.
+-- @changelog
+--   * Upgraded naming to be more contextually relevant
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -19,7 +21,6 @@
 
 -- Optional: Add extra space at end of regions (in seconds)
 local additional_space = 0
-
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,6 +33,10 @@ local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 -- Init region bounds
 local sel_items_start = math.huge
 local sel_items_end = 0
+
+-- Init all same track check
+local same_track_guid
+local all_same_track = true
       
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -44,6 +49,7 @@ function main()
     local shared_parent_guid
     local shared_parent = true
     local parent_is_master = false
+    local first_named_track = ""
     
     for i=0, num_sel_items - 1 do
       -- Get item info
@@ -59,12 +65,24 @@ function main()
       -- Check if items share a parent folder track
       local item_parent_track = reaper.GetParentTrack(reaper.GetMediaItem_Track(item))
       if not item_parent_track then item_parent_track =  reaper.GetMasterTrack( 0 ); parent_is_master = true end
-      
       local item_parent_track_guid = reaper.GetTrackGUID(item_parent_track)
       if i == 0 then 
         shared_parent_guid = item_parent_track_guid 
       else
         if item_parent_track_guid ~= shared_parent_guid then shared_parent = false end
+      end
+      
+      -- Get track name from item
+      track =  reaper.GetMediaItemTrack( item )
+      tname_ret, trackName = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "test", false)
+      if tname_ret and first_named_track == "" then first_named_track = trackName end
+      
+      -- Check to see if items are all on same track
+      local current_track_guid = reaper.GetTrackGUID(track)
+      if i == 0 then 
+        same_track_guid = current_track_guid
+      else
+        if current_track_guid ~= same_track_guid then all_same_track = false end 
       end
     end
     
@@ -73,15 +91,21 @@ function main()
       if not parent_is_master then
         local parent_track = reaper.BR_GetMediaTrackByGUID( 0, shared_parent_guid )
         local parent_track_color =  reaper.GetTrackColor( parent_track )
-        local retval, parent_track_name = reaper.GetSetMediaTrackInfo_String(parent_track, "P_NAME", "", false)
               
         if sel_items_start < math.huge then
-          if retval then
-            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, parent_track_name, 0, parent_track_color)
+          -- Naming priority: first track with a name, then parent, then blank
+          if all_same_track and first_named_track ~= "" then
+            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, first_named_track, 0, parent_track_color)
             reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
           else
-            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, parent_track_color)
-            reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
+            local retval, parent_track_name = reaper.GetSetMediaTrackInfo_String(parent_track, "P_NAME", "", false)
+            if retval then
+              regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, parent_track_name, 0, parent_track_color)
+              reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
+            else
+              regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, parent_track_color)
+              reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
+            end
           end
         end
       else
