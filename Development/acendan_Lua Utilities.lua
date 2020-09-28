@@ -155,6 +155,15 @@ function toTitleCase(first, rest)
   return first:upper()..rest:lower()
 end
 
+-- Convert seconds (w decimal) into h:mm:ss:ms
+function dispTime(time)
+  local hours = math.floor((time % 86400)/3600)
+  local minutes = math.floor((time % 3600)/60)
+  local seconds = math.floor((time % 60))
+  local milli = tostring(math.floor(time * 100)):sub(1,2)
+  return string.format("%d:%02d:%02d.%02d",hours,minutes,seconds,milli)
+end
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~

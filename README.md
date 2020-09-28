@@ -58,6 +58,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Tracks Properties\acendan_Store and Open saved URL by track name
  - Tracks Properties\acendan_View Saved URLs By Track Name
  - Various\acendan_Auto generate scripts to open web interfaces
+ - Various\acendan_GUI_Display first selected item properties
  - Various\acendan_Universal Category Renaming Tool
 
 ## Manual Download Instructions (Optional)
