@@ -60,6 +60,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Tracks Properties\acendan_View Saved URLs By Track Name
  - Various\acendan_Auto generate scripts to open web interfaces
  - Various\acendan_GUI_Display first selected item properties
+ - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
  - Various\acendan_Universal Category Renaming Tool
 
 ## Manual Download Instructions (Optional)
