@@ -1,6 +1,6 @@
 -- @description NVK Game Audio Affirmations Once An Hour
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Randomly deliver nvk_Game Audio Affirmations once an hour.lua
@@ -29,6 +29,10 @@ local refresh_rate = math.random(1800,3600)
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 
+-- NVK Affirmations
+local nvk_affirmations = reaper.NamedCommandLookup("_RS494410d201156d124966a3a080d98a5686df4abb")
+if nvk_affirmations == 0 then script_located = false else script_located = true end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +55,7 @@ function main()
   if now - check_time >= refresh_rate then
 
     -- Script: nvk_MISC - Game Audio Affirmations.lua
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS494410d201156d124966a3a080d98a5686df4abb"),0)
+    reaper.Main_OnCommand(nvk_affirmations,0)
 
     -- Reseed refresh rate (okay technically this is actually a window of 45min - 1hr45min but whatever)
     refresh_rate = 2400 + math.random(1,3600)
@@ -70,7 +74,10 @@ function Exit()
   return reaper.defer(function() end)
 end
 
-setup()
-reaper.atexit(Exit)
-main()
-
+if script_located then
+  setup()
+  reaper.atexit(Exit)
+  main()
+else
+  reaper.MB("Unable to locate 'nvk_MISC - Game Audio Affirmations.lua'. Please install it via ReaPack!\n\nCancelling random delivery.","",0)
+end
