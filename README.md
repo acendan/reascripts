@@ -31,6 +31,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
  - Items Editing\acendan_Stretch selected items to fit between nearest markers
+ - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
  - Markers\acendan_Export markers and regions for Izotope RX relative to items with shared take source
  - Markers\acendan_Export markers and regions for Izotope RX relative to selected item

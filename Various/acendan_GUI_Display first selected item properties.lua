@@ -1,6 +1,6 @@
 -- @description Item Properties GUI
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_GUI_Display first selected item properties.lua
@@ -18,6 +18,9 @@
 --       http://forum.cockos.com/showthread.php?t=161557 
 --   * Cooldown function (CPU saver) by Jeffos, thanks
 --       http://forum.cockos.com/showpost.php?p=1567657&postcount=39
+-- @changelog
+--	 Defaults to docked state
+
 
 defer_cnt=0
 
@@ -188,6 +191,7 @@ function init()
   
   gfx.init("Item Properties", 200, 60, gui.settings.docker_id)
   gfx.setfont(1,"Arial", gui.settings.font_size)
+  gfx.dock(1)
   gfx.clear = 3355443  -- matches with "FUSION: Pro&Clean Theme :: BETA 01" http://forum.cockos.com/showthread.php?t=155329
   -- (Double click in ReaScript IDE to open the link)
 
