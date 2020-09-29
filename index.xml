@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c39cd6bb4e90c59c92c41bb18f11b46b32c7023b" name="ACendan Scripts">
+<index version="1" commit="e78252c28cd3411970e2d21a4d9e595666b74474" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -214,6 +214,23 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-04T23:07:47Z">
         <source main="main" file="acendan_Stretch selected items to fit between nearest markers.lua">https://github.com/acendan/reascripts/raw/0dca44c846f64c71bec7ec2ddafebea5b218680e/Items%20Editing/acendan_Stretch%20selected%20items%20to%20fit%20between%20nearest%20markers.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Trim right edge of selected items by amount....lua" type="script" desc="Trim right edge of selected items by amount">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Credits\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from me2beats: Trim sel items right edges to nearest grid divisions\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-09-29T20:15:03Z">
+        <source main="main" file="acendan_Trim right edge of selected items by amount...lua">https://github.com/acendan/reascripts/raw/e78252c28cd3411970e2d21a4d9e595666b74474/Items%20Editing/acendan_Trim%20right%20edge%20of%20selected%20items%20by%20amount....lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Trim selected items at last zero crossing.lua" type="script" desc="Trim selected items at last zero crossing">
