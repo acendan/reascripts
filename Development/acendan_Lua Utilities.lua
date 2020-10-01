@@ -810,6 +810,16 @@ else
   msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
 end
 
+-- Looks for JSFX by name in Effects/ACendan Scripts/JSFX/      \\ Returns boolean
+function checkForJSFX(jsfx_name)
+  if not jsfx_name:find(".jsfx") then jsfx_name = jsfx_name .. ".jsfx" end
+  
+  if reaper.file_exists( reaper.GetResourcePath() .. "\\Effects\\ACendan Scripts\\JSFX\\" .. jsfx_name ) then
+    return true
+  else
+    return false
+  end
+end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
