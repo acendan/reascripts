@@ -1,13 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 3.3
+@version 3.4
 @provides
   acendan_UCS Renaming Tool.html
   acendan_UCS Renaming Tool_Dark.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Introducing basic $wildcard support!
-  Added form auto-submit support for data table
-  Cleaned up wildcard functions on submit
-  Added support for region, marker, item, and track number
+  Removed integrity attribute from bootstrap validation
