@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="2ca52971e6c1c5a318a5dd0a168bea7c10669edf" name="ACendan Scripts">
+<index version="1" commit="b72f604318e244530080965293dfbbdcefec4318" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -668,6 +668,9 @@
       </version>
       <version name="1.2" author="Aaron Cendan" time="2020-09-29T23:27:41Z">
         <source main="main" file="acendan_Randomly deliver nvk_Game Audio Affirmations once an hour.lua">https://github.com/acendan/reascripts/raw/2ca52971e6c1c5a318a5dd0a168bea7c10669edf/Various/acendan_Randomly%20deliver%20affirmations%20nvk_Game%20Audio%20Affirmations%20once%20an%20hour.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2020-10-03T14:42:48Z">
+        <source main="main" file="acendan_Randomly deliver nvk_Game Audio Affirmations once an hour.lua">https://github.com/acendan/reascripts/raw/b72f604318e244530080965293dfbbdcefec4318/Various/acendan_Randomly%20deliver%20affirmations%20nvk_Game%20Audio%20Affirmations%20once%20an%20hour.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="UCS Renaming Tool">
