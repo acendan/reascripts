@@ -1,6 +1,6 @@
 -- @description NVK Game Audio Affirmations Once An Hour
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Randomly deliver nvk_Game Audio Affirmations once an hour.lua
@@ -75,7 +75,11 @@ function Exit()
 end
 
 if script_located then
-  reaper.MB("Succesfully located NVK - Game Audio Affirmations!\n\n~~~\nTo have this script automatically enabled in future sessions, set it as enabled in your default REAPER project template. Alternatively, save it as a Global Startup Action.\n\nIf prompted whether you want to terminate instances, click the little checkbox then terminate.","",0)
+  -- One time notification to user that it's enabled
+  if not reaper.HasExtState( "acendan_NVK", "rand_affirmations" ) then
+    reaper.MB("Succesfully located NVK - Game Audio Affirmations!\n\n~~~\nTo have this script automatically enabled in future sessions, set it as enabled in your default REAPER project template. Alternatively, save it as a Global Startup Action.\n\nIf prompted whether you want to terminate instances, click the little checkbox then terminate.","",0)
+    reaper.SetExtState("acendan_NVK", "rand_affirmations", "true", true )
+  end
   setup()
   reaper.atexit(Exit)
   main()
