@@ -39,6 +39,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Find and Replace
  - Markers\acendan_Insert marker at start of selected items with item name
  - Markers\acendan_Insert markers every x seconds after edit cursor
+ - Regions\acendan_Add prefix or suffix to regions in time selection
  - Regions\acendan_Change region color if region exceeds length
  - Regions\acendan_Create one region for all items on selected tracks
  - Regions\acendan_Create one region for selected items across tracks and link to parent in RRM
