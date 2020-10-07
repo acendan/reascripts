@@ -1,10 +1,11 @@
 -- @description Add prefix or suffix to regions in time selection
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Add prefix or suffix to regions in time selection.lua
 -- @link https://aaroncendan.me
+-- @changelog Fixed isolated pre/suff usage
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -30,9 +31,19 @@ function main()
                               "Prefix,Suffix" .. ",extrawidth=100",
                               "," )
     if not ret_input then return end
-    local in_prefix, in_suffix = user_input:match("([^,]+),([^,]+)")
-    if not in_prefix then in_prefix = "" end
-    if not in_suffix then in_suffix = "" end
+
+    if user_input:find(",") == 1 then 
+      -- NO PREFIX INCLUDED
+      in_prefix = ""
+      in_suffix = user_input:sub(2,user_input:len())
+    elseif user_input:find(",") == user_input:len() then
+      -- NO SUFFIX INCLUDED
+      in_prefix = user_input:sub(1,user_input:len()-1)
+      in_suffix = ""
+    else
+      -- BOTH INCLUDED
+      in_prefix, in_suffix = user_input:match("([^,]+),([^,]+)")
+    end
     
     if start_time_sel ~= end_time_sel then
       local i = 0
