@@ -1,6 +1,6 @@
 -- @description Add prefix or suffix to regions in time selection
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Add prefix or suffix to regions in time selection.lua
