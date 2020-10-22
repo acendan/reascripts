@@ -4,7 +4,7 @@
 
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
--- @version 1.5
+-- @version 1.0
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -78,6 +78,88 @@ reaper.UpdateArrange()
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if false then   -- Don't actually evaluate anything here if this script is run from the actions menu
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~ BACKGROUND SCRIPT ~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- @description Background Script Template
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @provides
+--   [main] . > acendan_Background script title.lua
+-- @link https://aaroncendan.me
+-- @about
+--   # This is a background/toggle script!
+--   By Aaron Cendan - Sept 2020
+--
+--   ### Notes
+--   * When prompted if you want to terminate instances, click the little checkbox then terminate.
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Refresh rate (in seconds)
+local refresh_rate = 0.3
+
+-- Get action context info (needed for toolbar button toggling)
+local _, _, section, cmdID = reaper.get_action_context()
+
+-- Get this script's name and directory
+local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
+local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Setup runs once on script startup
+function setup()
+  -- Timing control
+  local start = reaper.time_precise()
+  check_time = start
+  
+  -- Toggle command state on
+  reaper.SetToggleCommandState( section, cmdID, 1 )
+  reaper.RefreshToolbar2( section, cmdID )
+end
+
+-- Main function will run in Reaper's defer loop. EFFICIENCY IS KEY.
+function main()
+  -- System time in seconds (3600 per hour)
+  local now = reaper.time_precise()
+  
+  -- If the amount of time passed is greater than refresh rate, execute code
+  if now - check_time >= refresh_rate then
+
+    -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    -- THIS IS WHERE YOU DO ALL OF THE ACTUAL CODE THINGS, ONCE EVERY REFRESH
+    -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    -- Reset last used time
+    check_time = now
+  end
+
+  reaper.defer(main)
+end
+
+-- Exit function will run once when the script is terminated
+function Exit()
+  reaper.UpdateArrange()
+  reaper.SetToggleCommandState( section, cmdID, 0 )
+  reaper.RefreshToolbar2( section, cmdID )
+  return reaper.defer(function() end)
+end
+
+setup()
+reaper.atexit(Exit)
+main()
+
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
