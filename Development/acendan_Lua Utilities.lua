@@ -777,6 +777,22 @@ function getPort(line)
   return port
 end
 
+-- Prompt user to locate folder in system // returns String (or nil if cancelled)
+function promptForFolder()
+  local ret, folder = reaper.JS_Dialog_BrowseForFolder( "Please select your folder...", "" )
+  if ret == 1 then
+    -- Folder found
+    return folder
+  elseif ret == 0 then
+    -- Folder selection cancelled
+    return nil
+  else 
+    -- Folder picking error
+    msg("Something went wrong... Please try again!")
+    promptForFolder()
+  end
+end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ RENDERING ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
