@@ -1,6 +1,6 @@
 -- @description Select Tracks w Marquee Selection
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Select tracks when making marquee selection.lua
@@ -53,62 +53,64 @@ function main()
   
   -- If the amount of time passed is greater than refresh rate, execute code
   if now - check_time >= refresh_rate then
-
-    -- Get cursor info
-    context = reaper.GetCursorContext()
-    window, segment, details = reaper.BR_GetMouseCursorContext()
-    track = -1
-    if reaper.BR_GetMouseCursorContext_Track() then
-      track =  reaper.GetMediaTrackInfo_Value( reaper.BR_GetMouseCursorContext_Track(), "IP_TRACKNUMBER" ) - 1
-    end
-    mouse = reaper.JS_Mouse_GetState( 2 )
-    
-    -- If right clicking with mouse over the arrange over a valid track...
-    if mouse == 2 and window == "arrange" and segment == "track" and track >= 0 then
-    
-      --[[ reaper.ShowConsoleMsg("\n\ncontext: " .. context .. 
-                            "\nwindow: " .. window .. 
-                            "\nsegment: " .. segment .. 
-                            "\ndetails: " .. details ..
-                            "\ntrack: " .. track ..
-                            "\nmouse: " .. mouse) ]]--
-      
-      -- Set current track as only selected track on first loop                      
-      if first_loop then 
-        reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, track ) )
-        first_track = track
-        first_loop = false 
-      else 
-        -- Compare to first_track and prev_track
-        if track > first_track and track > prev_track then
-          for i = first_track, track do
-            reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
-          end
-        elseif track > first_track and track < prev_track then
-          reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, first_track ) )
-          for i = first_track, track do
-            reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
-          end
-        elseif track < first_track and track < prev_track then
-          for i = track, first_track do
-            reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
-          end
-        elseif track < first_track and track > prev_track then
-          reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, first_track ) )
-          for i = track, first_track do
-            reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
-          end
-        elseif track == first_track then
-          reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, track ) )
-        end
+    -- Confirm project has tracks
+    if reaper.CountTracks( 0 ) > 0 then 
+      -- Get cursor info
+      context = reaper.GetCursorContext()
+      window, segment, details = reaper.BR_GetMouseCursorContext()
+      track = -1
+      if reaper.BR_GetMouseCursorContext_Track() then
+        track =  reaper.GetMediaTrackInfo_Value( reaper.BR_GetMouseCursorContext_Track(), "IP_TRACKNUMBER" ) - 1
       end
-  
-      -- Set current track as prev track
-      prev_track = track
+      mouse = reaper.JS_Mouse_GetState( 2 )
+      
+      -- If right clicking with mouse over the arrange over a valid track...
+      if mouse == 2 and window == "arrange" and segment == "track" and track >= 0 then
+      
+        --[[ reaper.ShowConsoleMsg("\n\ncontext: " .. context .. 
+                              "\nwindow: " .. window .. 
+                              "\nsegment: " .. segment .. 
+                              "\ndetails: " .. details ..
+                              "\ntrack: " .. track ..
+                              "\nmouse: " .. mouse) ]]--
+        
+        -- Set current track as only selected track on first loop                      
+        if first_loop then 
+          reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, track ) )
+          first_track = track
+          first_loop = false 
+        else 
+          -- Compare to first_track and prev_track
+          if track > first_track and track > prev_track then
+            for i = first_track, track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track > first_track and track < prev_track then
+            reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, first_track ) )
+            for i = first_track, track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track < first_track and track < prev_track then
+            for i = track, first_track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track < first_track and track > prev_track then
+            reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, first_track ) )
+            for i = track, first_track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track == first_track then
+            reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, track ) )
+          end
+        end
     
-    elseif mouse ~= 2 then
-      -- No longer right clicking in arrange over track
-      first_loop = true
+        -- Set current track as prev track
+        prev_track = track
+      
+      elseif mouse ~= 2 then
+        -- No longer right clicking in arrange over track
+        first_loop = true
+      end
     end
     
     -- Reset last used time
