@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="1fc2cc71dd35f33feccfa198a9116b026bc4c6cf" name="ACendan Scripts">
+<index version="1" commit="edf9933cf61ab8d2c1540c2af3fad857ef143811" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -599,6 +599,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-10-30T15:35:42Z">
         <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/1fc2cc71dd35f33feccfa198a9116b026bc4c6cf/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2020-10-30T15:42:41Z">
+        <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/edf9933cf61ab8d2c1540c2af3fad857ef143811/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
