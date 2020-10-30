@@ -73,3 +73,6 @@ If you would prefer to download the scripts here manually, you can click on "Clo
 - [X-Raym](https://www.extremraym.com/en/): A ReaScripting guru that inspired me to start writing scripts for Reaper in the first place. He has also directly assisted in code-reviewing some of the content in this repository.
 - [The REAPER Blog](https://reaperblog.net/): A blog run by Jon Tidey, who has helped serve as one of the leading sources for up to date Reaper documentation, tips, tricks, and ideas.
 - [cfillion](https://cfillion.ca/): The creator of ReaPack, who has helped to ensure these scripts make it into the hands of far more Reaper users than I'd ever be able to reach solo.
+
+
+#### This is an easter egg :)
