@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="ebe751b9781a5a3d0b881b017f87699007954a82" name="ACendan Scripts">
+<index version="1" commit="1fc2cc71dd35f33feccfa198a9116b026bc4c6cf" name="ACendan Scripts">
   <category name="Items Editing">
     <reapack name="acendan_Append selected items BWF metadata subfield to item name.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Item Name">
       <metadata>
@@ -581,6 +581,24 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-08-13T00:13:52Z">
         <source main="main" file="acendan_Search all tracks for FX by name.lua">https://github.com/acendan/reascripts/raw/6eb71b79c6392b0238d3117c92c65b1fb0b28e0e/Tracks%20Properties/acendan_Search%20all%20tracks%20for%20FX%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Select tracks when making marquee selection.lua" type="script" desc="Select Tracks w Marquee Selection">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This is a background/toggle script!\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Oct 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Notes\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab When prompted if you want to terminate instances, click the little checkbox then terminate.\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2020-10-30T15:35:42Z">
+        <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/1fc2cc71dd35f33feccfa198a9116b026bc4c6cf/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
