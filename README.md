@@ -57,6 +57,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Tracks Properties\acendan_Clear Saved URL By Track Name
  - Tracks Properties\acendan_Insert new track respect folders
  - Tracks Properties\acendan_Search all tracks for FX by name
+ - Tracks Properties\acendan_Select tracks when making marquee selection
  - Tracks Properties\acendan_Store and Open saved URL by track name
  - Tracks Properties\acendan_View Saved URLs By Track Name
  - Various\acendan_Auto generate scripts to open web interfaces
