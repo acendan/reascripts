@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.5
+-- @version 2.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -173,6 +173,21 @@ if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Util
 
 local acendan = {}
 
+function version()
+  local file = io.open((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
+  local vers_header = "-- @version "
+  io.input(file)
+  local t = 0
+  for line in io.lines() do
+    if line:find(vers_header) then
+      t = tonumber(string.match(line, "%d+"))
+      break
+    end
+  end
+  io.close(file)
+  return t
+end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -187,7 +202,7 @@ end
 -- Deliver messages using message box
 function acendan.msg(msg, title)
   local title = title or "ACendan Info"
-  reaper.MB(msg, title, 0)
+  reaper.MB(tostring(msg), title, 0)
 end
 
 -- Rets to bools // returns Boolean
