@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.7
+-- @version 3.0
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -36,7 +36,8 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 -- Load lua utilities
 local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
 local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
-if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if not acendan then reaper.MB("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'","ACendan Lua Utilities",0); return end
+if acendan.version() < 2.5 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -102,7 +103,8 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 -- Load lua utilities
 local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
 local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
-if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if not acendan then reaper.MB("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'","ACendan Lua Utilities",0); return end
+if acendan.version() < 2.5 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -168,7 +170,8 @@ main()
 -- Load lua utilities
 local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
 local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
-if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if not acendan then reaper.MB("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'","ACendan Lua Utilities",0); return end
+if acendan.version() < 2.5 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end
 ]]--
 
 local acendan = {}
@@ -180,12 +183,12 @@ function acendan.version()
   local t = 0
   for line in io.lines() do
     if line:find(vers_header) then
-      t = tonumber(line:gsub(vers_header,""))
+      t = line:gsub(vers_header,"")
       break
     end
   end
   io.close(file)
-  return t
+  return tonumber(t)
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
