@@ -1,6 +1,6 @@
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
--- @version 2.1
+-- @version 2.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
