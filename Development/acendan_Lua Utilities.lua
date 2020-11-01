@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.6.2
+-- @version 2.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -180,7 +180,7 @@ function acendan.version()
   local t = 0
   for line in io.lines() do
     if line:find(vers_header) then
-      t = tonumber(string.match(line, "%d+"))
+      t = tonumber(line:gsub(vers_header,""))
       break
     end
   end
