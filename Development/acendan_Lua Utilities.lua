@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.3
+-- @version 2.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -49,16 +49,6 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ UTILITIES ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Deliver messages and add new line in console
-function dbg(dbg)
-  reaper.ShowConsoleMsg(dbg .. "\n")
-end
-
--- Deliver messages using message box
-function msg(msg)
-  reaper.MB(msg, script_name, 0)
-end
-
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -160,22 +150,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ UTILITIES ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Deliver messages and add new line in console
-function dbg(dbg)
-  reaper.ShowConsoleMsg(dbg .. "\n")
-end
 
--- Deliver messages using message box
-function msg(msg)
-  reaper.MB(msg, script_name, 0)
-end
-
--- Load lua utilities
-function loadUtilities(file)
-  local E,A=pcall(dofile,file)
-  if not(E)then return end
-  return A
-end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
@@ -257,7 +232,6 @@ end
 function acendan.scaleBetween(unscaled_val, min_new_range, max_new_range, min_old_range, max_old_range)
   return (max_new_range - min_new_range) * (unscaled_val - min_old_range) / (max_old_range - min_old_range) + min_new_range
 end
-
 
 -- Round the input value // returns Number
 function acendan.roundValue(input)
@@ -414,7 +388,7 @@ end
 
 -- Restore selected items from table. Requires tableLength() above
 function acendan.restoreSelectedItems(table)
-  for i = 1, tableLength(table) do
+  for i = 1, acendan.tableLength(table) do
     reaper.SetMediaItemSelected( table[i], true )
   end
 end
@@ -436,7 +410,7 @@ function acendan.getStartPosSelItems()
       end
     end
   else
-    msg("No items selected!")
+    acendan.dbg("No items selected!")
   end
 
   return position
@@ -493,7 +467,7 @@ end
 
 -- Restore selected tracks from table. Requires tableLength() above
 function acendan.restoreSelectedTracks(table)
-  for i = 1, tableLength(table) do
+  for i = 1, acendan.tableLength(table) do
     reaper.SetTrackSelected( table[i], true )
   end
 end
@@ -554,7 +528,7 @@ end
   
 ]]--
 function acendan.getSelectedRegions()
-  local hWnd = getRegionManager()
+  local hWnd = acendan.getRegionManager()
   if hWnd == nil then return end  
 
   local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
@@ -645,7 +619,7 @@ end
   
 ]]--
 function acendan.getSelectedMarkers()
-  local hWnd = getRegionManager()
+  local hWnd = acendan.getRegionManager()
   if hWnd == nil then return end  
 
   local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
@@ -828,8 +802,8 @@ function acendan.getPort(line)
 end
 
 -- Prompt user to locate folder in system // returns String (or nil if cancelled)
-function acendan.promptForFolder()
-  local ret, folder = reaper.JS_Dialog_BrowseForFolder( "Please select your folder...", "" )
+function acendan.promptForFolder(message)
+  local ret, folder = reaper.JS_Dialog_BrowseForFolder( message, "" )
   if ret == 1 then
     -- Folder found
     return folder
@@ -839,7 +813,7 @@ function acendan.promptForFolder()
   else 
     -- Folder picking error
     acendan.msg("Something went wrong... Please try again!","Folder picker error")
-    acendan.promptForFolder()
+    acendan.promptForFolder(message)
   end
 end
 
@@ -879,11 +853,11 @@ function acendan.countSelectedItemsMediaExplorer()
   
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
   if sel_count == 0 then 
-    msg("No items selected in media explorer!")
+    acendan.msg("No items selected in media explorer!","Media Explorer Items")
   elseif sel_count == 1 then
-    msg("1 item selected in media explorer.")
+    acendan.msg("1 item selected in media explorer.","Media Explorer Items")
   else
-    msg(sel_count .. " items selected in media explorer.")
+    acendan.msg(sel_count .. " items selected in media explorer.","Media Explorer Items")
   end 
   
   return sel_count
@@ -892,13 +866,13 @@ end
 -- Get selected item details media explorer
 function acendan.getSelectedItemsDetailsMediaExplorer()
   local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
-  if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
+  if hWnd == nil then acendan.msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.","Media Explorer Items") return end  
   
   local container = reaper.JS_Window_FindChildByID(hWnd, 0)
   local file_LV = reaper.JS_Window_FindChildByID(container, 1000)
   
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
-  if sel_count == 0 then msg("No items selected in media explorer!") return end
+  if sel_count == 0 then acendan.msg("No items selected in media explorer!","Media Explorer Items") return end
 
   for ndx in string.gmatch(sel_indexes, '[^,]+') do 
     index = tonumber(ndx)
@@ -906,14 +880,14 @@ function acendan.getSelectedItemsDetailsMediaExplorer()
     local size = reaper.JS_ListView_GetItemText(file_LV, index, 1)
     local date = reaper.JS_ListView_GetItemText(file_LV, index, 2)
     local ftype = reaper.JS_ListView_GetItemText(file_LV, index, 3)
-    dbg(fname .. ', ' .. size .. ', ' .. date .. ', ' .. ftype) 
+    acendan.dbg(fname .. ', ' .. size .. ', ' .. date .. ', ' .. ftype) 
   end
   
   -- Get selected path  from edit control inside combobox
   local combo = reaper.JS_Window_FindChildByID(hWnd, 1002)
   local edit = reaper.JS_Window_FindChildByID(combo, 1001)
   local path = reaper.JS_Window_GetTitle(edit, "", 255)
-  dbg(path)
+  acendan.dbg(path)
 
 end
 
