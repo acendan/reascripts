@@ -1,10 +1,10 @@
--- @noindex
-
-
-
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
+<<<<<<< Updated upstream
 -- @version 1.0
+=======
+-- @version 2.0
+>>>>>>> Stashed changes
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -13,17 +13,17 @@
 --   # Lua Utilities
 --   By Aaron Cendan - July 2020
 --
---   ### Upper Section - Template
---   * Provides a basic template for lua scripts.
---   * I found myself copy pasting from old scripts so hopefully no more of that.
+--   ### Upper Section - Templates
+--   * Provides a basic template for typical lua reascripts and background scripts
 --
 --   ### Lower Section - Utilities
+--   * Packageable as a library to reference in future scripts
 --   * Pretty much just a big pile of helper functions.
 --   * Ctrl + F is your friend here.
 --   * I wish I kept better documentation of the original script creators, as not all of these are my own original functions.
 --   * If you recognize one of your functions in here, I will gladly credit you directly next to that script, reach out at my website above.
 
-
+--[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,6 +36,10 @@
 -- Get this script's name and directory
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+
+-- Load lua utilities
+local acendan = loadUtilities((reaper.GetResourcePath()..'/reascripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
+if not acendan then return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -58,6 +62,13 @@ function msg(msg)
   reaper.MB(msg, script_name, 0)
 end
 
+-- Load lua utilities
+function loadUtilities(file)
+  local E,A=pcall(dofile,file)
+  if not(E)then return end
+  return A
+end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,12 +85,101 @@ reaper.PreventUIRefresh(-1)
 reaper.UpdateArrange()
 
 
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~ BACKGROUND SCRIPT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- @description Background Script Template
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @provides
+--   [main] . > acendan_Background script title.lua
+-- @link https://aaroncendan.me
+-- @about
+--   # This is a background/toggle script!
+--   By Aaron Cendan - Sept 2020
+--
+--   ### Notes
+--   * When prompted if you want to terminate instances, click the little checkbox then terminate.
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Refresh rate (in seconds)
+local refresh_rate = 0.3
+
+-- Get action context info (needed for toolbar button toggling)
+local _, _, section, cmdID = reaper.get_action_context()
+
+-- Get this script's name and directory
+local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
+local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Setup runs once on script startup
+function setup()
+  -- Timing control
+  local start = reaper.time_precise()
+  check_time = start
+  
+  -- Toggle command state on
+  reaper.SetToggleCommandState( section, cmdID, 1 )
+  reaper.RefreshToolbar2( section, cmdID )
+end
+
+-- Main function will run in Reaper's defer loop. EFFICIENCY IS KEY.
+function main()
+  -- System time in seconds (3600 per hour)
+  local now = reaper.time_precise()
+  
+  -- If the amount of time passed is greater than refresh rate, execute code
+  if now - check_time >= refresh_rate then
+
+    -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    -- THIS IS WHERE YOU DO ALL OF THE ACTUAL CODE THINGS, ONCE EVERY REFRESH
+    -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    -- Reset last used time
+    check_time = now
+  end
+
+  reaper.defer(main)
+end
+
+-- Exit function will run once when the script is terminated
+function Exit()
+  reaper.UpdateArrange()
+  reaper.SetToggleCommandState( section, cmdID, 0 )
+  reaper.RefreshToolbar2( section, cmdID )
+  return reaper.defer(function() end)
+end
+
+setup()
+reaper.atexit(Exit)
+main()
+
+]]--
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-if false then   -- Don't actually evaluate anything here if this script is run from the actions menu
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--[[
+-- Load lua utilities
+local acendan = loadUtilities((reaper.GetResourcePath()..'/reascripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
+if not acendan then return end
+
+function loadUtilities(file)
+  local E,A=pcall(dofile,file)
+  if not(E)then return end
+  return A
+end
+]]--
+
+local acendan = {}
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~ BACKGROUND SCRIPT ~~~~~~~~
@@ -167,23 +267,24 @@ main()
 -- ~~~~~~~~ DEBUG & MESSAGES ~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Deliver messages and add new line in console
-function dbg(dbg)
-  reaper.ShowConsoleMsg(dbg .. "\n")
+function acendan.dbg(dbg)
+  reaper.ShowConsoleMsg(tostring(dbg) .. "\n")
 end
 
 -- Deliver messages using message box
-function msg(msg)
+function acendan.msg(msg)
   reaper.MB(msg, script_name, 0)
 end
 
 -- Rets to bools // returns Boolean
-function retToBool(ret)
+function acendan.retToBool(ret)
   if ret == 1 then return true else return false end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~ GET USER INPUT ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--[[
 -- Single field
 local ret_input, user_input = reaper.GetUserInputs( script_name, 1, "Input Field", "Placeholder" )
 if not ret_input then return end
@@ -194,51 +295,51 @@ local ret_input, user_input = reaper.GetUserInputs( script_name, 2,
                           "Placeholder 1,Placeholder 2" )
 if not ret_input then return end
 local input_1, input_2 = user_input:match("([^,]+),([^,]+)")
-
+]]--
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~ VALUE MANIPULATION ~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Check if an input string starts with another string // returns Boolean
-function string.starts(str, start)
+function acendan.stringStarts(str, start)
    return str:sub(1, #start) == start
 end
 
 -- Check if an input string ends with another string // returns Boolean
-function string.ends(str, ending)
+function acendan.stringEnds(str, ending)
    return ending == "" or str:sub(-#ending) == ending
 end
 
 -- Clamp a value to given range // returns Number
-function clampValue(input,min,max)
+function acendan.clampValue(input,min,max)
   return math.min(math.max(input,min),max)
 end
 
 -- Scale value from range to range
-function scaleBetween(unscaled_val, min_new_range, max_new_range, min_old_range, max_old_range)
+function acendan.scaleBetween(unscaled_val, min_new_range, max_new_range, min_old_range, max_old_range)
   return (max_new_range - min_new_range) * (unscaled_val - min_old_range) / (max_old_range - min_old_range) + min_new_range
 end
 
 
 -- Round the input value // returns Number
-function roundValue(input)
+function acendan.roundValue(input)
   return math.floor(input + 0.5)
 end
 
 -- Increment a number formatted as a string // returns Number
-function incrementNumStr(num)
+function acendan.incrementNumStr(num)
   return tostring(tonumber(num) + 1)
 end
 
 -- Convert An Input String To Title Case // returns String
 -- To use this, add the utility function then insert the line below where needed:
 --> input_string = input_string:gsub("(%a)([%w_']*)", toTitleCase)
-function toTitleCase(first, rest)
+function acendan.toTitleCase(first, rest)
   return first:upper()..rest:lower()
 end
 
 -- Convert seconds (w decimal) into h:mm:ss:ms
-function dispTime(time)
+function acendan.dispTime(time)
   local hours = math.floor((time % 86400)/3600)
   local minutes = math.floor((time % 3600)/60)
   local seconds = math.floor((time % 60))
@@ -252,19 +353,19 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Get length/number of entries in a table // returns Number
 -- This is relatively unnecessary, as table length can just be acquired with #table
-function tableLength(table)
+function acendan.tableLength(table)
   local i = 0
   for _ in pairs(table) do i = i + 1 end
   return i
 end
 
 -- Check if a table contains a key // returns Boolean
-function tableContainsKey(table, key)
+function acendan.tableContainsKey(table, key)
     return table[key] ~= nil
 end
 
 -- Check if a table contains a value in any one of its keys // returns Boolean
-function tableContainsVal(table, val)
+function acendan.tableContainsVal(table, val)
   for index, value in ipairs(table) do
       if value == val then
           return true
@@ -274,19 +375,19 @@ function tableContainsVal(table, val)
 end
 
 -- Append new item to end of table
-function tableAppend(table, item)
+function acendan.tableAppend(table, item)
   table[#table+1] = item
 end
 
 -- Clear all elements of a table
-function clearTable(t)
+function acendan.clearTable(t)
   count = #t
   for i=0, count do t[i]=nil end
 end
 
 -- CSV to Table
 -- http://lua-users.org/wiki/LuaCsv
-function parseCSVLine (line,sep) 
+function acendan.parseCSVLine (line,sep) 
   local res = {}
   local pos = 1
   sep = sep or ','
@@ -332,6 +433,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~ ITEMS ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--[[
 -- Loop through all items
 local num_items = reaper.CountMediaItems( 0 )
 if num_items > 0 then
@@ -363,16 +465,17 @@ if num_sel_items > 0 then
 else
   msg("No items selected!")
 end
+]]--
 
 -- Save initially selected items to table
-function saveSelectedItems (table)
+function acendan.saveSelectedItems (table)
   for i = 1, reaper.CountSelectedMediaItems(0) do
     table[i] = reaper.GetSelectedMediaItem(0, i-1)
   end
 end
 
 -- Restore selected items from table. Requires tableLength() above
-function restoreSelectedItems(table)
+function acendan.restoreSelectedItems(table)
   for i = 1, tableLength(table) do
     reaper.SetMediaItemSelected( table[i], true )
   end
@@ -381,7 +484,7 @@ end
 reaper.Main_OnCommand(40289,0) -- Unselect all items
 
 -- Get starting position of selected items // returns Number (position)
-function getStartPosSelItems()
+function acendan.getStartPosSelItems()
   local position = math.huge
 
   -- Loop through selected items
@@ -402,7 +505,7 @@ function getStartPosSelItems()
 end
 
 -- Get source file name of active take from item input  // returns String
-function getFilenameTrackActiveTake(item)
+function acendan.getFilenameTrackActiveTake(item)
   if item ~= nil then
     local tk = reaper.GetActiveTake(item)
     if tk ~= nil then
@@ -419,6 +522,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ TRACKS ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--[[
 -- Loop through all tracks
 local num_tracks =  reaper.CountTracks( 0 )
 if num_tracks > 0 then
@@ -440,16 +544,17 @@ if num_sel_tracks > 0 then
 else
   msg("No tracks selected!")
 end
+]]--
 
 -- Save initially selected tracks to table
-function saveSelectedTracks (table)
+function acendan.saveSelectedTracks (table)
   for i = 1, reaper.CountSelectedTracks(0) do
     table[i] = reaper.GetSelectedTrack(0, i-1)
   end
 end
 
 -- Restore selected tracks from table. Requires tableLength() above
-function restoreSelectedTracks(table)
+function acendan.restoreSelectedTracks(table)
   for i = 1, tableLength(table) do
     reaper.SetTrackSelected( table[i], true )
   end
@@ -459,6 +564,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ REGIONS ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--[[
 -- Loop through all regions
 local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
 local num_total = num_markers + num_regions
@@ -493,6 +599,7 @@ if start_time_sel ~= end_time_sel then
 else
   msg("You need to make a time selection!")
 end
+]]--
 
 -- Get selected regions in Rgn Mrkr Manager using JS_Reaper API, requires getRegionManager
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
@@ -508,7 +615,7 @@ end
   end
   
 ]]--
-function getSelectedRegions()
+function acendan.getSelectedRegions()
   local hWnd = getRegionManager()
   if hWnd == nil then return end  
 
@@ -531,7 +638,7 @@ function getSelectedRegions()
   return names
 end
 
-function getRegionManager()
+function acendan.getRegionManager()
   local title = reaper.JS_Localize("Region/Marker Manager", "common")
   local arr = reaper.new_array({}, 1024)
   reaper.JS_Window_ArrayFind(title, true, arr)
@@ -549,6 +656,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ MARKERS ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--[[
 -- Loop through all markers
 local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
 local num_total = num_markers + num_regions
@@ -583,6 +691,7 @@ if start_time_sel ~= end_time_sel then
 else
   msg("You need to make a time selection!")
 end
+]]--
 
 -- Get selected markers in Rgn Mrkr Manager using JS_Reaper API, requires getRegionManager
 --[[ EXAMPLE USAGE
@@ -597,7 +706,7 @@ end
   end
   
 ]]--
-function getSelectedMarkers()
+function acendan.getSelectedMarkers()
   local hWnd = getRegionManager()
   if hWnd == nil then return end  
 
@@ -620,7 +729,7 @@ function getSelectedMarkers()
   return names
 end
 
-function getRegionManager()
+function acendan.getRegionManager()
   local title = reaper.JS_Localize("Region/Marker Manager", "common")
   local arr = reaper.new_array({}, 1024)
   reaper.JS_Window_ArrayFind(title, true, arr)
@@ -640,13 +749,13 @@ end
 -- ~~~~~~~~~~~ TIME SEL ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Save original time/loop selection
-function saveLoopTimesel()
+function acendan.saveLoopTimesel()
   init_start_timesel, init_end_timesel = reaper.GetSet_LoopTimeRange(0, 0, 0, 0, 0)
   init_start_loop, init_end_loop = reaper.GetSet_LoopTimeRange(0, 1, 0, 0, 0)
 end
 
 -- Restore original time/loop selection
-function restoreLoopTimesel()
+function acendan.restoreLoopTimesel()
   reaper.GetSet_LoopTimeRange(1, 0, init_start_timesel, init_end_timesel, 0)
   reaper.GetSet_LoopTimeRange(1, 1, init_start_loop, init_end_loop, 0)
 end
@@ -656,12 +765,12 @@ end
 -- ~~~~~~~~~~ SCRIPT NAME ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Get number from anywhere in a script name // returns Number
-function extractNumberInScriptName()
+function acendan.extractNumberInScriptName()
   return tonumber(string.match(script_name, "%d+"))
 end
 
 -- Get text field from end of script name, formatted like "acendan_Blah blah blah-FIELD.lua" // returns String
-function extractFieldScriptName()
+function acendan.extractFieldScriptName()
   return string.sub( script_name, string.find(script_name, "-") + 1, string.len(script_name))
 end
 
@@ -670,7 +779,7 @@ end
 -- ~~~~~~~~~~~~~ COLORS ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Convert RGB value to int for Reaper native colors, i.e. region coloring // returns Number
-function rgb2int ( R, G, B )
+function acendan.rgb2int ( R, G, B )
   return (R + 256 * G + 65536 * B)|16777216
 end
 
@@ -679,12 +788,12 @@ end
 -- ~~~~~~~~~~~~ FILE MGMT ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Check if a file exists // returns Boolean
-function fileExists(filename)
+function acendan.fileExists(filename)
    return reaper.file_exists(filename)
 end
 
 -- Check if a directory/folder exists. // returns Boolean
-function directoryExists(folder)
+function acendan.directoryExists(folder)
   local fileHandle, strError = io.open(folder .. "\\*.*","r")
   if fileHandle ~= nil then
     io.close(fileHandle)
@@ -698,6 +807,7 @@ function directoryExists(folder)
   end
 end
 
+--[[
 -- Loop through the files in a directory
 local fil_idx = 0
 repeat
@@ -717,9 +827,11 @@ repeat
   
   dir_idx = dir_idx + 1
 until not  reaper.EnumerateSubdirectories( directory, dir_idx )
+]]---
+
 
 -- Get project directory (folder) // returns String
-function getProjDir()
+function acendan.getProjDir()
   if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     separator = "\\"
   else
@@ -735,17 +847,17 @@ function getProjDir()
 end
 
 -- Open a webpage or file directory
-function openDirectoryOrURL(path)
+function acendan.openDirectoryOrURL(path)
   reaper.CF_ShellExecute(path)
 end
 
 -- Get 3 character all caps extension from a file path input // returns String
-function fileExtension(filename)
+function acendan.fileExtension(filename)
   return filename:sub(-3):upper()
 end
 
 -- Convert file input to table, each line = new entry // returns Table
-function fileToTable(filename)
+function acendan.fileToTable(filename)
   local file = io.open(filename)
   io.input(file)
   local t = {}
@@ -758,7 +870,7 @@ function fileToTable(filename)
 end
 
 -- Get web interface info from REAPER.ini // returns Table
-function getWebInterfaceSettings()
+function acendan.getWebInterfaceSettings()
   local ini_file = reaper.get_ini_file()
   local ret, num_webs = reaper.BR_Win32_GetPrivateProfileString( "reaper", "csurf_cnt", "", ini_file )
   local t = {}
@@ -772,13 +884,17 @@ function getWebInterfaceSettings()
 end
 
 -- Get localhost port from reaper.ini web interface file line. Works best with getWebInterfaceSettings()// returns String
-function getPort(line)
+function acendan.getPort(line)
   local port = line:sub(line:find(" ")+3,line:find("'")-2)
   return port
 end
 
 -- Prompt user to locate folder in system // returns String (or nil if cancelled)
+<<<<<<< Updated upstream
 function promptForFolder()
+=======
+function acendan.promptForFolder()
+>>>>>>> Stashed changes
   local ret, folder = reaper.JS_Dialog_BrowseForFolder( "Please select your folder...", "" )
   if ret == 1 then
     -- Folder found
@@ -797,7 +913,7 @@ end
 -- ~~~~~~~~~~~~ RENDERING ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Get/Set render settings to/from table
-function getRenderSettings()
+function acendan.getRenderSettings()
   local t = {}
   t.rendersettings   = reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", -1, false)            -- Master mix, stems, etc
   t.boundsflag       = reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", -1, false)          -- Time selection, project, etc
@@ -807,7 +923,7 @@ function getRenderSettings()
   return t
 end
 
-function setRenderSettings(t)
+function acendan.setRenderSettings(t)
   reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", t.rendersettings, true)
   reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", t.boundsflag, true)
   reaper.GetSetProjectInfo_String(0, 'RENDER_FORMAT', t.renderformat, true)
@@ -820,7 +936,7 @@ end
 -- ~~~~~~~~~ MEDIA EXPLORER ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Count selected items media explorer // returns Number
-function countSelectedItemsMediaExplorer()
+function acendan.countSelectedItemsMediaExplorer()
   local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
   if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
   
@@ -840,7 +956,7 @@ function countSelectedItemsMediaExplorer()
 end
 
 -- Get selected item details media explorer
-function getSelectedItemsDetailsMediaExplorer()
+function acendan.getSelectedItemsDetailsMediaExplorer()
   local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
   if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
   
@@ -872,7 +988,7 @@ end
 -- ~~~~~~~~~~ ACTIONS LIST ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Filter actions list for scripts or search term
-function filterActionsList(search)
+function acendan.filterActionsList(search)
   if reaper.APIExists("JS_Window_Find")then;
     reaper.ShowActionList();
     local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Actions", "common"),true);
@@ -885,7 +1001,7 @@ end
 -- ~~~~~~~~~~~~~ REAPACK ~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Open ReaPack About page for this script
-function help()
+function acendan.help()
   if not reaper.ReaPack_GetOwner then
     reaper.MB('This feature requires ReaPack v1.2 or newer.', script_name, 0)
     return
@@ -901,15 +1017,17 @@ function help()
   reaper.ReaPack_FreeEntry(owner)
 end
 
+--[[
 -- Check for JS_ReaScript Extension
 if reaper.JS_Dialog_BrowseForSaveFile then
 
 else
   msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
 end
+]]--
 
 -- Looks for JSFX by name in Effects/ACendan Scripts/JSFX/      \\ Returns boolean
-function checkForJSFX(jsfx_name)
+function acendan.checkForJSFX(jsfx_name)
   if not jsfx_name:find(".jsfx") then jsfx_name = jsfx_name .. ".jsfx" end
   
   if reaper.file_exists( reaper.GetResourcePath() .. "\\Effects\\ACendan Scripts\\JSFX\\" .. jsfx_name ) then
@@ -918,10 +1036,8 @@ function checkForJSFX(jsfx_name)
     return false
   end
 end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- Notification message when run from actions
-else
-  -- msg("To view, copy, or edit the Lua Utilities, click 'Edit Action...'")
-end
+return acendan
