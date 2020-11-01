@@ -1,10 +1,6 @@
 -- @description Lua Utility Functions and ReaScript Template
 -- @author Aaron Cendan
-<<<<<<< Updated upstream
--- @version 1.0
-=======
--- @version 2.0
->>>>>>> Stashed changes
+-- @version 2.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -890,11 +886,7 @@ function acendan.getPort(line)
 end
 
 -- Prompt user to locate folder in system // returns String (or nil if cancelled)
-<<<<<<< Updated upstream
-function promptForFolder()
-=======
 function acendan.promptForFolder()
->>>>>>> Stashed changes
   local ret, folder = reaper.JS_Dialog_BrowseForFolder( "Please select your folder...", "" )
   if ret == 1 then
     -- Folder found
