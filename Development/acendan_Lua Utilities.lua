@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.4
+-- @version 2.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -186,6 +186,7 @@ end
 
 -- Deliver messages using message box
 function acendan.msg(msg, title)
+  local title = title or "ACendan Info"
   reaper.MB(msg, title, 0)
 end
 
