@@ -1,6 +1,6 @@
--- @description Lua Utility Functions and ReaScript Template
+-- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.2
+-- @version 2.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -34,8 +34,9 @@ local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 
 -- Load lua utilities
+local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
 local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
-if not acendan then return end
+if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -58,12 +59,7 @@ function msg(msg)
   reaper.MB(msg, script_name, 0)
 end
 
--- Load lua utilities
-function loadUtilities(file)
-  local E,A=pcall(dofile,file)
-  if not(E)then return end
-  return A
-end
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
@@ -114,8 +110,9 @@ local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 
 -- Load lua utilities
+local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
 local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
-if not acendan then return end
+if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -194,14 +191,9 @@ main()
 
 --[[
 -- Load lua utilities
+local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
 local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
-if not acendan then return end
-
-function loadUtilities(file)
-  local E,A=pcall(dofile,file)
-  if not(E)then return end
-  return A
-end
+if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 ]]--
 
 local acendan = {}
@@ -218,8 +210,8 @@ function acendan.dbg(dbg)
 end
 
 -- Deliver messages using message box
-function acendan.msg(msg)
-  reaper.MB(msg, script_name, 0)
+function acendan.msg(msg, title)
+  reaper.MB(msg, title, 0)
 end
 
 -- Rets to bools // returns Boolean
@@ -711,12 +703,12 @@ end
 -- ~~~~~~~~~~ SCRIPT NAME ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Get number from anywhere in a script name // returns Number
-function acendan.extractNumberInScriptName()
+function acendan.extractNumberInScriptName(script_name)
   return tonumber(string.match(script_name, "%d+"))
 end
 
 -- Get text field from end of script name, formatted like "acendan_Blah blah blah-FIELD.lua" // returns String
-function acendan.extractFieldScriptName()
+function acendan.extractFieldScriptName(script_name)
   return string.sub( script_name, string.find(script_name, "-") + 1, string.len(script_name))
 end
 
@@ -846,8 +838,8 @@ function acendan.promptForFolder()
     return nil
   else 
     -- Folder picking error
-    msg("Something went wrong... Please try again!")
-    promptForFolder()
+    acendan.msg("Something went wrong... Please try again!","Folder picker error")
+    acendan.promptForFolder()
   end
 end
 
