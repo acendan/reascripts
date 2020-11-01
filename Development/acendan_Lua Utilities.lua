@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 2.6
+-- @version 2.6.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -173,7 +173,7 @@ if not acendan then reaper.ShowConsoleMsg("This script requires ACendan Lua Util
 
 local acendan = {}
 
-function version()
+function acendan.version()
   local file = io.open((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
   local vers_header = "-- @version "
   io.input(file)
