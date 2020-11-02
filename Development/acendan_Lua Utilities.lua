@@ -174,7 +174,7 @@ if not acendan then reaper.MB("This script requires ACendan Lua Utilities! Pleas
 if acendan.version() < 2.5 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end
 ]]--
 
-local acendan = {}
+acendan = {}
 
 function acendan.version()
   local file = io.open((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'),"r")
