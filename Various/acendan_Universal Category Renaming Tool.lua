@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.3
+-- @version 3.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,8 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   Introducing basic $wildcard support!
---   Can now utilize contextual names and numbers
+--   Added track manager selections functionality
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -383,6 +382,28 @@ function renameTracks(num_tracks)
     else
       reaper.MB("No tracks selected!","UCS Renaming Tool", 0)
     end
+
+  elseif ucs_area == "Selected in Track Manager" then
+    local sel_trk_table = getSelectedTracks()
+    if sel_trk_table then 
+      for _, trkidx in pairs(sel_trk_table) do 
+        track = reaper.GetTrack(0,trkidx - 1)
+        local track_num = tostring(trkidx)
+        if string.len(track_num) == 1 then track_num = "0" .. track_num end
+        leadingZeroUCSNumStr()
+        setFullName()
+        if ucs_full_name:find("$Tracknumber") then ucs_full_name = ucs_full_name:gsub("$Tracknumber", track_num) end
+        if ucs_full_name:find("$Track") then 
+          local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
+          if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
+          else ucs_full_name = ucs_full_name:gsub("$Track","") end
+        end
+        reaper.GetSetMediaTrackInfo_String( track, "P_NAME", ucs_full_name, true )
+        incrementUCSNumStr()
+      end
+    else
+      reaper.MB("No tracks selected!\n\nPlease go to View > Track Manager to select tracks.","UCS Renaming Tool", 0)
+    end
     
   elseif ucs_area == "All Tracks" then
     for i = 0, num_tracks-1 do
@@ -522,6 +543,47 @@ end
 
 function getRegionManager()
   local title = reaper.JS_Localize("Region/Marker Manager", "common")
+  local arr = reaper.new_array({}, 1024)
+  reaper.JS_Window_ArrayFind(title, true, arr)
+  local adr = arr.table()
+
+  for j = 1, #adr do
+    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
+    -- verify window by checking if it also has a specific child.
+    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
+      return hwnd
+    end 
+  end
+end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~ GET SELECTED TRACKS  ~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function getSelectedTracks()
+  local hWnd = getTrackManager()
+  if hWnd == nil then return end  
+
+  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
+
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  if sel_count == 0 then return end 
+
+  names = {}
+  i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do 
+    i = i+1
+    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    names[i] = tonumber(sel_item)
+  end
+  
+  -- Return table of selected tracks
+  return names
+end
+
+function getTrackManager()
+  local title = reaper.JS_Localize("Track Manager", "common")
   local arr = reaper.new_array({}, 1024)
   reaper.JS_Window_ArrayFind(title, true, arr)
   local adr = arr.table()

@@ -840,7 +840,12 @@
                     break;
 
                 case "Tracks":
-                    vals = ["Selected Tracks", "All Tracks"];
+                    // Remove selected tracks option for mac users for now    
+                    if (isMac){
+                        vals = ["Selected Tracks", "All Tracks"];
+                    } else {
+                        vals = ["Selected Tracks", "Selected in Track Manager", "All Tracks"];
+                    }
                     break;
 
                 default:
