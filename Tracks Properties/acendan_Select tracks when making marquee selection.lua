@@ -1,6 +1,6 @@
 -- @description Select Tracks w Marquee Selection
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Select tracks when making marquee selection.lua
@@ -10,7 +10,9 @@
 --   By Aaron Cendan - Oct 2020
 --
 --   ### Notes
---   * When prompted if you want to terminate instances, click the little checkbox then terminate.
+--   * If this script isn't working for you, then it might be because you have marquee bound to something other than right click.
+--   * Please scroll down and edit Line 50 to match your preferences!
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -25,6 +27,28 @@ local _, _, section, cmdID = reaper.get_action_context()
 -- Get this script's name and directory
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+
+-- Mouse states and modifiers table
+local mouse_states = {}
+mouse_states.left_click = 1
+mouse_states.right_click = 2
+mouse_states.middle_click = 64
+mouse_states.ctrl = 4
+mouse_states.shift = 8
+mouse_states.alt = 16
+mouse_states.win_key = 32
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~ USER CONFIG - EDIT ME! ~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- By default, this script assumes you have marquee selection bound to right click and drag
+-- Change this setting by referencing the table above! 
+-- For example, if you use Alt + Shift + Middle Click as your marquee selection, then replace the variable line below with:
+-- > local marquee_preference = mouse_states.alt + mouse_states.shift + mouse_states.middle_click
+local marquee_preference = mouse_states.right_click
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -62,10 +86,10 @@ function main()
       if reaper.BR_GetMouseCursorContext_Track() then
         track =  reaper.GetMediaTrackInfo_Value( reaper.BR_GetMouseCursorContext_Track(), "IP_TRACKNUMBER" ) - 1
       end
-      mouse = reaper.JS_Mouse_GetState( 2 )
+      mouse = reaper.JS_Mouse_GetState( marquee_preference )
       
       -- If right clicking with mouse over the arrange over a valid track...
-      if mouse == 2 and window == "arrange" and segment == "track" and track >= 0 then
+      if mouse == marquee_preference and window == "arrange" and segment == "track" and track >= 0 then
       
         --[[ reaper.ShowConsoleMsg("\n\ncontext: " .. context .. 
                               "\nwindow: " .. window .. 
