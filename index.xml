@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="8caaac2db8448678cbde952d3eed9e7c1a0b9bd6" name="ACendan Scripts">
+<index version="1" commit="e57b21bca218ebbb158c94f664521e5bd195acc1" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -648,7 +648,8 @@
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This is a background/toggle script!\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Oct 2020\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Notes\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab When prompted if you want to terminate instances, click the little checkbox then terminate.\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab If this script isn't working for you, then it might be because you have marquee bound to something other than right click.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Please scroll down and edit Line 50 to match your preferences!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -658,6 +659,9 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-10-30T15:42:41Z">
         <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/edf9933cf61ab8d2c1540c2af3fad857ef143811/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2020-12-02T16:32:19Z">
+        <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/e57b21bca218ebbb158c94f664521e5bd195acc1/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
