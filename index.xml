@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="30871adf59fc851b3b55231e8f4af3707dd3efd6" name="ACendan Scripts">
+<index version="1" commit="4c30e38b198f3b81a5691a50860e3439754c3f36" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -668,6 +668,9 @@
       </version>
       <version name="1.4" author="Aaron Cendan" time="2020-12-02T21:31:57Z">
         <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/30871adf59fc851b3b55231e8f4af3707dd3efd6/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
+      </version>
+      <version name="1.5" author="Aaron Cendan" time="2020-12-02T21:45:25Z">
+        <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/4c30e38b198f3b81a5691a50860e3439754c3f36/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
