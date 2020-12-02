@@ -1,6 +1,6 @@
 -- @description Select Tracks w Marquee Selection
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Select tracks when making marquee selection.lua
@@ -11,7 +11,8 @@
 --
 --   ### Notes
 --   * If this script isn't working for you, then it might be because you have marquee bound to something other than right click.
---   * Please scroll down and edit Line 50 to match your preferences!
+--   * Check out this YouTube video for a tutorial on how to change it! 
+--   https://youtu.be/0UlyAehHyN4
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,7 +49,6 @@ mouse_states.win_key = 32
 -- For example, if you use Alt + Shift + Middle Click as your marquee selection, then replace the variable line below with:
 -- > local marquee_preference = mouse_states.alt + mouse_states.shift + mouse_states.middle_click
 local marquee_preference = mouse_states.right_click
-
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
