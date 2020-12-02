@@ -1,6 +1,6 @@
 -- @description Select Tracks w Marquee Selection
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Select tracks when making marquee selection.lua
@@ -82,14 +82,16 @@ function main()
       -- Get cursor info
       context = reaper.GetCursorContext()
       window, segment, details = reaper.BR_GetMouseCursorContext()
+      focus = reaper.JS_Window_GetTitle(  reaper.JS_Window_GetFocus())
       track = -1
       if reaper.BR_GetMouseCursorContext_Track() then
         track =  reaper.GetMediaTrackInfo_Value( reaper.BR_GetMouseCursorContext_Track(), "IP_TRACKNUMBER" ) - 1
       end
       mouse = reaper.JS_Mouse_GetState( marquee_preference )
       
+      
       -- If right clicking with mouse over the arrange over a valid track...
-      if mouse == marquee_preference and window == "arrange" and segment == "track" and track >= 0 then
+      if mouse == marquee_preference and window == "arrange" and segment == "track" and track >= 0 and focus == "trackview" then
       
         --[[ reaper.ShowConsoleMsg("\n\ncontext: " .. context .. 
                               "\nwindow: " .. window .. 
