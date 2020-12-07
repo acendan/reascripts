@@ -1,10 +1,12 @@
 -- @description Auto Generate Scripts to Open Web Interfaces
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Auto generate scripts to open web interfaces.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   Fix nil issue on auto-generation when Mackie/OSC interfaces included. Thanks X-Raym
 -- @about
 --   # Auto Generate Scripts to Open Web Interfaces
 --   By Aaron Cendan - August 2020
@@ -39,13 +41,15 @@ function generateScripts()
     for _, line in pairs(ini_file) do
       if line ~= "" then 
         local name = getName(line)
-        local script_name = "acendan_Open web interface - " .. name .. ".lua"
-        table.insert(script_names,script_name)
-        prompt = prompt .. script_name .. "\n"
-        
-        local port = getPort(line)
-        local script_port = "reaper.CF_ShellExecute(" .. "'http://localhost:" .. port .. "')"
-        table.insert(script_ports,script_port)
+        if name then
+          local script_name = "acendan_Open web interface - " .. name .. ".lua"
+          table.insert(script_names,script_name)
+          prompt = prompt .. script_name .. "\n"
+          
+          local port = getPort(line)
+          local script_port = "reaper.CF_ShellExecute(" .. "'http://localhost:" .. port .. "')"
+          table.insert(script_ports,script_port)
+        end
       end
     end
     
@@ -137,10 +141,14 @@ end
 
 -- Get localhost port from reaper.ini file line
 function getName(line)
-  local name = line:sub(1,line:find(".html")-1)
-  name = name:sub(name:find("'[^']*$")+1)
-  name = name:gsub("acendan_","")
-  return name
+  if line:find(".html") then
+    local name = line:sub(1,line:find(".html")-1)
+    name = name:sub(name:find("'[^']*$")+1)
+    name = name:gsub("acendan_","")
+    return name
+  else
+    return nil
+  end
 end
 
 
