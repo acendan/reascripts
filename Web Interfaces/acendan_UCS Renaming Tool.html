@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html color-mode="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,6 +12,32 @@
     <link rel="icon" type="image/png" href="ucs_libraries/ucs_logo_black_on_white.png">
 
     <style>
+        /* Light Mode CSS Vars */
+        :root[color-mode="light"] {
+            --text-color: #333333;
+            --background-color: #ffffff;
+            --border-color: black;
+            --navbar-background: #cccccc;
+            --navbar-text: #000000;
+        }
+
+        /* Dark Mode CSS Vars */
+        :root[color-mode="dark"] {
+            --text-color: #ffffff;
+            --background-color: #2c3034;
+            --border-color: white;
+            --navbar-background: #1b1f22;
+            --navbar-text:  #ffffff;
+        }
+        
+        :root[color-mode="light"] .light--hidden {
+            display: none;
+        }
+
+        :root[color-mode="dark"] .dark--hidden {
+            display: none;
+        }
+        
         #main_wrap {
             margin: 0 auto;
             width: 960px;
@@ -172,7 +198,7 @@
             list-style: none;
             font-size: 14px;
             text-align: center;
-            background-color: #ffffff;
+            background-color: var(--background-color);
             border: 1px solid #cccccc;
             border: 1px solid rgba(0, 0, 0, 0.15);
             border-radius: 4px;
@@ -187,7 +213,7 @@
             clear: both;
             font-weight: normal;
             line-height: 1.42857143;
-            color: #333333;
+            color: var(--text-color);
             white-space: nowrap;
         }
 
@@ -266,20 +292,37 @@
                 top: 46px !important;
             }
 
-        /*
-           ~~~~~~~~~~~~~~~~~~
-               LIGHT MODE
-           ~~~~~~~~~~~~~~~~~~
-        */
-        body.light {
+        body {
             padding-top: 70px;
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
 
         /* Horizontal line */
-        hr.light {
-            border: 1px solid black;
+        hr {
+            border: 1px solid var(--border-color);
+        }
+        /* Form elements */
+        .form-group label, input, select {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
+        }
+
+        /* Cards */
+        .card {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
+        }
+
+        /* Datatables pagination buttons */
+        .page-item.active .page-link {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
+        }
+
+        .page-link {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
         }
     </style>
     <script src="/main.js"></script>
@@ -290,11 +333,11 @@
     <script type="text/javascript" src="ucs_libraries/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="ucs_libraries/typeahead.bundle.js"></script>
 </head>
-<body class="light">
+<body>
     <!--------------->
     <!--- NAVBAR ---->
     <!--------------->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #cccccc; color: #000000;" id="ucsNavbar">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text);" id="ucsNavbar">
         <a class="navbar-brand" href="#">
             <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <b>&nbsp;UCS Reaper Renaming Tool</b>
@@ -346,8 +389,12 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-success" target="_blank">Provide Feedback</a>
-                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark dark--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-light light--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+                <a class="btn color-mode__btn btn-outline-light light--hidden" style="margin-left:20px"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
+                <a class="btn color-mode__btn btn-outline-dark dark--hidden" style="margin-left:20px"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
             </form>
         </div>
     </nav>
@@ -366,7 +413,7 @@
         <form id="ucsForm">
 
             <!-- USER PRESET SETUP -->
-            <div class="card w-75" id="userPresetsInstructions" style="display: none">
+            <div class="card border-dark w-75" id="userPresetsInstructions" style="display: none">
                 <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
                     <h6 class="card-title">User Presets Setup Instructions</h6>
                     <ul>
@@ -479,7 +526,7 @@
                 <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon">&nbsp;&nbsp;<b>Submit</b></button>
             </div>
             <!-- PAGE DIVIDER -->
-            <div><hr class="light"></div>
+            <div><hr></div>
         </form>
         <!--------------->
         <!-- UCS Table -->
@@ -492,7 +539,7 @@
             <h6 id="reenableOnlineUCSButtonText" style="display: none">If you would like to re-enter 'Online Mode' using Google Sheets data, click here.</h6>
             <button id="downloadUCSButton" type="button" class="btn btn-outline-success" style="display: none; margin-top: 10px"><img class="icons filter-green" src="ucs_libraries/data-transfer-download.svg" alt="download_icon">&nbsp;&nbsp;<b>Download</b></button>
             <button id="onlineUCSButton" type="button" class="btn btn-outline-warning" style="display: none; margin-top: 10px"><img class="icons filter-yellow" src="ucs_libraries/wifi.svg" alt="wifi_icon">&nbsp;&nbsp;<b>Online</b></button>
-            <div class="card w-75" id="UCSInstallInstructions" style="display: none">
+            <div class="card border-dark w-75" id="UCSInstallInstructions" style="display: none">
                 <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
                     <h6 class="card-title">Offline Installation and Setup Instructions</h6>
                     <ul>
@@ -511,7 +558,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="card w-75" id="UCSOnlineModeInstructions" style="display: none">
+            <div class="card border-dark w-75" id="UCSOnlineModeInstructions" style="display: none">
                 <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
                     <h6 class="card-title">Re-enable Online Mode Instructions</h6>
                     <ul>
@@ -600,6 +647,9 @@
             // https://forum.cockos.com/showpost.php?p=2337785&postcount=1326
             if (isMac) $("#userInputArea option:contains('Selected Regions in Region Manager')").remove();
 
+            // Set dark mode if previously set or sys pref
+            if (localStorage.getItem("color-mode") === "dark" || (window.matchMedia("(prefers-color-scheme: dark)").matches && !localStorage.getItem("color-mode"))) enableDarkMode();
+
             // Assigns country icon for current language to navbar language dropdown
             getUCSLanguage();
 
@@ -647,6 +697,65 @@
                 name: 'jsonCategoryAutofill',
                 source: substringMatcher(jsonCategoryAutofill)
             });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        //   LIGHT / DARK MODE
+        // ~~~~~~~~~~~~~~~~~~~~
+        const toggleColorMode = e => {
+            /* ENABLE LIGHT MODE */
+            if (e.currentTarget.classList.contains("light--hidden")) {
+                enableLightMode();
+                return;
+            }
+
+            /* ENABLE DARK MODE */
+            enableDarkMode();
+        }
+
+        const toggleColorButtons = document.querySelectorAll(".color-mode__btn");
+        toggleColorButtons.forEach(btn => {
+            btn.addEventListener("click", toggleColorMode);
+        });
+
+        function enableDarkMode() {
+            document.documentElement.setAttribute("color-mode","dark");
+            localStorage.setItem("color-mode","dark");
+
+            $("#UCRTDataTable").removeClass("table-light");
+            $("#UCRTDataTable").addClass("table-dark");
+
+            $("#ucsNavbar").removeClass("navbar-light");
+            $("#ucsNavbar").addClass("navbar-dark");
+
+            $("#userPresetsInstructions").removeClass("border-dark");
+            $("#userPresetsInstructions").addClass("border-light");
+
+            $("#UCSInstallInstructions").removeClass("border-dark");
+            $("#UCSInstallInstructions").addClass("border-light");
+
+            $("#UCSOnlineModeInstructions").removeClass("border-dark");
+            $("#UCSOnlineModeInstructions").addClass("border-light");
+        }
+
+        function enableLightMode() {
+            document.documentElement.setAttribute("color-mode","light");
+            localStorage.setItem("color-mode","light");
+            
+            $("#UCRTDataTable").removeClass("table-dark");
+            $("#UCRTDataTable").addClass("table-light");
+
+            $("#ucsNavbar").removeClass("navbar-dark");
+            $("#ucsNavbar").addClass("navbar-light");
+
+            $("#userPresetsInstructions").removeClass("border-light");
+            $("#userPresetsInstructions").addClass("border-dark");
+
+            $("#UCSInstallInstructions").removeClass("border-light");
+            $("#UCSInstallInstructions").addClass("border-dark");
+
+            $("#UCSOnlineModeInstructions").removeClass("border-light");
+            $("#UCSOnlineModeInstructions").addClass("border-dark");
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~
         // SUBMIT BUTTON & LUA TRIGGER

@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.5
+-- @version 3.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
