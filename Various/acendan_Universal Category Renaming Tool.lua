@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.7
+-- @version 3.8
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -52,6 +52,9 @@ local ucs_full_name = ""
 
 -- Copy file name to clipboard after processing?
 local copy_to_clipboard = false
+
+-- Initialize line to be copied. Leave this blank!
+local line_to_copy = ""
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~  
@@ -114,6 +117,9 @@ function parseUCSWebInterfaceInput()
       reaper.MB("Invalid search type. Did you remove or rename 'userInputItems' in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
     end
   end
+
+  -- Copy to clipboard
+  if copy_to_clipboard and line_to_copy then reaper.CF_SetClipboard( line_to_copy ) end
 
   reaper.Undo_EndBlock("UCS Renaming Tool", -1)
 end
@@ -491,7 +497,11 @@ function setFullName()
   -- Build the final name!
   ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
 
-  if copy_to_clipboard then reaper.CF_SetClipboard( ucs_full_name ) end
+  -- Prep line to copy for clipboard
+  if copy_to_clipboard then
+    if line_to_copy == "" then line_to_copy = ucs_full_name
+    else line_to_copy = line_to_copy .. "\n" .. ucs_full_name end
+  end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
