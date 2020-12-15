@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="4cb0cb734a5a1eb6a9fdad3e5f90836e3c3fdfad" name="ACendan Scripts">
+<index version="1" commit="eb660ec30d98c380d07251144eb267c9efac90f2" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -936,6 +936,10 @@ Can now utilize contextual names and numbers]]></changelog>
       <version name="3.7" author="Aaron Cendan" time="2020-12-15T05:31:16Z">
         <changelog><![CDATA[Added option for copying to clipboard after processing]]></changelog>
         <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/4cb0cb734a5a1eb6a9fdad3e5f90836e3c3fdfad/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="3.8" author="Aaron Cendan" time="2020-12-15T05:53:08Z">
+        <changelog><![CDATA[Added option for copying to clipboard after processing]]></changelog>
+        <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/eb660ec30d98c380d07251144eb267c9efac90f2/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
