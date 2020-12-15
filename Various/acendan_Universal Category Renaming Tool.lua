@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.8
+-- @version 3.9
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -25,6 +25,7 @@
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
 --   Added option for copying to clipboard after processing
+--   Added option for copying to clipboard without processing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -50,10 +51,14 @@ local ret_data, ucs_data = reaper.GetProjExtState( 0, "UCS_WebInterface", "Data"
 -- Initialize global var for full name, see setFullName()
 local ucs_full_name = ""
 
--- Copy file name to clipboard after processing?
+-- Copy file name(s) to clipboard AFTER processing?
 local copy_to_clipboard = false
 
--- Initialize line to be copied. Leave this blank!
+-- Copy file name to clipboard WITHOUT processing? 
+-- This will bypass the processing section in the web interface and JUST copy to clipboard. Does not support wildcards.
+local copy_without_processing = false
+
+-- Initialize line(s) to be copied. Leave this blank!
 local line_to_copy = ""
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -77,49 +82,60 @@ function parseUCSWebInterfaceInput()
   -- Show message box with form inputs and respective ret bools. Toggle at top of script.
   if debug_UCS_Input then debugUCSInput() end
  
-  -- Break out evaluation based on search type
-  if ucs_type == "Regions" then
-    local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
-    if num_regions > 0 then
-      renameRegions(num_markers,num_regions)
-    else
-      reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
-    end
-    
-  elseif ucs_type == "Markers" then
-    local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
-    if num_markers > 0 then
-      renameMarkers(num_markers,num_regions)
-    else
-      reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
-    end
-    
-  elseif ucs_type == "Media Items" then
-    local num_items = reaper.CountMediaItems( 0 )
-    if num_items > 0 then
-      renameMediaItems(num_items)
-    else
-      reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
-    end
-      
-  elseif ucs_type == "Tracks" then
-    local num_tracks =  reaper.CountTracks( 0 )
-    if num_tracks > 0 then
-      renameTracks(num_tracks)
-    else
-      reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
-    end
+  -- Copy to clipboard without processing
+  if not copy_without_processing then
   
-  else
-    if ret_type then
-      reaper.MB("Invalid search type. Did you tweak the 'userInputItems' options in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
+    -- Break out evaluation based on search type
+    if ucs_type == "Regions" then
+      local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+      if num_regions > 0 then
+        renameRegions(num_markers,num_regions)
+      else
+        reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
+      end
+      
+    elseif ucs_type == "Markers" then
+      local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+      if num_markers > 0 then
+        renameMarkers(num_markers,num_regions)
+      else
+        reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
+      end
+      
+    elseif ucs_type == "Media Items" then
+      local num_items = reaper.CountMediaItems( 0 )
+      if num_items > 0 then
+        renameMediaItems(num_items)
+      else
+        reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
+      end
+        
+    elseif ucs_type == "Tracks" then
+      local num_tracks =  reaper.CountTracks( 0 )
+      if num_tracks > 0 then
+        renameTracks(num_tracks)
+      else
+        reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
+      end
+    
     else
-      reaper.MB("Invalid search type. Did you remove or rename 'userInputItems' in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
+      if ret_type then
+        reaper.MB("Invalid search type. Did you tweak the 'userInputItems' options in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
+      else
+        reaper.MB("Invalid search type. Did you remove or rename 'userInputItems' in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
+      end
     end
+    
+    -- Copy to clipboard AFTER processing
+    if copy_to_clipboard and line_to_copy then reaper.CF_SetClipboard( line_to_copy ) end
+  
+  -- Copy to clipboard WITHOUT processing
+  else
+    copy_to_clipboard = true
+    leadingZeroUCSNumStr()
+    setFullName()
+    if line_to_copy then reaper.CF_SetClipboard( line_to_copy ); reaper.MB(line_to_copy,"Copied to Clipboard",0) end
   end
-
-  -- Copy to clipboard
-  if copy_to_clipboard and line_to_copy then reaper.CF_SetClipboard( line_to_copy ) end
 
   reaper.Undo_EndBlock("UCS Renaming Tool", -1)
 end
