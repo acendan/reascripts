@@ -1,10 +1,9 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 3.7
+@version 3.9
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Merged dark mode and light mode versions of the UCS Renaming Tool! Now it's just a toggle button on the toolbar :)
-  CSS Transitions because why not
+  Fixed layering of row data copy alert
