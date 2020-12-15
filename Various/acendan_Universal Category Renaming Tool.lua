@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.6
+-- @version 3.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   Added track manager selections functionality
+--   Added option for copying to clipboard after processing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -50,6 +50,8 @@ local ret_data, ucs_data = reaper.GetProjExtState( 0, "UCS_WebInterface", "Data"
 -- Initialize global var for full name, see setFullName()
 local ucs_full_name = ""
 
+-- Copy file name to clipboard after processing?
+local copy_to_clipboard = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~  
@@ -489,6 +491,7 @@ function setFullName()
   -- Build the final name!
   ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
 
+  if copy_to_clipboard then reaper.CF_SetClipboard( ucs_full_name ) end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
