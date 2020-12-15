@@ -199,6 +199,7 @@
             font-size: 14px;
             text-align: center;
             background-color: var(--background-color);
+            transition: background-color 1s;
             border: 1px solid #cccccc;
             border: 1px solid rgba(0, 0, 0, 0.15);
             border-radius: 4px;
@@ -214,6 +215,7 @@
             font-weight: normal;
             line-height: 1.42857143;
             color: var(--text-color);
+            transition: color 1s;
             white-space: nowrap;
         }
 
@@ -296,33 +298,39 @@
             padding-top: 70px;
             background-color: var(--background-color);
             color: var(--text-color);
+            transition: background-color 1s, color 1s;
         }
 
         /* Horizontal line */
         hr {
             border: 1px solid var(--border-color);
+            transition: border 1s;
         }
         /* Form elements */
         .form-group label, input, select {
             color: var(--text-color) !important;
             background-color: var(--background-color) !important;
+            transition: background-color 1s, color 1s;
         }
 
         /* Cards */
         .card {
             color: var(--text-color) !important;
             background-color: var(--background-color) !important;
+            transition: background-color 1s, color 1s;
         }
 
         /* Datatables pagination buttons */
         .page-item.active .page-link {
             color: var(--text-color) !important;
             background-color: var(--background-color) !important;
+            transition: background-color 1s, color 1s;
         }
 
         .page-link {
             color: var(--text-color) !important;
             background-color: var(--background-color) !important;
+            transition: background-color 1s, color 1s;
         }
     </style>
     <script src="/main.js"></script>
@@ -337,7 +345,7 @@
     <!--------------->
     <!--- NAVBAR ---->
     <!--------------->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text);" id="ucsNavbar">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text); transition: background-color 1s, color 1s;" id="ucsNavbar">
         <a class="navbar-brand" href="#">
             <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <b>&nbsp;UCS Reaper Renaming Tool</b>
