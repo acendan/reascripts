@@ -38,6 +38,7 @@
             display: none;
         }
         
+        /* Main */
         #main_wrap {
             margin: 0 auto;
             width: 960px;
@@ -45,6 +46,7 @@
             overflow-x: hidden;
         }
 
+        /* Divs */
         div {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -52,6 +54,15 @@
             margin-left: 30px;
         }
 
+        /* Page body */
+        body {
+            padding-top: 70px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 1s, color 1s;
+        }
+
+        /* Headings */
         h3 {
             margin-top: 40px;
         }
@@ -80,10 +91,52 @@
             margin-top: 40px;
         }
 
+        /* Selects and Drop Downs*/
         select {
             margin-top: 10px;
         }
 
+        .dropdown-menu {
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .dropdown-item {
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        /* Horizontal line */
+        hr {
+            border: 1px solid var(--border-color);
+            transition: border 1s;
+        }
+
+        /* Form elements */
+        .form-group label, input, select {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
+            transition: background-color 1s, color 1s;
+        }
+
+        /* Cards */
+        .card {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
+            transition: background-color 1s, color 1s;
+        }
+
+        /* Modal */
+        .modal-content {
+            color: var(--text-color) !important;
+            background-color: var(--background-color) !important;
+        }
+
+        .modal-backdrop {
+            margin: 0;
+        }
+
+        /* Row Click Alert */
         .notification {
             display: none;
             position: sticky;
@@ -98,12 +151,13 @@
             font-family: 'Helvetica';
         }
 
+        /* Form Field Required */
         .form-group.required .control-label:after {
             content: "*";
             color: red;
         }
 
-        /* BUTTONS */
+        /* Buttons */
         button {
             height: 45px;
             line-height: 120px;
@@ -111,7 +165,7 @@
             white-space: pre;
         }
 
-        /* BUTTON ICONS */
+        /* Button Icons */
         .icons {
             position: relative;
             display: inline-block;
@@ -294,32 +348,6 @@
                 top: 46px !important;
             }
 
-        body {
-            padding-top: 70px;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            transition: background-color 1s, color 1s;
-        }
-
-        /* Horizontal line */
-        hr {
-            border: 1px solid var(--border-color);
-            transition: border 1s;
-        }
-        /* Form elements */
-        .form-group label, input, select {
-            color: var(--text-color) !important;
-            background-color: var(--background-color) !important;
-            transition: background-color 1s, color 1s;
-        }
-
-        /* Cards */
-        .card {
-            color: var(--text-color) !important;
-            background-color: var(--background-color) !important;
-            transition: background-color 1s, color 1s;
-        }
-
         /* Datatables pagination buttons */
         .page-item.active .page-link {
             color: var(--text-color) !important;
@@ -397,15 +425,54 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
-                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
-                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark dark--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
-                <a href="https://universalcategorysystem.com/" class="btn btn-outline-light light--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
-                <a class="btn color-mode__btn btn-outline-light light--hidden" style="margin-left:20px"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
-                <a class="btn color-mode__btn btn-outline-dark dark--hidden" style="margin-left:20px"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
+                <!-- SETTINGS MENU -->
+                <a type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal" style="margin-left:20px"><img src="ucs_libraries/settings-icon-dark.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
+                <a type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal" style="margin-left:20px"><img src="ucs_libraries/settings-icon-light.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
             </form>
         </div>
     </nav>
+    
+    <!------------------------>
+    <!---  SETTINGS MENU  ---->
+    <!------------------------>
+    <div class="modal fade settings-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">UCS Renaming Tool Settings</h4>
+              </div>
+              <div class="modal-body">
+                <h6>Naming</h6>
+                <!-- DISABLE CAPITALIZATION - Need to do write the code for this still -->
+                <p>-</p>
+            
+                <h6 style="margin-top:20px;">Processing</h6>
+                <p>-</p>
+                <!-- COPY RESULTS AFTER PROCESSING -->
+
+                <!-- COPY RESULTS WITHOUT PROCESSING -- Disable processing fields-->
+
+
+                <h6 style="margin-top:20px;">Appearance</h6>
+                <!-- COLOR MODE -->
+                <a class="btn color-mode__btn btn-outline-light light--hidden"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
+                <a class="btn color-mode__btn btn-outline-dark dark--hidden"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
+                
+                <h6 style="margin-top:20px;">External Links</h6>
+                <!-- FEEDBACK -->
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
+                <!-- UCS WEBSITE -->
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark dark--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-light light--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+              </div>
+              <div class="modal-footer">
+                <p class="mr-auto">Developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a></p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        </div>
+    </div>
 
     <!------------------------>
     <!--- ROW CLICK ALERT ---->
@@ -592,7 +659,7 @@
         </div>
         <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive table-light" style="width:100%"></table>
         <div>
-            <h7 style="align-items:center;display:flex;justify-content:center;">UCS Renaming Tool developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a></h7>
+            <h7 style="align-items:center;display:flex;justify-content:center;">Have a great day! :)</h7>
         </div>
     </div>
     <script>
@@ -1343,6 +1410,9 @@
         // LOAD USER PRESETS
         // ~~~~~~~~~~~~~~~~~~~~
         function loadUserPreset(index) {
+            // Close presets dropdown menu, if open
+            if ($('#navbarPresetsDropdownOptions').hasClass("show")) $("#navbarPresetsDropdown").dropdown("toggle");
+            
             // console.log(index + ": " + userPresets[index][0]);
             // Loop through preset fields
             userPresets[index].forEach((field, fieldIdx) => {
