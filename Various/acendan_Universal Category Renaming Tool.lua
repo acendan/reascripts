@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 3.9
+-- @version 4.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -32,7 +32,7 @@
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Toggle for debugging UCS input with message box
-local debug_UCS_Input = false
+local debug_UCS_Input = true
 
 -- Retrieve stored projextstate data set by web interface
 local ret_cat,  ucs_cat  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Category" )
@@ -47,18 +47,15 @@ local ret_show, ucs_show = reaper.GetProjExtState( 0, "UCS_WebInterface", "Show"
 local ret_type, ucs_type = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputItems" )
 local ret_area, ucs_area = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputArea" )
 local ret_data, ucs_data = reaper.GetProjExtState( 0, "UCS_WebInterface", "Data" )
+local ret_caps, ucs_caps = reaper.GetProjExtState( 0, "UCS_WebInterface", "nameCapitalizationSetting")
+local ret_copy, ucs_copy = reaper.GetProjExtState( 0, "UCS_WebInterface", "copyResultsSetting")
 
 -- Initialize global var for full name, see setFullName()
 local ucs_full_name = ""
 
--- Copy file name(s) to clipboard AFTER processing?
+-- Init copy settings (EDIT VIA SETTINGS MENU OF THE WEB INTERFACE)
 local copy_to_clipboard = false
-
--- Copy file name to clipboard WITHOUT processing? 
--- This will bypass the processing section in the web interface and JUST copy to clipboard. Does not support wildcards.
 local copy_without_processing = false
-
--- Initialize line(s) to be copied. Leave this blank!
 local line_to_copy = ""
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,8 +78,11 @@ function parseUCSWebInterfaceInput()
   
   -- Show message box with form inputs and respective ret bools. Toggle at top of script.
   if debug_UCS_Input then debugUCSInput() end
- 
-  -- Copy to clipboard without processing
+  
+  -- Evaluate copy to clipboard settings
+  if ret_copy and ucs_copy == "Copy after processing" then copy_to_clipboard = true
+  elseif ret_copy and ucs_copy == "Copy WITHOUT processing" then copy_without_processing = true end
+
   if not copy_without_processing then
   
     -- Break out evaluation based on search type
@@ -466,7 +466,10 @@ end
 -- Format: CatID(-UserCategory)_(VendorCategory-)File Name with Variation Number_Initials_(Show)
 function setFullName()
   -- Initials
-  ucs_init_final = "_" .. string.upper(ucs_init)
+  if ret_caps and ucs_caps == "ALL CAPS (Default)" then ucs_init_final = "_" .. string.upper(ucs_init)
+  elseif ret_caps and ucs_caps == "Title Case" then ucs_init_final = "_" .. ucs_init:gsub("(%a)([%w_']*)", toTitleCase)
+  elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_init_final = "_" .. ucs_init
+  else ucs_init_final = "_" .. string.upper(ucs_init) end
 
   -- Name and Vendor
   local s, e = string.find(ucs_name,"-")
@@ -489,9 +492,12 @@ function setFullName()
     end
   end
 
-  -- Show
+  -- Source
   if ret_show then
-    ucs_show_final = "_" .. string.upper(ucs_show)
+    if ret_caps and ucs_caps == "ALL CAPS (Default)" then ucs_show_final = "_" .. string.upper(ucs_show)
+    elseif ret_caps and ucs_caps == "Title Case" then ucs_show_final = "_" .. ucs_show:gsub("(%a)([%w_']*)", toTitleCase)
+    elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_show_final = "_" .. ucs_show
+    else ucs_show_final = "_" .. string.upper(ucs_show) end
   else
     ucs_show_final = "_NONE"
   end
@@ -671,6 +677,8 @@ function ucsRetsToBool()
   if ret_type == 1 then ret_type = true else ret_type = false end
   if ret_area == 1 then ret_area = true else ret_area = false end
   if ret_data == 1 then ret_data = true else ret_data = false end
+  if ret_caps == 1 then ret_caps = true else ret_caps = false end
+  if ret_copy == 1 then ret_copy = true else ret_copy = false end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -688,6 +696,8 @@ function debugUCSInput()
             "Show: "        .. ucs_show .. " (" .. tostring(ret_show) .. ")" .. "\n" .. 
             "Type: "        .. ucs_type .. " (" .. tostring(ret_type) .. ")" .. "\n" .. 
             "Data: "        .. ucs_data .. " (" .. tostring(ret_data) .. ")" .. "\n" ..
+            "Caps: "        .. ucs_caps .. " (" .. tostring(ret_caps) .. ")" .. "\n" .. 
+            "Copy: "        .. ucs_copy .. " (" .. tostring(ret_copy) .. ")" .. "\n" ..
             "Area: "        .. ucs_area .. " (" .. tostring(ret_area) .. ")" .. "\n" 
             , "UCS Renaming Tool", 0)
 end

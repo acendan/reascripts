@@ -19,6 +19,7 @@
             --border-color: black;
             --navbar-background: #cccccc;
             --navbar-text: #000000;
+            --modal-background:  #ffffff;
         }
 
         /* Dark Mode CSS Vars */
@@ -28,6 +29,7 @@
             --border-color: white;
             --navbar-background: #1b1f22;
             --navbar-text:  #ffffff;
+            --modal-background:  #282b2e;
         }
         
         :root[color-mode="light"] .light--hidden {
@@ -98,12 +100,12 @@
 
         .dropdown-menu {
             color: var(--text-color);
-            background-color: var(--background-color);
+            background-color: var(--navbar-background);
         }
 
         .dropdown-item {
             color: var(--text-color);
-            background-color: var(--background-color);
+            background-color: var(--navbar-background);
         }
 
         /* Horizontal line */
@@ -129,11 +131,16 @@
         /* Modal */
         .modal-content {
             color: var(--text-color) !important;
-            background-color: var(--background-color) !important;
+            background-color: var(--modal-background) !important;
         }
 
         .modal-backdrop {
             margin: 0;
+        }
+
+        .modal-heading {
+            margin-top: 30px;
+            font-style: italic;
         }
 
         /* Row Click Alert */
@@ -439,26 +446,34 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">UCS Renaming Tool Settings</h4>
+                <h3 style="margin:0;" class="modal-title">UCS Renaming Tool Settings</h4>
               </div>
               <div class="modal-body">
-                <h6>Naming</h6>
-                <!-- DISABLE CAPITALIZATION - Need to do write the code for this still -->
-                <p>-</p>
-            
-                <h6 style="margin-top:20px;">Processing</h6>
-                <p>-</p>
-                <!-- COPY RESULTS AFTER PROCESSING -->
+                <h4><i>Naming</i></h4>
+                <!-- DISABLE CAPITALIZATION -->
+                <p style="margin-bottom:0px;">Creator/Source ID Capitalization:</p>
+                <select id="nameCapitalizationSetting" class="form-control">
+                    <option>ALL CAPS (Default)</option>
+                    <option>Title Case</option>
+                    <option>Disable automatic capitalization</option>
+                </select>
 
-                <!-- COPY RESULTS WITHOUT PROCESSING -- Disable processing fields-->
+                <h4 class="modal-heading">Processing</h4>
+                <!-- COPY RESULTS -->
+                <p style="margin-bottom:0px;">Copy to Clipboard:</p>
+                <select id="copyResultsSetting" class="form-control">
+                    <option>Do not copy (Default)</option>
+                    <option>Copy after processing</option>
+                    <option>Copy WITHOUT processing</option>
+                </select>
+                <div id="copyResultsWarning" style="margin:0;" class="alert alert-warning" role="alert">This will bypass the processing section and <i>just copy to clipboard</i>.</div>
 
-
-                <h6 style="margin-top:20px;">Appearance</h6>
+                <h4 class="modal-heading">Appearance</h4>
                 <!-- COLOR MODE -->
                 <a class="btn color-mode__btn btn-outline-light light--hidden"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
                 <a class="btn color-mode__btn btn-outline-dark dark--hidden"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
                 
-                <h6 style="margin-top:20px;">External Links</h6>
+                <h4 class="modal-heading">External Links</h4>
                 <!-- FEEDBACK -->
                 <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
                 <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
@@ -516,7 +531,7 @@
                 <div class="form-group col-md-6 required" id="typeaheadCategory">
                     <label for="userInputCategoryLabel">Category*</label>
                     <br><input type="text" class="form-control typeahead" id="userInputCategory" aria-describedby="userInputCategoryHelp" placeholder="What kind of sound is this?" required>
-                    <h8 id="userInputCategoryError" style="display: none; color: red;">No valid CatID found. Please check your Category & Subcategory selections!</h8>
+                    <div id="userInputCategoryError" style="display: none; margin:0;" class="alert alert-warning" role="alert">No valid CatID found. Please check your Category & Subcategory selections!</div>
                     <small id="userInputCategoryHelp" class="form-text text-muted">Start typing to auto-fill category.</small>
                 </div>
 
@@ -528,7 +543,7 @@
                 </div>
 
                 <!-- User Category -->
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="userCategoryGroup">
                     <label for="userInputUserCatLabel">User Category (Optional)</label>
                     <input type="text" class="form-control" id="userInputUserCat" aria-describedby="userInputUserCatHelp" placeholder="Would you like to specify a custom User Category?">
                     <small id="userInputUserCatHelp" class="form-text text-muted">If no User Category, leave blank. Commonly used for 'INT' and 'EXT' (interior/exterior).</small>
@@ -538,19 +553,20 @@
                 <div class="form-group col-md-6 required" id="fileNameGroup">
                     <label for="userInputNameLabel">File Name*</label>
                     <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
+                    <div id="userInputNameError" style="display: none; margin:0;" class="alert alert-warning" role="alert">File Name cannot be blank!</div>
                     <div class="form-check" style="margin-left:0px">
                         <input class="form-check-input" type="checkbox" checked id="userInputVarNumCheckbox">
                         <h7>Enable variation numbering? If unsure, keep checked.</h7>
                     </div>
-                    <h8 id="userInputNameError" style="display: none; color: red;">File Name cannot be blank!</h8>
+                    
                     <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>$region, $regionnumber<br />- Available wildcards are dependent on 'Items to Rename' field in <i>Processing</i> below.</small>
                 </div>
 
                 <!-- Initials -->
                 <div class="form-group col-md-6" id="initialsGroup">
                     <label for="userInputInitialsLabel">Creator ID*</label>
-                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="Starting letters of first & last name, or other identifiable user tag.">
-                    <h8 id="userInitialsError" style="display: none; color: red;">Initials cannot be blank!</h8>
+                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="Starting letters of first & last name, or other identifiable user tag." required pattern=".{1,}">
+                    <div id="userInitialsError" style="display: none; margin:0;" class="alert alert-warning" role="alert">Initials cannot be blank!</div>
                     <small id="userInputInitialsHelp" class="form-text text-muted">'Aaron Cendan' => 'AC' or 'AaCe'</small>
                 </div>
 
@@ -571,8 +587,9 @@
 
             <!-- PROCESSING SECTION -->
             <div><h5 id="processing"><i>Processing</i></h5></div>
-
             <div class="form-row">
+                <div id="copyResultsWarning2" style="display: none;" class="alert alert-warning" role="alert">You currently have "Copy WITHOUT processing" enabled in the settings. Results will be copied to the clipboard, but nothing will be renamed in your session.</div>
+
                 <!-- RENAME DROPDOWN - Rename Regions/Markers/Items/Tracks -->
                 <div class="form-group col-md-6">
                     <h7>Items to Rename*</h7>
@@ -722,8 +739,8 @@
             // https://forum.cockos.com/showpost.php?p=2337785&postcount=1326
             if (isMac) $("#userInputArea option:contains('Selected Regions in Region Manager')").remove();
 
-            // Set dark mode if previously set or sys pref
-            if (localStorage.getItem("color-mode") === "dark" || (window.matchMedia("(prefers-color-scheme: dark)").matches && !localStorage.getItem("color-mode"))) enableDarkMode();
+            // Get previous session settings from local storage
+            recallSettings();
 
             // Assigns country icon for current language to navbar language dropdown
             getUCSLanguage();
@@ -735,6 +752,31 @@
             // If not, get data from public Google sheet via function: useGSheetsUSCData()
             loadOfflineUCSDoc();
         });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // RECALL STORAGE SETTINGS
+        // ~~~~~~~~~~~~~~~~~~~~
+        function recallSettings() {
+            // Set dark mode if previously set or sys pref
+            if (localStorage.getItem("color-mode") === "dark" || (window.matchMedia("(prefers-color-scheme: dark)").matches && !localStorage.getItem("color-mode"))) enableDarkMode();
+
+            // Get copy results setting
+            if (localStorage.getItem("copy-setting")) {
+                $("#copyResultsSetting").val(localStorage.getItem("copy-setting"));
+                if (localStorage.getItem("copy-setting") === "Copy WITHOUT processing") {
+                    $("#copyResultsWarning").show();
+                    $("#copyResultsWarning2").show();
+                } else {
+                    $("#copyResultsWarning").hide();
+                    $("#copyResultsWarning2").hide();
+                }
+            }
+
+            // Get name/source capitalization settings
+            if (localStorage.getItem("caps-setting")) {
+                $("#nameCapitalizationSetting").val(localStorage.getItem("caps-setting"));
+            }
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~
         // DROP-DOWN AUTOFILL
@@ -856,8 +898,8 @@
 
             // Alert user of invalid entries and bypass triggering ReaScript
             if (selectedCatID == "CATID_INVALID") { return; }                           // Alert is included in getCatID above
-            if (nameOnly == "") { $("#userInputNameError").show(); $("#fileNameGroup")[0].scrollIntoView(); return; }
-            if (cleanInitials == "") { $("#userInitialsError").show(); $("#initialsGroup")[0].scrollIntoView(); return; }
+            if (nameOnly == "") { $("#userInputNameError").show(); $("#userCategoryGroup")[0].scrollIntoView(); return; }
+            if (cleanInitials == "") { $("#userInitialsError").show(); $("#fileNameGroup")[0].scrollIntoView(); return; }
 
             // Trigger CSS Animation
             $("#formSubmitButton").addClass('anim-trig');
@@ -882,6 +924,9 @@
             // Set project extstates from HTML vals
             setProjExtState("userInputItems");
             setProjExtState("userInputArea");
+            setProjExtState("nameCapitalizationSetting");
+            setProjExtState("copyResultsSetting");
+
 
             // Tell ReaScript that this is being run from a web interface
             wwr_req("SET/EXTSTATEPERSIST/UCS_WebInterface/" + "runFromWeb" + "/" + "true");
@@ -1135,6 +1180,33 @@
             if (document.getElementById("userInputInitials").checkValidity() === true) {
                 $("#userInitialsError").hide();
             }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // COPY WITHOUT PROCESSING ALERT
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#copyResultsSetting").change(function () {
+            var key = $(this).val();
+            localStorage.setItem("copy-setting",key); // Set value in local storage
+            switch (key) {
+                case "Copy WITHOUT processing":
+                    $("#copyResultsWarning").show();
+                    $("#copyResultsWarning2").show();
+                    break;
+
+                default:
+                    $("#copyResultsWarning").hide();  
+                    $("#copyResultsWarning2").hide();      
+                    break;
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // STORE CAPITALIZATION SETTINGS
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#nameCapitalizationSetting").change(function () {
+            var key = $(this).val();
+            localStorage.setItem("caps-setting",key); // Set value in local storage
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1632,7 +1704,7 @@
             } else {
                 //alert("No valid CatID found." + "\n" + "\n" + "Please check your Category & Subcategory selections!");
                 $("#userInputCategoryError").show();
-                $("#typeaheadCategory")[0].scrollIntoView();
+                window.scrollTo(0,0);
                 var invalid = "CATID_INVALID";
                 return invalid;
             }
