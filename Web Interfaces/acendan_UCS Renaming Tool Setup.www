@@ -1,6 +1,6 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 4.1
+@version 4.1.1
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
