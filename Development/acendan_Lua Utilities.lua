@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.0
+-- @version 3.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -278,7 +278,10 @@ function acendan.dispTime(time)
   return string.format("%d:%02d:%02d.%02d",hours,minutes,seconds,milli)
 end
 
-
+-- Count number of occurrences of a substring in a string // returns Number
+function acendan.countOccurrences(base, pattern)
+    return select(2, string.gsub(base, pattern, ""))
+end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
