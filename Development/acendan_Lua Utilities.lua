@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.1
+-- @version 3.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -410,6 +410,7 @@ end
 
 -- Restore selected items from table. Requires tableLength() above
 function acendan.restoreSelectedItems(table)
+  reaper.Main_OnCommand(40289, 0) -- Unselect all media items
   for i = 1, acendan.tableLength(table) do
     reaper.SetMediaItemSelected( table[i], true )
   end
@@ -489,6 +490,7 @@ end
 
 -- Restore selected tracks from table. Requires tableLength() above
 function acendan.restoreSelectedTracks(table)
+  reaper.Main_OnCommand(40297, 0) -- Unselect all tracks
   for i = 1, acendan.tableLength(table) do
     reaper.SetTrackSelected( table[i], true )
   end

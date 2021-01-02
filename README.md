@@ -19,6 +19,7 @@ If you would like to import the remainder of my scripts, those that are not pack
 > https://acendan.github.io/reascripts/index.xml
 
 ### Scripts included in my GitHub that are *NOT* included in ReaTeams
+ - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
  - Items Editing\acendan_Append selected items BWF metadata subfield to item name
  - Items Editing\acendan_Append selected items BWF metadata subfield to item notes
@@ -26,6 +27,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Copy selected items to selected track
  - Items Editing\acendan_Copy selected items to track - prompt for track
  - Items Editing\acendan_Count number of selected items in media explorer
+ - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Set distance between items to X seconds track respective
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
