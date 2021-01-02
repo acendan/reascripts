@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="16f6129dc817725afaefb6f2a23ad5e3a82722c5" name="ACendan Scripts">
+<index version="1" commit="a58459864469950ae8d1ac5170097d1935efa5f5" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -727,6 +727,36 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-06-19T23:20:05Z">
         <source main="main">https://github.com/acendan/reascripts/raw/b07f2392f55b9fcad3faf81e54868c71b70f8c00/Tracks%20Properties/acendan_View%20Saved%20URLs%20By%20Track%20Name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Utility">
+    <reapack name="Parallel Joiner.jsfx" type="effect" desc="acendan_Parallel Joiner">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Joins/merges channels 1/2 and 3/4 onto channels 1/2, with sliders\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-01-02T22:48:32Z">
+        <source>https://github.com/acendan/reascripts/raw/a58459864469950ae8d1ac5170097d1935efa5f5/Utility/Parallel%20Joiner.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="Parallel Splitter.jsfx" type="effect" desc="acendan_Parallel Splitter">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Duplicates channels 1 and 2 onto channels 3 and 4, with sliders\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-01-02T22:48:32Z">
+        <source>https://github.com/acendan/reascripts/raw/a58459864469950ae8d1ac5170097d1935efa5f5/Utility/Parallel%20Splitter.jsfx</source>
       </version>
     </reapack>
   </category>
