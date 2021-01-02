@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="bbdd72142460fb931b3d7b58d168a9c8f539b98c" name="ACendan Scripts">
+<index version="1" commit="16f6129dc817725afaefb6f2a23ad5e3a82722c5" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -56,6 +56,9 @@
       </version>
       <version name="3.1" author="Aaron Cendan" time="2021-01-01T18:57:17Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/bbdd72142460fb931b3d7b58d168a9c8f539b98c/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="3.2" author="Aaron Cendan" time="2021-01-02T14:52:05Z">
+        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/16f6129dc817725afaefb6f2a23ad5e3a82722c5/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -186,6 +189,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-01-01T18:57:17Z">
         <source main="main" file="acendan_MixPre split selected item by channel to new tracks and name with metadata.lua">https://github.com/acendan/reascripts/raw/bbdd72142460fb931b3d7b58d168a9c8f539b98c/Items%20Editing/acendan_MixPre%20split%20items%20by%20channel%20to%20new%20tracks%20and%20name%20with%20metadata.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-01-02T14:52:05Z">
+        <changelog><![CDATA[Selects new items/tracks on completion]]></changelog>
+        <source main="main" file="acendan_MixPre split selected item by channel to new tracks and name with metadata.lua">https://github.com/acendan/reascripts/raw/16f6129dc817725afaefb6f2a23ad5e3a82722c5/Items%20Editing/acendan_MixPre%20split%20items%20by%20channel%20to%20new%20tracks%20and%20name%20with%20metadata.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
