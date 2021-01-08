@@ -6,7 +6,6 @@
 --   [main] . > acendan_Lock item horizontal movement while key combo held (background).lua
 -- @link https://aaroncendan.me
 -- @about
---
 -- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓  IMPORTANT! READ ME!  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 --   
 --   * This script is a background script, meaning it will run continuously in the background to check if a key combo is held
