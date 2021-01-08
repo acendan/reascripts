@@ -7,7 +7,7 @@
 -- @link https://aaroncendan.me
 -- @about
 -- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓  IMPORTANT! READ ME!  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
---   
+--   *
 --   * This script is a background script, meaning it will run continuously in the background to check if a key combo is held
 --   * This means that you should NOT set up a traditional keyboard shortcut for it in the actions menu. This script will NOT work if you do that.
 --   * Please set up a shortcut key in the User Config section below.
