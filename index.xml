@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="a58459864469950ae8d1ac5170097d1935efa5f5" name="ACendan Scripts">
+<index version="1" commit="f7b26ef836dbffae7147a20fcfdb4bcb762318d0" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -174,6 +174,21 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-21T13:51:14Z">
         <source main="main" file="acendan_Count number of selected items in media explorer.lua">https://github.com/acendan/reascripts/raw/cafcbd7a6c92f9358b62f31aaadef9edc4561f51/Items%20Editing/acendan_Count%20number%20of%20selected%20items%20in%20media%20explorer.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Lock item horizontal movement while shortcut held (background).lua" type="script" desc="Lock Items Horizontal">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Setup instructions...\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-01-08T18:16:23Z">
+        <source main="main" file="acendan_Lock item horizontal movement while key combo held (background).lua">https://github.com/acendan/reascripts/raw/e54583cb75400a8223d02246dd74c43aded564e5/Items%20Editing/acendan_Lock%20item%20horizontal%20movement%20while%20shortcut%20held%20(background).lua</source>
       </version>
     </reapack>
     <reapack name="acendan_MixPre split items by channel to new tracks and name with metadata.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Split Channels">
