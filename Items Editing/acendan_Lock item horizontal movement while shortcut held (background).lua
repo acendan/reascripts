@@ -6,7 +6,7 @@
 --   [main] . > acendan_Lock item horizontal movement while key combo held (background).lua
 -- @link https://aaroncendan.me
 -- @about
--- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓  IMPORTANT! READ ME!  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+-- ========================================== IMPORTANT! READ ME!  =======================================================================
 --   *
 --   * This script is a background script, meaning it will run continuously in the background to check if a key combo is held
 --   * This means that you should NOT set up a traditional keyboard shortcut for it in the actions menu. This script will NOT work if you do that.
@@ -23,7 +23,7 @@ function UserConfig()
   shift = false   -- Toggle for shift key modifier  - true/false
   alt = false     -- Toggle for alt key modifier    - true/false
 
--- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+-- =======================================================================================================================================
 end
 
 -- Find your key here! To reference a key, format it with a period like this: keys.TAB
