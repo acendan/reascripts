@@ -1,6 +1,6 @@
 -- @description Lock Items Horizontal
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lock item horizontal movement while key combo held (background).lua
