@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="f7b26ef836dbffae7147a20fcfdb4bcb762318d0" name="ACendan Scripts">
+<index version="1" commit="ad3c1df2f90ec13e85ca365e3a6a4f30673468ca" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -189,6 +189,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-01-08T18:16:23Z">
         <source main="main" file="acendan_Lock item horizontal movement while key combo held (background).lua">https://github.com/acendan/reascripts/raw/e54583cb75400a8223d02246dd74c43aded564e5/Items%20Editing/acendan_Lock%20item%20horizontal%20movement%20while%20shortcut%20held%20(background).lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-01-08T18:21:52Z">
+        <source main="main" file="acendan_Lock item horizontal movement while key combo held (background).lua">https://github.com/acendan/reascripts/raw/ad3c1df2f90ec13e85ca365e3a6a4f30673468ca/Items%20Editing/acendan_Lock%20item%20horizontal%20movement%20while%20shortcut%20held%20(background).lua</source>
       </version>
     </reapack>
     <reapack name="acendan_MixPre split items by channel to new tracks and name with metadata.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Split Channels">
