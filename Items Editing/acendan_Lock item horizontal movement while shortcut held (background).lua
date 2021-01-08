@@ -5,8 +5,8 @@
 -- @provides
 --   [main] . > acendan_Lock item horizontal movement while key combo held (background).lua
 -- @link https://aaroncendan.me
--- @about
--- ========================================== IMPORTANT! READ ME!  =======================================================================
+-- @about  pls read it
+--   ======================================== IMPORTANT! READ ME!  =======================================================================
 --   *
 --   * This script is a background script, meaning it will run continuously in the background to check if a key combo is held
 --   * This means that you should NOT set up a traditional keyboard shortcut for it in the actions menu. This script will NOT work if you do that.
