@@ -1233,15 +1233,21 @@ end
 
 -- Filter Media Explorer for files
 function acendan.filterMediaExplorer(search)
-  if reaper.APIExists("JS_Window_Find")then;
-    reaper.OpenMediaExplorer( "", false )
-    local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer", "common"),true);
-    local filter_Act =  reaper.JS_Window_FindChildByID( winHWND, 1015 )
-    local filtered = reaper.JS_Window_SetTitle(filter_Act,search);
+  if reaper.APIExists("JS_Window_Find") then
+    local IDC_SEARCH = 0x3f7
+    local WM_COMMAND = 0x111
+    local CBN_EDITCHANGE = 5
+    
+    local mediaExplorer = reaper.OpenMediaExplorer( "", false )
+    local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer", "common"),true)
+    local mediaExpFilter =  reaper.JS_Window_FindChildByID( winHWND, 1015 )
+    local filtered = reaper.JS_Window_SetTitle(mediaExpFilter,search)
+    reaper.BR_Win32_SendMessage(mediaExplorer, WM_COMMAND, (CBN_EDITCHANGE<<16) | IDC_SEARCH, 0)
   else
-    reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Missing JS ReaScript API", 0)  
+    acendan.msg("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Missing JS ReaScript API")  
   end
 end
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~ ACTIONS LIST ~~~~~~~~~~
