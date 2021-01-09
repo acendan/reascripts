@@ -1,6 +1,7 @@
+-- @noindex
 -- @description Lock Items Horizontal
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lock item horizontal movement while key combo held (background).lua
@@ -292,7 +293,7 @@ if run_previously then
       main()
       reaper.atexit( SetButtonState )
     else
-      reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Lock Horizontal Error")  
+      reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Lock Horizontal Error",0)  
     end
   else
     reaper.MB("Key variable is not set to a valid key! Please double check the options avaialable in the 'keys' table. Must be ALL CAPS!","Lock Horizontal Error",0)

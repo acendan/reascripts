@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.3
+-- @version 3.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -467,7 +467,7 @@ if run_previously then
       main()
       reaper.atexit( SetButtonState )
     else
-      reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Error")  
+      reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Error", 0)  
     end
   else
     reaper.MB("Key variable is not set to a valid key! Please double check the options avaialable in the 'keys' table. Must be ALL CAPS!","Error",0)
@@ -1231,6 +1231,17 @@ function acendan.getSelectedItemsDetailsMediaExplorer()
 
 end
 
+-- Filter Media Explorer for files
+function acendan.filterMediaExplorer(search)
+  if reaper.APIExists("JS_Window_Find")then;
+    reaper.OpenMediaExplorer( "", false )
+    local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer", "common"),true);
+    local filter_Act =  reaper.JS_Window_FindChildByID( winHWND, 1015 )
+    local filtered = reaper.JS_Window_SetTitle(filter_Act,search);
+  else
+    reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Missing JS ReaScript API", 0)  
+  end
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~ ACTIONS LIST ~~~~~~~~~~
@@ -1242,6 +1253,8 @@ function acendan.filterActionsList(search)
     local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Actions", "common"),true);
     local filter_Act = reaper.JS_Window_FindChildByID(winHWND,1324);
     reaper.JS_Window_SetTitle(filter_Act,search);
+  else
+    reaper.MB("This script requires the JS Reascript API. Please install it via ReaPack.\n\nExtensions > ReaPack > Browse Packages > js_ReaScriptAPI: API functions for ReaScripts","Missing JS ReaScript API", 0)  
   end
 end
 
