@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="575337ffc3e4e737481b4ff859b11a0dfc28feae" name="ACendan Scripts">
+<index version="1" commit="669050349b7a31b088e4eb936dc22c0222a30535" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -377,6 +377,40 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-07-17T23:29:41Z">
         <source main="main" file="acendan_Insert markers every x seconds after edit cursor.lua">https://github.com/acendan/reascripts/raw/5656294db3bacd564f19a3b2cb7f4cdb889a568f/Markers/acendan_Insert%20markers%20every%20x%20seconds%20after%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Media Explorer">
+    <reapack name="acendan_Filter media explorer for selected media item names.lua" type="script" desc="Filter Media Explorer">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This script requires "Update search only when enter key pressed" to be disabled in the Media Explorer section of the Actions list.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Shoutouts to cfillion, nofish, and x-raym for the help with getting this script setup!\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-01-09T22:32:01Z">
+        <source main="mediaexplorer" file="acendan_Filter media explorer for selected media items names.lua">https://github.com/acendan/reascripts/raw/669050349b7a31b088e4eb936dc22c0222a30535/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20item%20names.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Filter media explorer for selected media items source files.lua" type="script" desc="Filter Media Explorer">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This script requires "Update search only when enter key pressed" to be disabled in the Media Explorer section of the Actions list.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Shoutouts to cfillion, nofish, and x-raym for the help with getting this script setup!\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-01-09T22:32:01Z">
+        <source main="mediaexplorer" file="acendan_Filter media explorer for selected media items source files.lua">https://github.com/acendan/reascripts/raw/669050349b7a31b088e4eb936dc22c0222a30535/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20items%20source%20files.lua</source>
       </version>
     </reapack>
   </category>
