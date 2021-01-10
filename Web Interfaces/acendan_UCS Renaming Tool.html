@@ -443,13 +443,13 @@
     <!---  SETTINGS MENU  ---->
     <!------------------------>
     <div class="modal fade settings-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h3 style="margin:0;" class="modal-title">UCS Renaming Tool Settings</h4>
               </div>
               <div class="modal-body">
-                <h4><i>Naming</i></h4>
+                <h4><i>Processing</i></h4>
                 <!-- DISABLE CAPITALIZATION -->
                 <p style="margin-bottom:0px;">Creator/Source ID Capitalization:</p>
                 <select id="nameCapitalizationSetting" class="form-control">
@@ -457,16 +457,32 @@
                     <option>Title Case</option>
                     <option>Disable automatic capitalization</option>
                 </select>
-
-                <h4 class="modal-heading">Processing</h4>
                 <!-- COPY RESULTS -->
-                <p style="margin-bottom:0px;">Copy to Clipboard:</p>
+                <p style="margin-bottom:0px;margin-top:15px;">Copy to Clipboard:</p>
                 <select id="copyResultsSetting" class="form-control">
                     <option>Do not copy (Default)</option>
                     <option>Copy after processing</option>
                     <option>Copy WITHOUT processing</option>
                 </select>
                 <div id="copyResultsWarning" style="margin:0;" class="alert alert-warning" role="alert">This will bypass the processing section and <i>just copy to clipboard</i>.</div>
+
+                <h4 class="modal-heading">UCS Data Table</h4>
+                <!-- AUTO SUBMIT FORM ON ROW CLICK -->
+                <p style="margin-bottom:0px;">Auto Submit:</p>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="autoSubmitCheckbox">
+                    <h7>Automatically submit form data when clicking table rows?</h7>
+                </div>
+                <!-- AUTO SEARCH MEDIA EXPLORER -->
+                <p style="margin-bottom:0px;margin-top:25px;">Filter Media Explorer:</p>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="autoSearchCatSubcatCheckbox">
+                    <h7>Search media explorer for category/subcategory when clicking table rows?</h7>
+                </div>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="autoSearchSynonymsCheckbox">
+                    <h7>Search media explorer for synonyms when clicking table rows?</h7>
+                </div>
 
                 <h4 class="modal-heading">Appearance</h4>
                 <!-- COLOR MODE -->
@@ -667,11 +683,7 @@
                 </div>
             </div>
             <div style="margin-bottom:0px;margin-top:25px;">
-                <h7><i>Search for an appropriate category then click on a row in the table to instantly fill out the form!</i></h7>
-                <div class="form-check" style="margin-left:0px">
-                    <input class="form-check-input" type="checkbox" id="autoSubmitCheckbox">
-                    <h7>Auto-submit form on row click? If unsure, keep unchecked.</h7>
-                </div>
+                <h7><i>Search for an appropriate category then click on a row in the table to instantly fill out the form!</i></h7>                
             </div>
         </div>
         <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive table-light" style="width:100%"></table>
@@ -690,6 +702,7 @@
         // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various
         // var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various/Universal Category Renaming Tool.lua
         var UCSRTLua = "_RS0d2de1418a084e66229cb513cdb6e8cc99fc7593"; //ACendan Scripts/Various/UCS Renaming Tool.lua
+        var UCSMediaFilter = "_RS15f4b156ba3f21ef8806a3c4c1f04ff621d48c9a"; //ACendan Scripts/Various/acendan_UCS Renaming Tool - Media Explorer Filter.lua
 
         // Open Reaper resource path
         var REApath = "40027";
@@ -941,16 +954,38 @@
         $('#UCRTDataTable').on('click', 'tbody tr', function () {
             var tbl = $('#UCRTDataTable').DataTable();
             var row = tbl.row($(this)).data();
+            
+            // Read settings checkboxes
             var autoSubmit = $("#autoSubmitCheckbox").prop("checked");
+            var autoSearchCatSubcat = $("#autoSearchCatSubcatCheckbox").prop("checked");
+            var autoSearchSynonyms = $("#autoSearchSynonymsCheckbox").prop("checked");
 
+            // Trigger row change so form updates
             $("#userInputCategory").val(row[0]).trigger('change');
             $("select#userSelectSubCategory").val(row[1]).trigger('change');
 
             $("#copiedRowAlert").html("<i>Copied data to form!</i><br />Cat: <b>" + row[0] + "</b><br />Sub: <b>" + row[1] + "</b>");
             $(".alert").fadeTo(4000, 500).slideUp(750);
 
+            // Auto search media explorer (see func below)
+            if (autoSearchCatSubcat && autoSearchSynonyms) searchMediaExplorer(row[2] + ", " + row[1] + ", " + row[5]); // CATsub, Sub, Syn
+            else if (autoSearchCatSubcat) searchMediaExplorer(row[2]);                                                  // CATsub
+            else if (autoSearchSynonyms) searchMediaExplorer(row[1] + ", " + row[5]);                                   // Sub, Syn
+
+            // Auto submit form on row click
             if (autoSubmit) $("#formSubmitButton").click();
         });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SEARCH MEDIA EXPLORER FUNCTIONS
+        // ~~~~~~~~~~~~~~~~~~~~
+        function searchMediaExplorer(search) {
+            // Set project extstates from HTML vals
+            setProjExtState(search, "searchMediaExplorer");
+
+            // Run ReaScript
+            wwr_req(encodeURIComponent(UCSMediaFilter));
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~
         // TRIGGER SUBMIT ON ENTER KEY

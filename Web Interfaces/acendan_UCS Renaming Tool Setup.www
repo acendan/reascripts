@@ -1,10 +1,9 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 4.1.1
+@version 4.2
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  The long awaited settings menu has arrived!
-  Includes copy to clipboard options and creator/source ID capitalization options
+  Added media explorer filtering!
