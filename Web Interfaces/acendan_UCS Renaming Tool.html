@@ -508,7 +508,7 @@
     <!------------------------>
     <!--- ROW CLICK ALERT ---->
     <!------------------------>
-    <div class="alert alert-success notification float-right" style="position: fixed; z-index:100;" role="alert" id="copiedRowAlert">
+    <div class="alert alert-success notification float-right copy-alert" style="position: fixed; z-index:100;" role="alert" id="copiedRowAlert">
         Copied data to form!
     </div>
 
@@ -965,7 +965,7 @@
             $("select#userSelectSubCategory").val(row[1]).trigger('change');
 
             $("#copiedRowAlert").html("<i>Copied data to form!</i><br />Cat: <b>" + row[0] + "</b><br />Sub: <b>" + row[1] + "</b>");
-            $(".alert").fadeTo(4000, 500).slideUp(750);
+            $(".copy-alert").fadeTo(4000, 500).slideUp(750);
 
             // Auto search media explorer (see func below)
             if (autoSearchCatSubcat && autoSearchSynonyms) searchMediaExplorer(row[2] + ", " + row[1] + ", " + row[5]); // CATsub, Sub, Syn
