@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="cac80f68091f90c772d1ec413817973861cfbc09" name="ACendan Scripts">
+<index version="1" commit="94ceda27368fd17bc6734792f9ee35304c520193" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -881,6 +881,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-28T04:33:39Z">
         <source main="main" file="acendan_GUI_Display first selected item properties.lua">https://github.com/acendan/reascripts/raw/c39cd6bb4e90c59c92c41bb18f11b46b32c7023b/Various/acendan_GUI_Display%20first%20selected%20item%20properties.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2021-01-21T18:16:27Z">
+        <changelog><![CDATA[Added preserve pitch]]></changelog>
+        <source main="main" file="acendan_GUI_Display first selected item properties.lua">https://github.com/acendan/reascripts/raw/94ceda27368fd17bc6734792f9ee35304c520193/Various/acendan_GUI_Display%20first%20selected%20item%20properties.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Move unused projects MediaFiles in selected directory to separate folder.lua" type="script" desc="RPP Cleanup">
