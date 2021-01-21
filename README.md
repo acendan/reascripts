@@ -29,6 +29,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Count number of selected items in media explorer
  - Items Editing\acendan_Lock item horizontal movement while shortcut held (background)
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
+ - Items Editing\acendan_Mousewheel to zoom items peaks view gain
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Set distance between items to X seconds track respective
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
@@ -69,6 +70,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Various\acendan_GUI_Display first selected item properties
  - Various\acendan_Move unused projects MediaFiles in selected directory to separate folder
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
+ - Various\acendan_UCS Renaming Tool - Media Explorer Filter
  - Various\acendan_Universal Category Renaming Tool
 
 ## Manual Download Instructions (Optional)
