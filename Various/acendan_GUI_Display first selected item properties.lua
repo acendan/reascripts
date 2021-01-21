@@ -1,6 +1,6 @@
 -- @description Item Properties GUI
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_GUI_Display first selected item properties.lua
@@ -19,8 +19,7 @@
 --   * Cooldown function (CPU saver) by Jeffos, thanks
 --       http://forum.cockos.com/showpost.php?p=1567657&postcount=39
 -- @changelog
---	 Defaults to docked state
-
+--   Added preserve pitch
 
 defer_cnt=0
 
@@ -138,9 +137,12 @@ end
 function getItemProperties()
   if  reaper.CountSelectedMediaItems( 0 ) > 0 then
     local item = reaper.GetSelectedMediaItem( 0, 0 )
+    local take = reaper.GetActiveTake( item )
     
     local source = reaper.GetMediaItemTake_Source( reaper.GetActiveTake( item ) )
-    local ret, item_name = reaper.GetSetMediaItemTakeInfo_String( reaper.GetActiveTake( item ), "P_NAME", "", false )
+    local ret, item_name = reaper.GetSetMediaItemTakeInfo_String( take , "P_NAME", "", false )
+    local pres_pitch = reaper.GetMediaItemTakeInfo_Value( take, "B_PPITCH" )
+    if pres_pitch > 0 then pres_pitch = "Pres Pitch: " .. utf8.char(10004) else pres_pitch = "Pres Pitch: " .. utf8.char(10008) end
     
     local item_length =  dispTime(reaper.GetMediaItemInfo_Value( item, "D_LENGTH" ))
     
@@ -148,9 +150,9 @@ function getItemProperties()
     local bdepth = tostring(reaper.CF_GetMediaSourceBitDepth( source ))
     
     if ret then
-      return item_name .. "\n" .. srate .. "kHz - " .. bdepth .. "bit" .. "\n" .. item_length
+      return item_name .. "\n" .. srate .. "kHz - " .. bdepth .. "bit" .. "\n" .. item_length .. "\n" .. pres_pitch
     else 
-      return srate .. "kHz - " .. bdepth .. "bit" .. "\n" .. item_length
+      return srate .. "kHz - " .. bdepth .. "bit" .. "\n" .. item_length .. "\n" .. pres_pitch
     end
   else
     return "Select An Item"
