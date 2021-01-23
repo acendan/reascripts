@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.5
+-- @version 3.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -857,13 +857,27 @@ end
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 --[[ EXAMPLE USAGE
 
-  local sel_rgn_table = getSelectedRegions()
+  local sel_rgn_table = acendan.getSelectedRegions()
   if sel_rgn_table then 
-    for _, rgn_idx in pairs(sel_rgn_table) do 
-      dbg(rgn_idx)
+    local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+    local num_total = num_markers + num_regions
+    
+    for _, regionidx in pairs(sel_rgn_table) do 
+      local i = 0
+      while i < num_total do
+        local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+        if isrgn and markrgnindexnumber == regionidx then
+          
+          -- Do something with the selected regions!
+          reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name, color )
+
+          break
+        end
+        i = i + 1
+      end
     end
   else
-    msg("No regions selected!\n\nPlease go to View > Region/Marker Manager to select regions.") 
+    acendan.msg("No regions selected!\n\nPlease go to View > Region/Marker Manager to select regions.\n\n\nIf you are on mac... sorry but there is a bug that prevents this script from working. Out of my control :(") 
   end
   
 ]]--

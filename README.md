@@ -52,6 +52,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Create one region for selected items across tracks and link to parent in RRM
  - Regions\acendan_Create unique regions for selected items and link to parent track in RRM
  - Regions\acendan_Create unique regions for selected items and link to track in RRM
+ - Regions\acendan_Enumerate selected regions in manager
  - Regions\acendan_Extend all regions by length
  - Regions\acendan_Extend regions in time selection by length
  - Regions\acendan_Shrink overlapping regions edges to time selection
