@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="94ceda27368fd17bc6734792f9ee35304c520193" name="ACendan Scripts">
+<index version="1" commit="a9c02deb8527860522f7e36e5549463764bdc300" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -68,6 +68,9 @@
       </version>
       <version name="3.5" author="Aaron Cendan" time="2021-01-10T00:41:51Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/63fa3f692c60cab8815d1f36f02d72c41e044617/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="3.6" author="Aaron Cendan" time="2021-01-23T16:53:34Z">
+        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/a9c02deb8527860522f7e36e5549463764bdc300/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -529,6 +532,21 @@
       <version name="1.3" author="Aaron Cendan" time="2020-09-23T15:25:45Z">
         <changelog><![CDATA[Renaming to align with other region scripts]]></changelog>
         <source main="main" file="acendan_Create unique regions for selected items and link to track in RRM.lua">https://github.com/acendan/reascripts/raw/7844e3a6c28dc9f0138c38a9c69d25691709487c/Regions/acendan_Create%20unique%20regions%20for%20selected%20items%20and%20link%20to%20track%20in%20RRM.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Enumerate selected regions in manager.lua" type="script" desc="Enumerate Regions">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This script requires ACendan Lua Utilities!!! Also... it will only work on Windows because there's a bug with Mac that prevents me from getting the selected regions in the region/marker manager... :(\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-01-23T16:53:34Z">
+        <source main="main" file="acendan_Enumerate selected regions in manager.lua">https://github.com/acendan/reascripts/raw/a9c02deb8527860522f7e36e5549463764bdc300/Regions/acendan_Enumerate%20selected%20regions%20in%20manager.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Extend all regions by length.lua" type="script" desc="Extend All Regions by Length">
