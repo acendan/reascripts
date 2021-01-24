@@ -1,6 +1,6 @@
 -- @description Enumerate Regions
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Enumerate selected regions in manager.lua
@@ -9,7 +9,8 @@
 --   This script requires ACendan Lua Utilities!!! 
 --   Also... it will only work on Windows because there's a bug with Mac that prevents me from getting
 --   the selected regions in the region/marker manager... :(
-
+-- @changelog
+--   Add start/end placement
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -31,11 +32,11 @@ if acendan.version() < 3.0 then acendan.msg('This script requires a newer versio
 
 function main()
   -- Get user input
-  local ret_input, user_input = reaper.GetUserInputs( "Enumerate Regions", 2,
-                            "Starting Number,Space (s) or Underscore (_)" .. ",extrawidth=25",
-                            "01,_" )
+  local ret_input, user_input = reaper.GetUserInputs( "Enumerate Regions", 3,
+                            "Starting Number,Space (s) or Underscore (_),Start (s) or End (e)" .. ",extrawidth=25",
+                            "01,_,e" )
   if not ret_input then return end
-  enumerator, prefix = user_input:match("([^,]+),([^,]+)")
+  enumerator, separator, placement = user_input:match("([^,]+),([^,]+),([^,]+)")
   
   -- Check for leading zero
   if (tonumber(enumerator:sub(1,1)) == 0) then
@@ -48,8 +49,8 @@ function main()
     -- acendan.msg("NO LEADING ZERO!\n"..tostring(enumerator))
   end
   
-  -- Set up prefix
-  if prefix == "s" then prefix = " " else prefix = "_" end
+  -- Set up separator
+  if separator == "s" or separator == " " then separator = " " else separator = "_" end
   
   -- Iterate through regions
   local sel_rgn_table = acendan.getSelectedRegions()
@@ -63,7 +64,8 @@ function main()
         local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
         if isrgn and markrgnindexnumber == regionidx then
           if leading_zero then leadingZero() end
-          reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name .. prefix .. enumerator, color )
+          if placement == "s" then reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, enumerator .. separator .. name, color )
+          else reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name .. separator .. enumerator, color ) end
           incrementNumStr()
           break
         end
