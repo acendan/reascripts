@@ -29,6 +29,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Count number of selected items in media explorer
  - Items Editing\acendan_Lock item horizontal movement while shortcut held (background)
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
+ - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Set distance between items to X seconds track respective
