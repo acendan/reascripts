@@ -1,16 +1,14 @@
 -- @description Enumerate Regions
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
---   [main] . > acendan_Enumerate selected regions in manager.lua
+--   [main] . > acendan_Enumerate regions in project.lua
 -- @link https://aaroncendan.me
 -- @about
 --   This script requires ACendan Lua Utilities!!! 
---   Also... it will only work on Windows because there's a bug with Mac that prevents me from getting
---   the selected regions in the region/marker manager... :(
 -- @changelog
---   Add start/end placement
+--   Options for full project, time selection, or selected regions in region render matrix
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -31,12 +29,17 @@ if acendan.version() < 3.0 then acendan.msg('This script requires a newer versio
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
+  -- Get num regions
+  local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+  if not ret or num_regions < 1 then acendan.msg("Project has no regions!"); return end
+  local num_total = num_markers + num_regions
+  
   -- Get user input
-  local ret_input, user_input = reaper.GetUserInputs( "Enumerate Regions", 3,
-                            "Starting Number,Space (s) or Underscore (_),Start (s) or End (e)" .. ",extrawidth=25",
-                            "01,_,e" )
+  local ret_input, user_input = reaper.GetUserInputs( "Enumerate Regions", 4,
+                            "Starting Number,Space (s) or Underscore (_),Start (s) or End (e) of name,Proj (p) Time (t) or Manager (m)" .. ",extrawidth=100",
+                            "01,_,e,p" )
   if not ret_input then return end
-  enumerator, separator, placement = user_input:match("([^,]+),([^,]+),([^,]+)")
+  enumerator, separator, placement, section = user_input:match("([^,]+),([^,]+),([^,]+),([^,]+)")
   
   -- Check for leading zero
   if (tonumber(enumerator:sub(1,1)) == 0) then
@@ -49,32 +52,66 @@ function main()
     -- acendan.msg("NO LEADING ZERO!\n"..tostring(enumerator))
   end
   
-  -- Set up separator
+  -- Set up separator (default to underscore)
   if separator == "s" or separator == " " then separator = " " else separator = "_" end
   
-  -- Iterate through regions
-  local sel_rgn_table = acendan.getSelectedRegions()
-  if sel_rgn_table then 
-    local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
-    local num_total = num_markers + num_regions
-    
-    for _, regionidx in pairs(sel_rgn_table) do 
+  -- Split by section (default to project)
+  if section == "m" then
+    -- Iterate through selected regions
+    local sel_rgn_table = acendan.getSelectedRegions()
+    if sel_rgn_table then 
+      for _, regionidx in pairs(sel_rgn_table) do 
+        local i = 0
+        while i < num_total do
+          local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+          if isrgn and markrgnindexnumber == regionidx then
+            if leading_zero then leadingZero() end
+            if placement == "s" then reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, enumerator .. separator .. name, color )
+            else reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name .. separator .. enumerator, color ) end
+            incrementNumStr()
+            break
+          end
+          i = i + 1
+        end
+      end
+    else
+      acendan.msg("No regions selected!\n\nPlease go to View > Region/Marker Manager to select regions.\n\n\nIf you are on mac... sorry but there is a bug that prevents this script from working. Out of my control :(") 
+    end
+  elseif section == "t" then
+    -- Loop through regions in time selection
+    local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
+    if start_time_sel ~= end_time_sel then
       local i = 0
       while i < num_total do
         local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
-        if isrgn and markrgnindexnumber == regionidx then
-          if leading_zero then leadingZero() end
-          if placement == "s" then reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, enumerator .. separator .. name, color )
-          else reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name .. separator .. enumerator, color ) end
-          incrementNumStr()
-          break
+        if isrgn then
+          if pos >= start_time_sel and rgnend <= end_time_sel then
+            if leading_zero then leadingZero() end
+            if placement == "s" then reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, enumerator .. separator .. name, color )
+            else reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name .. separator .. enumerator, color ) end
+            incrementNumStr()
+          end
         end
         i = i + 1
       end
+    else
+      msg("You need to make a time selection!")
     end
   else
-    acendan.msg("No regions selected!\n\nPlease go to View > Region/Marker Manager to select regions.\n\n\nIf you are on mac... sorry but there is a bug that prevents this script from working. Out of my control :(") 
+    -- Loop through all regions
+    local i = 0
+    while i < num_total do
+      local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+      if isrgn then
+        if leading_zero then leadingZero() end
+        if placement == "s" then reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, enumerator .. separator .. name, color )
+        else reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, name .. separator .. enumerator, color ) end
+        incrementNumStr()
+      end
+      i = i + 1
+    end
   end
+  
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
