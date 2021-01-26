@@ -62,6 +62,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Stretch overlapping regions to edges of selected media items
  - Rendering\acendan_Load render directory from slot
  - Rendering\acendan_Save render directory to slot
+ - Time Selection\acendan_Continuously select all items in time selection background
  - Time Selection\acendan_Extend right edge of time selection by x seconds
  - Tracks Properties\acendan_Clear Saved URL By Track Name
  - Tracks Properties\acendan_Insert new track respect folders
