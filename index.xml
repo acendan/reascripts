@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="76b5b7499051662ddeec9db849d6a21e24a152e2" name="ACendan Scripts">
+<index version="1" commit="be41ad789f85cd86eb677783d587b2aee9d6015e" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -71,6 +71,9 @@
       </version>
       <version name="3.6" author="Aaron Cendan" time="2021-01-23T16:53:34Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/a9c02deb8527860522f7e36e5549463764bdc300/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="3.7" author="Aaron Cendan" time="2021-02-02T17:16:54Z">
+        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/be41ad789f85cd86eb677783d587b2aee9d6015e/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -934,6 +937,10 @@
       <version name="1.2" author="Aaron Cendan" time="2021-01-21T18:16:27Z">
         <changelog><![CDATA[Added preserve pitch]]></changelog>
         <source main="main" file="acendan_GUI_Display first selected item properties.lua">https://github.com/acendan/reascripts/raw/94ceda27368fd17bc6734792f9ee35304c520193/Various/acendan_GUI_Display%20first%20selected%20item%20properties.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2021-02-02T17:16:54Z">
+        <changelog><![CDATA[Added preserve pitch]]></changelog>
+        <source main="main" file="acendan_GUI_Display first selected item properties.lua">https://github.com/acendan/reascripts/raw/be41ad789f85cd86eb677783d587b2aee9d6015e/Various/acendan_GUI_Display%20first%20selected%20item%20properties.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Move unused projects MediaFiles in selected directory to separate folder.lua" type="script" desc="RPP Cleanup">
