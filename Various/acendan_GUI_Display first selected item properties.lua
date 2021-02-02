@@ -1,6 +1,6 @@
 -- @description Item Properties GUI
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_GUI_Display first selected item properties.lua
