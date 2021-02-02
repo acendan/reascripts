@@ -32,6 +32,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
  - Items Editing\acendan_Random glitchy stutter generator
+ - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
  - Items Editing\acendan_Set distance between items to X seconds track respective
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
@@ -63,6 +64,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Rendering\acendan_Load render directory from slot
  - Rendering\acendan_Save render directory to slot
  - Time Selection\acendan_Continuously select all items in time selection background
+ - Time Selection\acendan_Create time selection from edit cursor to mouse cursor
  - Time Selection\acendan_Extend right edge of time selection by x seconds
  - Tracks Properties\acendan_Clear Saved URL By Track Name
  - Tracks Properties\acendan_Insert new track respect folders
