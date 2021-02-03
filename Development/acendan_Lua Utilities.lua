@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.7
+-- @version 3.8
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -1101,6 +1101,16 @@ repeat
 until not  reaper.EnumerateSubdirectories( directory, dir_idx )
 ]]---
 
+-- Count the number of files in a directory
+function acendan.countFilesDirectory(directory)
+  if directoryExists(directory) then
+    local file_count = 0
+    repeat file_count = file_count + 1 until not reaper.EnumerateFiles( directory, file_count )
+    return file_count
+  else
+    return 0
+  end
+end
 
 -- Get project directory (folder) // returns String
 function acendan.getProjDir()

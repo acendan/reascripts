@@ -1,10 +1,13 @@
 -- @description RPP Cleanup
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Clean up projects unused MediaFiles and move to separate folder.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   Should now be Mac friendly
+--   Prompt with warning if missing JS extension
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -17,12 +20,15 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 -- Init table of RPP source media
 local RPP_source_media = {}
 
+-- OS BASED SEPARATOR
+if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then separator = "\\" else separator = "/" end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
-  msg("This script is intended for cleaning up directories with multiple RPPs referencing the same MediaFiles folder. It's similar to:\n\nFile > Clean project directory...\n\nRather than delete, it moves unused files (across ALL projects in the original folder) to a new directory:\n\nOriginal Folder\\UnusedMediaFiles")
+  msg("This script is similar to: File > Clean project directory...\n\nRather than delete, it moves unused files from ALL .RPPs in the original folder to a new directory:\n\nOriginal Folder\\UnusedMediaFiles")
   
   folder = promptForFolder()
   if folder then
@@ -44,17 +50,20 @@ function main()
         local dir_file = reaper.EnumerateFiles( folder, fil_idx )
         -- Scan RPPs for source file content
         if fileExtension(dir_file) == "RPP" then
-          fetchRPPSourceMedia(folder .. "\\" .. dir_file)
+          fetchRPPSourceMedia(folder .. separator .. dir_file)
         end
          
         fil_idx = fil_idx + 1
       until not reaper.EnumerateFiles( folder, fil_idx )
       
+      -- Count initial files in unused folder
+      local count_start = countFilesDirectory(folder .. separator .. "UnusedMediaFiles")
+      
       -- Done scanning RPPS in folder - Let's scan through the media files now
       local fil_idx = 0
       local num_unused = 0
       repeat
-         local dir_file = reaper.EnumerateFiles( folder .. "\\MediaFiles", fil_idx )
+         local dir_file = reaper.EnumerateFiles( folder .. separator .. "MediaFiles", fil_idx )
          local file_used = false
          
          -- Check if file is referenced in projects' source media table
@@ -64,19 +73,23 @@ function main()
          
          -- Move file if not used
          if not file_used then
-           if not unused then os.execute('mkdir "' .. folder .. '\\UnusedMediaFiles"') end
-           os.rename(folder .. "\\MediaFiles\\" .. dir_file, folder .. "\\UnusedMediaFiles\\" .. dir_file)
+           if not unused then os.execute('mkdir "' .. folder .. separator .. 'UnusedMediaFiles"') end
+           os.rename(folder .. separator .. "MediaFiles" .. separator .. dir_file, folder .. separator .. "UnusedMediaFiles" .. separator .. dir_file)
            num_unused = num_unused + 1
            unused = true
          end
          
          fil_idx = fil_idx + 1
-      until not reaper.EnumerateFiles( folder .. "\\MediaFiles", fil_idx )
+      until not reaper.EnumerateFiles( folder .. separator .. "MediaFiles", fil_idx )
+      
+      -- Count files in directory after
+      local count_end = countFilesDirectory(folder .. separator .. "UnusedMediaFiles")
+      local count_diff = count_end - count_start
 
       -- Open unused file directory
       if unused then 
-        openDirectory(folder .. "\\UnusedMediaFiles") 
-        msg("Finished scanning MediaFiles!\n\nMoved " .. num_unused .. " media files to \\UnusedMediaFiles.")
+        openDirectory(folder .. separator .. "UnusedMediaFiles") 
+        msg("Finished scanning MediaFiles!\n\nMoved " .. count_diff .. " media files to UnusedMediaFiles.")
       else
         msg("Finished scanning MediaFiles!\n\nAll files are currently referenced by the RPPs in selected folder.")
       end
@@ -102,12 +115,13 @@ end
 
 -- Search RPP file for source media
 function fetchRPPSourceMedia(filename)
+  
   local file = io.open(filename)
   io.input(file)
   for line in io.lines() do
     -- Source media lines follow a consistent format, always the line after "<SOURCE"
     if source_media_line then
-      line = line:sub(line:find("\\") + 1, string.len(line) - 1)
+      line = line:sub(line:find(separator) + 1, string.len(line) - 1)
       table.insert(RPP_source_media, line)
       source_media_line = false
     end
@@ -126,6 +140,21 @@ end
 -- Check if a file exists // returns Boolean
 function fileExists(filename)
    return reaper.file_exists(filename)
+end
+
+-- Check if a directory/folder exists. // returns Boolean
+function directoryExists(folder)
+  local fileHandle, strError = io.open(folder .. separator .. "*.*","r")
+  if fileHandle ~= nil then
+    io.close(fileHandle)
+    return true
+  else
+    if string.match(strError,"No such file or directory") then
+      return false
+    else
+      return true
+    end
+  end
 end
 
 -- Open a webpage or file directory
@@ -149,6 +178,17 @@ function promptForFolder()
   end
 end
 
+-- Count the number of files in a directory
+function countFilesDirectory(directory)
+  if directoryExists(directory) then
+    local file_count = 0
+    repeat file_count = file_count + 1 until not reaper.EnumerateFiles( directory, file_count )
+    return file_count
+  else
+    return 0
+  end
+end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -156,7 +196,12 @@ reaper.PreventUIRefresh(1)
 
 reaper.Undo_BeginBlock()
 
-main()
+-- Check for JS_ReaScript Extension
+if reaper.JS_Dialog_BrowseForSaveFile then
+  main()
+else
+  msg("This script requires the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
+end
 
 reaper.Undo_EndBlock(script_name,-1)
 
