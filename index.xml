@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="30dcab3194ed4b826bb8a3c3453275c4f7a5c4d6" name="ACendan Scripts">
+<index version="1" commit="3571919292b78637a74f7d5bbce2c83bd3d882b9" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -74,6 +74,9 @@
       </version>
       <version name="3.7" author="Aaron Cendan" time="2021-02-02T17:16:54Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/be41ad789f85cd86eb677783d587b2aee9d6015e/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="3.8" author="Aaron Cendan" time="2021-02-03T17:05:04Z">
+        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/3571919292b78637a74f7d5bbce2c83bd3d882b9/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -965,6 +968,11 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-10-26T03:49:03Z">
         <source main="main" file="acendan_Clean up projects unused MediaFiles and move to separate folder.lua">https://github.com/acendan/reascripts/raw/ebe751b9781a5a3d0b881b017f87699007954a82/Various/acendan_Move%20unused%20projects%20MediaFiles%20in%20selected%20directory%20to%20separate%20folder.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-02-03T17:05:04Z">
+        <changelog><![CDATA[Should now be Mac friendly
+Prompt with warning if missing JS extension]]></changelog>
+        <source main="main" file="acendan_Clean up projects unused MediaFiles and move to separate folder.lua">https://github.com/acendan/reascripts/raw/3571919292b78637a74f7d5bbce2c83bd3d882b9/Various/acendan_Move%20unused%20projects%20MediaFiles%20in%20selected%20directory%20to%20separate%20folder.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour.lua" type="script" desc="NVK Game Audio Affirmations Once An Hour">
