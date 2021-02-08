@@ -1,17 +1,29 @@
 -- @description RPP Cleanup
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Clean up projects unused MediaFiles and move to separate folder.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   Should now be Mac friendly
---   Prompt with warning if missing JS extension
+--   Added user config section for media files folder and destination folder name
+--   Resolved folder capitalization bug, thanks to Simon for reporting it!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- ~~~ USER CONFIG - EDIT THESE! ~~~~
+
+-- The location in your reaper project where Media Files are stored
+media_files_folder = "MediaFiles"
+
+-- The location you would like to move unused media files to
+unused_media_folder = "UnusedMediaFiles"
+
+
+
+-- ~~~~~ DO NOT EDIT THESE ~~~~~~~~~~
 
 -- Get this script's name and directory
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
@@ -28,7 +40,7 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then separator = "\\" 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
-  msg("This script is similar to: File > Clean project directory...\n\nRather than delete, it moves unused files from ALL .RPPs in the original folder to a new directory:\n\nOriginal Folder\\UnusedMediaFiles")
+  msg("This script is similar to: File > Clean project directory...\n\nRather than delete, it moves unused files from ALL .RPPs in the original folder to a new directory:\n\nOriginal Folder\\" .. unused_media_folder)
   
   folder = promptForFolder()
   if folder then
@@ -37,7 +49,7 @@ function main()
     repeat
       local sub_dir = reaper.EnumerateSubdirectories( folder, dir_idx)
       -- Do stuff to the sub_dirs
-      if sub_dir == "MediaFiles" then
+      if string.lower(sub_dir) == string.lower(media_files_folder) then
         found_MediaFiles = true
       end
       dir_idx = dir_idx + 1
@@ -57,13 +69,13 @@ function main()
       until not reaper.EnumerateFiles( folder, fil_idx )
       
       -- Count initial files in unused folder
-      local count_start = countFilesDirectory(folder .. separator .. "UnusedMediaFiles")
+      local count_start = countFilesDirectory(folder .. separator .. unused_media_folder)
       
       -- Done scanning RPPS in folder - Let's scan through the media files now
       local fil_idx = 0
       local num_unused = 0
       repeat
-         local dir_file = reaper.EnumerateFiles( folder .. separator .. "MediaFiles", fil_idx )
+         local dir_file = reaper.EnumerateFiles( folder .. separator .. media_files_folder, fil_idx )
          local file_used = false
          
          -- Check if file is referenced in projects' source media table
@@ -73,29 +85,29 @@ function main()
          
          -- Move file if not used
          if not file_used then
-           if not unused then os.execute('mkdir "' .. folder .. separator .. 'UnusedMediaFiles"') end
-           os.rename(folder .. separator .. "MediaFiles" .. separator .. dir_file, folder .. separator .. "UnusedMediaFiles" .. separator .. dir_file)
+           if not unused then os.execute('mkdir "' .. folder .. separator .. unused_media_folder .. '"') end
+           os.rename(folder .. separator .. media_files_folder .. separator .. dir_file, folder .. separator .. unused_media_folder .. separator .. dir_file)
            num_unused = num_unused + 1
            unused = true
          end
          
          fil_idx = fil_idx + 1
-      until not reaper.EnumerateFiles( folder .. separator .. "MediaFiles", fil_idx )
+      until not reaper.EnumerateFiles( folder .. separator .. media_files_folder, fil_idx )
       
       -- Count files in directory after
-      local count_end = countFilesDirectory(folder .. separator .. "UnusedMediaFiles")
+      local count_end = countFilesDirectory(folder .. separator .. unused_media_folder)
       local count_diff = count_end - count_start
 
       -- Open unused file directory
       if unused then 
-        openDirectory(folder .. separator .. "UnusedMediaFiles") 
-        msg("Finished scanning MediaFiles!\n\nMoved " .. count_diff .. " media files to UnusedMediaFiles.")
+        openDirectory(folder .. separator .. unused_media_folder) 
+        msg("Finished scanning " .. media_files_folder .. "!\n\nMoved " .. count_diff .. " media files to " .. unused_media_folder .. ".")
       else
-        msg("Finished scanning MediaFiles!\n\nAll files are currently referenced by the RPPs in selected folder.")
+        msg("Finished scanning " .. media_files_folder .. "!\n\nAll files are currently referenced by the RPPs in selected folder.")
       end
 
     else
-      msg("Unable to find 'MediaFiles' subfolder in selected folder. Please double check your folder selection.\n\n~~~\nIf you have re-configured Reaper to use another folder name for MediaFiles, then sorry about that. I'll have to update this script at some point. Feel free to shoot me a message at:\n\naaron.cendan@gmail.com\n\nOops :)")
+      msg("Unable to find '" .. media_files_folder .. "' subfolder in selected folder. Please double check your project selection and user config settings in this script.")
     end
   end
 end
@@ -110,7 +122,7 @@ end
 
 -- Deliver messages using message box
 function msg(msg)
-  reaper.MB(msg, "MediaFile Folder Cleanup", 0)
+  reaper.MB(msg, "Media File Folder Cleanup", 0)
 end
 
 -- Search RPP file for source media
@@ -164,7 +176,7 @@ end
 
 -- Prompt user to locate folder in system
 function promptForFolder()
-  local ret, folder = reaper.JS_Dialog_BrowseForFolder( "Please select the parent folder with your Reaper projects and MediaFiles sub-folder.", "" )
+  local ret, folder = reaper.JS_Dialog_BrowseForFolder( "Please select the parent folder with your Reaper projects and " .. media_files_folder .. " sub-folder.", "" )
   if ret == 1 then
     -- Folder found
     return folder
