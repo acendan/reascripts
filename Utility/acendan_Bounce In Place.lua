@@ -1,16 +1,18 @@
--- @description ACendan Lua Utilities
+-- @description Bounce In Place
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
 -- @link https://aaroncendan.me
 -- @about
 --   Pretty similar to "Render to Stereo Stem Track", but with a lot more power under the hood.
---   Handles tracks with items that have a mixed channel count
---   Optional extra space, alternative track name appending, delete original after render, etc
+--   Handles tracks with items that have a mixed channel count, receives, etc
+--   User configs for extra space, alternative track name appending, delete original after render, etc
+--   TO DO: User config option for BIP-ing all selected tracks
+--   TO DO: Trim receive renders based on item placement from sends
 -- @changelog
---   Added options for deleting original track after render and tweaking the name that's appended to the new track
+--   Added receive rendering
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,37 +35,41 @@ delete_after_render = false
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function main()
 
-  -- Prep time selection
-  reaper.Main_OnCommand(40289,0) -- Item: Unselect all items
-  reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELFIRSTOFSELTRAX"),0) -- Xenakios/SWS: Select first of selected tracks
-  reaper.Main_OnCommand(40421,0) -- Item: Select all items in track
-  reaper.Main_OnCommand(40290,0) -- Time selection: Set time selection to items
- 
-  -- Extend edge of time selection with extra space
-  local ts_start_time, ts_end_time = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
-  reaper.GetSet_LoopTimeRange( 1, 0, ts_start_time , ts_end_time + extra_space, 0 )
-  
-  
   -- Get the max number of channels on an item in track
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELFIRSTOFSELTRAX"),0) -- Xenakios/SWS: Select first of selected tracks
+  
   if reaper.CountSelectedTracks(0) > 0 then
     track = reaper.GetSelectedTrack(0,0)
     track_idx = reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" ) - 1
+    _, track_name = reaper.GetSetMediaTrackInfo_String(track,"P_NAME","",false)
     track_max_channels = countTrackItemsMaxChannels(track)
   else
     reaper.MB("No track selected!","",0)
+    return
   end
   
   -- Render accordingly
-  if track_max_channels then
-    -- Mono
+  if track_max_channels >= 0 then
+    
+    -- Set time/item selection appropriately
+    reaper.Main_OnCommand(40289,0) -- Item: Unselect all items
+    reaper.Main_OnCommand(40421,0) -- Item: Select all items in track
+    reaper.Main_OnCommand(40290,0) -- Time selection: Set time selection to items
+    
+    -- Extend edge of time selection with extra space
+    local ts_start_time, ts_end_time = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
+    reaper.GetSet_LoopTimeRange( 1, 0, ts_start_time , ts_end_time + extra_space, 0 )
+    
+    
+    -- Mono render
     if track_max_channels == 1 then
       reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERMONOSMART"),0) -- SWS/AW: Render tracks to mono stem tracks, obeying time selection
     
-    -- Stereo
+    -- Stereo render
     elseif track_max_channels == 2 then
       reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERSTEREOSMART"),0) -- SWS/AW: Render tracks to stereo stem tracks, obeying time selection
     
-    -- Multichannel
+    -- Multichannel render
     elseif track_max_channels > 2 then
       
       -- Get track items start and end points
@@ -85,44 +91,29 @@ function main()
 
     end
     
-    -- Color tracks, re-order, collapse state, set FX bypass, etc
+    -- Bypass FX processing on original track
     reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELNEXTTRACK"),0) -- Xenakios/SWS: Select next tracks
     reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_BYPASSFXOFSELTRAX"),0) -- Xenakios/SWS: Bypass FX of selected tracks
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELPREVTRACKKEEP"),0) -- Xenakios/SWS: Select previous tracks, keeping current selection
-    reaper.Main_OnCommand(40738,0) -- Track: Clear automatic record-arm
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELTRAX_RECUNARMED"),0) -- Xenakios/SWS: Set selected tracks record unarmed
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_MAKEFOLDER"),0) -- SWS: Make folder from selected tracks
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLTRACKNEXT"),0) -- SWS: Set selected track(s) to next track's color
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLCHILDREN"),0) -- SWS: Set selected track(s) children to same color
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INPUTMATCH"),0) -- SWS: Set all selected tracks inputs to match first selected track
-    reaper.Main_OnCommand(1042,0) -- Track: Cycle folder collapsed state
     
-    -- Post processing vars
-    local new_track = reaper.GetTrack( 0, track_idx )
-    local new_item = reaper.GetTrackMediaItem( new_track, 0 )
-    local original_track = reaper.GetTrack( 0, track_idx + 1 )
+    postProcessing()
     
-    -- If multichannel, trim item
-    if track_max_channels > 2 then
-      reaper.BR_SetItemEdges(new_item,track_items_start,track_items_end + extra_space)
+  else
+  
+    -- No items found on track. Try to determine if track is a receive
+    local ret, rcv_name = reaper.GetTrackReceiveName( track, 0, "" )
+    if ret then
+      -- Render receives
+      reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_RENDERRECEIVESASSTEMS"),0) -- Xenakios/SWS: Render receives of selected track as stems
+      postProcessing()
+    
+    else
+      -- No media found
+      if track_name ~= "" then
+        reaper.MB("No media items or receives found on Track #" .. tostring(track_idx + 1):sub(1,-3) ..": " .. track_name,"",0)
+      else
+        reaper.MB("No media items or receives found on Track #" .. tostring(track_idx + 1):sub(1,-3),"",0)
+      end
     end
-    
-    -- Delete original track after bounce in place option
-    if delete_after_render then
-      reaper.SetOnlyTrackSelected(original_track) 
-      reaper.Main_OnCommand(40005,0) -- Track: Remove tracks
-    end
-    
-    -- Rename track with different append
-    if append_track_name ~= " - stem" then
-      local ret, current_track_name = reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME","",false)
-      if ret then reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME",replace(current_track_name," - stem",append_track_name),true) end
-    end
-    
-    -- Select new track and item
-    reaper.SetOnlyTrackSelected(new_track)
-    reaper.SetMediaItemSelected(new_item, true)
-    
   end
 end
 
@@ -130,6 +121,47 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ UTILITIES ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- This function does a ton of stuff. Also where most user config settings get executed
+function postProcessing()
+  
+  -- Color tracks, re-order, collapse state, set FX bypass, etc
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELPREVTRACKKEEP"),0) -- Xenakios/SWS: Select previous tracks, keeping current selection
+  reaper.Main_OnCommand(40738,0) -- Track: Clear automatic record-arm
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELTRAX_RECUNARMED"),0) -- Xenakios/SWS: Set selected tracks record unarmed
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_MAKEFOLDER"),0) -- SWS: Make folder from selected tracks
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLTRACKNEXT"),0) -- SWS: Set selected track(s) to next track's color
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLCHILDREN"),0) -- SWS: Set selected track(s) children to same color
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INPUTMATCH"),0) -- SWS: Set all selected tracks inputs to match first selected track
+  reaper.Main_OnCommand(1042,0) -- Track: Cycle folder collapsed state
+  
+  -- Post processing vars
+  local new_track = reaper.GetTrack( 0, track_idx )
+  local new_item = reaper.GetTrackMediaItem( new_track, 0 )
+  local original_track = reaper.GetTrack( 0, track_idx + 1 )
+  
+  -- If multichannel, trim item
+  if track_max_channels > 2 then
+    reaper.BR_SetItemEdges(new_item,track_items_start,track_items_end + extra_space)
+  end
+  
+  -- Delete original track after bounce in place option
+  if delete_after_render then
+    reaper.SetOnlyTrackSelected(original_track) 
+    reaper.Main_OnCommand(40005,0) -- Track: Remove tracks
+  end
+  
+  -- Rename track with different append
+  if append_track_name ~= " - stem" then
+    local ret, current_track_name = reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME","",false)
+    if ret then reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME",replace(current_track_name," - stem",append_track_name),true) end
+  end
+  
+  -- Select new track and item
+  reaper.SetOnlyTrackSelected(new_track)
+  reaper.SetMediaItemSelected(new_item, true)
+
+end
 
 -- Counts the maximum number of channels on a media item in the given track // returns Number
 function countTrackItemsMaxChannels(track)
@@ -165,8 +197,8 @@ function countTrackItemsMaxChannels(track)
     return track_item_max_channels
     
   else
-    reaper.MB("No media items found on selected track!","",0)
-    return 0
+    --reaper.MB("No media items found on selected track!","",0)
+    return -1
   end
 end
 
@@ -184,8 +216,8 @@ end
 
 reaper.PreventUIRefresh(1)
 reaper.Undo_BeginBlock();
-local store_start, store_end = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
+local store_start, store_end = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )  -- Store time selection
 main()
-reaper.GetSet_LoopTimeRange( 1, 0, store_start , store_end, 0 )
+reaper.GetSet_LoopTimeRange( 1, 0, store_start , store_end, 0 )              -- Recall time selection
 reaper.Undo_EndBlock("Bounce In Place",-1)
 reaper.PreventUIRefresh(-1)
