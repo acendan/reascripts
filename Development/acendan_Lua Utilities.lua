@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.9
+-- @version 4.0
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -560,6 +560,14 @@ end
 -- Check if an input string ends with another string // returns Boolean
 function acendan.stringEnds(str, ending)
    return ending == "" or str:sub(-#ending) == ending
+end
+
+-- Pattern escaping gsub alternative that works with hyphens and other lua stuff // returns String
+-- https://stackoverflow.com/a/29379912
+function acendan.stringReplace(str, what, with)
+  what = string.gsub(what, "[%(%)%.%+%-%*%?%[%]%^%$%%]", "%%%1") -- escape pattern
+  with = string.gsub(with, "[%%]", "%%%%") -- escape replacement
+  return string.gsub(str, what, with)
 end
 
 -- Clamp a value to given range // returns Number

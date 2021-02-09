@@ -1,6 +1,6 @@
 -- @description Bounce In Place
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
@@ -9,10 +9,9 @@
 --   Pretty similar to "Render to Stereo Stem Track", but with a lot more power under the hood.
 --   Handles tracks with items that have a mixed channel count, receives, etc
 --   User configs for extra space, alternative track name appending, delete original after render, etc
---   TO DO: User config option for BIP-ing all selected tracks
 --   TO DO: Trim receive renders based on item placement from sends
 -- @changelog
---   Added receive rendering
+--   Support multiple selected tracks. Added option to only render first track
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,11 +22,13 @@
 extra_space = 3
 
 -- Append track name
-append_track_name = " - stem"
+append_track_name = " - BIP"
 
 -- OPTIONAL: Deletes the original track after render
 delete_after_render = false
 
+-- OPTIONAL: Only render first selected track
+only_render_first_track = false
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -38,15 +39,11 @@ function main()
   -- Get the max number of channels on an item in track
   reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELFIRSTOFSELTRAX"),0) -- Xenakios/SWS: Select first of selected tracks
   
-  if reaper.CountSelectedTracks(0) > 0 then
-    track = reaper.GetSelectedTrack(0,0)
-    track_idx = reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" ) - 1
-    _, track_name = reaper.GetSetMediaTrackInfo_String(track,"P_NAME","",false)
-    track_max_channels = countTrackItemsMaxChannels(track)
-  else
-    reaper.MB("No track selected!","",0)
-    return
-  end
+  -- Get current track info
+  track = reaper.GetSelectedTrack(0,0)
+  track_idx = reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" ) - 1
+  _, track_name = reaper.GetSetMediaTrackInfo_String(track,"P_NAME","",false)
+  track_max_channels = countTrackItemsMaxChannels(track)
   
   -- Render accordingly
   if track_max_channels >= 0 then
@@ -151,16 +148,18 @@ function postProcessing()
     reaper.Main_OnCommand(40005,0) -- Track: Remove tracks
   end
   
-  -- Rename track with different append
+  -- Rename track/item with different append
   if append_track_name ~= " - stem" then
     local ret, current_track_name = reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME","",false)
     if ret then reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME",replace(current_track_name," - stem",append_track_name),true) end
+    
+    local ret, current_item_name = reaper.GetSetMediaItemTakeInfo_String(reaper.GetActiveTake(new_item),"P_NAME","",false)
+    if ret then reaper.GetSetMediaItemTakeInfo_String(reaper.GetActiveTake(new_item),"P_NAME",replace(current_item_name," - stem",append_track_name),true) end
   end
   
-  -- Select new track and item
-  reaper.SetOnlyTrackSelected(new_track)
-  reaper.SetMediaItemSelected(new_item, true)
-
+  -- Store new tracks and items
+  table.insert(new_rend_tracks, new_track)
+  table.insert(new_rend_items, new_item)
 end
 
 -- Counts the maximum number of channels on a media item in the given track // returns Number
@@ -210,6 +209,29 @@ function replace(str, what, with)
   return string.gsub(str, what, with)
 end
 
+-- Save initially selected tracks to table
+function saveSelectedTracks (table)
+  for i = 1, reaper.CountSelectedTracks(0) do
+    table[i] = reaper.GetSelectedTrack(0, i-1)
+  end
+end
+
+-- Restore selected tracks from table. Requires tableLength() above
+function restoreSelectedTracks(table)
+  reaper.Main_OnCommand(40297, 0) -- Unselect all tracks
+  for i = 1, #table do
+    reaper.SetTrackSelected( table[i], true )
+  end
+end
+
+-- Restore selected items from table. Requires tableLength() above
+function restoreSelectedItems(table)
+  reaper.Main_OnCommand(40289, 0) -- Unselect all media items
+  for i = 1, #table do
+    reaper.SetMediaItemSelected( table[i], true )
+  end
+end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -217,7 +239,32 @@ end
 reaper.PreventUIRefresh(1)
 reaper.Undo_BeginBlock();
 local store_start, store_end = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )  -- Store time selection
-main()
+init_sel_tracks = {}
+new_rend_tracks = {}
+new_rend_items = {}
+
+if reaper.CountSelectedTracks(0) > 0 then
+  if only_render_first_track then
+    main()
+  else
+    -- Store and loop through selected tracks
+    saveSelectedTracks(init_sel_tracks)
+    for _, tr in pairs(init_sel_tracks) do
+      reaper.SetOnlyTrackSelected(tr)
+      
+      -- Process each track
+      main()
+    end
+  end
+  
+  -- Select new tracks and items
+  restoreSelectedTracks(new_rend_tracks)
+  restoreSelectedItems(new_rend_items)
+else
+  reaper.MB("No tracks selected!","",0)
+end
+
 reaper.GetSet_LoopTimeRange( 1, 0, store_start , store_end, 0 )              -- Recall time selection
 reaper.Undo_EndBlock("Bounce In Place",-1)
 reaper.PreventUIRefresh(-1)
+reaper.UpdateArrange()
