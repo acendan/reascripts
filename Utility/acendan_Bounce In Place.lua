@@ -1,12 +1,19 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
 -- @link https://aaroncendan.me
 -- @about
 --   Pretty similar to "Render to Stereo Stem Track
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Amount of space to add to end of items on track, in seconds. Good for reverb tails
+extra_space = 3
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,9 +30,14 @@ function main()
     reaper.Main_OnCommand(40290,0) -- Time selection: Set time selection to items
     reaper.Main_OnCommand(reaper.NamedCommandLookup("_RScb04d1b87bb78ad6a28afc690691d653d38026ff"),0) -- Script: acendan_Extend right edge of time selection by 3 seconds.lua
     
+    local ts_start_time, ts_end_time = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
+    reaper.GetSet_LoopTimeRange( 1, 0, ts_start_time , ts_end_time + extra_space, 0 )
+    
+    
     -- Get the max number of channels on an item in track
     if reaper.CountSelectedTracks(0) > 0 then
-      local track = reaper.GetSelectedTrack(0,0)
+      track = reaper.GetSelectedTrack(0,0)
+      track_idx = reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" ) - 1
       track_max_channels = countTrackItemsMaxChannels(track)
     else
       reaper.MB("No track selected!","",0)
@@ -43,7 +55,24 @@ function main()
       
       -- Multichannel
       elseif track_max_channels > 2 then
+        
+        -- Get track items start and end points
+        local track_items_count = reaper.CountTrackMediaItems( track )
+        track_items_start = math.huge
+        track_items_end = 0
+        
+        for j = 0, track_items_count - 1 do
+          local item = reaper.GetTrackMediaItem( track, j)
+          local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION")
+          local item_len = reaper.GetMediaItemInfo_Value( item, "D_LENGTH")
+          local item_end = item_start + item_len
+          if item_start < track_items_start then track_items_start = item_start end
+          if item_end > track_items_end then track_items_end = item_end end
+        end
+
+        -- Render multichannel
         reaper.Main_OnCommand(40893,0) -- Track: Render tracks to multichannel stem tracks (and mute originals)
+
       end
       
       -- Color tracks, re-order, collapse state, set FX bypass, etc
@@ -58,9 +87,11 @@ function main()
       reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INPUTMATCH"),0) -- SWS: Set all selected tracks inputs to match first selected track
       reaper.Main_OnCommand(1042,0) -- Track: Cycle folder collapsed state
       
-    else
       
-      reaper.MB("Something went wrong... If you're seeing this a lot please reach out to me at:\n\naaron.cendan@gmail.com","",0)
+      -- If multichannel, trim item
+      if track_max_channels > 2 then
+        reaper.BR_SetItemEdges(reaper.GetTrackMediaItem(reaper.GetTrack( 0, track_idx ),0),track_items_start,track_items_end + extra_space)
+      end
       
     end
     
@@ -121,6 +152,8 @@ end
 
 reaper.PreventUIRefresh(1)
 reaper.Undo_BeginBlock();
+local store_start, store_end = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
 main()
+reaper.GetSet_LoopTimeRange( 1, 0, store_start , store_end, 0 )
 reaper.Undo_EndBlock("Bounce In Place",-1)
 reaper.PreventUIRefresh(-1)
