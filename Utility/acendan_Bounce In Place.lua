@@ -1,12 +1,17 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
 -- @link https://aaroncendan.me
 -- @about
---   Pretty similar to "Render to Stereo Stem Track
+--   Pretty similar to "Render to Stereo Stem Track", but with a lot more power under the hood.
+--   Handles tracks with items that have a mixed channel count
+--   Optional extra space, alternative track name appending, delete original after render, etc
+-- @changelog
+--   Added options for deleting original track after render and tweaking the name that's appended to the new track
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -14,6 +19,13 @@
 
 -- Amount of space to add to end of items on track, in seconds. Good for reverb tails
 extra_space = 3
+
+-- Append track name
+append_track_name = " - stem"
+
+-- OPTIONAL: Deletes the original track after render
+delete_after_render = false
+
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -85,14 +97,33 @@ function main()
     reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INPUTMATCH"),0) -- SWS: Set all selected tracks inputs to match first selected track
     reaper.Main_OnCommand(1042,0) -- Track: Cycle folder collapsed state
     
+    -- Post processing vars
+    local new_track = reaper.GetTrack( 0, track_idx )
+    local new_item = reaper.GetTrackMediaItem( new_track, 0 )
+    local original_track = reaper.GetTrack( 0, track_idx + 1 )
     
     -- If multichannel, trim item
     if track_max_channels > 2 then
-      reaper.BR_SetItemEdges(reaper.GetTrackMediaItem(reaper.GetTrack( 0, track_idx ),0),track_items_start,track_items_end + extra_space)
+      reaper.BR_SetItemEdges(new_item,track_items_start,track_items_end + extra_space)
     end
     
+    -- Delete original track after bounce in place option
+    if delete_after_render then
+      reaper.SetOnlyTrackSelected(original_track) 
+      reaper.Main_OnCommand(40005,0) -- Track: Remove tracks
+    end
+    
+    -- Rename track with different append
+    if append_track_name ~= " - stem" then
+      local ret, current_track_name = reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME","",false)
+      if ret then reaper.GetSetMediaTrackInfo_String(new_track,"P_NAME",replace(current_track_name," - stem",append_track_name),true) end
+    end
+    
+    -- Select new track and item
+    reaper.SetOnlyTrackSelected(new_track)
+    reaper.SetMediaItemSelected(new_item, true)
+    
   end
-  
 end
 
 
@@ -139,6 +170,13 @@ function countTrackItemsMaxChannels(track)
   end
 end
 
+-- Pattern escaping gsub alternative that works with hyphens and other lua stuff
+-- https://stackoverflow.com/a/29379912
+function replace(str, what, with)
+  what = string.gsub(what, "[%(%)%.%+%-%*%?%[%]%^%$%%]", "%%%1") -- escape pattern
+  with = string.gsub(with, "[%%]", "%%%%") -- escape replacement
+  return string.gsub(str, what, with)
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
