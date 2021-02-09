@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
@@ -20,85 +20,79 @@ extra_space = 3
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function main()
-  --Extend right edge of time selection by x seconds
-  if reaper.NamedCommandLookup("_RScb04d1b87bb78ad6a28afc690691d653d38026ff") > 0 then
-    
-    -- Prep time selection
-    reaper.Main_OnCommand(40289,0) -- Item: Unselect all items
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELFIRSTOFSELTRAX"),0) -- Xenakios/SWS: Select first of selected tracks
-    reaper.Main_OnCommand(40421,0) -- Item: Select all items in track
-    reaper.Main_OnCommand(40290,0) -- Time selection: Set time selection to items
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_RScb04d1b87bb78ad6a28afc690691d653d38026ff"),0) -- Script: acendan_Extend right edge of time selection by 3 seconds.lua
-    
-    local ts_start_time, ts_end_time = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
-    reaper.GetSet_LoopTimeRange( 1, 0, ts_start_time , ts_end_time + extra_space, 0 )
-    
-    
-    -- Get the max number of channels on an item in track
-    if reaper.CountSelectedTracks(0) > 0 then
-      track = reaper.GetSelectedTrack(0,0)
-      track_idx = reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" ) - 1
-      track_max_channels = countTrackItemsMaxChannels(track)
-    else
-      reaper.MB("No track selected!","",0)
-    end
-    
-    -- Render accordingly
-    if track_max_channels then
-      -- Mono
-      if track_max_channels == 1 then
-        reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERMONOSMART"),0) -- SWS/AW: Render tracks to mono stem tracks, obeying time selection
-      
-      -- Stereo
-      elseif track_max_channels == 2 then
-        reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERSTEREOSMART"),0) -- SWS/AW: Render tracks to stereo stem tracks, obeying time selection
-      
-      -- Multichannel
-      elseif track_max_channels > 2 then
-        
-        -- Get track items start and end points
-        local track_items_count = reaper.CountTrackMediaItems( track )
-        track_items_start = math.huge
-        track_items_end = 0
-        
-        for j = 0, track_items_count - 1 do
-          local item = reaper.GetTrackMediaItem( track, j)
-          local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION")
-          local item_len = reaper.GetMediaItemInfo_Value( item, "D_LENGTH")
-          local item_end = item_start + item_len
-          if item_start < track_items_start then track_items_start = item_start end
-          if item_end > track_items_end then track_items_end = item_end end
-        end
 
-        -- Render multichannel
-        reaper.Main_OnCommand(40893,0) -- Track: Render tracks to multichannel stem tracks (and mute originals)
-
-      end
-      
-      -- Color tracks, re-order, collapse state, set FX bypass, etc
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELNEXTTRACK"),0) -- Xenakios/SWS: Select next tracks
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_BYPASSFXOFSELTRAX"),0) -- Xenakios/SWS: Bypass FX of selected tracks
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELPREVTRACKKEEP"),0) -- Xenakios/SWS: Select previous tracks, keeping current selection
-      reaper.Main_OnCommand(40738,0) -- Track: Clear automatic record-arm
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELTRAX_RECUNARMED"),0) -- Xenakios/SWS: Set selected tracks record unarmed
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_MAKEFOLDER"),0) -- SWS: Make folder from selected tracks
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLTRACKNEXT"),0) -- SWS: Set selected track(s) to next track's color
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLCHILDREN"),0) -- SWS: Set selected track(s) children to same color
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INPUTMATCH"),0) -- SWS: Set all selected tracks inputs to match first selected track
-      reaper.Main_OnCommand(1042,0) -- Track: Cycle folder collapsed state
-      
-      
-      -- If multichannel, trim item
-      if track_max_channels > 2 then
-        reaper.BR_SetItemEdges(reaper.GetTrackMediaItem(reaper.GetTrack( 0, track_idx ),0),track_items_start,track_items_end + extra_space)
-      end
-      
-    end
-    
+  -- Prep time selection
+  reaper.Main_OnCommand(40289,0) -- Item: Unselect all items
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELFIRSTOFSELTRAX"),0) -- Xenakios/SWS: Select first of selected tracks
+  reaper.Main_OnCommand(40421,0) -- Item: Select all items in track
+  reaper.Main_OnCommand(40290,0) -- Time selection: Set time selection to items
+ 
+  -- Extend edge of time selection with extra space
+  local ts_start_time, ts_end_time = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
+  reaper.GetSet_LoopTimeRange( 1, 0, ts_start_time , ts_end_time + extra_space, 0 )
+  
+  
+  -- Get the max number of channels on an item in track
+  if reaper.CountSelectedTracks(0) > 0 then
+    track = reaper.GetSelectedTrack(0,0)
+    track_idx = reaper.GetMediaTrackInfo_Value( track, "IP_TRACKNUMBER" ) - 1
+    track_max_channels = countTrackItemsMaxChannels(track)
   else
-    -- ERROR MSG
-    reaper.ShowConsoleMsg("This script requires ACendan's script 'Extend right edge of time selection by x seconds'. Please install it via ReaPack.\n\nhttps://acendan.github.io/reascripts/index.xml")
+    reaper.MB("No track selected!","",0)
   end
+  
+  -- Render accordingly
+  if track_max_channels then
+    -- Mono
+    if track_max_channels == 1 then
+      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERMONOSMART"),0) -- SWS/AW: Render tracks to mono stem tracks, obeying time selection
+    
+    -- Stereo
+    elseif track_max_channels == 2 then
+      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERSTEREOSMART"),0) -- SWS/AW: Render tracks to stereo stem tracks, obeying time selection
+    
+    -- Multichannel
+    elseif track_max_channels > 2 then
+      
+      -- Get track items start and end points
+      local track_items_count = reaper.CountTrackMediaItems( track )
+      track_items_start = math.huge
+      track_items_end = 0
+      
+      for j = 0, track_items_count - 1 do
+        local item = reaper.GetTrackMediaItem( track, j)
+        local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION")
+        local item_len = reaper.GetMediaItemInfo_Value( item, "D_LENGTH")
+        local item_end = item_start + item_len
+        if item_start < track_items_start then track_items_start = item_start end
+        if item_end > track_items_end then track_items_end = item_end end
+      end
+
+      -- Render multichannel
+      reaper.Main_OnCommand(40893,0) -- Track: Render tracks to multichannel stem tracks (and mute originals)
+
+    end
+    
+    -- Color tracks, re-order, collapse state, set FX bypass, etc
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELNEXTTRACK"),0) -- Xenakios/SWS: Select next tracks
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_BYPASSFXOFSELTRAX"),0) -- Xenakios/SWS: Bypass FX of selected tracks
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELPREVTRACKKEEP"),0) -- Xenakios/SWS: Select previous tracks, keeping current selection
+    reaper.Main_OnCommand(40738,0) -- Track: Clear automatic record-arm
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELTRAX_RECUNARMED"),0) -- Xenakios/SWS: Set selected tracks record unarmed
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_MAKEFOLDER"),0) -- SWS: Make folder from selected tracks
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLTRACKNEXT"),0) -- SWS: Set selected track(s) to next track's color
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_COLCHILDREN"),0) -- SWS: Set selected track(s) children to same color
+    reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INPUTMATCH"),0) -- SWS: Set all selected tracks inputs to match first selected track
+    reaper.Main_OnCommand(1042,0) -- Track: Cycle folder collapsed state
+    
+    
+    -- If multichannel, trim item
+    if track_max_channels > 2 then
+      reaper.BR_SetItemEdges(reaper.GetTrackMediaItem(reaper.GetTrack( 0, track_idx ),0),track_items_start,track_items_end + extra_space)
+    end
+    
+  end
+  
 end
 
 
