@@ -1,13 +1,13 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 3.8
+-- @version 3.9
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
 -- @link https://aaroncendan.me
 -- @about
 --   # Lua Utilities
---   By Aaron Cendan - July 2020
+--   By Aaron Cendan
 --
 --   ### Upper Section - Templates
 --   * Provides a basic template for typical lua reascripts and background scripts
@@ -16,8 +16,6 @@
 --   * Packageable as a library to reference in future scripts
 --   * Pretty much just a big pile of helper functions.
 --   * Ctrl + F is your friend here.
---   * I wish I kept better documentation of the original script creators, as not all of these are my own original functions.
---   * If you recognize one of your functions in here, I will gladly credit you directly next to that script, reach out at my website above.
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -815,6 +813,45 @@ function acendan.restoreSelectedTracks(table)
   reaper.Main_OnCommand(40297, 0) -- Unselect all tracks
   for i = 1, acendan.tableLength(table) do
     reaper.SetTrackSelected( table[i], true )
+  end
+end
+
+-- Counts the maximum number of channels on a media item in the given track // returns Number
+function acendan.countTrackItemsMaxChannels(track)
+  -- Loop through selected tracks, count max number of channels of an item on this track
+  local track_item_max_channels = -1
+  
+  if reaper.CountTrackMediaItems( track ) > 0 then
+  
+    -- Loop through media items on track
+    for i = 1, reaper.CountTrackMediaItems( track ) do
+      
+      local item = reaper.GetTrackMediaItem(track, i - 1)
+      local take = reaper.GetActiveTake(item)
+      
+      -- Get active take
+      if take ~= nil then
+        
+        -- Get source media num channels/mode
+        local take_pcm = reaper.GetMediaItemTake_Source(take)
+        local take_pcm_chan = reaper.GetMediaSourceNumChannels(take_pcm)
+        local take_chan_mod = reaper.GetMediaItemTakeInfo_Value(take, "I_CHANMODE")
+        local item_chan = -1
+  
+        -- Set item channel number based on take channel mode
+        local item_chan = (take_chan_mod <= 1) and take_pcm_chan or 1
+        
+        -- Set max track channels
+        track_item_max_channels = (item_chan > track_item_max_channels) and item_chan or track_item_max_channels
+      end
+    end
+    
+    --reaper.ShowConsoleMsg("MAX ITEM NUM CHANNELS: " .. track_item_max_channels)
+    return track_item_max_channels
+    
+  else
+    reaper.MB("No media items found on selected track!","",0)
+    return 0
   end
 end
 
