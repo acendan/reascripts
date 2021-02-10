@@ -21,6 +21,7 @@ If you would like to import the remainder of my scripts, those that are not pack
 ### Scripts included in my GitHub that are *NOT* included in ReaTeams
  - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
+ - Envelopes\acendan_Set closest envelope point shape at mouse cursor
  - Items Editing\acendan_Append selected items BWF metadata subfield to item name
  - Items Editing\acendan_Append selected items BWF metadata subfield to item notes
  - Items Editing\acendan_Clear glitchy stutter generator stored values
@@ -72,6 +73,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Tracks Properties\acendan_Select tracks when making marquee selection
  - Tracks Properties\acendan_Store and Open saved URL by track name
  - Tracks Properties\acendan_View Saved URLs By Track Name
+ - Utility\acendan_Bounce In Place
  - Various\acendan_Auto generate scripts to open web interfaces
  - Various\acendan_GUI_Display first selected item properties
  - Various\acendan_Move unused projects MediaFiles in selected directory to separate folder
