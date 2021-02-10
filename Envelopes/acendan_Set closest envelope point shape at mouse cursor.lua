@@ -1,6 +1,6 @@
 -- @description Set Env Shape at Cursor
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Set closest envelope points shape at mouse cursor - Bezier.lua
@@ -24,6 +24,9 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
+  
+  -- Focus arrange window for compatibility with contextual toolbars
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_BR_FOCUS_ARRANGE_WND"),0)
   
   -- Get cursor pos
   local window, segment, details = reaper.BR_GetMouseCursorContext()
