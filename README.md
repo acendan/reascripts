@@ -46,6 +46,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Find and Replace in Marker Region Names
  - Markers\acendan_Find and Replace
  - Markers\acendan_Insert marker at start of selected items with item name
+ - Markers\acendan_Insert markers at start or end of selected items prompt for name
  - Markers\acendan_Insert markers every x seconds after edit cursor
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
