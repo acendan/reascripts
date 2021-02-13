@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6673903be22fe85d68b0dfe7be7dc8aefac384f6" name="ACendan Scripts">
+<index version="1" commit="1916eb573f9b8d40f249aeec3034c07922d948f5" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -449,6 +449,14 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:06:00Z">
         <source main="main" file="acendan_Insert marker at start of selected items with item name.lua">https://github.com/acendan/reascripts/raw/66ddf4f4a227b11d959bb57d5e4f22789143e35d/Markers/acendan_Insert%20marker%20at%20start%20of%20selected%20items%20with%20item%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Insert markers at start or end of selected items prompt for name.lua" type="script" desc="Insert markers at end of selected items with item name">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-02-13T18:01:00Z">
+        <source main="main" file="acendan_Insert markers at start or end of selected items prompt for name.lua">https://github.com/acendan/reascripts/raw/1916eb573f9b8d40f249aeec3034c07922d948f5/Markers/acendan_Insert%20markers%20at%20start%20or%20end%20of%20selected%20items%20prompt%20for%20name.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Insert markers every x seconds after edit cursor.lua" type="script" desc="Insert Marker Every X Seconds After Edit Cursor">
