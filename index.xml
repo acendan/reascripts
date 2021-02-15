@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="1916eb573f9b8d40f249aeec3034c07922d948f5" name="ACendan Scripts">
+<index version="1" commit="8e16519cbf0793e4813e73f27d59d22e6442a563" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -81,6 +81,9 @@
       </version>
       <version name="4.0" author="Aaron Cendan" time="2021-02-09T17:02:24Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/f24fd57fc5c10052aa18dcb842a8a62f33dad0c4/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="4.1" author="Aaron Cendan" time="2021-02-15T20:32:51Z">
+        <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/8e16519cbf0793e4813e73f27d59d22e6442a563/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -1267,6 +1270,23 @@ Added option for copying to clipboard without processing]]></changelog>
       <version name="4.2" author="Aaron Cendan" time="2021-01-10T00:41:51Z">
         <changelog><![CDATA[Added media explorer filtering!]]></changelog>
         <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/63fa3f692c60cab8815d1f36f02d72c41e044617/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Video">
+    <reapack name="acendan_Prompt to match project frame rate with first video item import - background.lua" type="script" desc="Match Proj Framerate">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This is a background/toggle script! It works best when set up as a startup action, or enabled in a default project template. It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning. It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed TODO: Make it mac/linux friendly\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-02-15T20:32:51Z">
+        <source main="main" file="acendan_Prompt to match project frame rate with first video item import.lua">https://github.com/acendan/reascripts/raw/8e16519cbf0793e4813e73f27d59d22e6442a563/Video/acendan_Prompt%20to%20match%20project%20frame%20rate%20with%20first%20video%20item%20import%20-%20background.lua</source>
       </version>
     </reapack>
   </category>
