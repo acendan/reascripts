@@ -81,6 +81,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
  - Various\acendan_UCS Renaming Tool - Media Explorer Filter
  - Various\acendan_Universal Category Renaming Tool
+ - Video\acendan_Prompt to match project frame rate with first video item import - background
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
