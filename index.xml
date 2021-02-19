@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="cf87238cc82acdc6acca3ada89ddaa4ba8318e94" name="ACendan Scripts">
+<index version="1" commit="d6333f18395a8deaf02f273ed3385cc610a31076" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1307,6 +1307,10 @@ Added option for copying to clipboard without processing]]></changelog>
       <version name="1.2" author="Aaron Cendan" time="2021-02-19T18:05:39Z">
         <source main="main" file="acendan_Create video processor text items for all project markers on new track.lua">https://github.com/acendan/reascripts/raw/cf87238cc82acdc6acca3ada89ddaa4ba8318e94/Video/acendan_Create%20video%20processor%20text%20items%20for%20all%20project%20markers%20on%20new%20track.lua</source>
         <source file="acendan_Text Overlay Preset.txt">https://github.com/acendan/reascripts/raw/cf87238cc82acdc6acca3ada89ddaa4ba8318e94/Video/acendan_Text%20Overlay%20Preset.txt</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2021-02-19T18:55:23Z">
+        <source main="main" file="acendan_Create video processor text items for all project markers on new track.lua">https://github.com/acendan/reascripts/raw/d6333f18395a8deaf02f273ed3385cc610a31076/Video/acendan_Create%20video%20processor%20text%20items%20for%20all%20project%20markers%20on%20new%20track.lua</source>
+        <source file="acendan_Text Overlay Preset.txt">https://github.com/acendan/reascripts/raw/d6333f18395a8deaf02f273ed3385cc610a31076/Video/acendan_Text%20Overlay%20Preset.txt</source>
       </version>
     </reapack>
     <reapack name="acendan_Create video processor text items for all project regions on new track.lua" type="script" desc="Video Text for Regions">
