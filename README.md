@@ -82,6 +82,8 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
  - Various\acendan_UCS Renaming Tool - Media Explorer Filter
  - Various\acendan_Universal Category Renaming Tool
+ - Video\acendan_Create video processor text items for all project markers on new track
+ - Video\acendan_Create video processor text items for all project regions on new track
  - Video\acendan_Prompt to match project frame rate with first video item import - background
 
 ## Manual Download Instructions (Optional)

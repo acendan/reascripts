@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 4.1
+-- @version 4.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -1050,7 +1050,78 @@ function acendan.getRegionManager()
   end
 end
 
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~  VIDEO  ~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+--[[      DEMO OF VIDEO PROCESSOR TEXT ITEM FUNCTIONS
+
+MediaItem=reaper.GetSelectedMediaItem(0,0)
+SuccessfulOrNot, VideoProcessorText=GetTextInVideoProcessor(MediaItem)
+reaper.ShowConsoleMsg("Original Text: " .. VideoProcessorText)
+
+SuccessfulOrNot, MsgInCaseOfError=SetTextInVideoProcessor(MediaItem, "Hello Mother")
+reaper.ShowConsoleMsg("New Text: " .. tostring(SuccessfulOrNot) .. MsgInCaseOfError)
+
+]]--
+
+function acendan.SetTextInVideoProcessor(item, text)
+  -- sets the videotext in a given item in it's first(!) Video Processor in the FXChain.
+  -- the Video Processor must be set to the built-in "Title text overlay"-preset!
+  -- multiline-texts are allowed
+  
+  --   item - a MediaItem object as returned by reaper.GetMediaItem
+  --   text - the text, that you want to set. Write \n to include a newline.
+  -- The function returns retval, errormessage
+  --     retval - true, in case of success; false, in case of an error
+  --     errormessage - in case of an error, this message gives you a hint, what went wrong.
+
+  -- Meo Mespotine - mespotine.de
+  -- licensed under an MIT-license
+  
+  if reaper.ValidatePtr2(0, item, "MediaItem*")==false then return false, "No valid MediaItem" end
+  if type(text)~="string" then return false, "Must be a string" end
+  local _bool, StateChunk=reaper.GetItemStateChunk(item, "", false)
+  if StateChunk:match("VIDEO_EFFECT")==nil then return false, "No Video Processor found in this item" end
+  local part1, code, part2=StateChunk:match("(.-)(<TAKEFX.-\n>)(\nCODEPARM.*)")
+  
+  if code:match("// Text overlay")==nil then return false, "Only default preset \"Title text overlay\" supported. Please select accordingly." 
+  else 
+    local c1,test,c3=code:match("(.-text=\")(.-)(\".*)") 
+    text=string.gsub(text, "\n", "\\n")
+    code=c1..text..c3
+  end
+  StateChunk=part1..code..part2
+  return reaper.SetItemStateChunk(item, StateChunk, false), "Done"
+end
+
+function acendan.GetTextInVideoProcessor(item)
+  -- gets the videotext in a given item in it's first(!) Video Processor in the FXChain.
+  -- the Video Processor must be set to the built-in "Title text overlay"-preset!
+  -- multiline-texts are allowed
+
+
+  --   item - a MediaItem object as returned by reaper.GetMediaItem
+  -- The function returns retval, errormessage, textinvideoitem
+  --     retval - true, in case of success; false, in case of an error
+  --     errormessage - in case of an error, this message gives you a hint, what went wrong.
+  --     textinvideoitem - the text, that is currently set in videoitem
+
+  -- Meo Mespotine - mespotine.de
+  -- licensed under an MIT-license
+  
+  if reaper.ValidatePtr2(0, item, "MediaItem*")==false then return false, "No valid MediaItem" end
+  local _bool, StateChunk=reaper.GetItemStateChunk(item, "", false)
+  if StateChunk:match("VIDEO_EFFECT")==nil then return false, "No Video Processor found in this item" end
+  local part1, code, part2=StateChunk:match("(.-)(<TAKEFX.-\n>)(\nCODEPARM.*)")
+  --reaper.ShowConsoleMsg(code)
+  if code:match("// Text overlay")==nil then return false, "Only default preset \"Title text overlay\" supported. Please select accordingly." 
+  else 
+    local c1,test,c3=code:match("(.-text=\")(.-)(\".*)") 
+    test=string.gsub(test, "\\n", "\n")
+    return true, test
+  end
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ TIME SEL ~~~~~~~~~~~~~
@@ -1065,6 +1136,16 @@ end
 function acendan.restoreLoopTimesel()
   reaper.GetSet_LoopTimeRange(1, 0, init_start_timesel, init_end_timesel, 0)
   reaper.GetSet_LoopTimeRange(1, 1, init_start_loop, init_end_loop, 0)
+end
+
+-- Save original cursor position
+function acendan.saveCursorPos()
+  init_cur_pos = reaper.GetCursorPosition()
+end
+
+-- Restore original cursor position
+function acendan.restoreCursorPos()
+  reaper.SetEditCurPos(init_cur_pos,false,false)
 end
 
 
