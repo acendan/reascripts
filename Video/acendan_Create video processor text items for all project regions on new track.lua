@@ -1,6 +1,6 @@
 -- @description Video Text for Regions
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create video processor text items for all project regions on new track.lua
@@ -82,6 +82,9 @@ function main()
         
         -- Set preset values
         SetTextOverlayParameters(take)
+        
+        -- Ensure vid fx window is closed
+        reaper.TakeFX_SetOpen(take, vidfx_pos, false)
         
         j = j + 1
       end
