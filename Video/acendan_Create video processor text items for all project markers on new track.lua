@@ -1,11 +1,13 @@
 -- @description Video Text for Markers
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create video processor text items for all project markers on new track.lua
 --   acendan_Text Overlay Preset.txt
 -- @link https://aaroncendan.me
+-- @chanelog
+--    Add option for skipping blanks, using Marker #X otherwise
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT THESE ~~~~~
@@ -27,6 +29,8 @@ local parm_TEXT_ALPHA  = 1
 local parm_BG_BRIGHT   = 0.55
 local parm_BG_ALPHA    = 0.4
 
+-- Toggle 'true' to skip blank/un-named markers. Otherwise, if false, uses "Marker #X"
+local skip_blanks = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -66,31 +70,33 @@ function main()
     while i < num_total do
       local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
       if not isrgn then   -- Process markers
-        
-        -- Insert new video processor item at marker position, w/ user length
-        reaper.Main_OnCommand(40020,0) -- Time selection: Remove time selection and loop points
-        reaper.SetEditCurPos(pos,false,false)
-        reaper.GetSet_LoopTimeRange(1, 0, pos, pos + vid_title_len, 0)
-        reaper.Main_OnCommand(41932,0) -- Insert dedicated video processor item
-        
-        -- Add video processor FX
-        local item = reaper.GetTrackMediaItem(track,j)
-        local take = reaper.GetActiveTake(item)
-        local vidfx_pos = reaper.TakeFX_AddByName(take,"Video processor",1)
-        
-        -- Write code for text overlay to video processor
-        AddTextPresetToVideoProcessor(item)
-        
-        -- Set name in video processor chunk to marker name
-        SetTextInVideoProcessor(item, name)
-        
-        -- Set preset values
-        SetTextOverlayParameters(take)
-        
-        -- Ensure vid fx window is closed
-        reaper.TakeFX_SetOpen(take, vidfx_pos, false)
-        
-        j = j + 1
+        if not (name == "" and skip_blanks) then 
+          -- Insert new video processor item at marker position, w/ user length
+          reaper.Main_OnCommand(40020,0) -- Time selection: Remove time selection and loop points
+          reaper.SetEditCurPos(pos,false,false)
+          reaper.GetSet_LoopTimeRange(1, 0, pos, pos + vid_title_len, 0)
+          reaper.Main_OnCommand(41932,0) -- Insert dedicated video processor item
+          
+          -- Add video processor FX
+          local item = reaper.GetTrackMediaItem(track,j)
+          local take = reaper.GetActiveTake(item)
+          local vidfx_pos = reaper.TakeFX_AddByName(take,"Video processor",1)
+          if name == "" then name = "Marker #" .. tostring(markrgnindexnumber) end
+          
+          -- Write code for text overlay to video processor
+          AddTextPresetToVideoProcessor(item)
+          
+          -- Set name in video processor chunk to marker name
+          SetTextInVideoProcessor(item, name)
+          
+          -- Set preset values
+          SetTextOverlayParameters(take)
+          
+          -- Ensure vid fx window is closed
+          reaper.TakeFX_SetOpen(take, vidfx_pos, false)
+          
+          j = j + 1
+        end
       end
       i = i + 1
     end
