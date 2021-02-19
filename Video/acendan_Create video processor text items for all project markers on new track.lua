@@ -1,6 +1,6 @@
 -- @description Video Text for Markers
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create video processor text items for all project markers on new track.lua
@@ -8,6 +8,7 @@
 -- @link https://aaroncendan.me
 -- @chanelog
 --    Add option for skipping blanks, using Marker #X otherwise
+--    Add option to stretch markers' items until next marker
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT THESE ~~~~~
@@ -31,6 +32,9 @@ local parm_BG_ALPHA    = 0.4
 
 -- Toggle 'true' to skip blank/un-named markers. Otherwise, if false, uses "Marker #X"
 local skip_blanks = false
+
+-- Toggle 'true' to extend items length until next marker in project. This will override "vid_title_len" above.
+local extend_to_next_region = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -71,10 +75,19 @@ function main()
       local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
       if not isrgn then   -- Process markers
         if not (name == "" and skip_blanks) then 
-          -- Insert new video processor item at marker position, w/ user length
+          -- Insert new video processor item at marker position
           reaper.Main_OnCommand(40020,0) -- Time selection: Remove time selection and loop points
-          reaper.SetEditCurPos(pos,false,false)
-          reaper.GetSet_LoopTimeRange(1, 0, pos, pos + vid_title_len, 0)
+          -- Fit marker title items to length until next marker
+          if extend_to_next_region then
+            reaper.GoToMarker( 0, markrgnindexnumber + 1, false )
+            local end_pos = reaper.GetCursorPosition()
+            reaper.SetEditCurPos(pos,false,false)
+            reaper.GetSet_LoopTimeRange(1, 0, pos, end_pos, 0)
+          else
+            -- Use fixed vid title len
+            reaper.SetEditCurPos(pos,false,false)
+            reaper.GetSet_LoopTimeRange(1, 0, pos, pos + vid_title_len, 0)
+          end
           reaper.Main_OnCommand(41932,0) -- Insert dedicated video processor item
           
           -- Add video processor FX
