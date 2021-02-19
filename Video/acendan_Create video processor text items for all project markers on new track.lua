@@ -1,6 +1,6 @@
 -- @description Video Text for Markers
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create video processor text items for all project markers on new track.lua
@@ -34,7 +34,7 @@ local parm_BG_ALPHA    = 0.4
 local skip_blanks = false
 
 -- Toggle 'true' to extend items length until next marker in project. This will override "vid_title_len" above.
-local extend_to_next_region = false
+local extend_to_next_marker = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -78,7 +78,7 @@ function main()
           -- Insert new video processor item at marker position
           reaper.Main_OnCommand(40020,0) -- Time selection: Remove time selection and loop points
           -- Fit marker title items to length until next marker
-          if extend_to_next_region then
+          if extend_to_next_marker then
             reaper.GoToMarker( 0, markrgnindexnumber + 1, false )
             local end_pos = reaper.GetCursorPosition()
             reaper.SetEditCurPos(pos,false,false)
