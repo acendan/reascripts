@@ -4,7 +4,7 @@ These scripts were written to add additional functionality to the digital audio 
 **All of the scripts in this repository can be imported directly in Reaper by using the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion. I strongly recommend setting up ReaPack to install and use these scripts.**
 
 ## ReaTeams download instructions
-Some of my scripts are included by default when installing ReaPack, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). Simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
+A select few of my scripts are included by default when installing ReaPack, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). Simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
 
 ### Scripts included with ReaTeams
 - acendan_Find and Replace in Region Names.lua
