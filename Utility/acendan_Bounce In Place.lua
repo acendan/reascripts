@@ -1,6 +1,6 @@
 -- @description Bounce In Place
 -- @author Aaron Cendan
--- @version 1.5
+-- @version 1.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
@@ -11,7 +11,7 @@
 --   User configs for extra space, alternative track name appending, delete original after render, etc
 --   TO DO: Trim receive renders based on item placement from sends
 -- @changelog
---   Support multiple selected tracks. Added option to only render first track
+--   Fixed MIDI tracks rendering to mono
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,6 +186,9 @@ function countTrackItemsMaxChannels(track)
   
         -- Set item channel number based on take channel mode
         local item_chan = (take_chan_mod <= 1) and take_pcm_chan or 1
+        
+        -- Set item channel count to 2 if it's MIDI
+        if reaper.TakeIsMIDI(take) then item_chan = 2 end
         
         -- Set max track channels
         track_item_max_channels = (item_chan > track_item_max_channels) and item_chan or track_item_max_channels
