@@ -1,0 +1,39 @@
+/**
+  * JSFX Name: acendan_Center Control
+  * About: Gives level controls for center and sides by MS decoding & re-encoding on the fly
+  * Author: Aaron Cendan
+  * Version: 1.0
+*/
+
+desc:acendan_Center Control
+//tags: utility mid-side processing
+//author: Aaron Cendan
+
+slider1:0<-120,24,0.1>Center Level (dB)
+slider2:0<-120,24,0.1>Sides Level (dB)
+slider3:0<0,1,1>Swap Center & Sides mwahaha
+
+in_pin:mid input
+in_pin:side input
+out_pin:left output
+out_pin:right output
+
+@slider
+vol = 2^(slider1/6); // convert from dB to a multiplier
+vol2 = 2^(slider2/6);
+
+@sample
+// MS Encoder
+spl0orig=spl0;
+spl1orig=spl1;
+spl0 = (spl0orig+spl1orig) * 0.5;
+spl1 = (spl0orig-spl1orig) * 0.5;
+
+// Swap Mid & Side
+slider3>0.5 ? (tmp=spl1; spl1=spl0; spl0=tmp; );
+
+// MS Decoder
+tmp=spl0*vol;
+tmp2=spl1*vol2;
+spl0 = tmp + tmp2;
+spl1 = tmp - tmp2;
