@@ -2,7 +2,7 @@
   * JSFX Name: acendan_Center Control
   * About: Gives level controls for center and sides by MS decoding & re-encoding on the fly
   * Author: Aaron Cendan
-  * Version: 1.0
+  * Version: 1.1
 */
 
 desc:acendan_Center Control
@@ -11,7 +11,7 @@ desc:acendan_Center Control
 
 slider1:0<-120,24,0.1>Center Level (dB)
 slider2:0<-120,24,0.1>Sides Level (dB)
-slider3:0<0,1,1>Swap Center & Sides mwahaha
+slider3:0<0,1,1>Swap Center w Sides
 
 in_pin:mid input
 in_pin:side input
