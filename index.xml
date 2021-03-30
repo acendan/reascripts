@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b80c43ba389d5dd8782540a3ec4dd7fcc31f2df3" name="ACendan Scripts">
+<index version="1" commit="4567cc005774d07dd204dff40115a11ed2cf156d" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1000,6 +1000,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-03-30T01:52:35Z">
         <source>https://github.com/acendan/reascripts/raw/b80c43ba389d5dd8782540a3ec4dd7fcc31f2df3/Utility/acendan_Center%20Control.jsfx</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-03-30T01:56:52Z">
+        <source>https://github.com/acendan/reascripts/raw/4567cc005774d07dd204dff40115a11ed2cf156d/Utility/acendan_Center%20Control.jsfx</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner.jsfx" type="effect" desc="acendan_Parallel Joiner">
