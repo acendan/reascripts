@@ -1,6 +1,6 @@
 -- @description Extend Regions in Time Selection Left Edge
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Extend regions in time selection left edge by length.lua
