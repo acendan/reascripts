@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5f542d4638685af605df0d0a6078f7d3d99c4435" name="ACendan Scripts">
+<index version="1" commit="7db6f5b1c68a1f46acf7c7e97287e7f6828481e0" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -676,6 +676,22 @@
         <source main="main" file="acendan_Extend all regions by length.lua">https://github.com/acendan/reascripts/raw/291638678e222ae04beb781ac7a3c2b0d7aa49e1/Regions/acendan_Extend%20all%20regions%20by%20length.lua</source>
       </version>
     </reapack>
+    <reapack name="acendan_Extend all regions left edge by length.lua" type="script" desc="Extend All Regions Left by Length">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your region by that length.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-03-31T21:20:01Z">
+        <source main="main" file="acendan_Extend all regions left edge by length.lua">https://github.com/acendan/reascripts/raw/751a4fc11a8f76d792f2d639cd19e45b461ef2ea/Regions/acendan_Extend%20all%20regions%20left%20edge%20by%20length.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Extend regions in time selection by length.lua" type="script" desc="Extend Regions in Time Selection">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -690,6 +706,25 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-15T13:34:29Z">
         <source main="main" file="acendan_Extend regions in time selection by length.lua">https://github.com/acendan/reascripts/raw/d8547f8ff0b8acad696c8110d64343d3ce0bca46/Regions/acendan_Extend%20regions%20in%20time%20selection%20by%20length.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Extend regions in time selection left edge by length.lua" type="script" desc="Extend Regions in Time Selection Left Edge">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your region by that length.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-03-31T21:20:46Z">
+        <source main="main" file="acendan_Extend regions in time selection left edge by length.lua">https://github.com/acendan/reascripts/raw/2591d46fffd3e382afc605a5a29d6fc3fc099b94/Regions/acendan_Extend%20regions%20in%20time%20selection%20left%20edge%20by%20length.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-03-31T21:21:23Z">
+        <source main="main" file="acendan_Extend regions in time selection left edge by length.lua">https://github.com/acendan/reascripts/raw/7db6f5b1c68a1f46acf7c7e97287e7f6828481e0/Regions/acendan_Extend%20regions%20in%20time%20selection%20left%20edge%20by%20length.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
