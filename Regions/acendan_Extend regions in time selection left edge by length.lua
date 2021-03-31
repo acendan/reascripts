@@ -1,9 +1,9 @@
--- @description Extend Regions in Time Selection
+-- @description Extend Regions in Time Selection Left Edge
 -- @author Aaron Cendan
 -- @version 1.0
 -- @metapackage
 -- @provides
---   [main] . > acendan_Extend regions in time selection by length.lua
+--   [main] . > acendan_Extend regions in time selection left edge by length.lua
 -- @link https://aaroncendan.me
 -- @about
 --   * Pretty self explanatory, input a number and it will extend your region by that length. 
