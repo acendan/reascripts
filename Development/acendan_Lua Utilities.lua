@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 4.4
+-- @version 4.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -1070,8 +1070,7 @@ function acendan.saveProjectMarkersTable()
     end
     return table
   else
-    acendan.msg("Project has no markers!")
-    return
+    return nil
   end
 end
 
