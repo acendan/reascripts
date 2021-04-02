@@ -21,6 +21,7 @@ If you would like to import the remainder of my scripts, those that are not pack
 ### Scripts included in my GitHub that are *NOT* included in ReaTeams
  - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
+ - Envelopes\acendan_Insert automation items on all selected tracks envelopes in time selection
  - Envelopes\acendan_Set closest envelope point shape at mouse cursor
  - Items Editing\acendan_Append selected items BWF metadata subfield to item name
  - Items Editing\acendan_Append selected items BWF metadata subfield to item notes
@@ -33,8 +34,11 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
  - Items Editing\acendan_Mousewheel to change volume for all selected items
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
+ - Items Editing\acendan_Prevent extending media items past source length
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
+ - Items Editing\acendan_Restore stretch markers in selected items from named project markers
+ - Items Editing\acendan_Save stretch markers in selected items as named project markers
  - Items Editing\acendan_Set distance between items to X seconds track respective
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
@@ -51,6 +55,8 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Insert markers every x seconds after edit cursor
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
+ - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in first selected track
+ - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in track under mouse
  - Regions\acendan_Add prefix or suffix to regions in time selection
  - Regions\acendan_Change region color if region exceeds length
  - Regions\acendan_Create one region for all items on selected tracks
@@ -59,11 +65,14 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Create unique regions for selected items and link to track in RRM
  - Regions\acendan_Enumerate selected regions in manager
  - Regions\acendan_Extend all regions by length
+ - Regions\acendan_Extend all regions left edge by length
  - Regions\acendan_Extend regions in time selection by length
+ - Regions\acendan_Extend regions in time selection left edge by length
  - Regions\acendan_Shrink overlapping regions edges to time selection
  - Regions\acendan_Shrink overlapping regions to edges of selected media items
  - Regions\acendan_Stretch overlapping regions edges to time selection
  - Regions\acendan_Stretch overlapping regions to edges of selected media items
+ - Rendering\acendan_Create multichannel render from selected tracks with mono items
  - Rendering\acendan_Load render directory from slot
  - Rendering\acendan_Save render directory to slot
  - Time Selection\acendan_Continuously select all items in time selection background
