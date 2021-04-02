@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="118f930d5a2bd0f9b46866fc6c2c215cbb519e3b" name="ACendan Scripts">
+<index version="1" commit="bfd24151b260ec9bb648accf06cf9438f367303a" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -327,6 +327,38 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-02-02T17:45:55Z">
         <source main="main" file="acendan_Reset item properties pitch adjustment and playback rate to default.lua">https://github.com/acendan/reascripts/raw/30dcab3194ed4b826bb8a3c3453275c4f7a5c4d6/Items%20Editing/acendan_Reset%20item%20properties%20pitch%20adjustment%20and%20playback%20rate%20to%20default.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Restore stretch markers in selected items from named project markers.lua" type="script" desc="Restore Stretch Markers">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script goes hand-in-hand with acendan_Save stretch markers in selected items as named project markers.lua\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Run it to convert the named markers from that Save script into project markers in their relevant items\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-04-02T17:14:11Z">
+        <source main="main" file="acendan_Restore stretch markers in selected items from named project markers.lua">https://github.com/acendan/reascripts/raw/bfd24151b260ec9bb648accf06cf9438f367303a/Items%20Editing/acendan_Restore%20stretch%20markers%20in%20selected%20items%20from%20named%20project%20markers.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Save stretch markers in selected items as named project markers.lua" type="script" desc="Save Stretch Markers">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script goes hand-in-hand with acendan_Restore stretch markers in selected items from named project markers.lua\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select items with stretch markers then run this to convert them into project markers with a specific naming convention\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-04-02T17:14:11Z">
+        <source main="main" file="acendan_Save stretch markers in selected items as named project markers.lua">https://github.com/acendan/reascripts/raw/bfd24151b260ec9bb648accf06cf9438f367303a/Items%20Editing/acendan_Save%20stretch%20markers%20in%20selected%20items%20as%20named%20project%20markers.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Set distance between items to X seconds track respective.lua" type="script" desc="Set Distance Between Items Track Respective">
