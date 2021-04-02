@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 4.3
+-- @version 4.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -33,7 +33,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.3 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1051,6 +1051,27 @@ function acendan.getRegionManager()
     if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
       return hwnd
     end 
+  end
+end
+
+-- Save current project markers to table of marker indexes // Returns table
+function acendan.saveProjectMarkersTable()
+  local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+  local num_total = num_markers + num_regions
+  if num_markers > 0 then
+    local table = {}
+    local i = 0
+    while i < num_total do
+      local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+      if not isrgn then
+        table[#table+1]=markrgnindexnumber
+      end
+      i = i + 1
+    end
+    return table
+  else
+    acendan.msg("Project has no markers!")
+    return
   end
 end
 
