@@ -43,6 +43,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
  - Items Editing\acendan_Sort selected items order by item names alphabetically ignoring capitalization
+ - Items Editing\acendan_Split selected item by channel to new tracks
  - Items Editing\acendan_Stretch selected items to fit between nearest markers
  - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
@@ -51,6 +52,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Find and Replace in Marker Region Names
  - Markers\acendan_Find and Replace
  - Markers\acendan_Insert marker at start of selected items with item name
+ - Markers\acendan_Insert marker at start of selected items with sel item number
  - Markers\acendan_Insert markers at start or end of selected items prompt for name
  - Markers\acendan_Insert markers every x seconds after edit cursor
  - Media Explorer\acendan_Filter media explorer for selected media item names
