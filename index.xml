@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="bfd24151b260ec9bb648accf06cf9438f367303a" name="ACendan Scripts">
+<index version="1" commit="b1dca015a850f1d1ec5107e84c1ec8902cbe1d3b" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -511,6 +511,14 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-07-02T14:06:00Z">
         <source main="main" file="acendan_Insert marker at start of selected items with item name.lua">https://github.com/acendan/reascripts/raw/66ddf4f4a227b11d959bb57d5e4f22789143e35d/Markers/acendan_Insert%20marker%20at%20start%20of%20selected%20items%20with%20item%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Insert marker at start of selected items with sel item number.lua" type="script" desc="Insert marker at start of selected items with number">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-04-05T02:02:42Z">
+        <source main="main" file="acendan_Insert marker at start of selected items with sel item number.lua">https://github.com/acendan/reascripts/raw/b1dca015a850f1d1ec5107e84c1ec8902cbe1d3b/Markers/acendan_Insert%20marker%20at%20start%20of%20selected%20items%20with%20sel%20item%20number.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Insert markers at start or end of selected items prompt for name.lua" type="script" desc="Insert markers at end of selected items with item name">
