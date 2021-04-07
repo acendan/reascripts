@@ -1,11 +1,12 @@
 -- @description Insert marker at start of selected items with number
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert marker at start of selected items with sel item number.lua
 -- @link https://aaroncendan.me
-
+-- @changelog
+--   Added # symbol for compatibility with render window's marker embedding option with #
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -19,7 +20,7 @@ function insertMarkers()
       local item = reaper.GetSelectedMediaItem( 0, i )
       local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
       local take = reaper.GetActiveTake( item )
-      reaper.AddProjectMarker( 0, 0, item_start, item_start, tostring(i+1), i )
+      reaper.AddProjectMarker( 0, 0, item_start, item_start, "#" .. tostring(i+1), i )
     end
   else
     reaper.MB("No items selected!","Insert Markers", 0)

@@ -1,6 +1,6 @@
 -- @description Bounce In Place
 -- @author Aaron Cendan
--- @version 1.6
+-- @version 1.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Bounce In Place.lua
@@ -104,11 +104,39 @@ function main()
       postProcessing()
     
     else
-      -- No media found
-      if track_name ~= "" then
-        reaper.MB("No media items or receives found on Track #" .. tostring(track_idx + 1):sub(1,-3) ..": " .. track_name,"",0)
+      
+      -- Is track a folder parent? Render stereo
+      if reaper.GetMediaTrackInfo_Value( track, "I_FOLDERDEPTH" ) == 1 then
+        -- Set time/item selection appropriately
+        reaper.Main_OnCommand(40289,0) -- Item: Unselect all items
+        reaper.SetOnlyTrackSelected(track)
+        reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_SELCHILDREN"),0) -- SWS: Select only children of selected folders
+        reaper.Main_OnCommand(40421,0) -- Item: Select all items in track
+        reaper.Main_OnCommand(40290,0) -- Time selection: Set time selection to items
+        reaper.SetOnlyTrackSelected(track)
+        
+        -- Extend edge of time selection with extra space
+        local ts_start_time, ts_end_time = reaper.GetSet_LoopTimeRange( 0, 0, 0, 0, 0 )
+        reaper.GetSet_LoopTimeRange( 1, 0, ts_start_time , ts_end_time + extra_space, 0 )
+        
+        -- Only doing stereo renders here because it's just a lot more work tbh
+        reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_AWRENDERSTEREOSMART"),0) -- SWS/AW: Render tracks to stereo stem tracks, obeying time selection
+      
+        -- Bypass FX processing on original track
+        reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_SELNEXTTRACK"),0) -- Xenakios/SWS: Select next tracks
+        reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_BYPASSFXOFSELTRAX"),0) -- Xenakios/SWS: Bypass FX of selected tracks
+        
+        -- Select children tracks prior to post-processing to maintain folder structure
+        reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_SELCHILDREN2"),0)
+        postProcessing()
+      
       else
-        reaper.MB("No media items or receives found on Track #" .. tostring(track_idx + 1):sub(1,-3),"",0)
+        -- No media found, throw up error message
+        if track_name ~= "" then
+          reaper.MB("No media items or receives found on Track #" .. tostring(track_idx + 1):sub(1,-3) ..": " .. track_name,"",0)
+        else
+          reaper.MB("No media items or receives found on Track #" .. tostring(track_idx + 1):sub(1,-3),"",0)
+        end
       end
     end
   end
