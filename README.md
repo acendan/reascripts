@@ -33,6 +33,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
  - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
  - Items Editing\acendan_Mousewheel to change volume for all selected items
+ - Items Editing\acendan_Mousewheel to move selected items up down tracks
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
  - Items Editing\acendan_Prevent extending media items past source length
  - Items Editing\acendan_Random glitchy stutter generator
