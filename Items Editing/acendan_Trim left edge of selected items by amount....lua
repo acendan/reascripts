@@ -1,9 +1,9 @@
--- @description Trim right edge of selected items by amount
+-- @description Trim left edge of selected items by amount
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.0
 -- @metapackage
 -- @provides
---   [main] . > acendan_Trim or extend right edge of selected items by amount...lua
+--   [main] . > acendan_Trim or extend left edge of selected items by amount...lua
 -- @link https://aaroncendan.me
 -- @about
 --   By Aaron Cendan - Sept 2020
@@ -20,12 +20,12 @@ function trim_items(trim_len)
   start_pos = reaper.GetMediaItemInfo_Value(it, 'D_POSITION')
   len = reaper.GetMediaItemInfo_Value(it, 'D_LENGTH')
   end_pos = start_pos + len
-  reaper.ApplyNudge(0, 1, 3, 1, end_pos-trim_len, false, 0)
+  reaper.ApplyNudge(0, 1, 2, 1, start_pos+trim_len, false, 0)
 end
 
 function main()
   -- Get user input
-  local ret_input, trim_len = reaper.GetUserInputs( "Trim/Extend Right Edge", 1, "Length (+/- sec)", "1.0" )
+  local ret_input, trim_len = reaper.GetUserInputs( "Trim/Extend Left Edge", 1, "Length (+/- sec)", "1.0" )
   if not ret_input then return end
   
   items = reaper.CountSelectedMediaItems(0)

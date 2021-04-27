@@ -46,6 +46,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Sort selected items order by item names alphabetically ignoring capitalization
  - Items Editing\acendan_Split selected item by channel to new tracks
  - Items Editing\acendan_Stretch selected items to fit between nearest markers
+ - Items Editing\acendan_Trim left edge of selected items by amount...
  - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
  - Markers\acendan_Export markers and regions for Izotope RX relative to items with shared take source
