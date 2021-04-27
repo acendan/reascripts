@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="75b1d260481f79b1f9dce48500d81048414446cf" name="ACendan Scripts">
+<index version="1" commit="3d92c87a330395224ffb224c5f5655a00c8d991c" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -497,6 +497,23 @@
         <source main="main" file="acendan_Stretch selected items to fit between nearest markers.lua">https://github.com/acendan/reascripts/raw/0dca44c846f64c71bec7ec2ddafebea5b218680e/Items%20Editing/acendan_Stretch%20selected%20items%20to%20fit%20between%20nearest%20markers.lua</source>
       </version>
     </reapack>
+    <reapack name="acendan_Trim left edge of selected items by amount....lua" type="script" desc="Trim left edge of selected items by amount">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Credits\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from me2beats: Trim sel items right edges to nearest grid divisions\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-04-27T01:35:32Z">
+        <source main="main" file="acendan_Trim or extend left edge of selected items by amount...lua">https://github.com/acendan/reascripts/raw/3d92c87a330395224ffb224c5f5655a00c8d991c/Items%20Editing/acendan_Trim%20left%20edge%20of%20selected%20items%20by%20amount....lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Trim right edge of selected items by amount....lua" type="script" desc="Trim right edge of selected items by amount">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -512,6 +529,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-29T20:15:03Z">
         <source main="main" file="acendan_Trim right edge of selected items by amount...lua">https://github.com/acendan/reascripts/raw/e78252c28cd3411970e2d21a4d9e595666b74474/Items%20Editing/acendan_Trim%20right%20edge%20of%20selected%20items%20by%20amount....lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-04-27T01:35:32Z">
+        <source main="main" file="acendan_Trim or extend right edge of selected items by amount...lua">https://github.com/acendan/reascripts/raw/3d92c87a330395224ffb224c5f5655a00c8d991c/Items%20Editing/acendan_Trim%20right%20edge%20of%20selected%20items%20by%20amount....lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Trim selected items at last zero crossing.lua" type="script" desc="Trim selected items at last zero crossing">
