@@ -1,6 +1,6 @@
 -- @description Match Proj Framerate
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Prompt to match project frame rate with first video item import.lua
@@ -9,7 +9,8 @@
 --   This is a background/toggle script! It works best when set up as a startup action, or enabled in a default project template. 
 --   It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning.
 --   It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed
---   TODO: Make it mac/linux friendly
+-- @changelog
+--	 Mac support!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -31,7 +32,6 @@ local dbg = false
 -- Confirm OS
 local windows = string.find(reaper.GetOS(), "Win") ~= nil
 local separator = windows and '\\' or '/'
-if not windows then reaper.MB("Sorry, this functionality has not been ported to mac/linux yet! If this is affecting your work, please feel free to reach out and let me know at aaron.cendan@gmail.com","",0); return end
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -89,6 +89,7 @@ function main()
             
             if project_framerate then
               local item_framerate = getVideoItemFramerate(item, take, src)
+              if item_framerate == "29.970" or item_framerate == "29.97" then item_framerate = "30.0" end
               if dbg then acendan.dbg("Item Framerate: " .. item_framerate) end
               if item_framerate ~= project_framerate then
                 -- Prompt to conform
@@ -172,13 +173,11 @@ end
 -- Thanks to mrlimbic for his ffprobe advice and scene detection script
 function getVideoItemFramerate(item, take, source)
   -- Default location for ffprobe is in UserPlugins directory
-  -- windows = string.find(reaper.GetOS(), "Win") ~= nil
-  -- separator = windows and '\\' or '/'
   executable =  reaper.GetResourcePath() .. separator .. 'UserPlugins' .. separator .. (windows and 'ffprobe.exe' or 'ffprobe')
   
   -- Confirm ffprobe present
   if not reaper.file_exists(executable) then
-    acendan.dbg("ffprobe not found!\n\nPlease install ffmpeg and place the 'ffmpeg.exe', 'ffprobe.exe', and 'ffplay.exe' files in your REAPER\\UserPlugins folder.\n\nhttps://github.com/BtbN/FFmpeg-Builds/releases")
+    acendan.dbg("ffprobe not found!\n\nPlease install ffmpeg and place the 'ffmpeg', 'ffprobe', and 'ffplay' files in your REAPER\\UserPlugins folder.\n\nWINDOWS: https://github.com/BtbN/FFmpeg-Builds/releases\n\nMAC: https://ffmpeg.org/download.html")
   else
     -- Prep file/command for ffprobe
     local file = reaper.GetMediaSourceFileName(source, "")
@@ -189,7 +188,16 @@ function getVideoItemFramerate(item, take, source)
     local command = escape(executable) .. arguments .. escape(file)
 
     -- Get info on item via ffprobe
-    local ffprobe_info = reaper.ExecProcess( command, 0 )
+    if windows then
+      ffprobe_info = reaper.ExecProcess( command, 0 )
+    else
+      --If people report issues with this, then try to use os.execute. Otherwise, ExecProcess seems to work on my mac...
+	  --ffprobe_info = os.execute(command)
+      ffprobe_info = reaper.ExecProcess( command, 0 )
+    end
+
+    -- Parse info
+    if dbg then acendan.dbg(ffprobe_info) end
     local key = '"r_frame_rate": "'
     local frames = ffprobe_info:sub(ffprobe_info:find(key) + key:len(),ffprobe_info:find(key) + string.find(ffprobe_info:sub(ffprobe_info:find(key),-1),",") - 3)
     local dividend = tonumber(frames:sub(1, frames:find("/")-1))
