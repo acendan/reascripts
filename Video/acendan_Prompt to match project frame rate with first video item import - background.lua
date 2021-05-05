@@ -9,8 +9,7 @@
 --   This is a background/toggle script! It works best when set up as a startup action, or enabled in a default project template. 
 --   It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning.
 --   It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed
--- @changelog
---	 Mac support!
+-- @changelog Mac support!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
