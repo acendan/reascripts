@@ -57,8 +57,10 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Insert marker at start of selected items with sel item number
  - Markers\acendan_Insert markers at start or end of selected items prompt for name
  - Markers\acendan_Insert markers every x seconds after edit cursor
+ - Media Explorer\acendan_Add custom user columns for SoundMiner iXML Metadata
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
+ - Media Explorer\acendan_Remove all custom user metadata columns
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in first selected track
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in track under mouse
  - Regions\acendan_Add prefix or suffix to regions in time selection
