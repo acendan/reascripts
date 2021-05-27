@@ -1,6 +1,6 @@
 -- @description SoundMiner iXML Metadata Columns
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main=mediaexplorer] .
@@ -43,6 +43,8 @@ iXML["IXML:USER:RATING"]         = "Rating"
 iXML["IXML:USER:URL"]            = "URL"
 iXML["IXML:USER:RELEASEDATE"]    = "ReleaseDate"
 iXML["IXML:USER:OPENTIER"]       = "OpenTier"
+iXML["IXML:USER:USERCATEGORY"]   = "UserCategory"
+iXML["IXML:USER:VENDORCATEGORY"] = "VendorCategory"
 
 -- Other globals
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
