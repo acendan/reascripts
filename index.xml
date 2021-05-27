@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="2864af50dd834b870ff7e58b196d061f288b6b2f" name="ACendan Scripts">
+<index version="1" commit="c6bcc0ae897030571836a2f84a2c3c706cb1fad5" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -469,6 +469,21 @@
         <source main="main" file="acendan_MixPre items BWF description subfield to track name-sNOTE.lua">https://github.com/acendan/reascripts/raw/e6e80fb9adaa84f3326451708ce42d4fc7c9cddb/Items%20Editing/acendan_Set%20selected%20items%20BWF%20metadata%20subfield%20to%20track%20name.lua</source>
       </version>
     </reapack>
+    <reapack name="acendan_Shuffle Mode_Move all items left continuously background.lua" type="script" desc="PT Shuffle Mode ish">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This is a background/toggle script!\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-05-27T19:51:51Z">
+        <source main="main" file="acendan_Shuffle Mode_Move all items left continuously background.lua">https://github.com/acendan/reascripts/raw/c6bcc0ae897030571836a2f84a2c3c706cb1fad5/Items%20Editing/acendan_Shuffle%20Mode_Move%20all%20items%20left%20continuously%20background.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Sort selected items order by item names alphabetically ignoring capitalization.lua" type="script" desc="Sort Items Alphabetically Ignore Caps">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -624,6 +639,9 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-05-19T13:54:31Z">
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/c9f1d03b076678ec03af285eddb1aa3aea15b744/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-05-27T19:51:51Z">
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/c6bcc0ae897030571836a2f84a2c3c706cb1fad5/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Filter media explorer for selected media item names.lua" type="script" desc="Filter Media Explorer">
