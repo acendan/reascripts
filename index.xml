@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="98ab793e641ab9f84bd9e6b7be1a3a15b1363e7e" name="ACendan Scripts">
+<index version="1" commit="907e6676a52a125fbefe592a1721022d41d5e819" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -333,6 +333,21 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-01-21T00:07:28Z">
         <source main="main" file="acendan_Mousewheel to zoom items peaks view gain.lua">https://github.com/acendan/reascripts/raw/e16333f6a2f0ccb239f74f11333d9e822b768a93/Items%20Editing/acendan_Mousewheel%20to%20zoom%20items%20peaks%20view%20gain.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_mpl_Search items.lua" type="script" desc="Search Items">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Modification of MPL's Search Tracks script\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-06-02T23:15:01Z">
+        <source main="main" file="acendan_mpl_Search items.lua">https://github.com/acendan/reascripts/raw/907e6676a52a125fbefe592a1721022d41d5e819/Items%20Editing/acendan_mpl_Search%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
