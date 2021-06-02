@@ -1,9 +1,9 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 5.0
+@version 5.0.1
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Added metadata embedding utilities, updated language support, and reworked the preset system from the ground up
+  Fixed auto capitalization settings to include User Category and Vendor Category (Thanks Andy!)

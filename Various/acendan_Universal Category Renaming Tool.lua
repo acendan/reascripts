@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.0
+-- @version 5.0.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,10 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   1. Metadata - New settings in tool & section dedicated to metadata
---   2. Presets - Completely re-did the preset system from the ground up
---   3. Languages - Updated existing ones and added new ones
---   4. Buy me a coffee! Or don't. https://paypal.me/stickless
+--   - Fixed auto capitalization settings to include User Category and Vendor Category (Thanks Andy!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -606,10 +603,15 @@ function setFullName()
   -- Name and Vendor
   if ret_vend then
     -- Vendor found
+    if ret_caps and ucs_caps == "ALL CAPS (Default)"                   then ucs_vend = string.upper(ucs_vend)
+    elseif ret_caps and ucs_caps == "Title Case"                       then ucs_vend = ucs_vend:gsub("(%a)([%w_']*)", toTitleCase)
+    elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_vend = ucs_vend
+    else ucs_vend = string.upper(ucs_vend) end
+    
     if (ucs_enum == "true") then
-      ucs_name_num_final = "_" .. string.upper(ucs_vend) .. "-" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+      ucs_name_num_final = "_" .. ucs_vend .. "-" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
     else
-      ucs_name_num_final = "_" .. string.upper(ucs_vend) .. "-" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase)
+      ucs_name_num_final = "_" .. ucs_vend .. "-" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase)
     end
   else
     -- No Vendor
@@ -632,7 +634,10 @@ function setFullName()
 
   -- User Category
   if ret_usca then
-    ucs_usca_final = "-" .. string.upper(ucs_usca)
+    if ret_caps and ucs_caps == "ALL CAPS (Default)"                   then ucs_usca_final = "-" .. string.upper(ucs_usca)
+    elseif ret_caps and ucs_caps == "Title Case"                       then ucs_usca_final = "-" .. ucs_usca:gsub("(%a)([%w_']*)", toTitleCase)
+    elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_usca_final = "-" .. ucs_usca
+    else ucs_usca_final = "-" .. string.upper(ucs_vend) end
   else
     ucs_usca_final = ""
   end
