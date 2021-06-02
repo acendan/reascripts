@@ -375,6 +375,7 @@
     <script type="text/javascript" src="ucs_libraries/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="ucs_libraries/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="ucs_libraries/typeahead.bundle.js"></script>
+    <script type="text/javascript" src="ucs_libraries/countrystatecity.js"></script>
 </head>
 <body>
     <!--------------->
@@ -391,14 +392,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto f32" style="display: flex; align-items: center; justify-content: center;">
-                <li class="nav-item active">
+                <li class="nav-item active" id="namingScroll">
                     <a class="nav-link" href="#">Naming<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="processingScroll">
                     <a class="nav-link" href="#userInputData">Processing</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#formSubmitButton">Data Table</a>
+                <li class="nav-item" id="metadataScroll">
+                    <a class="nav-link" href="#userInputArea">Metadata</a>
+                </li>
+                <li class="nav-item" id="dataScroll">
+                    <a class="nav-link" href="#formSubmitButton">UCS Table</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -406,7 +410,9 @@
                         Presets
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarPresetsDropdown" id="navbarPresetsDropdownOptions">
-
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showPresetModal()" style="display: flex; align-items: center;">Save As Preset...</a>
+                        <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showDeletePresetModal()" style="display: flex; align-items: center;">Delete Preset...</a>
                     </div>
                 </li>
 
@@ -423,11 +429,16 @@
                         <a class="dropdown-item" href="#" id="langPL" style="display: flex; align-items: center;"><i class="flag pl"></i>&nbsp;&nbsp;Polish</a>
                         <a class="dropdown-item" href="#" id="langNL" style="display: flex; align-items: center;"><i class="flag nl"></i>&nbsp;&nbsp;Dutch</a>
                         <a class="dropdown-item" href="#" id="langDA" style="display: flex; align-items: center;"><i class="flag dk"></i>&nbsp;&nbsp;Danish</a>
+                        <a class="dropdown-item" href="#" id="langNO" style="display: flex; align-items: center;"><i class="flag no"></i>&nbsp;&nbsp;Norwegian</a>
+                        <a class="dropdown-item" href="#" id="langSE" style="display: flex; align-items: center;"><i class="flag se"></i>&nbsp;&nbsp;Swedish</a>
                         <a class="dropdown-item" href="#" id="langFI" style="display: flex; align-items: center;"><i class="flag fi"></i>&nbsp;&nbsp;Finnish</a>
                         <a class="dropdown-item" href="#" id="langPT" style="display: flex; align-items: center;"><i class="flag pt"></i>&nbsp;&nbsp;Portuguese</a>
                         <a class="dropdown-item" href="#" id="langPTBR" style="display: flex; align-items: center;"><i class="flag br"></i>&nbsp;&nbsp;Portuguese-Brazil</a>
                         <a class="dropdown-item" href="#" id="langZH" style="display: flex; align-items: center;"><i class="flag cn"></i>&nbsp;&nbsp;Chinese</a>
                         <a class="dropdown-item" href="#" id="langJA" style="display: flex; align-items: center;"><i class="flag jp"></i>&nbsp;&nbsp;Japanese</a>
+                        <a class="dropdown-item" href="#" id="langTW" style="display: flex; align-items: center;"><i class="flag tw"></i>&nbsp;&nbsp;Taiwanese</a>
+                        <a class="dropdown-item" href="#" id="langRU" style="display: flex; align-items: center;"><i class="flag ru"></i>&nbsp;&nbsp;Russian</a>
+                        <a class="dropdown-item" href="#" id="langUA" style="display: flex; align-items: center;"><i class="flag ua"></i>&nbsp;&nbsp;Ukrainian</a>
                     </div>
                 </li>
             </ul>
@@ -449,9 +460,18 @@
                 <h3 style="margin:0;" class="modal-title">UCS Renaming Tool Settings</h4>
               </div>
               <div class="modal-body">
-                <h4><i>Processing</i></h4>
+                <!------------------------>
+                <!---  PROCESSING     ---->
+                <!------------------------>
+                <h5><i>Processing</i></h5>
+                <!-- VENDOR CATEGORY -->
+                <p style="margin-bottom:0px;">Vendor Category:</p>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="vendorCatCheckbox">
+                    <h7>Show Vendor Category field? Only relevant for library vendors.</h7>
+                </div>                
                 <!-- DISABLE CAPITALIZATION -->
-                <p style="margin-bottom:0px;">Creator/Source ID Capitalization:</p>
+                <p style="margin-bottom:0px;margin-top:15px;">Creator/Source ID Capitalization:</p>
                 <select id="nameCapitalizationSetting" class="form-control">
                     <option>ALL CAPS (Default)</option>
                     <option>Title Case</option>
@@ -466,7 +486,10 @@
                 </select>
                 <div id="copyResultsWarning" style="margin:0;" class="alert alert-warning" role="alert">This will bypass the processing section and <i>just copy to clipboard</i>.</div>
 
-                <h4 class="modal-heading">UCS Data Table</h4>
+                <!------------------------>
+                <!---  UCS TABLE      ---->
+                <!------------------------>
+                <h5 class="modal-heading" style="margin-top:35px;">UCS Table</h5>
                 <!-- AUTO SUBMIT FORM ON ROW CLICK -->
                 <p style="margin-bottom:0px;">Auto Submit:</p>
                 <div class="form-check" style="margin-left:0px">
@@ -484,12 +507,36 @@
                     <h7>Search media explorer for synonyms when clicking table rows?</h7>
                 </div>
 
-                <h4 class="modal-heading">Appearance</h4>
+                <!------------------------>
+                <!--- RENDER METADATA  --->
+                <!------------------------>
+                <h5 class="modal-heading" style="margin-top:35px;">Metadata</h5>
+                <!-- UCS Metadata -->
+                <p style="margin-bottom:0px;">Render UCS Metadata:</p>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="iXMLSettings">
+                    <h7>Embed UCS form info in metadata when rendering?</h7>
+                </div>
+                <!-- Extended Metadata -->
+                <p style="margin-bottom:0px;">Render Additional Fields:</p>
+                <div class="form-check" style="margin-left:0px">
+                    <input class="form-check-input" type="checkbox" id="metadataSettings">
+                    <h7>Show extended metadata input fields like microphone, perpective, location, etc?</h7>
+                </div>
+                <div id="metadataWarning" style="margin:0;" class="alert alert-warning" role="alert">- Render Metadata requires 'Embed: Metadata' to be checked in your render settings<br>- Render Metadata does <b>NOT</b> apply when renaming Tracks<br>- Render Metadata fields are all optional, and can be left blank.</div>
+
+                <!------------------------>
+                <!---  APPEARANCE     ---->
+                <!------------------------>
+                <h5 class="modal-heading" style="margin-top:35px;">Appearance</h5>
                 <!-- COLOR MODE -->
                 <a class="btn color-mode__btn btn-outline-light light--hidden"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
                 <a class="btn color-mode__btn btn-outline-dark dark--hidden"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
                 
-                <h4 class="modal-heading">External Links</h4>
+                <!------------------------>
+                <!---  LINKS          ---->
+                <!------------------------>
+                <h5 class="modal-heading" style="margin-top:35px;">External Links</h5>
                 <!-- FEEDBACK -->
                 <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
                 <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
@@ -498,12 +545,59 @@
                 <a href="https://universalcategorysystem.com/" class="btn btn-outline-light light--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
               </div>
               <div class="modal-footer">
-                <p class="mr-auto">Developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a></p>
+                <p class="mr-auto">Developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a>. Feel free to&nbsp;<a href="https://paypal.me/stickless" target="_blank">buy me a coffee!</a></p>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>
         </div>
     </div>
+
+    <!------------------------>
+    <!---  PRESETS MODALS ---->
+    <!------------------------>
+    <!---  Save Preset    ---->
+    <div class="modal fade" id="presetsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Save Current Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="presetNameLabel">Preset Name</label>
+                    <input type="text" class="form-control" id="presetName" aria-describedby="presetNameHelp" placeholder="Chihuahua Recordings">
+                    <small id="presetNameHelp" class="form-text text-muted">- A preset named "Default" will load as soon as you open the tool<br>- Presets will collect ALL field info. <b>I recommend leaving Category, Subcategory, and Filename blank.</b></small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onClick="saveThisAsPreset()" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---  Delete Preset ---->
+    <div class="modal fade" id="deletePresetsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Delete Preset</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="presetNameLabel">Preset To Delete...</label>
+                    
+                    <select id="deletePresetSelect" class="form-control">
+
+                    </select>
+
+                    <small class="form-text text-muted"><b>WARNING: </b>This is irreversible. There is no undo.</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onClick="deleteThisPreset()" data-dismiss="modal">Delete Preset</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+
 
     <!------------------------>
     <!--- ROW CLICK ALERT ---->
@@ -517,28 +611,6 @@
         <!-- Renaming Tool Form -->
         <!------------------------>
         <form id="ucsForm">
-
-            <!-- USER PRESET SETUP -->
-            <div class="card border-dark w-75" id="userPresetsInstructions" style="display: none">
-                <div style="margin-top: 0px; margin-bottom: 0px; margin-right: 0px; margin-left: 0px;" class="card-body">
-                    <h6 class="card-title">User Presets Setup Instructions</h6>
-                    <ul>
-                        <li>
-                            To set up user presets, open the file path /REAPER/reaper_www_root (and verify that "acendan_Universal Category Renaming Tool Interface.html" is present).
-                        </li>
-                        <li>
-                            Next, move the file "UCS_presets.txt" from the "ucs_libraries" folder to its parent folder, "reaper_www_root".
-                        </li>
-                        <li>
-                            To add or edit presets, open "UCS_presets.txt" in a text editor like Notepad and follow the instructions.
-                        </li>
-                        <li>
-                            Reload the UCS Renaming Tool and you should see your new presets in the "Presets" dropdown in the navigation bar!
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
             <!-- NAMING SECTION -->
             <div style="margin-top:40px;"><h5 id="naming"><i>Naming</i></h5></div>
 
@@ -560,9 +632,16 @@
 
                 <!-- User Category -->
                 <div class="form-group col-md-6" id="userCategoryGroup">
-                    <label for="userInputUserCatLabel">User Category (Optional)</label>
-                    <input type="text" class="form-control" id="userInputUserCat" aria-describedby="userInputUserCatHelp" placeholder="Would you like to specify a custom User Category?">
-                    <small id="userInputUserCatHelp" class="form-text text-muted">If no User Category, leave blank. Commonly used for 'INT' and 'EXT' (interior/exterior).</small>
+                    <label for="userInputUserCatLabel">User Category</label>
+                    <input type="text" class="form-control" id="userInputUserCat" aria-describedby="userInputUserCatHelp" placeholder="Optional User Category">
+                    <small id="userInputUserCatHelp" class="form-text text-muted">If no User Category, leave blank.</small>
+                </div>
+
+                <!-- Vendor Category -->
+                <div class="form-group col-md-6" id="vendorCategoryGroup">
+                    <label for="userInputVendCatLabel">Vendor Category</label>
+                    <input type="text" class="form-control" id="userInputVendCat" aria-describedby="userInputVendCatHelp" placeholder="Optional Vendor Category">
+                    <small id="userInputVendCatHelp" class="form-text text-muted">If you are not a library vendor, leave blank.</small>
                 </div>
 
                 <!-- Name w Var ID -->
@@ -572,32 +651,31 @@
                     <div id="userInputNameError" style="display: none; margin:0;" class="alert alert-warning" role="alert">File Name cannot be blank!</div>
                     <div class="form-check" style="margin-left:0px">
                         <input class="form-check-input" type="checkbox" checked id="userInputVarNumCheckbox">
-                        <h7>Enable variation numbering? If unsure, keep checked.</h7>
-                    </div>
-                    
-                    <small id="userInputNameHelp" class="form-text text-muted">Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>$region, $regionnumber<br />- Available wildcards are dependent on 'Items to Rename' field in <i>Processing</i> below.</small>
+                        <h7>Enable variation numbering?</h7>
+                    </div>                    
+                    <small id="userInputNameHelp" class="form-text text-muted"><b>WILDCARDS: </b>$region, $regionnumber<br />- Available wildcards are dependent on 'Items to Rename' field in <i>Processing</i> below.</small>
                 </div>
 
                 <!-- Initials -->
                 <div class="form-group col-md-6" id="initialsGroup">
                     <label for="userInputInitialsLabel">Creator ID*</label>
-                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="Starting letters of first & last name, or other identifiable user tag." required pattern=".{1,}">
+                    <input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="Identifiable User ID" required pattern=".{1,}">
                     <div id="userInitialsError" style="display: none; margin:0;" class="alert alert-warning" role="alert">Initials cannot be blank!</div>
-                    <small id="userInputInitialsHelp" class="form-text text-muted">'Aaron Cendan' => 'AC' or 'AaCe'</small>
+                    <small id="userInputInitialsHelp" class="form-text text-muted">Aaron Cendan, ACendan, AaCe, AACE, etc.</small>
                 </div>
 
                 <!-- Show -->
                 <div class="form-group col-md-6">
-                    <label for="userInputShowLabel">Source ID (Optional)</label>
-                    <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="What project are you working on?">
-                    <small id="userInputShowHelp" class="form-text text-muted">If no project, leave blank; it will automatically be replaced with "NONE" per the UCS guidelines.</small>
+                    <label for="userInputShowLabel">Source ID</label>
+                    <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="Optional Project/Show ID">
+                    <small id="userInputShowHelp" class="form-text text-muted">If none, leave blank; it will be replaced with "NONE" per the UCS guidelines.</small>
                 </div>
 
                 <!-- User Data -->
                 <div class="form-group col-md-6">
-                    <label for="userDataLabel">User Data/Notes (Optional)</label>
-                    <input type="text" class="form-control" id="userInputData" aria-describedby="userInputDataHelp" placeholder="Microphones, perspective, location, or other.">
-                    <small id="userInputDataHelp" class="form-text text-muted">Anything else you'd like to add? If no notes, leave blank.</small>
+                    <label for="userDataLabel">User Data/Notes</label>
+                    <input type="text" class="form-control" id="userInputData" aria-describedby="userInputDataHelp" placeholder="Optional Notes">
+                    <small id="userInputDataHelp" class="form-text text-muted">If none, leave blank.</small>
                 </div>
             </div>
 
@@ -629,6 +707,121 @@
                     <small id="userInputCategoryHelp" class="form-text text-muted">Select the area of the project you would like to affect.</small>
                 </div>
             </div>
+
+            <!-- METADATA SECTION -->
+            <div><h5 id="metadataTitle"><i>Metadata</i></h5></div>
+            <div class="form-row" id="metadataSection">
+                
+                <!-- Description -->
+                <div class="form-group col-md-6">
+                    <label for="userDataLabel">Description</label>
+                    <input type="text" class="form-control" id="userInputMetaDesc" placeholder="Fully Detailed Description of File Contents">
+                </div>
+
+                <!-- Title -->
+                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                    <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel">Title</label>
+                        <input type="text" class="form-control" id="userInputMetaTitle" placeholder="SHORT CATCHY TITLE">
+                    </div>
+
+                    <!-- Keywords -->
+                    <div class="form-group col-md-4" style="margin-left: 0px">
+                        <label for="userDataLabel">Keywords</label>
+                        <input type="text" class="form-control" id="userInputMetaKeys" placeholder="Comma, Separated, Keywords, Tags">
+                    </div>
+                </div>
+                
+                <!-- Microphone -->
+                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                    <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel">Microphone</label>
+                        <input type="text" class="form-control" id="userInputMetaMic" placeholder="Mini MS">
+                    </div>
+                    
+                    <div class="form-group col-md-4" style="margin-left: 0px">
+                        <label for="userDataLabel">Recording Medium</label>
+                        <input type="text" class="form-control" id="userInputMetaRecMed" placeholder="Sound Devices MixPre3II">
+                    </div>                                        
+                </div>
+
+                <!-- Microphone Perspective -->
+                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px;  margin-top: 0px; margin-bottom: 0px;">
+                    <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel">Microphone Perspective</label>                        
+                        <select id="userInputMetaPersp" class="form-control" style="margin-top: 0px;">
+                            <option>-</option>
+                            <option>Close Up (CU)</option>
+                            <option>Medium (MED)</option>
+                            <option>Distant (DST)</option>
+                            <option>Direct (DI)</option>
+                            <option>Onboard (OB)</option>
+                        </select>    
+                    </div>
+                    <div class="form-group col-md-4" style="margin-left: 0px">
+                        <label for="userDataLabel">Indoor or Outdoor</label>
+                        <select id="userInputMetaIntExt" class="form-control" style="margin-top: 0px;">
+                            <option>-</option>
+                            <option>Interior (INT)</option>
+                            <option>Exterior (EXT)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Designer/URL -->
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                    <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel">Designer</label>
+                        <input type="text" class="form-control" id="userInputMetaDsgnr" placeholder="Aaron Cendan">
+                    </div>
+
+                    <div class="form-group col-md-3" style="margin-left: 0px">
+                        <label for="userDataLabel">Library</label>
+                        <input type="text" class="form-control" id="userInputMetaLib" placeholder="Julibrary 2021">
+                    </div>
+                    
+                    <div class="form-group col-md-3" style="margin-left: 0px">
+                        <label for="userDataLabel">URL</label>
+                        <input type="text" class="form-control" id="userInputMetaURL" placeholder="https://aaroncendan.me">
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                    <!-- Country -->
+                    <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel" style="margin-bottom: 0px;">Location</label>
+                        <select name="country" class="form-control countries order-alpha" id="countryId">
+                            <option value="">Select Country</option>
+                        </select>
+                        <small class="form-text text-muted">Country</small>
+                    </div>
+
+                    <!-- State -->
+                    <div class="form-group col-md-3" style="margin-left: 0px; margin-top: 35px;">
+                        <select name="state" class="form-control states order-alpha" id="stateId">
+                            <option value="">Select State</option>
+                        </select>
+                        <small class="form-text text-muted">State</small>
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-group col-md-3" style="margin-left: 0px; margin-top: 35px;">
+                        <select name="city" class="form-control cities order-alpha limit-pop-10000" id="cityId">
+                            <option value="">Select City</option>
+                        </select>
+                        <small class="form-text text-muted">City</small>
+                    </div>
+                </div>
+
+                <!-- Album Art -- DISABLED UNTIL MEDIA EXPLORER CAN SHOW ALBUM ART 
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="customFile">Embed Artwork</label>
+                    <input type="file" class="form-control" id="userInputMetaArt" aria-describedby="userInputMetaArtHelp"/>        
+                    <small id="userInputMetaArtHelp" class="form-text text-muted">Supports drag-and-drop! Must be .jpg or .png</small>
+                </div>
+                -->
+            </div>  
             <!-- SUBMIT BUTTON - Web_Interface_Button_1_Test.lua -->
             <div>
                 <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon">&nbsp;&nbsp;<b>Submit</b></button>
@@ -708,19 +901,26 @@
         var REApath = "40027";
 
         // UCS Google Sheet Languages
-        var ucs_gsheet_en = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/1/public/full?alt=json";
-        var ucs_gsheet_fr = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/2/public/full?alt=json";
-        var ucs_gsheet_pl = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/3/public/full?alt=json";
-        var ucs_gsheet_de = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/4/public/full?alt=json";
-        var ucs_gsheet_pt = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/5/public/full?alt=json";
-        var ucs_gsheet_pt_br = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/6/public/full?alt=json";
-        var ucs_gsheet_zh = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/7/public/full?alt=json";
-        var ucs_gsheet_nl = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/8/public/full?alt=json";
-        var ucs_gsheet_es = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/9/public/full?alt=json";
-        var ucs_gsheet_ja = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/10/public/full?alt=json";
-        var ucs_gsheet_it = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/11/public/full?alt=json";
-        var ucs_gsheet_da = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/12/public/full?alt=json";
-        var ucs_gsheet_fi = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/13/public/full?alt=json";
+        var ucs_gsheet_header = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/";
+        var ucs_gsheet_footer = "/public/full?alt=json";
+        var ucs_gsheet_en = ucs_gsheet_header + "1" + ucs_gsheet_footer;
+        var ucs_gsheet_fr = ucs_gsheet_header + "2" + ucs_gsheet_footer;
+        var ucs_gsheet_pl = ucs_gsheet_header + "3" + ucs_gsheet_footer;
+        var ucs_gsheet_de = ucs_gsheet_header + "4" + ucs_gsheet_footer;
+        var ucs_gsheet_pt = ucs_gsheet_header + "5" + ucs_gsheet_footer;
+        var ucs_gsheet_pt_br = ucs_gsheet_header + "6" + ucs_gsheet_footer;
+        var ucs_gsheet_zh = ucs_gsheet_header + "7" + ucs_gsheet_footer;
+        var ucs_gsheet_nl = ucs_gsheet_header + "8" + ucs_gsheet_footer;
+        var ucs_gsheet_es = ucs_gsheet_header + "9" + ucs_gsheet_footer;
+        var ucs_gsheet_ja = ucs_gsheet_header + "10" + ucs_gsheet_footer;
+        var ucs_gsheet_it = ucs_gsheet_header + "11" + ucs_gsheet_footer;
+        var ucs_gsheet_da = ucs_gsheet_header + "12" + ucs_gsheet_footer;
+        var ucs_gsheet_fi = ucs_gsheet_header + "13" + ucs_gsheet_footer;
+        var ucs_gsheet_tw = ucs_gsheet_header + "14" + ucs_gsheet_footer;
+        var ucs_gsheet_no = ucs_gsheet_header + "15" + ucs_gsheet_footer;
+        var ucs_gsheet_se = ucs_gsheet_header + "16" + ucs_gsheet_footer;
+        var ucs_gsheet_ru = ucs_gsheet_header + "17" + ucs_gsheet_footer;
+        var ucs_gsheet_ua = ucs_gsheet_header + "18" + ucs_gsheet_footer;
 
         // Arrays populated by Google Sheet public JSON
         // Cleaned up arrays for auto-filter
@@ -740,6 +940,9 @@
         var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
         var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 
+        // Cache load start time
+        var startTime = new Date().valueOf();
+
         // ~~~~~~~~~~~~~~~~~~~~
         // ON PAGE LOAD
         // Determine Online or Offline Mode
@@ -758,12 +961,12 @@
             // Assigns country icon for current language to navbar language dropdown
             getUCSLanguage();
 
-            // Check for User Presets
-            loadUserPresets();
-
             // Attempt to load offline "UCS.txt" file if available. If successful: useOfflineUSCData()
             // If not, get data from public Google sheet via function: useGSheetsUSCData()
             loadOfflineUCSDoc();
+
+            // Check for User Presets
+            loadUserPresets();
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -783,6 +986,42 @@
                     $("#copyResultsWarning").hide();
                     $("#copyResultsWarning2").hide();
                 }
+            }
+
+            // Get render metadata setting
+            if (localStorage.getItem("ixml-setting")) {
+                $("#iXMLSettings").prop('checked',true);
+                $("#metadataWarning").show();
+            } else {
+                $("#iXMLSettings").prop('checked',false);
+            }
+
+            // Get extended metadata setting
+            if (localStorage.getItem("metadata-setting")) {
+                $("#metadataSettings").prop('checked',true);
+                $("#metadataWarning").show();
+                $("#metadataTitle").show();
+                $("#metadataSection").show();
+                $("#metadataScroll").show();
+            } else {
+                $("#metadataSettings").prop('checked',false);
+                $("#metadataTitle").hide();
+                $("#metadataSection").hide();
+                $("#metadataScroll").hide();
+            }
+
+            // Get vendor cat setting
+            if (localStorage.getItem("vendor-cat-setting")) {
+                $("#vendorCatCheckbox").prop('checked',true);
+                $("#vendorCategoryGroup").show();
+            } else {
+                $("#vendorCatCheckbox").prop('checked',false);
+                $("#vendorCategoryGroup").hide();
+            }
+
+            // Hide metadata warning
+            if (!localStorage.getItem("ixml-setting") && !localStorage.getItem("metadata-setting")) {
+                $("#metadataWarning").hide();
             }
 
             // Get name/source capitalization settings
@@ -857,9 +1096,6 @@
             $("#ucsNavbar").removeClass("navbar-light");
             $("#ucsNavbar").addClass("navbar-dark");
 
-            $("#userPresetsInstructions").removeClass("border-dark");
-            $("#userPresetsInstructions").addClass("border-light");
-
             $("#UCSInstallInstructions").removeClass("border-dark");
             $("#UCSInstallInstructions").addClass("border-light");
 
@@ -876,9 +1112,6 @@
 
             $("#ucsNavbar").removeClass("navbar-dark");
             $("#ucsNavbar").addClass("navbar-light");
-
-            $("#userPresetsInstructions").removeClass("border-light");
-            $("#userPresetsInstructions").addClass("border-dark");
 
             $("#UCSInstallInstructions").removeClass("border-light");
             $("#UCSInstallInstructions").addClass("border-dark");
@@ -904,6 +1137,9 @@
             var nameOnly = nameAndNum[0];
             var numOnly = nameAndNum[1];
             var enableNum = $("#userInputVarNumCheckbox").prop("checked");
+            var iXMLChecked = $("#iXMLSettings").prop("checked");
+            var vendorChecked = $("#vendorCatCheckbox").prop("checked");
+            var metadataChecked = $("#metadataSettings").prop("checked");
             var cleanUserCat = stringCleaning($("#userInputUserCat").val());
             var cleanInitials = stringCleaning($("#userInputInitials").val());
             var cleanShow = stringCleaning($("#userInputShow").val());
@@ -929,6 +1165,8 @@
             setProjExtState(nameOnly, "Name");
             setProjExtState(numOnly, "Number");
             setProjExtState(enableNum, "EnableNum");
+            setProjExtState(iXMLChecked, "iXMLMetadata");
+            setProjExtState(metadataChecked, "ExtendedMetadata");
             setProjExtState(cleanUserCat, "UserCategory");
             setProjExtState(cleanInitials, "Initials");
             setProjExtState(cleanShow, "Show");
@@ -940,6 +1178,65 @@
             setProjExtState("nameCapitalizationSetting");
             setProjExtState("copyResultsSetting");
 
+            // Vendor category
+            console.log("Vendor checked = " + vendorChecked);
+            if (vendorChecked) {
+                var vendorCat = stringCleaning($("#userInputVendCat").val());
+                setProjExtState(vendorCat, "VendorCategory");
+            } else {
+                setProjExtState("false", "VendorCategory");
+            }
+
+            // Set project extstates for extended metadata fields             
+            if (metadataChecked) {
+                // Extended metadata fields
+                var metaTitle  = stringCleaning($("#userInputMetaTitle").val());
+                var metaDesc   = stringCleaning($("#userInputMetaDesc").val());
+                var metaKeys   = stringCleaning($("#userInputMetaKeys").val());
+                var metaMic    = stringCleaning($("#userInputMetaMic").val());
+                var metaRecMed = stringCleaning($("#userInputMetaRecMed").val());
+                var metaDsgnr  = stringCleaning($("#userInputMetaDsgnr").val());
+                var metaLib    = stringCleaning($("#userInputMetaLib").val());                
+                var metaURL    = $("#userInputMetaURL").val();
+
+                // Extended metadata - location
+                var metaCoun   = $("#countryId").val();
+                var metaState  = $("#stateId").val();
+                var metaCity   = $("#cityId").val();
+                var metaLoc    = "";
+                if (metaCity != "Please wait.." && metaCity != "Select City") metaLoc = metaCity;
+                if (metaState != "Please wait.." && metaState != "Select State") {
+                    (metaLoc != "") ? metaLoc = metaLoc + ", " + metaState : metaLoc = metaState;
+                }
+                if (metaCoun != "Please wait.." && metaCoun != "Select Country") {
+                    (metaLoc != "") ? metaLoc = metaLoc + ", " + metaCoun : metaLoc = metaCoun;
+                }
+
+                // Extended metadata - mic perspective
+                var metaPersp  = $("#userInputMetaPersp").val();
+                var metaIntExt = $("#userInputMetaIntExt").val();
+                if (metaPersp != "-" && metaIntExt != "-") {
+                    metaPersp = metaPersp.match(/\((.*)\)/).pop() + " | " + metaIntExt.match(/\((.*)\)/).pop();
+                } else if  (metaPersp != "-" && metaIntExt == "-") {
+                    metaPersp = metaPersp.match(/\((.*)\)/).pop();
+                } else if  (metaPersp == "-" && metaIntExt != "-") {
+                    metaPersp = metaIntExt.match(/\((.*)\)/).pop();
+                } else if  (metaPersp == "-" && metaIntExt == "-") {
+                    metaPersp = "";
+                }
+                
+                
+                setProjExtState(metaTitle, "MetaTitle");
+                setProjExtState(metaDesc, "MetaDesc");
+                setProjExtState(metaKeys, "MetaKeys");
+                setProjExtState(metaMic, "MetaMic");
+                setProjExtState(metaRecMed, "MetaRecMed");
+                setProjExtState(metaDsgnr, "MetaDsgnr");
+                setProjExtState(metaLib, "MetaLib")
+                setProjExtState(metaLoc, "MetaLoc");
+                setProjExtState(metaURL, "MetaURL");
+                setProjExtState(metaPersp, "MetaPersp");
+            }
 
             // Tell ReaScript that this is being run from a web interface
             wwr_req("SET/EXTSTATEPERSIST/UCS_WebInterface/" + "runFromWeb" + "/" + "true");
@@ -1103,6 +1400,39 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // UPDATE NAVBAR HIGHLIGHTS W SCROLL
+        // ~~~~~~~~~~~~~~~~~~~~
+        $( window ).scroll(function() {
+            var removeScrollClasses = function (el1, el2, el3) {
+                $(el1).removeClass("active");
+                $(el2).removeClass("active");
+                $(el3).removeClass("active");
+            }
+
+            var processingOffset = $("#userInputData").offset().top - $(window).scrollTop();
+            var metadataOffset = $("#userInputArea").offset().top - $(window).scrollTop();
+            var dataOffset = $("#formSubmitButton").offset().top - $(window).scrollTop();
+            var posBuffer = 200;
+
+            if (dataOffset < posBuffer) {
+                removeScrollClasses("#metadataScroll", "#processingScroll", "#namingScroll");
+                $("#dataScroll").addClass("active");
+
+            } else if (metadataOffset < posBuffer && localStorage.getItem("metadata-setting")) {
+                removeScrollClasses("#dataScroll", "#processingScroll", "#namingScroll");
+                $("#metadataScroll").addClass("active");
+
+            } else if (processingOffset < posBuffer) {
+                removeScrollClasses("#metadataScroll", "#dataScroll", "#namingScroll");
+                $("#processingScroll").addClass("active");
+
+            } else {
+                removeScrollClasses("#metadataScroll", "#processingScroll", "#dataScroll");
+                $("#namingScroll").addClass("active");
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // WILDCARD CLEANUP
         // ~~~~~~~~~~~~~~~~~~~~
         // Change info under file name field to match current supported wildcards
@@ -1111,7 +1441,7 @@
             var search_field = $("#userInputItems").val();
             var cur_name = $("#userInputName").val();
 
-            var number_info = "Variation number will be appended and incremented automatically, unless a new starting number is provided.<br /><b>WILDCARDS: </b>";
+            var number_info = "<b>WILDCARDS: </b>";
             var closer_info = "<br />- Available wildcards are dependent on 'Items to Rename' field in <i>Processing</i> below.";
 
             switch (search_field) {
@@ -1187,16 +1517,20 @@
         // VALIDATE ALL FIELDS ON KEYPRESS
         // ~~~~~~~~~~~~~~~~~~~~
         $("input[type='text']").change(function () {
-            // validateCategory();
-            // Fetch form to apply custom Bootstrap validation
-            var form = $("#ucsForm")
+            // Delayed form check to allow for default preset load
+            var loadedSeconds = (new Date().valueOf() - startTime) / 1000;            
+            if (loadedSeconds > 1) {
+                // validateCategory();
+                // Fetch form to apply custom Bootstrap validation
+                var form = $("#ucsForm")
 
-            if (form[0].checkValidity() === false) {
-                event.preventDefault()
-                event.stopPropagation()
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.addClass('was-validated');
             }
-
-            form.addClass('was-validated');
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1234,6 +1568,68 @@
                     $("#copyResultsWarning2").hide();      
                     break;
             }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // UCS iXML RENDERING ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#iXMLSettings").change(function () {
+            var iXMLChecked = $(this).prop("checked");
+            if (iXMLChecked) {
+                localStorage.setItem("ixml-setting",iXMLChecked); // Set value in local storage
+                $("#metadataWarning").show();
+            } else {            
+                localStorage.removeItem("ixml-setting");
+                if (!$("#metadataSettings").prop("checked")) {
+                    $("#metadataWarning").hide();
+                }
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // EXTENDED METADATA TOGGLE ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#metadataSettings").change(function () {
+            var metadataChecked = $(this).prop("checked");
+            if (metadataChecked) {
+                localStorage.setItem("metadata-setting",metadataChecked);
+                $("#metadataWarning").show();
+                $("#metadataTitle").show();
+                $("#metadataSection").show();
+                $("#metadataScroll").show();
+            } else {
+                localStorage.removeItem("metadata-setting");
+                $("#metadataTitle").hide();
+                $("#metadataSection").hide();
+                $("#metadataScroll").hide();
+                if (!$("#iXMLSettings").prop("checked")) {
+                    $("#metadataWarning").hide();
+                }
+            }
+        })
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // VENDOR CAT CHECKBOX TOGGLE ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#vendorCatCheckbox").change(function () {
+            var vendorCatChecked = $(this).prop("checked");
+            if (vendorCatChecked) {
+                localStorage.setItem("vendor-cat-setting",vendorCatChecked);
+                $("#vendorCategoryGroup").show();
+            } else {
+                localStorage.removeItem("vendor-cat-setting");
+                $("#vendorCategoryGroup").hide();
+            }
+        })
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // LOG ALBUM ART ON INPUT CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#userInputMetaArt").on("change", function() {
+            var fullName = $(this).file().name[0];
+            var fileName = $(this).val().split("\\").pop();
+            console.log(fullName);
+            console.log(fileName);
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1362,6 +1758,51 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Taiwan
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langTW").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_tw);
+            localStorage.setItem("ucs_language_country", "tw");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Norway
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langNO").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_no);
+            localStorage.setItem("ucs_language_country", "no");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Sweden
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langSE").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_se);
+            localStorage.setItem("ucs_language_country", "se");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Russian
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langRU").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_ru);
+            localStorage.setItem("ucs_language_country", "ru");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Ukrainian
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langUA").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_ua);
+            localStorage.setItem("ucs_language_country", "ua");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // GET UCS LANGUAGE COUNTRY ICON
         // ~~~~~~~~~~~~~~~~~~~~
         function getUCSLanguage() {
@@ -1412,105 +1853,130 @@
         // CHECK FOR OFFLINE USER PRESETS DOC
         // ~~~~~~~~~~~~~~~~~~~~
         function loadUserPresets() {
-            var xhttp = new XMLHttpRequest();
+            // Load presets
+            if (localStorage.getItem("num-presets") !== null) {
+                // Found existing number of presets
+                var num_presets = parseInt(localStorage.getItem("num-presets"), 10);
+                for (var preset_index = 1; preset_index <= num_presets; preset_index++) {
+                    if (localStorage.getItem("ucs-preset-" + preset_index) !== null) {
+                        // Parse JSON
+                        var presetSettings = JSON.parse(localStorage.getItem("ucs-preset-" + preset_index));
+                        
+                        // Add dropdown element for preset to top of list
+                        $("#navbarPresetsDropdownOptions").prepend('<a class="dropdown-item" href="#" id="userPreset' + preset_index + '" onClick="loadUserPreset(' + preset_index + ')" style="display: flex; align-items: center;">' + presetSettings.preset + '</a>');
+                        
+                        // Add dropdown element to DELETE preset
+                        $("#deletePresetSelect").prepend($('<option>', {
+                            value: preset_index, 
+                            text: presetSettings.preset
+                        }));
 
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log("Found local user presets file.");
-                    displayPresets(this.responseText);
-                }
-            };
-            xhttp.onloadend = function () {
-                if (xhttp.status == 404) {
-                    console.log("No local user presets file found.");
-                    $("#navbarPresetsDropdownOptions").append('<a class="dropdown-item" href="#" id="showPresetInstructions" onClick="showPresetInstructions()" style="display: flex; align-items: center;">Setup Instructions</a>');
-                }
-            }
-            xhttp.open("GET", "UCS_Presets.txt", true);
-            // XML HTTP Cache will try to pull old information if the file is update but keeps the same name.
-            // Disable cache controls to get the latest.
-            xhttp.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
-            xhttp.setRequestHeader('cache-control', 'max-age=0');
-            xhttp.setRequestHeader('expires', '0');
-            xhttp.setRequestHeader('expires', 'Tue, 01 Jan 1980 1:00:00 GMT');
-            xhttp.setRequestHeader('pragma', 'no-cache');
-            xhttp.send();
-        }
-
-        // ~~~~~~~~~~~~~~~~~~~~
-        // SHOW PRESET INSTRUCTIONS
-        // ~~~~~~~~~~~~~~~~~~~~
-        function showPresetInstructions() {
-            // Open Reaper resource path
-            wwr_req(encodeURIComponent(REApath));
-
-            // Show instructions in HTML
-            $("#userPresetsInstructions").show();
-        }
-
-        // ~~~~~~~~~~~~~~~~~~~~
-        // DISPLAY USER PRESETS IF AVAILABLE
-        // ~~~~~~~~~~~~~~~~~~~~
-        function displayPresets(userPresetsFile) {
-            // Parse preset file by line
-            var presetsFile = userPresetsFile.split('\n');
-
-            // Hard-coded preset headers
-            var presetNameHeader = "#Preset Name:";
-            var presetUserCatHeader = "#User Category:";
-            var presetCreatorIDHeader = "#Creator ID:";
-            var presetSourceIDHeader = "#Source ID:";
-            var presetUserDataHeader = "#User Data/Notes:";
-            var presetItemsHeader = "#Items to Rename:";
-            var presetSearchAreaHeader = "#Search Area:";
-            var presetVariationNumHeader = "#Variation Numbers:";
-
-            // Build array of user presets
-            for (var line = 0; line < presetsFile.length; line++) {
-                var presetsLine = presetsFile[line].toString();
-                // Check for start of new preset
-                if (presetsLine.startsWith(presetNameHeader)) {
-                    // Prep preset
-                    var presetName = stringCleaning(presetsLine.slice(presetNameHeader.length, presetsLine.length));
-                    var presetUserCat = "";
-                    var presetCreatorID = "";
-                    var presetSourceID = "";
-                    var presetUserData = "";
-                    var presetItems = "";
-                    var presetSearchArea = "";
-                    var presetVariationNum = ""; 
-
-                    // Confirm preset name isn't blank
-                    if (presetName.length > 1) {
-                        // User Cat
-                        if (presetsFile[line + 1].startsWith(presetUserCatHeader)) presetUserCat = stringCleaning(presetsFile[line + 1].slice(presetUserCatHeader.length, presetsFile[line + 1].length));
-                        // Creator ID
-                        if (presetsFile[line + 2].startsWith(presetCreatorIDHeader)) presetCreatorID = stringCleaning(presetsFile[line + 2].slice(presetCreatorIDHeader.length, presetsFile[line + 2].length));
-                        // Source ID
-                        if (presetsFile[line + 3].startsWith(presetSourceIDHeader)) presetSourceID = stringCleaning(presetsFile[line + 3].slice(presetSourceIDHeader.length, presetsFile[line + 3].length));
-                        // User Data
-                        if (presetsFile[line + 4].startsWith(presetUserDataHeader)) presetUserData = stringCleaning(presetsFile[line + 4].slice(presetUserDataHeader.length, presetsFile[line + 4].length));
-                        // Items
-                        if (presetsFile[line + 5].startsWith(presetItemsHeader)) presetItems = stringCleaning(presetsFile[line + 5].slice(presetItemsHeader.length, presetsFile[line + 5].length));
-                        // Search Area
-                        if (presetsFile[line + 6].startsWith(presetSearchAreaHeader)) presetSearchArea = stringCleaning(presetsFile[line + 6].slice(presetSearchAreaHeader.length, presetsFile[line + 6].length));
-                        // Variation Numbers
-                        if (presetsFile[line + 7].startsWith(presetVariationNumHeader)) presetVariationNum = stringCleaning(presetsFile[line + 7].slice(presetVariationNumHeader.length, presetsFile[line + 7].length));
-
-
-                        // Add new preset to presets array
-                        userPresets.push([presetName, presetUserCat, presetCreatorID, presetSourceID, presetUserData, presetItems, presetSearchArea, presetVariationNum]);
+                        // Load to fields if "Default"
+                        if (presetSettings.preset.toUpperCase() == "DEFAULT") loadUserPreset(preset_index);
                     }
                 }
             }
+        }
 
-            // Loop through user presets
-            userPresets.forEach((preset, index) => {
-                $("#navbarPresetsDropdownOptions").append('<a class="dropdown-item" href="#" id="userPreset' + index + '" onClick="loadUserPreset(' + index + ')" style="display: flex; align-items: center;">' + preset[0] + '</a>');
-                if (preset[0] == "Default") {
-                    loadUserPreset(index);
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SHOW PRESET MODAL
+        // ~~~~~~~~~~~~~~~~~~~~
+        function showPresetModal() {
+            $('#presetsModal').modal();
+            setTimeout(() => { $('#presetName').focus(); }, 500);
+        }
+
+        function showDeletePresetModal() {
+            $('#deletePresetsModal').modal();
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SAVE CURRENT SETTINGS AS A PRESET
+        // ~~~~~~~~~~~~~~~~~~~~
+        function saveThisAsPreset() {
+            // Hide modal
+            $('#presetsModal').modal('hide');            
+
+            // Get user's settings            
+            var mySettings = {
+                presetIndex: preset_index,
+                preset: $("#presetName").val(),
+                category: $("#userInputCategory").val(),
+                subcategory: $("select#userSelectSubCategory option:checked").val(),
+                filename: $("#userInputName").val(),
+                enumerate: $("#userInputVarNumCheckbox").prop("checked"),
+                userCat: $("#userInputUserCat").val(),
+                userId: $("#userInputInitials").val(),
+                showId: $("#userInputShow").val(),
+                userData: $("#userInputData").val(),
+                vendorCat: $("#userInputVendCat").val(),
+                metaTitle: $("#userInputMetaTitle").val(),
+                metaDesc: $("#userInputMetaDesc").val(),
+                metaKeys: $("#userInputMetaKeys").val(),
+                metaMic: $("#userInputMetaMic").val(),
+                metaRecMed: $("#userInputMetaRecMed").val(),
+                metaDsgnr: $("#userInputMetaDsgnr").val(),
+                metaLib: $("#userInputMetaLib").val(),        
+                metaURL: $("#userInputMetaURL").val(),
+                metaCoun: $("#countryId").val(),
+                metaState: $("#stateId").val(),
+                metaCity: $("#cityId").val(),
+                metaPersp: $("#userInputMetaPersp").val(),
+                metaIntExt: $("#userInputMetaIntExt").val(),
+                userItems: $("#userInputItems").val(),
+                userArea: $("#userInputArea").val()
+            }
+            console.log(mySettings);
+            
+            // Get/update number of user presets in local storage
+            var preset_index = 0;
+            var edit_mode = false;
+            if (localStorage.getItem("num-presets") !== null) {
+                // Check to see if an existing preset has the same name. Delete if so
+                var num_presets = parseInt(localStorage.getItem("num-presets"), 10);
+                for (var preset_idx = 1; preset_idx <= num_presets; preset_idx++) {
+                    if (localStorage.getItem("ucs-preset-" + preset_idx) !== null) {                        
+                        var presetSettings = JSON.parse(localStorage.getItem("ucs-preset-" + preset_idx));
+                        // Found a match
+                        if (presetSettings.preset === mySettings.preset) {                                                    
+                            localStorage.removeItem("ucs-preset-" + preset_idx);
+                            console.log("Edited preset: " + presetSettings.preset);
+                            edit_mode = true;
+                            preset_index = preset_idx;
+                        }                    
+                    }
+                }                
+                // Didn't find existing preset with same name
+                if (!edit_mode) {
+                    preset_index = parseInt(localStorage.getItem("num-presets"), 10) + 1;
+                    localStorage.setItem("num-presets", preset_index.toString());
+                    console.log("Added preset: " + mySettings.preset);
                 }
-            });
+            } else {
+                // No presets stored yet
+                localStorage.setItem("num-presets", "1");
+                preset_index = 1;
+                console.log("Started new preset collection: " + mySettings.preset);
+            }
+
+            // Store current preset
+            var settingsString = JSON.stringify(mySettings);
+            localStorage.setItem("ucs-preset-" + preset_index,settingsString);
+            
+            // Update dropdowns
+            if (!edit_mode) {
+                // Add dropdown element for preset to top of list
+                $("#navbarPresetsDropdownOptions").prepend('<a class="dropdown-item" href="#" id="userPreset' + preset_index + '" onClick="loadUserPreset(' + preset_index + ')" style="display: flex; align-items: center;">' + mySettings.preset + '</a>');
+            
+                // Add dropdown element to DELETE preset
+                $("#deletePresetSelect").prepend($('<option>', {
+                    value: preset_index, 
+                    text: mySettings.preset
+                }));
+            }
+
+            // Clear out preset name entry spot
+            $("#presetName").val("").trigger('change');
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1520,44 +1986,63 @@
             // Close presets dropdown menu, if open
             if ($('#navbarPresetsDropdownOptions').hasClass("show")) $("#navbarPresetsDropdown").dropdown("toggle");
             
-            // console.log(index + ": " + userPresets[index][0]);
-            // Loop through preset fields
-            userPresets[index].forEach((field, fieldIdx) => {
-                // If preset field isn't blank...
-                if (field) {
-                    switch (fieldIdx) {
-                        case 0: // Preset Name
-                            break;
-                        case 1: // User Category
-                            $("#userInputUserCat").val(field).trigger('change');
-                            break;
-                        case 2: // Creator ID
-                            $("#userInputInitials").val(field).trigger('change');
-                            break;
-                        case 3: // Source ID
-                            $("#userInputShow").val(field).trigger('change');
-                            break;
-                        case 4: // User Data/Notes
-                            $("#userInputData").val(field).trigger('change');
-                            break;
-                        case 5: // Items to rename
-                            $("#userInputItems").val(field).trigger('change');
-                            break;
-                        case 6: // Search Area
-                            $("#userInputArea").val(field).trigger('change');
-                            break;
-                        case 7: // Variation Numbering
-                            if (field == "False") {
-                                $("#userInputVarNumCheckbox").prop("checked",false);
-                            } else {
-                                $("#userInputVarNumCheckbox").prop("checked",true);
-                            }
-                            break;
-                        default:
-                            console.log("Invalid user preset array element. Index: " + fieldIdx + " Field: " + field);
+            // Fetch preset
+            var presetSettings = JSON.parse(localStorage.getItem("ucs-preset-" + index));
+            
+            // Set values
+            console.log("Loading preset number: " + index);
+            if (presetSettings.category !== "") $("#userInputCategory").val(presetSettings.category).trigger('change');
+            if (presetSettings.subcategory !== "Please select a category!") $("#userSelectSubCategory").val(presetSettings.subcategory).trigger('change');
+            if (presetSettings.filename !== "") $("#userInputName").val(presetSettings.filename).trigger('change');            
+            if (presetSettings.userCat !== "") $("#userInputUserCat").val(presetSettings.userCat).trigger('change');
+            if (presetSettings.userId !== "") $("#userInputInitials").val(presetSettings.userId).trigger('change');
+            if (presetSettings.showId !== "") $("#userInputShow").val(presetSettings.showId).trigger('change');
+            if (presetSettings.userData !== "") $("#userInputData").val(presetSettings.userData).trigger('change');
+            if (presetSettings.vendorCat !== "") $("#userInputVendCat").val(presetSettings.vendorCat).trigger('change');
+            if (presetSettings.metaTitle !== "") $("#userInputMetaTitle").val(presetSettings.metaTitle).trigger('change');
+            if (presetSettings.metaDesc !== "") $("#userInputMetaDesc").val(presetSettings.metaDesc).trigger('change');
+            if (presetSettings.metaKeys !== "") $("#userInputMetaKeys").val(presetSettings.metaKeys).trigger('change');
+            if (presetSettings.metaMic !== "") $("#userInputMetaMic").val(presetSettings.metaMic).trigger('change');
+            if (presetSettings.metaRecMed !== "") $("#userInputMetaRecMed").val(presetSettings.metaRecMed).trigger('change');
+            if (presetSettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(presetSettings.metaDsgnr).trigger('change');
+            if (presetSettings.metaLib !== "") $("#userInputMetaLib").val(presetSettings.metaLib).trigger('change');
+            if (presetSettings.metaURL !== "") $("#userInputMetaURL").val(presetSettings.metaURL).trigger('change');
+            if (presetSettings.metaCoun !== "") $("#countryId").val(presetSettings.metaCoun).trigger('change');
+            if (presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 500);
+            if (presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1000);            
+            if (presetSettings.metaPersp !== "-") $("#userInputMetaPersp").val(presetSettings.metaPersp).trigger('change');
+            if (presetSettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(presetSettings.metaIntExt).trigger('change');
+            if (presetSettings.userItems !== "") $("#userInputItems").val(presetSettings.userItems).trigger('change');
+            if (presetSettings.userArea !== "") $("#userInputArea").val(presetSettings.userArea).trigger('change');
+            $("#userInputVarNumCheckbox").prop("checked",presetSettings.enumerate);
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // DELETE USER PRESETS
+        // ~~~~~~~~~~~~~~~~~~~~
+        function deleteThisPreset() {
+            // Get index of selected option
+            var preset_index_to_delete = parseInt($("#deletePresetSelect").val(), 10);
+            
+            // Fetch presets
+            if (localStorage.getItem("num-presets") !== null) {
+                // Found existing number of presets
+                var num_presets = parseInt(localStorage.getItem("num-presets"), 10);
+                for (var preset_index = 1; preset_index <= num_presets; preset_index++) {
+                    // Delete the selected preset 
+                    if (localStorage.getItem("ucs-preset-" + preset_index) !== null && preset_index == preset_index_to_delete) {                        
+                        var presetSettings = JSON.parse(localStorage.getItem("ucs-preset-" + preset_index));
+                        localStorage.removeItem("ucs-preset-" + preset_index_to_delete);
+                        console.log("Deleted preset: " + presetSettings.preset);
+                        
+                        // Update dropdown elements for preset to top of list
+                        $("#userPreset" + preset_index).remove();
+                        
+                        // Update dropdown elements for DELETE presets
+                        $("#deletePresetSelect option[value=" + preset_index_to_delete + "]").remove();
                     }
                 }
-            });
+            }
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
