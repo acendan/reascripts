@@ -35,6 +35,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Mousewheel to change volume for all selected items
  - Items Editing\acendan_Mousewheel to move selected items up down tracks
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
+ - Items Editing\acendan_mpl_Search items
  - Items Editing\acendan_Prevent extending media items past source length
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
@@ -43,6 +44,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Set distance between items to X seconds track respective
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
+ - Items Editing\acendan_Shuffle Mode_Move all items left continuously background
  - Items Editing\acendan_Sort selected items order by item names alphabetically ignoring capitalization
  - Items Editing\acendan_Split selected item by channel to new tracks
  - Items Editing\acendan_Stretch selected items to fit between nearest markers
@@ -81,9 +83,12 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Rendering\acendan_Create multichannel render from selected tracks with mono items
  - Rendering\acendan_Load render directory from slot
  - Rendering\acendan_Save render directory to slot
+ - Rendering\acendan_Set up SoundMiner iXML metadata markers in project render metadata settings
  - Time Selection\acendan_Continuously select all items in time selection background
  - Time Selection\acendan_Create time selection from edit cursor to mouse cursor
  - Time Selection\acendan_Extend right edge of time selection by x seconds
+ - Time Selection\acendan_Select from edit cursor to start of project (items and time selection)
+ - Time Selection\acendan_Select from mouse cursor to start of project (items and time selection)
  - Tracks Properties\acendan_Clear Saved URL By Track Name
  - Tracks Properties\acendan_Insert new track respect folders
  - Tracks Properties\acendan_Search all tracks for FX by name
