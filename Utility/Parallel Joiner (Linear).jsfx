@@ -1,0 +1,31 @@
+/**
+ * JSFX Name: acendan_Parallel Joiner (Linear)
+ * About: Joins/merges channels 1/2 and 3/4 onto channels 1/2, with LINEAR sliders
+ * Author: Aaron Cendan
+ * Version: 1.0
+ */
+
+desc:Parallel Joiner (Linear)
+//tags: parallel channel merge mix split
+//author: Aaron Cendan
+
+slider1:0.75<0,1,0.01>1/2 -> 1/2 Volume
+slider2:0.75<0,1,0.01>3/4 -> 1/2 Volume
+
+in_pin:In 1
+in_pin:In 2
+in_pin:In 3
+in_pin:In 4
+out_pin:Merge Out 1
+out_pin:Merge Out 2
+
+
+@slider
+
+adj1 = slider1;
+adj2 = slider2;
+
+
+@sample
+spl(0) = (spl(0)*adj1) + (spl(2)*adj2);
+spl(1) = (spl(1)*adj1) + (spl(3)*adj2);
