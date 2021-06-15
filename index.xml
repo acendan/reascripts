@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="7c1a1cd5253f8c948336e73c3dc596cb4cfec060" name="ACendan Scripts">
+<index version="1" commit="92708d5b85f365b1b6fe56ab80a905219d59b12a" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -644,6 +644,38 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-07-17T23:29:41Z">
         <source main="main" file="acendan_Insert markers every x seconds after edit cursor.lua">https://github.com/acendan/reascripts/raw/5656294db3bacd564f19a3b2cb7f4cdb889a568f/Markers/acendan_Insert%20markers%20every%20x%20seconds%20after%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Remove CHAP prefix from project markers for FLAC cues.lua" type="script" desc="Rename Cue Markers">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-06-15T15:38:59Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/92708d5b85f365b1b6fe56ab80a905219d59b12a/Markers/acendan_Remove%20CHAP%20prefix%20from%20project%20markers%20for%20FLAC%20cues.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Remove pound hashtag prefix from project markers for WAV cues.lua" type="script" desc="Rename Cue Markers">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-06-15T15:38:59Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/92708d5b85f365b1b6fe56ab80a905219d59b12a/Markers/acendan_Remove%20pound%20hashtag%20prefix%20from%20project%20markers%20for%20WAV%20cues.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Rename project markers with CHAP prefix for FLAC cues.lua" type="script" desc="Rename Cue Markers">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-06-15T15:38:59Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/92708d5b85f365b1b6fe56ab80a905219d59b12a/Markers/acendan_Rename%20project%20markers%20with%20CHAP%20prefix%20for%20FLAC%20cues.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Rename project markers with pound hashtag prefix for WAV cues.lua" type="script" desc="Rename Cue Markers">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-06-15T15:38:59Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/92708d5b85f365b1b6fe56ab80a905219d59b12a/Markers/acendan_Rename%20project%20markers%20with%20pound%20hashtag%20prefix%20for%20WAV%20cues.lua</source>
       </version>
     </reapack>
   </category>
