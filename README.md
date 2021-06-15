@@ -59,6 +59,10 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Insert marker at start of selected items with sel item number
  - Markers\acendan_Insert markers at start or end of selected items prompt for name
  - Markers\acendan_Insert markers every x seconds after edit cursor
+ - Markers\acendan_Remove CHAP prefix from project markers for FLAC cues
+ - Markers\acendan_Remove pound hashtag prefix from project markers for WAV cues
+ - Markers\acendan_Rename project markers with CHAP prefix for FLAC cues
+ - Markers\acendan_Rename project markers with pound hashtag prefix for WAV cues
  - Media Explorer\acendan_Add custom user columns for SoundMiner iXML Metadata
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
