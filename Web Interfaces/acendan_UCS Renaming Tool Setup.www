@@ -1,9 +1,9 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 5.0.1
+@version 5.0.2
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Fixed auto capitalization settings to include User Category and Vendor Category (Thanks Andy!)
+  Fixed Location not getting set in default preset by adding small delay for API check

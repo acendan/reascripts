@@ -2008,9 +2008,9 @@
             if (presetSettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(presetSettings.metaDsgnr).trigger('change');
             if (presetSettings.metaLib !== "") $("#userInputMetaLib").val(presetSettings.metaLib).trigger('change');
             if (presetSettings.metaURL !== "") $("#userInputMetaURL").val(presetSettings.metaURL).trigger('change');
-            if (presetSettings.metaCoun !== "") $("#countryId").val(presetSettings.metaCoun).trigger('change');
-            if (presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 500);
-            if (presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1000);            
+            if (presetSettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(presetSettings.metaCoun).trigger('change'); }, 500);
+            if (presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 1000);
+            if (presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1500);            
             if (presetSettings.metaPersp !== "-") $("#userInputMetaPersp").val(presetSettings.metaPersp).trigger('change');
             if (presetSettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(presetSettings.metaIntExt).trigger('change');
             if (presetSettings.userItems !== "") $("#userInputItems").val(presetSettings.userItems).trigger('change');
