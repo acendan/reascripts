@@ -51,6 +51,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Trim left edge of selected items by amount...
  - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
+ - Markers\acendan_Add marker to end of selected items prompt for name
  - Markers\acendan_Export markers and regions for Izotope RX relative to items with shared take source
  - Markers\acendan_Export markers and regions for Izotope RX relative to selected item
  - Markers\acendan_Find and Replace in Marker Region Names
@@ -66,6 +67,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Media Explorer\acendan_Add custom user columns for SoundMiner iXML Metadata
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
+ - Media Explorer\acendan_GUI_Display selected media explorer item embedded cover image
  - Media Explorer\acendan_Remove all custom user metadata columns
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in first selected track
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in track under mouse
@@ -91,6 +93,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Time Selection\acendan_Continuously select all items in time selection background
  - Time Selection\acendan_Create time selection from edit cursor to mouse cursor
  - Time Selection\acendan_Extend right edge of time selection by x seconds
+ - Time Selection\acendan_Extend time selection left to start of project and select items
  - Time Selection\acendan_Select from edit cursor to start of project (items and time selection)
  - Time Selection\acendan_Select from mouse cursor to start of project (items and time selection)
  - Tracks Properties\acendan_Clear Saved URL By Track Name
