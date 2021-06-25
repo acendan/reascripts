@@ -1,10 +1,12 @@
 -- @description SoundMiner iXML Metadata Columns
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main=mediaexplorer] .
 -- @link https://aaroncendan.me
+-- @changelog
+--   #Fixed capitalization issues for Mac
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -12,39 +14,39 @@
 
 -- Table of iXML Columns
 local iXML = {}
-iXML["IXML:USER:CATID"]          = "CatID"
-iXML["IXML:USER:CATEGORY"]       = "Category"
-iXML["IXML:USER:SUBCATEGORY"]    = "SubCategory"
-iXML["IXML:USER:DESCRIPTION"]    = "Description"
-iXML["IXML:USER:NOTES"]          = "Notes"
-iXML["IXML:USER:MICROPHONE"]     = "Microphone"
-iXML["IXML:USER:MICPERSPECTIVE"] = "MicPerspective"
-iXML["IXML:USER:LIBRARY"]        = "Library"
-iXML["IXML:USER:DESIGNER"]       = "Designer"
-iXML["IXML:USER:SHOOTDATE"]      = "ShootDate"
-iXML["IXML:USER:CATEGORYFULL"]   = "CategoryFull"
-iXML["IXML:USER:RECTYPE"]        = "RecType"
-iXML["IXML:USER:SHORTID"]        = "ShortID"
-iXML["IXML:USER:TRACKYEAR"]      = "TrackYear"
-iXML["IXML:USER:KEYWORDS"]       = "Keywords"
-iXML["IXML:USER:SHOW"]           = "Show"
-iXML["IXML:USER:SOURCE"]         = "Source"
-iXML["IXML:USER:LOCATION"]       = "Location"
-iXML["IXML:USER:FXNAME"]         = "FXName"
-iXML["IXML:USER:TRACKTITLE"]     = "TrackTitle"
-iXML["IXML:USER:ARTIST"]         = "Artist"
-iXML["IXML:USER:LONGID"]         = "LongID"
-iXML["IXML:USER:VOLUME"]         = "Volume"
-iXML["IXML:USER:TRACK"]          = "Track"
-iXML["IXML:USER:MANUFACTURER"]   = "Manufacturer"
-iXML["IXML:USER:RECMEDIUM"]      = "RecMedium"
-iXML["IXML:USER:CDTITLE"]        = "CDTitle"
-iXML["IXML:USER:RATING"]         = "Rating"
+iXML["IXML:USER:CatID"]          = "CatID"
+iXML["IXML:USER:Category"]       = "Category"
+iXML["IXML:USER:SubCategory"]    = "SubCategory"
+iXML["IXML:USER:Description"]    = "Description"
+iXML["IXML:USER:Notes"]          = "Notes"
+iXML["IXML:USER:Microphone"]     = "Microphone"
+iXML["IXML:USER:MicPerspective"] = "MicPerspective"
+iXML["IXML:USER:Library"]        = "Library"
+iXML["IXML:USER:Designer"]       = "Designer"
+iXML["IXML:USER:ShootDate"]      = "ShootDate"
+iXML["IXML:USER:CategoryFull"]   = "CategoryFull"
+iXML["IXML:USER:RecType"]        = "RecType"
+iXML["IXML:USER:ShortID"]        = "ShortID"
+iXML["IXML:USER:TrackYear"]      = "TrackYear"
+iXML["IXML:USER:Keywords"]       = "Keywords"
+iXML["IXML:USER:Show"]           = "Show"
+iXML["IXML:USER:Source"]         = "Source"
+iXML["IXML:USER:Location"]       = "Location"
+iXML["IXML:USER:FXName"]         = "FXName"
+iXML["IXML:USER:TrackTitle"]     = "TrackTitle"
+iXML["IXML:USER:Artist"]         = "Artist"
+iXML["IXML:USER:LongID"]         = "LongID"
+iXML["IXML:USER:Volume"]         = "Volume"
+iXML["IXML:USER:Track"]          = "Track"
+iXML["IXML:USER:Manufacturer"]   = "Manufacturer"
+iXML["IXML:USER:RecMedium"]      = "RecMedium"
+iXML["IXML:USER:CDTitle"]        = "CDTitle"
+iXML["IXML:USER:Rating"]         = "Rating"
 iXML["IXML:USER:URL"]            = "URL"
-iXML["IXML:USER:RELEASEDATE"]    = "ReleaseDate"
-iXML["IXML:USER:OPENTIER"]       = "OpenTier"
-iXML["IXML:USER:USERCATEGORY"]   = "UserCategory"
-iXML["IXML:USER:VENDORCATEGORY"] = "VendorCategory"
+iXML["IXML:USER:ReleaseDate"]    = "ReleaseDate"
+iXML["IXML:USER:OpenTier"]       = "OpenTier"
+iXML["IXML:USER:UserCategory"]   = "UserCategory"
+iXML["IXML:USER:VendorCategory"] = "VendorCategory"
 
 -- Other globals
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")

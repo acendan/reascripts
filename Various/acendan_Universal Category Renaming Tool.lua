@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.0.1
+-- @version 5.0.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   - Fixed auto capitalization settings to include User Category and Vendor Category (Thanks Andy!)
+--   - Fixed iXML field capitalization for Mac - Thanks Simon!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -79,38 +79,38 @@ local debug_mode = false
 local iXML = {}
 local iXMLMarkerTbl = {}
 -- Built into UCS tool
-iXML["IXML:USER:CATID"]          = "CatID"           -- CATId                  
-iXML["IXML:USER:CATEGORY"]       = "Category"        -- CATEGORY                     
-iXML["IXML:USER:SUBCATEGORY"]    = "SubCategory"     -- SUBCATEGORY                    
-iXML["IXML:USER:CATEGORYFULL"]   = "CategoryFull"    -- CATEGORY-SUBCATEGORY             
-iXML["IXML:USER:FXNAME"]         = "FXName"          -- File name field               
-iXML["IXML:USER:NOTES"]          = "Notes"           -- User Data/Notes (Optional)     
-iXML["IXML:USER:SHOW"]           = "Show"            -- Source ID                        
-iXML["IXML:USER:USERCATEGORY"]   = "UserCategory"    -- User Category                   
-iXML["IXML:USER:VENDORCATEGORY"] = "VendorCategory"  -- Vendor Category
+iXML["IXML:USER:CatID"]          = "CatID"           -- CATId                  
+iXML["IXML:USER:Category"]       = "Category"        -- CATEGORY                     
+iXML["IXML:USER:SubCategory"]    = "SubCategory"     -- SUBCATEGORY                    
+iXML["IXML:USER:CategoryFull"]   = "CategoryFull"    -- CATEGORY-SUBCATEGORY             
+iXML["IXML:USER:FXName"]         = "FXName"          -- File name field               
+iXML["IXML:USER:Notes"]          = "Notes"           -- User Data/Notes (Optional)     
+iXML["IXML:USER:Show"]           = "Show"            -- Source ID                        
+iXML["IXML:USER:UserCategory"]   = "UserCategory"    -- User Category                   
+iXML["IXML:USER:VendorCategory"] = "VendorCategory"  -- Vendor Category
 
 -- Extended Metadata Fields
-iXML["IXML:USER:TRACKTITLE"]     = "TrackTitle"      -- SHORT ALL CAPS TITLE to catch attention.    userInputMetaTitle
-iXML["IXML:USER:DESCRIPTION"]    = "Description"     -- Detailed description.                       userInputMetaDesc
-iXML["IXML:USER:KEYWORDS"]       = "Keywords"        -- Comma separated keywords.                   userInputMetaKeys
-iXML["IXML:USER:MICROPHONE"]     = "Microphone"      -- Microphone                                  userInputMetaMic
-iXML["IXML:USER:MICPERSPECTIVE"] = "MicPerspective"  -- MED | INT                                   userInputMetaPersp | userInputMetaIntExt
-iXML["IXML:USER:RECMEDIUM"]      = "RecMedium"       -- Recorder                                    userInputMetaRecMed
-iXML["IXML:USER:DESIGNER"]       = "Designer"        -- The designer/recordist.                     userInputMetaDsgnr
-iXML["IXML:USER:SHORTID"]        = "ShortID"         -- ^ Shorten to 3 letters first, 3 last        ^^^
-iXML["IXML:USER:LOCATION"]       = "Location"        -- Location where it was recorded              userInputMetaLoc
+iXML["IXML:USER:TrackTitle"]     = "TrackTitle"      -- SHORT ALL CAPS TITLE to catch attention.    userInputMetaTitle
+iXML["IXML:USER:Description"]    = "Description"     -- Detailed description.                       userInputMetaDesc
+iXML["IXML:USER:Keywords"]       = "Keywords"        -- Comma separated keywords.                   userInputMetaKeys
+iXML["IXML:USER:Microphone"]     = "Microphone"      -- Microphone                                  userInputMetaMic
+iXML["IXML:USER:MicPerspective"] = "MicPerspective"  -- MED | INT                                   userInputMetaPersp | userInputMetaIntExt
+iXML["IXML:USER:RecMedium"]      = "RecMedium"       -- Recorder                                    userInputMetaRecMed
+iXML["IXML:USER:Designer"]       = "Designer"        -- The designer/recordist.                     userInputMetaDsgnr
+iXML["IXML:USER:ShortID"]        = "ShortID"         -- ^ Shorten to 3 letters first, 3 last        ^^^
+iXML["IXML:USER:Location"]       = "Location"        -- Location where it was recorded              userInputMetaLoc
 iXML["IXML:USER:URL"]            = "URL"             -- Recordist's URL                             userInputMetaURL
-iXML["IXML:USER:LIBRARY"]        = "Library"         -- Library                                     userInputMetaLib
+iXML["IXML:USER:Library"]        = "Library"         -- Library                                     userInputMetaLib
 
 -- Reference other wildcards
-iXML["IXML:USER:RECTYPE"]        = "RecType"         -- $bitdepth/$sampleratekk
-iXML["IXML:USER:RELEASEDATE"]    = "ReleaseDate"     -- $date
-iXML["IXML:USER:EMBEDDER"]       = "Embedder"        -- REAPER UCS Renaming Tool
+iXML["IXML:USER:RecType"]        = "RecType"         -- $bitdepth/$sampleratekk
+iXML["IXML:USER:ReleaseDate"]    = "ReleaseDate"     -- $date
+iXML["IXML:USER:Embedder"]       = "Embedder"        -- REAPER UCS Renaming Tool
 
 -- DUPLICATES: Any metadata that copies a field from above, iXML or otherwise
-iXML["IXML:USER:LONGID"]         = "CatID"
-iXML["IXML:USER:SOURCE"]         = "Show"
-iXML["IXML:USER:ARTIST"]         = "Designer"
+iXML["IXML:USER:LongID"]         = "CatID"
+iXML["IXML:USER:Source"]         = "Show"
+iXML["IXML:USER:Artist"]         = "Designer"
 iXML["IXML:BEXT:BWF_DESCRIPTION"]= "Description"
 -- BWF
 iXML["BWF:Description"]          = "Description"
