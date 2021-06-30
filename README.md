@@ -82,12 +82,14 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Regions\acendan_Extend all regions left edge by length
  - Regions\acendan_Extend regions in time selection by length
  - Regions\acendan_Extend regions in time selection left edge by length
+ - Regions\acendan_Set nearest regions edges to selected media items
  - Regions\acendan_Shrink overlapping regions edges to time selection
  - Regions\acendan_Shrink overlapping regions to edges of selected media items
  - Regions\acendan_Stretch overlapping regions edges to time selection
  - Regions\acendan_Stretch overlapping regions to edges of selected media items
  - Rendering\acendan_Create multichannel render from selected tracks with mono items
  - Rendering\acendan_Load render directory from slot
+ - Rendering\acendan_Overwrite Render_Rename selected items by active take source path
  - Rendering\acendan_Save render directory to slot
  - Rendering\acendan_Set up SoundMiner iXML metadata markers in project render metadata settings
  - Time Selection\acendan_Continuously select all items in time selection background

@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 4.6
+-- @version 4.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Lua Utilities.lua
@@ -1276,6 +1276,22 @@ end
 -- Get 3 character all caps extension from a file path input // returns String
 function acendan.fileExtension(filename)
   return filename:sub(-3):upper()
+end
+
+-- More legit ways to get file info
+function acendan.getFileName(filename)
+  return filename:match("^.+/(.+)$")
+end
+
+function acendan.getFileExtension(filename)
+  return filename:match("^.+(%..+)$")
+end
+
+-- On Windows, this will return: "C:\"
+function acendan.getRootDirectory(filename)
+  local win = string.find(reaper.GetOS(), "Win") ~= nil
+  local sep = win and '\\' or '/'
+  return filename:sub(1,filename:find(sep))
 end
 
 -- Convert file input to table, each line = new entry // returns Table
