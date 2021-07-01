@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="91206f25b592bfff4d80cc8f51b2aeeb8fbd5685" name="ACendan Scripts">
+<index version="1" commit="ded11c555596685d411656fa25fb9ef5de3e1250" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1664,6 +1664,10 @@ Added option for copying to clipboard without processing]]></changelog>
       <version name="5.0.2" author="Aaron Cendan" time="2021-06-25T16:05:31Z">
         <changelog><![CDATA[- Fixed iXML field capitalization for Mac - Thanks Simon!]]></changelog>
         <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/fc3dda71ba5b232f30f6888580269c13018f38dc/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="5.0.3" author="Aaron Cendan" time="2021-07-01T20:07:37Z">
+        <changelog><![CDATA[- Added Julibrary mode for copying Julibrary metadata]]></changelog>
+        <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/ded11c555596685d411656fa25fb9ef5de3e1250/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
