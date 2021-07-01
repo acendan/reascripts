@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.0.2
+-- @version 5.0.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   - Fixed iXML field capitalization for Mac - Thanks Simon!
+--   - Added Julibrary mode for copying Julibrary metadata
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -71,6 +71,11 @@ local line_to_copy = ""
 
 -- Toggle for debugging UCS input with message box & opening UCS tool on script file save
 local debug_mode = false
+
+-- Toggle for copying metadata to clipboard for Julibrary metadata sheet
+local julibrary_mode = false
+local julibrary_metadata = ""
+local tab = "\t"
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -223,6 +228,9 @@ function parseUCSWebInterfaceInput()
     
     -- Copy to clipboard AFTER processing
     if copy_to_clipboard and line_to_copy then reaper.CF_SetClipboard( line_to_copy ) end
+    
+    -- Julibrary mode, copy metadata to clipboard
+    if julibrary_mode then reaper.CF_SetClipboard( julibrary_metadata ) end
     
   -- Copy to clipboard WITHOUT processing
   else
@@ -858,6 +866,22 @@ function iXMLMarkers(position,relname)
          meta_short = meta_short .. i:sub(1,3)
       end
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
+    end
+  
+    -- Prep clipboard contents for Julibrary mode
+    if julibrary_mode then
+      local rec_type = "24/" .. tostring(reaper.GetSetProjectInfo( 0, "RENDER_SRATE", 0, false)/1000):gsub("%..+","k")
+      julibrary_metadata = julibrary_metadata .. 
+        ucs_full_name .. tab .. 
+        meta_desc .. tab .. 
+        relname .. tab .. 
+        meta_title .. tab ..
+        meta_persp .. tab ..
+        meta_mic .. tab .. 
+        rec_type .. tab .. 
+        ucs_id .. tab ..
+        meta_loc .. tab .. 
+        ucs_data .. "\n"
     end
   end
 end
