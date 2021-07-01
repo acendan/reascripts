@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.0.3
+-- @version 5.0.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   - Added Julibrary mode for copying Julibrary metadata
+--   - Added Julibrary mode for copying Julibrary metadata. Included ".wav" on extension for filename
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -872,7 +872,7 @@ function iXMLMarkers(position,relname)
     if julibrary_mode then
       local rec_type = "24/" .. tostring(reaper.GetSetProjectInfo( 0, "RENDER_SRATE", 0, false)/1000):gsub("%..+","k")
       julibrary_metadata = julibrary_metadata .. 
-        ucs_full_name .. tab .. 
+        ucs_full_name .. ".wav" .. tab .. 
         meta_desc .. tab .. 
         relname .. tab .. 
         meta_title .. tab ..
