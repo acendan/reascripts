@@ -1192,7 +1192,7 @@
             if (metadataChecked) {
                 // Extended metadata fields
                 var metaTitle  = stringCleaning($("#userInputMetaTitle").val());
-                var metaDesc   = stringCleaning($("#userInputMetaDesc").val());
+                var metaDesc   = $("#userInputMetaDesc").val();
                 var metaKeys   = stringCleaning($("#userInputMetaKeys").val());
                 var metaMic    = stringCleaning($("#userInputMetaMic").val());
                 var metaRecMed = stringCleaning($("#userInputMetaRecMed").val());
@@ -1205,12 +1205,12 @@
                 var metaState  = $("#stateId").val();
                 var metaCity   = $("#cityId").val();
                 var metaLoc    = "";
-                if (metaCity != "Please wait.." && metaCity != "Select City") metaLoc = metaCity;
-                if (metaState != "Please wait.." && metaState != "Select State") {
+                if (metaCoun != "Please wait.." && metaCoun != "Select Country" && metaCoun != "") metaLoc = metaCoun;                
+                if (metaState != "Please wait.." && metaState != "Select State" && metaState != "") {
                     (metaLoc != "") ? metaLoc = metaLoc + ", " + metaState : metaLoc = metaState;
                 }
-                if (metaCoun != "Please wait.." && metaCoun != "Select Country") {
-                    (metaLoc != "") ? metaLoc = metaLoc + ", " + metaCoun : metaLoc = metaCoun;
+                if (metaCity != "Please wait.." && metaCity != "Select City" && metaCity != "") {
+                    (metaLoc != "") ? metaLoc = metaLoc + ", " + metaCity : metaLoc = metaCity;
                 }
 
                 // Extended metadata - mic perspective
