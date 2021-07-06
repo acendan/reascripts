@@ -32,6 +32,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Items Editing\acendan_Lock item horizontal movement while shortcut held (background)
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
  - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
+ - Items Editing\acendan_Mousewheel adjust volume of item under cursor
  - Items Editing\acendan_Mousewheel to change volume for all selected items
  - Items Editing\acendan_Mousewheel to move selected items up down tracks
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
@@ -69,6 +70,8 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Media Explorer\acendan_Filter media explorer for selected media items source files
  - Media Explorer\acendan_GUI_Display selected media explorer item embedded cover image
  - Media Explorer\acendan_Remove all custom user metadata columns
+ - Metadata\acendan_Export project render metadata settings to file
+ - Metadata\acendan_Import project render metadata settings from file
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in first selected track
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in track under mouse
  - Regions\acendan_Add prefix or suffix to regions in time selection
