@@ -1,6 +1,6 @@
 -- @description Mousewheel Items Volume
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Mousewheel adjust volume of item under cursor.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Thanks NVK for the mousewheel script formatting <3
 -- @changelog
---   # Added toggle to adjust volume of selected items when mouse is not hovering over something. Thanks @Tzvi for the suggestion.
+--   # Converted to db increment
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,14 +17,18 @@
 
 speed = 1        -- 0 is slowest speed. Set to higher integers to shift faster
 
-vshift = 0.01    -- The amount to volume shift by. One 'bump' on my mousewheel is equal to vshift / 2, but this offset will likely
+vshift = 0.2     -- The amount to volume shift by, in dB. One 'bump' on my mousewheel is equal to vshift * 2, but this offset will likely
                  -- vary depending on the mousewheel settings in your OS. Tweak this value however you'd like.
 
 selected_items = true -- If set to true, this will adjust volume of selected items when mouse is NOT hovering over a specific item.
 
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Load lua utilities
+acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.8 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 local function no_undo()reaper.defer(function()end)end
 
@@ -38,7 +42,9 @@ function Main()
 
         -- MPL made his fancy pants scripts paid... smh
         local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
-        local it_vol_out = it_vol - vshift
+        local it_vol_db = acendan.VAL2DB(it_vol)
+        local it_vol_out = math.max(acendan.DB2VAL(it_vol_db - vshift),0)
+        
         reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
         reaper.UpdateItemInProject( item )
 
@@ -48,7 +54,9 @@ function Main()
           for i=0, num_sel_items - 1 do
             local item = reaper.GetSelectedMediaItem( 0, i )
             local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
-            local it_vol_out = it_vol - vshift
+            local it_vol_db = acendan.VAL2DB(it_vol)
+            local it_vol_out = math.max(acendan.DB2VAL(it_vol_db - vshift),0)
+                    
             reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
             reaper.UpdateItemInProject( item )
           end
@@ -61,7 +69,8 @@ function Main()
       local item, position = reaper.BR_ItemAtMouseCursor()
       if item then
         local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
-        local it_vol_out = it_vol + vshift
+        local it_vol_db = acendan.VAL2DB(it_vol)
+        local it_vol_out = math.max(acendan.DB2VAL(it_vol_db + vshift),0)
         reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
         reaper.UpdateItemInProject( item )
       
@@ -71,7 +80,8 @@ function Main()
           for i=0, num_sel_items - 1 do
             local item = reaper.GetSelectedMediaItem( 0, i )
             local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
-            local it_vol_out = it_vol + vshift
+            local it_vol_db = acendan.VAL2DB(it_vol)
+            local it_vol_out = math.max(acendan.DB2VAL(it_vol_db + vshift),0)
             reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
             reaper.UpdateItemInProject( item )
           end
