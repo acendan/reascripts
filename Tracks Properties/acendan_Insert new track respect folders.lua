@@ -1,6 +1,6 @@
 -- @description Insert New Track Respect Folders
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert new track respect folders.lua
@@ -11,7 +11,8 @@
 --
 --   ### Reaper's defaults aren't particularly intuitive.
 --   * Bind this to ctrl + T and now when you insert a track with the last track in a folder selected, it will be added to the end of the folder.
-
+-- @changelog
+--   # Select track when new track is last in project and none previously selected (thanks @Tzvi)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -98,7 +99,9 @@ function main()
 
   else
     -- Insert track at end of project if none selected
-    reaper.InsertTrackAtIndex( reaper.CountTracks( 0 ), true )
+    local track_count = reaper.CountTracks( 0 )
+    reaper.InsertTrackAtIndex( track_count, true )
+    reaper.SetOnlyTrackSelected( reaper.GetTrack(0,track_count) )
   end
   
 end
