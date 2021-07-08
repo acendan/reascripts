@@ -1,9 +1,9 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 5.0.3
+@version 5.0.4
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
 @about Universal Category System Renaming Tool
 @changelog
-  Fixed Location ordering and Description special characters. Thanks Pierre-Marie!
+  Updated coffee link! :) https://ko-fi.com/acendan_
