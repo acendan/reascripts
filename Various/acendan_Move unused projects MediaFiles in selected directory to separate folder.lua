@@ -1,13 +1,12 @@
 -- @description RPP Cleanup
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Clean up projects unused MediaFiles and move to separate folder.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   Added user config section for media files folder and destination folder name
---   Resolved folder capitalization bug, thanks to Simon for reporting it!
+--   Added user toggle to skip folder picker dialog and use the active Reaper project instead
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -20,6 +19,9 @@ media_files_folder = "MediaFiles"
 
 -- The location you would like to move unused media files to
 unused_media_folder = "UnusedMediaFiles"
+
+-- Toggle true/false to use the active Reaper project's directory and skip folder picker dialog
+use_this_rpp = false
 
 
 
@@ -40,9 +42,21 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then separator = "\\" 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
-  msg("This script is similar to: File > Clean project directory...\n\nRather than delete, it moves unused files from ALL .RPPs in the original folder to a new directory:\n\nOriginal Folder\\" .. unused_media_folder)
+  -- Warn if first time running
+  local ret_once = reaper.GetExtState("acendan","cleanup")
+  if ret_once ~= "true" then
+    msg("This script is similar to: File > Clean project directory...\n\nRather than delete, it moves unused files from ALL .RPPs in the original folder to a new directory:\n\nOriginal Folder\\" .. unused_media_folder)
+    reaper.SetExtState("acendan","cleanup","true",true)
+  end
+
+  -- Get folder
+  if use_this_rpp then
+    folder = reaper.GetProjectPath("")
+    if folder:find(separator .. "MediaFiles") then folder = folder:gsub(separator .. "MediaFiles","") end
+  else
+    folder = promptForFolder()
+  end
   
-  folder = promptForFolder()
   if folder then
     -- Scan selected folder for 'MediaFiles'
     local dir_idx = 0
@@ -133,9 +147,11 @@ function fetchRPPSourceMedia(filename)
   for line in io.lines() do
     -- Source media lines follow a consistent format, always the line after "<SOURCE"
     if source_media_line then
-      line = line:sub(line:find(separator) + 1, string.len(line) - 1)
-      table.insert(RPP_source_media, line)
-      source_media_line = false
+      if line:find(separator) then
+        line = line:sub(line:find(separator) + 1, string.len(line) - 1)
+        table.insert(RPP_source_media, line)
+        source_media_line = false
+      end
     end
     if line:find("<SOURCE") then
       source_media_line = true
