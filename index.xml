@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="66d01037efb78aadd7eb576654851b114347df3a" name="ACendan Scripts">
+<index version="1" commit="f67706b7f99bb49ed63b939261b18ed3fd16ee39" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -8,16 +8,9 @@
 \widowctrl\hyphauto
 
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Lua Utilities\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Upper Section - Templates\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Provides a basic template for typical lua reascripts and background scripts\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Lower Section - Utilities\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Packageable as a library to reference in future scripts\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty much just a big pile of helper functions.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Ctrl + F is your friend here.\sa180\par}
 }
 ]]></description>
-        <link rel="website">https://aaroncendan.me</link>
+        <link rel="website">https://ko-fi.com/acendan_</link>
       </metadata>
       <version name="2.0" author="Aaron Cendan" time="2020-11-01T19:59:05Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/73b7bd489eea40185cc5c879aff936ec532960cc/Development/acendan_Lua%20Utilities.lua</source>
@@ -105,6 +98,10 @@
       </version>
       <version name="4.8" author="Aaron Cendan" time="2021-07-07T05:54:04Z">
         <source main="main" file="acendan_Lua Utilities.lua">https://github.com/acendan/reascripts/raw/20733c0d84e5871a56c3f12e62af1f65a6c1b1fc/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="4.9" author="Aaron Cendan" time="2021-07-08T18:56:55Z">
+        <changelog><![CDATA[# Added Ko-fi link]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/f67706b7f99bb49ed63b939261b18ed3fd16ee39/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
