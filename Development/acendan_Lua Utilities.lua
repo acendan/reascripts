@@ -1,21 +1,14 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 4.8
+-- @version 4.9
 -- @metapackage
 -- @provides
---   [main] . > acendan_Lua Utilities.lua
--- @link https://aaroncendan.me
+--   [main] .
+-- @link https://ko-fi.com/acendan_
 -- @about
 --   # Lua Utilities
---   By Aaron Cendan
---
---   ### Upper Section - Templates
---   * Provides a basic template for typical lua reascripts and background scripts
---
---   ### Lower Section - Utilities
---   * Packageable as a library to reference in future scripts
---   * Pretty much just a big pile of helper functions.
---   * Ctrl + F is your friend here.
+-- @changelog
+--   # Added Ko-fi link
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
