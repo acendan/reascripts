@@ -1,14 +1,22 @@
 -- @description Import Export Metadata
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Import project render metadata settings from file.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   Added support for custom delimiters. Thanks Simon!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Set delimiter. "\t" is tab, "," is comma, etc.
+-- NOTE: If changed, this must match your delimiter setting in acendan_Export project render metadata...
+delimiter = "\t"
+
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -32,7 +40,7 @@ function main()
   local metadata =  acendan.fileToTable(file)
   for _, meta in pairs(metadata) do 
     if meta ~= "" then
-      reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", meta, true )
+      reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", meta:gsub(delimiter,"|"), true )
     end
   end
 end
@@ -72,8 +80,16 @@ end
   
 -- Check for Reaper JS Extension
 if reaper.JS_Dialog_BrowseForSaveFile then
+  
+  -- Get project info
   local project_directory = getProjDir()
-  retval, file = reaper.JS_Dialog_BrowseForOpenFiles( "Import Render Metadata", project_directory, "Render Metadata.txt", "Text Files (.txt)\0\0", false )
+  local project_name = reaper.GetProjectName(0,""):gsub("%..+","")
+  local delimiter_extension = ".txt"
+  if delimiter == "\t" then delimiter_extension = "_Tab Delimited.tsv"
+  elseif delimiter:find(",") then delimiter_extension = "_Comma Delimited.csv" end
+    
+  -- File picker dialog
+  retval, file = reaper.JS_Dialog_BrowseForOpenFiles( "Import Render Metadata", project_directory,  project_name .. "_Render Metadata" .. delimiter_extension, "", false )
   if retval and file ~= '' then
     reaper.defer(main)
   end

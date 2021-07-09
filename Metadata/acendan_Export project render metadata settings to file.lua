@@ -1,10 +1,12 @@
 -- @description Import Export Metadata
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Export project render metadata settings to file.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   Added support for custom delimiters. Thanks Simon!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -12,6 +14,11 @@
 
 -- Copy path to render metadata file after export?
 copy_path = true
+
+-- Set delimiter. "\t" is tab, "," is comma, etc.
+-- NOTE: If changed, this must match your delimiter setting in acendan_Import project render metadata...
+delimiter = "\t"
+
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +50,7 @@ function main()
     for meta in string.gmatch(metadata, '([^;]+)') do
       local ret, meta_val = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", meta, false )
       if ret then 
-        export(f,meta .. "|" .. meta_val)
+        export(f,meta .. delimiter .. meta_val)
       end
     end
     
@@ -93,10 +100,18 @@ end
   
 -- Check for Reaper JS Extension
 if reaper.JS_Dialog_BrowseForSaveFile then
+  
+  -- Get project info
   local project_directory = getProjDir()
-  retval, file = reaper.JS_Dialog_BrowseForSaveFile( "Export Render Metadata", project_directory, "Render Metadata.txt", "Text Files (.txt)\0\0" )
+  local project_name = reaper.GetProjectName(0,""):gsub("%..+","")
+  local delimiter_extension = ".txt"
+  if delimiter == "\t" then delimiter_extension = "_Tab Delimited.tsv"
+  elseif delimiter:find(",") then delimiter_extension = "_Comma Delimited.csv" end
+  
+  -- File picker dialog
+  retval, file = reaper.JS_Dialog_BrowseForSaveFile( "Export Render Metadata", project_directory, project_name .. "_Render Metadata" .. delimiter_extension, "" )
   if retval and file ~= '' then
-    if not file:find('.txt') then file = file .. ".txt" end
+    if not file:find('.txt') and not file:find('.csv') and not file:find('.tsv') then file = file .. ".txt" end
     if copy_path then
       reaper.CF_SetClipboard( file )
     end
