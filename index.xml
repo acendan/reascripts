@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="f67706b7f99bb49ed63b939261b18ed3fd16ee39" name="ACendan Scripts">
+<index version="1" commit="81d6ac9f937df2e70beb9ef290fdbbadcd3b7acc" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -785,6 +785,10 @@
       <version name="1.0" author="Aaron Cendan" time="2021-07-06T01:43:12Z">
         <source main="main" file="acendan_Export project render metadata settings to file.lua">https://github.com/acendan/reascripts/raw/b6d685e8b476b1b023b2af3d92ddae5e177f557f/Metadata/acendan_Export%20project%20render%20metadata%20settings%20to%20file.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-07-09T02:35:32Z">
+        <changelog><![CDATA[Added support for custom delimiters. Thanks Simon!]]></changelog>
+        <source main="main" file="acendan_Export project render metadata settings to file.lua">https://github.com/acendan/reascripts/raw/81d6ac9f937df2e70beb9ef290fdbbadcd3b7acc/Metadata/acendan_Export%20project%20render%20metadata%20settings%20to%20file.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Import project render metadata settings from file.lua" type="script" desc="Import Export Metadata">
       <metadata>
@@ -792,6 +796,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-07-06T01:43:12Z">
         <source main="main" file="acendan_Import project render metadata settings from file.lua">https://github.com/acendan/reascripts/raw/b6d685e8b476b1b023b2af3d92ddae5e177f557f/Metadata/acendan_Import%20project%20render%20metadata%20settings%20from%20file.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-07-09T02:35:32Z">
+        <changelog><![CDATA[Added support for custom delimiters. Thanks Simon!]]></changelog>
+        <source main="main" file="acendan_Import project render metadata settings from file.lua">https://github.com/acendan/reascripts/raw/81d6ac9f937df2e70beb9ef290fdbbadcd3b7acc/Metadata/acendan_Import%20project%20render%20metadata%20settings%20from%20file.lua</source>
       </version>
     </reapack>
   </category>
