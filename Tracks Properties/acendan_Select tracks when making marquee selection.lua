@@ -1,6 +1,6 @@
 -- @description Select Tracks w Marquee Selection
 -- @author Aaron Cendan
--- @version 2.0
+-- @version 2.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Select tracks when making marquee selection.lua
@@ -14,13 +14,14 @@
 --   * Check out this YouTube video for a tutorial on how to change it! 
 --   https://youtu.be/0UlyAehHyN4
 -- @changelog
---   # Major update to script efficiency thanks to a suggestion from Anthony Turi
---   # This script will no longer actively highlight your selected tracks during marquee selection, only at the end. Tradeoff for efficiency.
---   # If you tweaked modifiers for this script, you may have to reset them again. YouTube tutorial link in About section of script header.
+--   # Okay, I'm a scrub and totally borked this script. Sorry! Reverted to state of script in version 1.5.
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Refresh rate (in seconds)
+local refresh_rate = 0.02
 
 -- Get action context info (needed for toolbar button toggling)
 local _, _, section, cmdID = reaper.get_action_context()
@@ -39,8 +40,6 @@ mouse_states.shift = 8
 mouse_states.alt = 16
 mouse_states.win_key = 32
 
--- Set how long to hold down assigned button before action registers (in seconds)
-local hold_time = 0.05
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~ USER CONFIG - EDIT ME! ~~~~~
@@ -58,6 +57,9 @@ local marquee_preference = mouse_states.right_click
 
 -- Setup runs once on script startup
 function setup()
+  -- Timing control
+  local start = reaper.time_precise()
+  check_time = start
   
   -- Toggle command state on
   reaper.SetToggleCommandState( section, cmdID, 1 )
@@ -65,67 +67,81 @@ function setup()
   
   -- Init
   first_loop = true
-  prep_action = false
-  
-  -- Init timer for hold to ignore casual/quick right clicking
-  hold_start = 0
-  hold_timer = 0
+  first_track = 0
+  prev_track = 0
 end
 
 -- Main function will run in Reaper's defer loop. EFFICIENCY IS KEY.
 function main()
-
-  -- Confirm project has tracks
-  if reaper.CountTracks( 0 ) > 0 then 
-    -- Get cursor info
-    context = reaper.GetCursorContext()
-    window, segment, details = reaper.BR_GetMouseCursorContext()
-    mouse = reaper.JS_Mouse_GetState( marquee_preference )
-    
-    -- If right clicking with mouse over the arrange over a valid track...
-    if mouse == marquee_preference and window == "arrange" and segment == "track" then
-    
-      -- Get start time
-      if first_loop then
-        hold_start = reaper.time_precise()
-        first_loop = false
+  -- System time in seconds (3600 per hour)
+  local now = reaper.time_precise()
+  
+  -- If the amount of time passed is greater than refresh rate, execute code
+  if now - check_time >= refresh_rate then
+    -- Confirm project has tracks
+    if reaper.CountTracks( 0 ) > 0 then 
+      -- Get cursor info
+      context = reaper.GetCursorContext()
+      window, segment, details = reaper.BR_GetMouseCursorContext()
+      --focus = reaper.JS_Window_GetTitle(  reaper.JS_Window_GetFocus())
+      track = -1
+      if reaper.BR_GetMouseCursorContext_Track() then
+        track =  reaper.GetMediaTrackInfo_Value( reaper.BR_GetMouseCursorContext_Track(), "IP_TRACKNUMBER" ) - 1
       end
+      mouse = reaper.JS_Mouse_GetState( marquee_preference )
       
-      -- Set timer
-      hold_timer = reaper.time_precise() - hold_start
       
-      -- Prep action to run on mouse release
-      prep_action = true
-    
-    elseif mouse == marquee_preference and prep_action then
-      -- Set timer
-      hold_timer = reaper.time_precise() - hold_start
-    
-    elseif mouse ~= marquee_preference then
-      -- No longer right clicking in arrange over track
-      if prep_action then 
-        if hold_timer > hold_time then
-          
-          -- Track: Unselect all tracks
-          reaper.Main_OnCommand(40297,0)
-          
-          -- SWS: Select only track(s) with selected item(s)
-          reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_SELTRKWITEM"),0)
-          
-          --[[ MANUAL METHOD
-          local num_sel_items = reaper.CountSelectedMediaItems(0)
-          if num_sel_items > 0 then
-            for i=0, num_sel_items - 1 do
-              reaper.SetTrackSelected(reaper.GetMediaItem_Track(reaper.GetSelectedMediaItem( 0, i )),true)
+      -- If right clicking with mouse over the arrange over a valid track...
+      if mouse == marquee_preference and window == "arrange" and segment == "track" and track >= 0 then
+      
+        --[[ reaper.ShowConsoleMsg("\n\ncontext: " .. context .. 
+                              "\nwindow: " .. window .. 
+                              "\nsegment: " .. segment .. 
+                              "\ndetails: " .. details ..
+                              "\ntrack: " .. track ..
+                              "\nmouse: " .. mouse) ]]--
+        
+        -- Set current track as only selected track on first loop                      
+        if first_loop then 
+          reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, track ) )
+          first_track = track
+          first_loop = false 
+        else 
+          -- Compare to first_track and prev_track
+          if track > first_track and track > prev_track then
+            for i = first_track, track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
             end
+          elseif track > first_track and track < prev_track then
+            reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, first_track ) )
+            for i = first_track, track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track < first_track and track < prev_track then
+            for i = track, first_track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track < first_track and track > prev_track then
+            reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, first_track ) )
+            for i = track, first_track do
+              reaper.SetTrackSelected( reaper.GetTrack( 0, i ), true )
+            end
+          elseif track == first_track then
+            reaper.SetOnlyTrackSelected(  reaper.GetTrack( 0, track ) )
           end
-          ]]--
         end
-      end
+    
+        -- Set current track as prev track
+        prev_track = track
       
-      first_loop = true
-      prep_action = false
+      elseif mouse ~= 2 then
+        -- No longer right clicking in arrange over track
+        first_loop = true
+      end
     end
+    
+    -- Reset last used time
+    check_time = now
   end
 
   reaper.defer(main)
