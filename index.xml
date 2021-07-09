@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="81d6ac9f937df2e70beb9ef290fdbbadcd3b7acc" name="ACendan Scripts">
+<index version="1" commit="8c1438dafd89223e8442625df34cd1663ae52f91" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1289,6 +1289,10 @@
 # This script will no longer actively highlight your selected tracks during marquee selection, only at the end. Tradeoff for efficiency.
 # If you tweaked modifiers for this script, you may have to reset them again. YouTube tutorial link in About section of script header.]]></changelog>
         <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/bb918605f737e0836a19374dc11eec92d52ec2e6/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
+      </version>
+      <version name="2.1" author="Aaron Cendan" time="2021-07-09T02:43:18Z">
+        <changelog><![CDATA[# Okay, I'm a scrub and totally borked this script. Sorry! Reverted to state of script in version 1.5.]]></changelog>
+        <source main="main" file="acendan_Select tracks when making marquee selection.lua">https://github.com/acendan/reascripts/raw/8c1438dafd89223e8442625df34cd1663ae52f91/Tracks%20Properties/acendan_Select%20tracks%20when%20making%20marquee%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Store and Open saved URL by track name.lua" type="script" desc="Open Saved URL By Track Name">
