@@ -127,4 +127,4 @@ If you would prefer to download the scripts here manually, you can click on "Clo
 - [cfillion](https://cfillion.ca/): The creator of ReaPack, who has helped to ensure these scripts make it into the hands of far more Reaper users than I'd ever be able to reach solo.
 
 
-#### This is an easter egg :)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X4592I4)
