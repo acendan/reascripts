@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="8e5c5318c127c9f4b53edeb0adc8dd603cf9580b" name="ACendan Scripts">
+<index version="1" commit="74d76bd5cea5c7f4370ef5c899ce83fdafc2669e" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1510,6 +1510,10 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       <version name="1.3" author="Aaron Cendan" time="2021-07-08T01:06:19Z">
         <changelog><![CDATA[Added user toggle to skip folder picker dialog and use the active Reaper project instead]]></changelog>
         <source main="main" file="acendan_Clean up projects unused MediaFiles and move to separate folder.lua">https://github.com/acendan/reascripts/raw/1feaa9c5c1365e990204a7afed0100a7ff0fe2c1/Various/acendan_Move%20unused%20projects%20MediaFiles%20in%20selected%20directory%20to%20separate%20folder.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2021-07-11T20:15:37Z">
+        <changelog><![CDATA[Fixed a bug for Tzvi. Not sure how it happened but whatever, consider it squished.]]></changelog>
+        <source main="main" file="acendan_Clean up projects unused MediaFiles and move to separate folder.lua">https://github.com/acendan/reascripts/raw/74d76bd5cea5c7f4370ef5c899ce83fdafc2669e/Various/acendan_Move%20unused%20projects%20MediaFiles%20in%20selected%20directory%20to%20separate%20folder.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour.lua" type="script" desc="NVK Game Audio Affirmations Once An Hour">
