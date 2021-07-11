@@ -1,12 +1,12 @@
 -- @description RPP Cleanup
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Clean up projects unused MediaFiles and move to separate folder.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   Added user toggle to skip folder picker dialog and use the active Reaper project instead
+--   Fixed a bug for Tzvi. Not sure how it happened but whatever, consider it squished.
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -63,7 +63,7 @@ function main()
     repeat
       local sub_dir = reaper.EnumerateSubdirectories( folder, dir_idx)
       -- Do stuff to the sub_dirs
-      if string.lower(sub_dir) == string.lower(media_files_folder) then
+      if string.lower(sub_dir) == string.lower(media_files_folder) and sub_dir then
         found_MediaFiles = true
       end
       dir_idx = dir_idx + 1
@@ -98,7 +98,7 @@ function main()
          end
          
          -- Move file if not used
-         if not file_used then
+         if dir_file and not file_used then
            if not unused then os.execute('mkdir "' .. folder .. separator .. unused_media_folder .. '"') end
            os.rename(folder .. separator .. media_files_folder .. separator .. dir_file, folder .. separator .. unused_media_folder .. separator .. dir_file)
            num_unused = num_unused + 1
@@ -115,7 +115,8 @@ function main()
       -- Open unused file directory
       if unused then 
         openDirectory(folder .. separator .. unused_media_folder) 
-        msg("Finished scanning " .. media_files_folder .. "!\n\nMoved " .. count_diff .. " media files to " .. unused_media_folder .. ".")
+        local high_count = (num_unused > count_diff) and num_unused or count_diff
+        msg("Finished scanning " .. media_files_folder .. "!\n\nMoved " .. high_count .. " media files to " .. unused_media_folder .. ".")
       else
         msg("Finished scanning " .. media_files_folder .. "!\n\nAll files are currently referenced by the RPPs in selected folder.")
       end
