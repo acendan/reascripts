@@ -3,6 +3,8 @@ These scripts were written to add additional functionality to the digital audio 
 
 **All of the scripts in this repository can be imported directly in Reaper by using the [ReaPack REAPER extension](https://reapack.com/), the free scripts/packages download manager made by cfillion. I strongly recommend setting up ReaPack to install and use these scripts.**
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X4592I4)
+
 ## ReaTeams download instructions
 A select few of my scripts are included by default when installing ReaPack, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). Simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
 
@@ -125,6 +127,3 @@ If you would prefer to download the scripts here manually, you can click on "Clo
 - [X-Raym](https://www.extremraym.com/en/): A ReaScripting guru that inspired me to start writing scripts for Reaper in the first place. He has also directly assisted in code-reviewing some of the content in this repository.
 - [The REAPER Blog](https://reaperblog.net/): A blog run by Jon Tidey, who has helped serve as one of the leading sources for up to date Reaper documentation, tips, tricks, and ideas.
 - [cfillion](https://cfillion.ca/): The creator of ReaPack, who has helped to ensure these scripts make it into the hands of far more Reaper users than I'd ever be able to reach solo.
-
-
-#### This is an easter egg :)
