@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="1ed66fe98f4986cf8930c9163dcd2f4372e58da5" name="ACendan Scripts">
+<index version="1" commit="cc4280421701f896e840de92b15a2deefdc02bce" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -102,6 +102,10 @@
       <version name="4.9" author="Aaron Cendan" time="2021-07-08T18:56:55Z">
         <changelog><![CDATA[# Added Ko-fi link]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/f67706b7f99bb49ed63b939261b18ed3fd16ee39/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="5.0" author="Aaron Cendan" time="2021-08-09T22:28:30Z">
+        <changelog><![CDATA[# Added Ko-fi link]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/cc4280421701f896e840de92b15a2deefdc02bce/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -255,6 +259,23 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-21T13:51:14Z">
         <source main="main" file="acendan_Count number of selected items in media explorer.lua">https://github.com/acendan/reascripts/raw/cafcbd7a6c92f9358b62f31aaadef9edc4561f51/Items%20Editing/acendan_Count%20number%20of%20selected%20items%20in%20media%20explorer.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Glue each item in selected track separately.lua" type="script" desc="Separately Glue Items in Track">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script can be useful for copying one track from a different tab into your current session.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select the pasted track and run this to glue each item separately, duplicating the other project's\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab media into your current session.\sa180\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-08-09T22:28:30Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/cc4280421701f896e840de92b15a2deefdc02bce/Items%20Editing/acendan_Glue%20each%20item%20in%20selected%20track%20separately.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_MixPre split items by channel to new tracks and name with metadata.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Split Channels">
