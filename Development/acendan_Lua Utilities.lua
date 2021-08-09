@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 4.9
+-- @version 5.0
 -- @metapackage
 -- @provides
 --   [main] .
@@ -626,11 +626,11 @@ function acendan.tableContainsKey(table, key)
     return table[key] ~= nil
 end
 
--- Check if a table contains a value in any one of its keys // returns Boolean
+-- Check if a table contains a value in any one of its keys // returns Number or False
 function acendan.tableContainsVal(table, val)
   for index, value in ipairs(table) do
       if value == val then
-          return true
+          return index
       end
   end
   return false
