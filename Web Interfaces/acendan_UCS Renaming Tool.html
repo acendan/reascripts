@@ -384,7 +384,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text); transition: background-color 1s, color 1s;" id="ucsNavbar">
         <a class="navbar-brand" href="#">
             <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            <b>&nbsp;UCS Reaper Renaming Tool</b>
+            <b id="navbarTitle">&nbsp;UCS Reaper Renaming Tool</b>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="white-space: normal;">
             <span class="navbar-toggler-icon"></span>
@@ -411,8 +411,16 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarPresetsDropdown" id="navbarPresetsDropdownOptions">
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showPresetModal()" style="display: flex; align-items: center;">Save As Preset...</a>
+                        <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showPresetModal()" style="display: flex; align-items: center;">Save/Edit Preset...</a>
                         <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showDeletePresetModal()" style="display: flex; align-items: center;">Delete Preset...</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarHistoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center; justify-content: center;">
+                        History
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarHistoryDropdown" id="navbarHistoryDropdownOptions">
                     </div>
                 </li>
 
@@ -439,13 +447,14 @@
                         <a class="dropdown-item" href="#" id="langTW" style="display: flex; align-items: center;"><i class="flag tw"></i>&nbsp;&nbsp;Taiwanese</a>
                         <a class="dropdown-item" href="#" id="langRU" style="display: flex; align-items: center;"><i class="flag ru"></i>&nbsp;&nbsp;Russian</a>
                         <a class="dropdown-item" href="#" id="langUA" style="display: flex; align-items: center;"><i class="flag ua"></i>&nbsp;&nbsp;Ukrainian</a>
+                        <a class="dropdown-item" href="#" id="langTR" style="display: flex; align-items: center;"><i class="flag tr"></i>&nbsp;&nbsp;Turkish</a>
                     </div>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center; justify-content: center;">
                 <!-- SETTINGS MENU -->
-                <a type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img src="ucs_libraries/settings-icon-dark.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
-                <a type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal"><img src="ucs_libraries/settings-icon-light.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
+                <a id="settingsBtnDark" type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img src="ucs_libraries/settings-icon-dark.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
+                <a id="settingsBtnLight" type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal"><img src="ucs_libraries/settings-icon-light.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
             </form>
         </div>
     </nav>
@@ -457,95 +466,113 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h3 style="margin:0;" class="modal-title">UCS Renaming Tool Settings</h4>
+                <h3 style="margin:0;" class="modal-title" id="settingsMenuTitle">UCS Renaming Tool Settings</h4>
               </div>
               <div class="modal-body">
                 <!------------------------>
                 <!---  PROCESSING     ---->
                 <!------------------------>
-                <h5><i>Processing</i></h5>
+                <h5 id="settingsMenuProcessingTitle"><i>Processing</i></h5>
                 <!-- VENDOR CATEGORY -->
-                <p style="margin-bottom:0px;">Vendor Category:</p>
-                <div class="form-check" style="margin-left:0px">
+                <p style="margin-bottom:0px;" id="settingsVendorHeader">Vendor Category:</p>
+                <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="vendorCatCheckbox">
-                    <h7>Show Vendor Category field? Only relevant for library vendors.</h7>
+                    <h7 id="settingsVendorDescription">Show Vendor Category field. Only relevant for library vendors.</h7>
                 </div>                
                 <!-- DISABLE CAPITALIZATION -->
-                <p style="margin-bottom:0px;margin-top:15px;">Automatic Capitalization:</p>
-                <small class="form-text text-muted">Creator ID, Source ID, User Category, Vendor Category</small>
-                <select id="nameCapitalizationSetting" class="form-control">
+                <p style="margin-bottom:0px;margin-top:15px;" id="settingsCapsHeader">Automatic Capitalization:</p>
+                <small class="form-text text-muted" id="settingsCapsDesc">Creator ID, Source ID, User Category, Vendor Category</small>
+                <select id="nameCapitalizationSetting" class="form-control col-md-5" style="margin-left:30px">
                     <option>ALL CAPS (Default)</option>
                     <option>Title Case</option>
                     <option>Disable automatic capitalization</option>
                 </select>
                 <!-- COPY RESULTS -->
-                <p style="margin-bottom:0px;margin-top:15px;">Copy to Clipboard:</p>
-                <select id="copyResultsSetting" class="form-control">
+                <p style="margin-bottom:0px;margin-top:15px;" id="settingsCopyHeader">Copy to Clipboard:</p>
+                <select id="copyResultsSetting" class="form-control col-md-5" style="margin-left:30px">
                     <option>Do not copy (Default)</option>
                     <option>Copy after processing</option>
                     <option>Copy WITHOUT processing</option>
                 </select>
-                <div id="copyResultsWarning" style="margin:0;" class="alert alert-warning" role="alert">This will bypass the processing section and <i>just copy to clipboard</i>.</div>
+                <div id="copyResultsWarning" style="margin:0;margin-left:30px;" class="alert alert-warning" role="alert">This will bypass the processing section and <i>just copy to clipboard</i>.</div>
 
                 <!------------------------>
                 <!---  UCS TABLE      ---->
                 <!------------------------>
-                <h5 class="modal-heading" style="margin-top:35px;">UCS Table</h5>
+                <h5 class="modal-heading" style="margin-top:35px;" id="settingsUCSTableHeader">UCS Table</h5>
                 <!-- AUTO SUBMIT FORM ON ROW CLICK -->
-                <p style="margin-bottom:0px;">Auto Submit:</p>
-                <div class="form-check" style="margin-left:0px">
+                <p style="margin-bottom:0px;" id="settingsUCSAutoSubmit">Auto Submit:</p>
+                <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="autoSubmitCheckbox">
-                    <h7>Automatically submit form data when clicking table rows?</h7>
+                    <h7 id="settingsUCSAutoSubmitDesc">Automatically submit form data when clicking table rows</h7>
                 </div>
                 <!-- AUTO SEARCH MEDIA EXPLORER -->
-                <p style="margin-bottom:0px;margin-top:25px;">Filter Media Explorer:</p>
-                <div class="form-check" style="margin-left:0px">
+                <p style="margin-bottom:0px;margin-top:25px;" id="settingsFilterMediaExp">Filter Media Explorer:</p>
+                <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="autoSearchCatSubcatCheckbox">
-                    <h7>Search media explorer for category/subcategory when clicking table rows?</h7>
+                    <h7 id="settingsFilterMediaExpDesc">Search media explorer for category/subcategory when clicking table rows</h7>
                 </div>
-                <div class="form-check" style="margin-left:0px">
+                <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="autoSearchSynonymsCheckbox">
-                    <h7>Search media explorer for synonyms when clicking table rows?</h7>
+                    <h7 id="settingsFilterMediaExpSyn">Search media explorer for synonyms when clicking table rows</h7>
                 </div>
 
                 <!------------------------>
                 <!--- RENDER METADATA  --->
                 <!------------------------>
-                <h5 class="modal-heading" style="margin-top:35px;">Metadata</h5>
+                <h5 class="modal-heading" style="margin-top:35px;" id="settingsMetadataHeader">Metadata</h5>
                 <!-- UCS Metadata -->
-                <p style="margin-bottom:0px;">Render UCS Metadata:</p>
-                <div class="form-check" style="margin-left:0px">
+                <p style="margin-bottom:0px;" id="settingsUCSMetadataHeader">Render UCS Metadata:</p>
+                <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="iXMLSettings">
-                    <h7>Embed UCS form info in metadata when rendering?</h7>
+                    <h7 id="settingsUCSMetadataDesc">Embed UCS form info in metadata when rendering</h7>
                 </div>
                 <!-- Extended Metadata -->
-                <p style="margin-bottom:0px;">Render Additional Fields:</p>
-                <div class="form-check" style="margin-left:0px">
+                <p style="margin-bottom:0px;" id="settingsExtMetaHeader">Render Additional Fields:</p>
+                <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="metadataSettings">
-                    <h7>Show extended metadata input fields like microphone, perpective, location, etc?</h7>
+                    <h7 id="settingsExtMetaDesc">Show extended metadata input fields like microphone, perpective, location, etc</h7>
                 </div>
                 <div id="metadataWarning" style="margin:0;" class="alert alert-warning" role="alert">- Render Metadata requires 'Embed: Metadata' to be checked in your render settings<br>- Render Metadata does <b>NOT</b> apply when renaming Tracks<br>- Render Metadata fields are all optional, and can be left blank.</div>
+                <!-- Metadata Marker Style -->
+                <p style="margin-bottom:0px;margin-top:20px;">Metadata Marker Format:</p>
+                <div class="form-check" style="margin-left:30px">
+                    <input class="form-check-input" type="checkbox" id="markerFormatSettings">
+                    <h7>Uses new marker formatting to merge separate metadata markers into one marker per item/region. <b>Requires Reaper v6.33+</b>. No semi-colons ";" allowed in any fields.</h7>
+                </div>
+                <!-- Metadata Marker Positioning -->
+                <p style="margin-bottom:0px;">Metadata Marker Position:</p>
+                <div class="form-check" style="margin-left:30px">
+                    <input class="form-check-input" type="checkbox" id="markerPositionSettings">
+                    <h7>Places markers slightly <i>after</i> regions and items so that they don't get embedded as cue markers at render. Be careful with overlapping regions and items.</h7>
+                </div>
+                <!-- Render Directory -->
+                <p style="margin-bottom:0px;">Render to Category/Subcategory Directory:</p>
+                <div class="form-check" style="margin-left:30px">
+                    <input class="form-check-input" type="checkbox" id="renderDirectorySettings">
+                    <h7>Sets render dialog wildcards for <b>/UCS Category/UCS Subcategory/Filename</b></h7>
+                </div>
 
                 <!------------------------>
                 <!---  APPEARANCE     ---->
                 <!------------------------>
-                <h5 class="modal-heading" style="margin-top:35px;">Appearance</h5>
+                <h5 class="modal-heading" style="margin-top:35px;" id="settingsAppearanceHeader">Appearance</h5>
                 <!-- COLOR MODE -->
-                <a class="btn color-mode__btn btn-outline-light light--hidden"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
-                <a class="btn color-mode__btn btn-outline-dark dark--hidden"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
+                <a class="btn color-mode__btn btn-outline-light light--hidden" id="settingsLightModeButton"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
+                <a class="btn color-mode__btn btn-outline-dark dark--hidden" id="settingsDarkModeButton"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
                 
                 <!------------------------>
                 <!---  LINKS          ---->
                 <!------------------------>
-                <h5 class="modal-heading" style="margin-top:35px;">External Links</h5>
+                <h5 class="modal-heading" style="margin-top:35px;" id="settingsLinksHeader">External Links</h5>
                 <!-- FEEDBACK -->
-                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
-                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-dark dark--hidden" target="_blank" id="settingsLightFdbk"><img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
+                <a href="https://forms.gle/DaVCaesTLcRLrJVt7" class="btn btn-outline-light light--hidden" target="_blank" id="settingsDarkFdbk"><img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Feedback</a>
                 <!-- UCS WEBSITE -->
-                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark dark--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
-                <a href="https://universalcategorysystem.com/" class="btn btn-outline-light light--hidden" target="_blank" style="margin-left:20px"><img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-dark dark--hidden" target="_blank" style="margin-left:20px" id="settingsLightUCS"><img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
+                <a href="https://universalcategorysystem.com/" class="btn btn-outline-light light--hidden" target="_blank" style="margin-left:20px" id=settingsDarkUCS><img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS Website</a>
               </div>
-              <div class="modal-footer">
+              <div class="modal-footer" id="settingsFooter">
                 <p class="mr-auto">Developed by&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a>. Feel free to&nbsp;<a href="https://ko-fi.com/acendan_" target="_blank">buy me a coffee!</a></p>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
@@ -559,14 +586,14 @@
     <!---  Save Preset    ---->
     <div class="modal fade" id="presetsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="savePresetModalContent">
                 <div class="modal-header">
                     <h3 style="margin:0;" class="modal-title">Save Current Settings</h4>
                 </div>
                 <div class="modal-body">
                     <label for="presetNameLabel">Preset Name</label>
                     <input type="text" class="form-control" id="presetName" aria-describedby="presetNameHelp" placeholder="Chihuahua Recordings">
-                    <small id="presetNameHelp" class="form-text text-muted">- A preset named "Default" will load as soon as you open the tool<br>- Presets will collect ALL field info. <b>I recommend leaving Category, Subcategory, and Filename blank.</b></small>
+                    <small id="presetNameHelp" class="form-text text-muted">- A preset named "Default" will load as soon as you open the tool<br>- Presets will collect ALL field info. <b>I recommend leaving Category, Subcategory, and Filename blank.</b><br>- Use the name of an existing preset to edit/overwrite it!</small>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onClick="saveThisAsPreset()" data-dismiss="modal">Save</button>
@@ -578,7 +605,7 @@
     <!---  Delete Preset ---->
     <div class="modal fade" id="deletePresetsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="deletePresetModalContent">
                 <div class="modal-header">
                     <h3 style="margin:0;" class="modal-title">Delete Preset</h4>
                 </div>
@@ -599,6 +626,58 @@
         </div>
     </div>
 
+    <!------------------------->
+    <!---  AMBISONICS MODAL --->
+    <!------------------------->
+    <div class="modal fade" id="ambisonicsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="ambisonicsModalContent">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Ambisonic Mic Configuration</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h7>Order</h7>
+                        <select id="ambiModalOrder" class="form-control">
+                            <option>-</option>
+                            <option>First (FOA)</option>
+                            <option>Second (2OA)</option>
+                            <option>Third (3OA)</option>
+                            <option>Fourth (4OA)</option>
+                            <option>Fifth (5OA)</option>
+                            <option>Sixth (6OA)</option>
+                        </select>
+                        <small id="ambiModalOrderHelp" class="form-text text-muted">What order ambisonic microphone?</small>
+                    </div>
+                    <div>
+                        <h7>Format</h7>
+                        <select id="ambiModalFormat" class="form-control">
+                            <option>-</option>
+                            <option>B-Format FuMa WXYZ (FUMA)</option>
+                            <option>B-Format AmbiX WYZX (AMBIX)</option>
+                            <option>A-Format (AFMT)</option>
+                        </select>
+                        <small id="ambiModalFormatHelp" class="form-text text-muted">What format are you rendering to/storing?</small>
+                    </div>
+                    <div id="ambiModalOrientationDiv" style="display: none">
+                        <h7>Orientation</h7>
+                        <select id="ambiModalOrientation" class="form-control">
+                            <option>-</option>
+                            <option>Up-Fire (UF)</option>
+                            <option>Down-Fire (DF)</option>
+                            <option>End-Fire (EF)</option>
+                        </select>
+                        <small id="ambiModalOrientationHelp" class="form-text text-muted">What orientation is your microphone? <b>Only relevant for A-Format.</b></small>
+                    </div>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onClick="setAmbiConfig()" data-dismiss="modal">Confirm</button>
+                    <button type="button" class="btn btn-secondary" onClick="doubleCheckAmbiConfig()" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!------------------------>
     <!--- ROW CLICK ALERT ---->
@@ -615,7 +694,7 @@
             <!-- NAMING SECTION -->
             <div style="margin-top:40px;"><h5 id="naming"><i>Naming</i></h5></div>
 
-            <div class="form-row">
+            <div class="form-row" id="namingFormRow">
                 <!-- Category -->
                 <div class="form-group col-md-6 required" id="typeaheadCategory">
                     <label for="userInputCategoryLabel">Category*</label>
@@ -682,7 +761,7 @@
 
             <!-- PROCESSING SECTION -->
             <div><h5 id="processing"><i>Processing</i></h5></div>
-            <div class="form-row">
+            <div class="form-row" id="processingFormRow">
                 <div id="copyResultsWarning2" style="display: none;" class="alert alert-warning" role="alert">You currently have "Copy WITHOUT processing" enabled in the settings. Results will be copied to the clipboard, but nothing will be renamed in your session.</div>
 
                 <!-- RENAME DROPDOWN - Rename Regions/Markers/Items/Tracks -->
@@ -714,13 +793,13 @@
             <div class="form-row" id="metadataSection">
                 
                 <!-- Description -->
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="metaDescDiv">
                     <label for="userDataLabel">Description</label>
                     <input type="text" class="form-control" id="userInputMetaDesc" placeholder="Fully Detailed Description of File Contents">
                 </div>
 
                 <!-- Title -->
-                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaTitleDiv">
                     <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
                         <label for="userDataLabel">Title</label>
                         <input type="text" class="form-control" id="userInputMetaTitle" placeholder="SHORT CATCHY TITLE">
@@ -734,7 +813,7 @@
                 </div>
                 
                 <!-- Microphone -->
-                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaMicDiv">
                     <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
                         <label for="userDataLabel">Microphone</label>
                         <input type="text" class="form-control" id="userInputMetaMic" placeholder="Mini MS">
@@ -747,20 +826,74 @@
                 </div>
 
                 <!-- Microphone Perspective -->
-                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px;  margin-top: 0px; margin-bottom: 0px;">
-                    <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
-                        <label for="userDataLabel">Microphone Perspective</label>                        
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px;  margin-top: 0px; margin-bottom: 0px;">
+                    <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel">Microphone Configuration</label>                        
+                        <select id="userInputMetaConfig" class="form-control" style="margin-top: 0px;">
+                            <option>-</option>
+                            
+                            <option disabled><i>Mono</i></option>
+                            <option>Cardioid (CARD)</option>
+                            <option>Supercardioid (SUPCARD)</option>
+                            <option>Hypercardioid (HYPCARD)</option>
+                            <option>Shotgun (SHOT)</option>
+                            <option>Figure 8 (FIG8)</option>
+                            <option>Omnidirectional (OMNI)</option>
+                            
+                            <option disabled></option>
+                            <option disabled><i>Stereo</i></option>
+                            <option>XY (XY)</option>
+                            <option>ORTF (ORTF)</option>
+                            <option>Spaced Pair (AB)</option>
+                            <option>NOS (NOS)</option>
+                            <option>DIN (DIN)</option>
+                            <option>Blumlein (BLUM)</option>
+                            <option>Binaural (BIN)</option>  
+                                                        
+                            <option disabled></option>
+                            <option disabled><i>Mid-Side</i></option>
+                            <option>Mid-Side Encoded (MS-RAW)</option>
+                            <option>Mid-Side Decoded (MS-DCOD)</option>
+                            <option>Double Mid-Side Encoded (DMS-RAW)</option>
+                            <option>Double Mid-Side Decoded (DMS-DCOD)</option>
+
+                            <option disabled></option>
+                            <option disabled><i>Specialty</i></option>       
+                            <option>Contact (CNTCT)</option>  
+                            <option>Hydrophone (HYDRO)</option>
+                            <option>Electromagnetic (EMF)</option>
+                            <option>Ultrasonic (ULTRA)</option>
+                            <option>Infrasonic (INFRA)</option>
+                            <option>Parabolic (PARA)</option>
+                            <option>Jecklin (OSS)</option>
+                            <option>SASS (SASS)</option>  
+                            <option>Boundary (BOUND)</option>
+
+                            <option disabled></option>
+                            <option disabled><i>Ambisonics</i></option>
+                            <option>Click to configure...</option>  
+                            <option id="customAmbi"></option>                                           
+                        </select>    
+                    </div>                    
+                    <div class="form-group col-md-3" style="margin-left: 0px">
+                        <label for="userDataLabel" id="metaMicPerspLabel">Microphone Perspective</label>                        
                         <select id="userInputMetaPersp" class="form-control" style="margin-top: 0px;">
                             <option>-</option>
                             <option>Close Up (CU)</option>
                             <option>Medium (MED)</option>
                             <option>Distant (DST)</option>
-                            <option>Direct (DI)</option>
+                            <option>Direct (D/I)</option>
                             <option>Onboard (OB)</option>
+                            <option>Various (VARI)</option>
+                            <option disabled></option>
+                            <option disabled><i>Specialty</i></option>   
+                            <option>Contact (CNTCT)</option>
+                            <option>Hydrophone (HYDRO)</option>
+                            <option>Electromagnetic (EMF)</option>
                         </select>    
                     </div>
-                    <div class="form-group col-md-4" style="margin-left: 0px">
-                        <label for="userDataLabel">Indoor or Outdoor</label>
+                    <div class="form-group col-md-3" style="margin-left: 0px;" id="metaIntExtDiv">
+                        <label for="userDataLabel">Inside or Outside&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                         <select id="userInputMetaIntExt" class="form-control" style="margin-top: 0px;">
                             <option>-</option>
                             <option>Interior (INT)</option>
@@ -770,7 +903,7 @@
                 </div>
                 
                 <!-- Designer/URL -->
-                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaDsgnDiv">
                     <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
                         <label for="userDataLabel">Designer</label>
                         <input type="text" class="form-control" id="userInputMetaDsgnr" placeholder="Aaron Cendan">
@@ -788,7 +921,7 @@
                 </div>
 
                 <!-- Location -->
-                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaLocDiv">
                     <!-- Country -->
                     <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
                         <label for="userDataLabel" style="margin-bottom: 0px;">Location</label>
@@ -835,7 +968,7 @@
         <!--------------->
         <div>
             <h3 id="dataTable">Universal Category System Table</h3>
-            <h6 id="UCSTableSubHeading">Google Sheets Data/Online Mode ~ UCS v8.0</h6>
+            <h6 id="UCSTableSubHeading">Google Sheets Data/Online Mode ~ UCS v8.1</h6>
             <!-- OFFLINE/ONLINE INFO - Displayed on load -->
             <h6 id="downloadUCSButtonText" style="display: none">Click here to download for offline use!</h6>
             <h6 id="reenableOnlineUCSButtonText" style="display: none">If you would like to re-enter 'Online Mode' using Google Sheets data, click here.</h6>
@@ -877,12 +1010,12 @@
                 </div>
             </div>
             <div style="margin-bottom:0px;margin-top:25px;">
-                <h7><i>Search for an appropriate category then click on a row in the table to instantly fill out the form!</i></h7>                
+                <h7 id="ucsTableInstrLabel"><i>Search for an appropriate category then click on a row in the table to instantly fill out the form!</i></h7>                
             </div>
         </div>
         <table id="UCRTDataTable" class="table table-striped table-bordered table-hover table-responsive table-light" style="width:100%"></table>
         <div>
-            <h7 style="align-items:center;display:flex;justify-content:center;">Have a great day! :)</h7>
+            <h7 id="haveAGreatDay" style="align-items:center;display:flex;justify-content:center;">Have a great day! :)</h7>
         </div>
     </div>
     <script>
@@ -922,7 +1055,8 @@
         var ucs_gsheet_se = ucs_gsheet_header + "16" + ucs_gsheet_footer;
         var ucs_gsheet_ru = ucs_gsheet_header + "17" + ucs_gsheet_footer;
         var ucs_gsheet_ua = ucs_gsheet_header + "18" + ucs_gsheet_footer;
-
+        var ucs_gsheet_tr = ucs_gsheet_header + "19" + ucs_gsheet_footer;
+ 
         // Arrays populated by Google Sheet public JSON
         // Cleaned up arrays for auto-filter
         var jsonFullTable = [];
@@ -943,6 +1077,10 @@
 
         // Cache load start time
         var startTime = new Date().valueOf();
+
+        // Cache date getter
+        var month = new Date().getMonth();
+        var day = new Date().getDate();
 
         // ~~~~~~~~~~~~~~~~~~~~
         // ON PAGE LOAD
@@ -968,6 +1106,9 @@
 
             // Check for User Presets
             loadUserPresets();
+
+            // Check for User History
+            loadUserHistory();
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -980,13 +1121,16 @@
             // Get copy results setting
             if (localStorage.getItem("copy-setting")) {
                 $("#copyResultsSetting").val(localStorage.getItem("copy-setting"));
-                if (localStorage.getItem("copy-setting") === "Copy WITHOUT processing") {
+                if (localStorage.getItem("copy-setting") == "Copy WITHOUT processing") {
                     $("#copyResultsWarning").show();
                     $("#copyResultsWarning2").show();
                 } else {
                     $("#copyResultsWarning").hide();
                     $("#copyResultsWarning2").hide();
                 }
+            } else {
+                $("#copyResultsWarning").hide();
+                $("#copyResultsWarning2").hide();
             }
 
             // Get render metadata setting
@@ -995,6 +1139,27 @@
                 $("#metadataWarning").show();
             } else {
                 $("#iXMLSettings").prop('checked',false);
+            }
+
+            // Get render directory setting
+            if (localStorage.getItem("directory-setting")) {
+                $("#renderDirectorySettings").prop('checked',true);                
+            } else {
+                $("#renderDirectorySettings").prop('checked',false);      
+            }
+
+            // Get marker render formatting setting
+            if (localStorage.getItem("marker-format-setting")) {
+                $("#markerFormatSettings").prop('checked',true);
+            } else {
+                $("#markerFormatSettings").prop('checked',false);
+            }
+
+            // Get marker position format setting
+            if (localStorage.getItem("marker-pos-setting")) {
+                $("#markerPositionSettings").prop('checked',true);
+            } else {
+                $("#markerPositionSettings").prop('checked',false);
             }
 
             // Get extended metadata setting
@@ -1141,6 +1306,9 @@
             var iXMLChecked = $("#iXMLSettings").prop("checked");
             var vendorChecked = $("#vendorCatCheckbox").prop("checked");
             var metadataChecked = $("#metadataSettings").prop("checked");
+            var directoryChecked = $("#renderDirectorySettings").prop("checked");
+            var markerFormatChecked = $("#markerFormatSettings").prop("checked");
+            var markerPosChecked = $("#markerPositionSettings").prop("checked");
             var cleanUserCat = stringCleaning($("#userInputUserCat").val());
             var cleanInitials = stringCleaning($("#userInputInitials").val());
             var cleanShow = stringCleaning($("#userInputShow").val());
@@ -1168,6 +1336,9 @@
             setProjExtState(enableNum, "EnableNum");
             setProjExtState(iXMLChecked, "iXMLMetadata");
             setProjExtState(metadataChecked, "ExtendedMetadata");
+            setProjExtState(directoryChecked, "RenderDirectory");
+            setProjExtState(markerFormatChecked, "MarkerFormat");
+            setProjExtState(markerPosChecked, "MarkerPosition");
             setProjExtState(cleanUserCat, "UserCategory");
             setProjExtState(cleanInitials, "Initials");
             setProjExtState(cleanShow, "Show");
@@ -1214,6 +1385,9 @@
                 }
 
                 // Extended metadata - mic perspective
+                var metaConfig = $("#userInputMetaConfig").val();
+                metaConfig = (metaConfig != "-") ? metaConfig.match(/\((.*)\)/).pop() : "";
+
                 var metaPersp  = $("#userInputMetaPersp").val();
                 var metaIntExt = $("#userInputMetaIntExt").val();
                 if (metaPersp != "-" && metaIntExt != "-") {
@@ -1225,8 +1399,7 @@
                 } else if  (metaPersp == "-" && metaIntExt == "-") {
                     metaPersp = "";
                 }
-                
-                
+                                
                 setProjExtState(metaTitle, "MetaTitle");
                 setProjExtState(metaDesc, "MetaDesc");
                 setProjExtState(metaKeys, "MetaKeys");
@@ -1236,6 +1409,7 @@
                 setProjExtState(metaLib, "MetaLib")
                 setProjExtState(metaLoc, "MetaLoc");
                 setProjExtState(metaURL, "MetaURL");
+                setProjExtState(metaConfig, "MetaConfig");
                 setProjExtState(metaPersp, "MetaPersp");
             }
 
@@ -1244,6 +1418,9 @@
 
             // Run ReaScript
             wwr_req(encodeURIComponent(UCSRTLua));
+
+            // Save current settings to history
+            saveThisHistory();
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1345,6 +1522,76 @@
                 $secondChoice.append("<option>" + value + "</option>");
             });
         });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // SET MIC PERSPECTIVE BASED ON REC TYPE IF NEEDED/VISE VERSA
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#userInputMetaConfig").change(function () {
+            var config = $("#userInputMetaConfig").val();
+            if (config.includes("Contact") || config.includes("Electro") || config.includes("Hydro")) {
+                $("#userInputMetaPersp").val(config);
+                $("#userInputMetaIntExt").val("-").trigger('change');
+            } else if (config.includes("Click to configure...")) {
+                showAmbiModal();
+            }
+        });
+        $("#userInputMetaPersp").change(function () {
+            var config = $("#userInputMetaPersp").val();
+            if (config.includes("Contact") || config.includes("Electro") || config.includes("Hydro")) {
+                $("#userInputMetaConfig").val(config);
+                $("#userInputMetaIntExt").val("-").trigger('change');
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // AMBISONICS MODAL FUNCTIONS
+        // ~~~~~~~~~~~~~~~~~~~~
+        // Show A-Format Orientation Dropdown
+        $("#ambiModalFormat").change(function () {
+            var config = $("#ambiModalFormat").val();
+            if (config.includes("A-Format")) {
+                $("#ambiModalOrientationDiv").show();
+            } else {
+                $("#ambiModalOrientationDiv").hide();
+            }
+        });
+
+        // Set configuration when submit button is pressed on modal
+        function setAmbiConfig() {
+            var ambi_order = $("#ambiModalOrder").val();
+            var ambi_format = $("#ambiModalFormat").val();
+            var ambi_orient = $("#ambiModalOrientation").val();
+            var ambi_config = "";
+
+            ambi_order = (ambi_order != "-") ? ambi_order.match(/\((.*)\)/).pop() : "";
+            ambi_format = (ambi_format != "-") ? ambi_format.match(/\((.*)\)/).pop() : "";
+            ambi_orient = (ambi_orient != "-") ? ambi_orient.match(/\((.*)\)/).pop() : "";
+
+            if (ambi_format == "AFMT") {
+                ambi_config = ambi_order + "-" + ambi_format + "-" + ambi_orient;
+            } else {
+                ambi_config = ambi_order + "-" + ambi_format;
+            }
+
+            ambi_config = "Ambisonic (" + ambi_config + ")"
+
+            // Set mic config dropdown option value
+            $("#customAmbi").text(ambi_config);
+            $("#userInputMetaConfig").val(ambi_config).trigger('change');
+        }
+
+        // Show modal
+        function showAmbiModal() {
+            $('#ambisonicsModal').modal();
+        }
+
+        // Make sure user didn't cancel out and leave it with "Click to configure..."
+        function doubleCheckAmbiConfig() {
+            var meta_config = $("#userInputMetaConfig").val();
+            if (meta_config.includes("configure")) {
+                $("#userInputMetaConfig").val("-").trigger('change');
+            }
+        }
 
         // ~~~~~~~~~~~~~~~~~~~~
         // BUILD SEARCH AREA OPTIONS BASED ON REGION/MARKER/ITEM/TRACK SELECTION
@@ -1558,16 +1805,12 @@
         $("#copyResultsSetting").change(function () {
             var key = $(this).val();
             localStorage.setItem("copy-setting",key); // Set value in local storage
-            switch (key) {
-                case "Copy WITHOUT processing":
-                    $("#copyResultsWarning").show();
-                    $("#copyResultsWarning2").show();
-                    break;
-
-                default:
-                    $("#copyResultsWarning").hide();  
-                    $("#copyResultsWarning2").hide();      
-                    break;
+            if (key == "Copy WITHOUT processing") {
+                $("#copyResultsWarning").show();
+                $("#copyResultsWarning2").show();
+            } else {
+                $("#copyResultsWarning").hide();
+                $("#copyResultsWarning2").hide();
             }
         });
 
@@ -1584,6 +1827,42 @@
                 if (!$("#metadataSettings").prop("checked")) {
                     $("#metadataWarning").hide();
                 }
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // RENDER DIRECTORY SETTINGS ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#renderDirectorySettings").change(function () {
+            var directoryChecked = $(this).prop("checked");
+            if (directoryChecked) {
+                localStorage.setItem("directory-setting",directoryChecked); // Set value in local storage
+            } else {            
+                localStorage.removeItem("directory-setting");
+            }
+        });
+        
+        // ~~~~~~~~~~~~~~~~~~~~
+        // MARKER FORMAT SETTINGS ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#markerFormatSettings").change(function () {
+            var markerFormatChecked = $(this).prop("checked");
+            if (markerFormatChecked) {
+                localStorage.setItem("marker-format-setting",markerFormatChecked); // Set value in local storage
+            } else {            
+                localStorage.removeItem("marker-format-setting");
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // MARKER POSITION SETTINGS ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#markerPositionSettings").change(function() {
+            var markerPosChecked = $(this).prop("checked");
+            if (markerPosChecked) {
+                localStorage.setItem("marker-pos-setting",markerPosChecked); // Set value in local storage
+            } else {            
+                localStorage.removeItem("marker-pos-setting");
             }
         });
 
@@ -1804,12 +2083,20 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Turkish
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langTR").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_tr);
+            localStorage.setItem("ucs_language_country", "tr");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // GET UCS LANGUAGE COUNTRY ICON
         // ~~~~~~~~~~~~~~~~~~~~
         function getUCSLanguage() {
             // Parse JSON from Google Sheet
             var ucs_lang_country = "";
-
             if (localStorage.getItem("ucs_language_country") !== null) {
                 ucs_lang_country = localStorage.getItem("ucs_language_country");
             } else {
@@ -1817,8 +2104,108 @@
                 localStorage.setItem("ucs_language_country", "us");
                 ucs_lang_country = "us";
             }
-
             $("#navbarLangDropdown").html('<i class="flag ' + ucs_lang_country + '"></i>&nbsp;&nbsp;Language');
+
+            // Set HTML per language
+            switch(ucs_lang_country) {
+                case "cn":
+                    // Relabel fields for Chinese. Thanks 崔强强!
+                    
+                    // Navbar
+                    $("#navbarTitle").html("&nbsp;UCS Reaper 重命名工具");
+                    $("#namingScroll").html('<a class="nav-link" href="#">命名<span class="sr-only">(current)</span></a>');
+                    $("#processingScroll").html('<a class="nav-link" href="#userInputData">处理</a>');
+                    $("#metadataScroll").html('<a class="nav-link" href="#userInputArea">元数据</a>');
+                    $("#dataScroll").html('<a class="nav-link" href="#formSubmitButton">UCS 在线数据库</a>');
+                    $("#navbarPresetsDropdown").text('预设');
+                    $("#navbarHistoryDropdown").text('历史');
+                    $("#navbarLangDropdown").text('数据库语言（请选择中文）');
+                    $("#langEN").html('<i class="flag us"></i>&nbsp;&nbsp;英文');
+                    $("#langES").html('<i class="flag es"></i>&nbsp;&nbsp;西班牙语');
+                    $("#langFR").html('<i class="flag fr"></i>&nbsp;&nbsp;法语');
+                    $("#langDE").html('<i class="flag de"></i>&nbsp;&nbsp;德语');
+                    $("#langIT").html('<i class="flag it"></i>&nbsp;&nbsp;意大利语');
+                    $("#langPL").html('<i class="flag pl"></i>&nbsp;&nbsp;波兰语');
+                    $("#langNL").html('<i class="flag nl"></i>&nbsp;&nbsp;荷兰语');
+                    $("#langDA").html('<i class="flag dk"></i>&nbsp;&nbsp;丹麦语');
+                    $("#langNO").html('<i class="flag no"></i>&nbsp;&nbsp;挪威语');
+                    $("#langSE").html('<i class="flag se"></i>&nbsp;&nbsp;瑞典');
+                    $("#langFI").html('<i class="flag fi"></i>&nbsp;&nbsp;芬兰语');
+                    $("#langPT").html('<i class="flag pt"></i>&nbsp;&nbsp;葡萄牙语');
+                    $("#langPTBR").html('<i class="flag br"></i>&nbsp;&nbsp;葡萄牙语-巴西');
+                    $("#langZH").html('<i class="flag cn"></i>&nbsp;&nbsp;简体中文');
+                    $("#langJA").html('<i class="flag jp"></i>&nbsp;&nbsp;日语');
+                    $("#langTW").html('<i class="flag tw"></i>&nbsp;&nbsp;繁体中文');
+                    $("#langRU").html('<i class="flag ru"></i>&nbsp;&nbsp;俄语');
+                    $("#langUA").html('<i class="flag ua"></i>&nbsp;&nbsp;乌克兰语');
+                    $("#langTR").html('<i class="flag tr"></i>&nbsp;&nbsp;土耳其');
+                    
+                    // Settings menu
+                    $("#settingsBtnDark").html('<img src="ucs_libraries/settings-icon-dark.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;工具设置');
+                    $("#settingsBtnLight").html('<img src="ucs_libraries/settings-icon-light.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;工具设置');
+                    $("#settingsMenuTitle").text('UCS 重命名工具设置');
+                    $("#settingsMenuProcessingTitle").html('<i>处理数据</i>');
+                    $("#settingsVendorHeader").text('供应商类别：');
+                    $("#settingsVendorDescription").text('显示供应商类别字段？（只与音效库供应商相关）');
+                    $("#settingsCapsHeader").text('自动大写：');
+                    $("#settingsCapsDesc").text('创建者ID，源ID，用户类别，供应商类别：');
+                    $("#nameCapitalizationSetting").html('<option>全部大写 （默认）</option><option>标题大写</option><option>禁用自动大写</option>');
+                    $("#settingsCopyHeader").text('名称复制设置:');
+                    $("#copyResultsSetting").html('<option>无需复制（默认）</option><option>处理数据后复制</option><option>无需处理即可复制</option>');
+                    $("#copyResultsWarning").text('此处设置可以绕过处理部分和只需复制到剪贴板.');
+                    $("#settingsUCSTableHeader").text('UCS 在线数据库');
+                    $("#settingsUCSAutoSubmit").text('自动提交：');
+                    $("#settingsUCSAutoSubmitDesc").text('单击表格行时自动提交表单数据？');
+                    $("#settingsFilterMediaExp").text('过滤媒体资源管理器：');
+                    $("#settingsFilterMediaExpDesc").text('单击表格行时在媒体资源管理器中搜索类别/子类别？ ');
+                    $("#settingsFilterMediaExpSyn").text('单击表格行时在媒体资源管理器中搜索同义词？');
+                    $("#settingsMetadataHeader").text('元数据');
+                    $("#settingsUCSMetadataHeader").text('渲染UCS元数据');
+                    $("#settingsUCSMetadataDesc").text('渲染时在元数据中嵌入 UCS 表单信息？');
+                    $("#settingsExtMetaHeader").text('显示扩展的元数据输入字段，如麦克风，视角，位置等。');
+                    $("#metadataWarning").html('- 渲染元数据需要在渲染设置中检查“嵌入：元数据”<br>- 重命名轨道时渲染元数据 <b>不适用</b>。 <br>- 渲染元数据字段都是可选的，可以留空。');
+                    $("#settingsAppearanceHeader").text('外观/风格：');
+                    $("#settingsLightModeButton").html('<img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;白色模式');
+                    $("#settingsDarkModeButton").html('<img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;黑色模式');
+                    $("#settingsLinksHeader").text('外部链接');
+                    $("#settingsLightFdbk").html('<img src="ucs_libraries/dark-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;反馈');
+                    $("#settingsDarkFdbk").html('<img src="ucs_libraries/light-feedback-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;反馈');
+                    $("#settingsLightUCS").html('<img src="ucs_libraries/ucs_logo_white_on_black.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS 官网');
+                    $("#settingsDarkUCS").html('<img src="ucs_libraries/ucs_logo_black_on_white.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;UCS 官网');
+                    $("#settingsFooter").html('<p class="mr-auto">由&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a>开发，请作者&nbsp;<a href="https://ko-fi.com/acendan_" target="_blank">喝杯咖啡！</a> <br/>此界面是由<a href="http://wpa.qq.com/pa?p=2:524541577:41" target="_blank">52HZ Studio</a>修改的中文分支!</p><button type="button" class="btn btn-secondary" data-dismiss="modal">关闭设置</button>');
+                    $("#savePresetModalContent").html('<div class="modal-header"><h3 style="margin:0;" class="modal-title">保存当前设置</h4></div><div class="modal-body"><label for="presetNameLabel">预设名称</label><input type="text" class="form-control" id="presetName" aria-describedby="presetNameHelp" placeholder="我的预设"><small id="presetNameHelp" class="form-text text-muted">- 一个名为“Default”的预设会在你打开工具时加载<br>- 预设将收集所有字段信息。 <br>- 我建议将“类别”、“子类别”和“文件名”留空。</br></small></div><div class="modal-footer"><button type="button" class="btn btn-success" onClick="saveThisAsPreset()" data-dismiss="modal">保存</button><button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button></div>');
+                    $("#deletePresetModalContent").html('<div class="modal-header"><h3 style="margin:0;" class="modal-title">删除预设</h4></div><div class="modal-body"><label for="presetNameLabel">删除预设...</label><select id="deletePresetSelect" class="form-control"></select><small class="form-text text-muted"><b>警告: </b>删除后无法还原预设.</small></div><div class="modal-footer"><button type="button" class="btn btn-danger" onClick="deleteThisPreset()" data-dismiss="modal">删除预设</button><button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button></div>');
+                    
+                    // Form
+                    $("#naming").html('<i>UCS命名</i>');
+                    $("#namingFormRow").html('<!-- Category --><div class="form-group col-md-6 required" id="typeaheadCategory"><label for="userInputCategoryLabel">类别*（必填项）</label><br><input type="text" class="form-control typeahead" id="userInputCategory" aria-describedby="userInputCategoryHelp" placeholder="这是什么声音类型?" required><div id="userInputCategoryError" style="display: none; margin:0;" class="alert alert-warning" role="alert">No valid CatID found. Please check your Category & Subcategory selections!</div><small id="userInputCategoryHelp" class="form-text text-muted">输入即可自动搜索类别，也可点击数据库查询。</small></div><!-- Subcategory --><div class="form-group col-md-6 required" id="typeaheadSubcategory"><label for="userInputSubCategoryLabel">子类别*（必填项）</label><select class="form-control" id="userSelectSubCategory" required><option>请选择一个类别!</option></select><small id="userInputSubCategoryHelp" class="form-text text-muted">选择类别时，子类别下拉列表将填充选项。 如果不需要子类别选择“-” </small>                </div>                <!-- User Category -->                <div class="form-group col-md-6" id="userCategoryGroup"><label for="userInputUserCatLabel">用户类别（可选）</label><input type="text" class="form-control" id="userInputUserCat" aria-describedby="userInputUserCatHelp" placeholder="可选用户类别 "><small id="userInputUserCatHelp" class="form-text text-muted">如果没有“用户类别” 请留空</small>                </div>                <!-- Vendor Category -->                <div class="form-group col-md-6" id="vendorCategoryGroup"><label for="userInputVendCatLabel">供应商名称（可选）</label><input type="text" class="form-control" id="userInputVendCat" aria-describedby="userInputVendCatHelp" placeholder="可选音效库类别 "><small id="userInputVendCatHelp" class="form-text text-muted">如果您不是音效库供应商，请留空。</small>                </div>                <!-- Name w Var ID -->                <div class="form-group col-md-6 required" id="fileNameGroup"><label for="userInputNameLabel">文件名*</label><input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="使用空格（而不是下划线）命名您的项目。" required pattern="(.|\s)*\S(.|\s)*"><div id="userInputNameError" style="display: none; margin:0;" class="alert alert-warning" role="alert">文件名不能为空!</div><div class="form-check" style="margin-left:0px"><input class="form-check-input" type="checkbox" checked id="userInputVarNumCheckbox"><h7>需要改变编号吗？</h7></div><small id="userInputNameHelp" class="form-text text-muted"><b>通配符： </b>$region, $regionnumber<br />- 可用的通配符取决于中的“要重命名的项目”字段 <i>处理（Processing）</i> 以下（below）。</small>                </div>                <!-- Initials -->                <div class="form-group col-md-6" id="initialsGroup"><label for="userInputInitialsLabel">作者名称*</label><input type="text" class="form-control" id="userInputInitials" aria-describedby="userInputInitialsHelp" placeholder="可识别的用户名称或标签" required pattern=".{1,}"><div id="userInitialsError" style="display: none; margin:0;" class="alert alert-warning" role="alert">首字母不能为空!</div><small id="userInputInitialsHelp" class="form-text text-muted">例如"张三" => "ZS"或者"zhangsan"   也可以填写英文名（无法确定版权的建议此处可以做特殊标记）</small>                </div>                <!-- Show -->                <div class="form-group col-md-6"><label for="userInputShowLabel">项目名称（可选）</label><input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="您正在从事什么项目？"><small id="userInputShowHelp" class="form-text text-muted">如果没有项目，则留空； 根据 UCS 指南，它将自动替换为“NONE”。 （此项目非剪辑项目）</small></div><!-- User Data --><div class="form-group col-md-6"><label for="userDataLabel">数据/注释（可选）</label><input type="text" class="form-control" id="userInputData" aria-describedby="userInputDataHelp" placeholder="麦克风、视角、位置或其他。"><small id="userInputDataHelp" class="form-text text-muted">您还有什么要补充的吗？ 如果没有注释，请留空。</small></div>');
+                    $("#processing").html('<i>处理</i>');
+                    $("#processingFormRow").html('<div id="copyResultsWarning2" style="display: none;" class="alert alert-warning" role="alert">You currently have "Copy WITHOUT processing" enabled in the settings. Results will be copied to the clipboard, but nothing will be renamed in your session.</div><div class="form-group col-md-6"><h7>要重命名的项目*</h7><select id="userInputItems" class="form-control"><option>区域</option><option>标记</option><option>媒体项目</option><option>轨道</option></select><small id="userInputCategoryHelp" class="form-text text-muted">你想重命名什么？</small></div><div class="form-group col-md-6"><h7>搜索区域*</h7><select id="userInputArea" class="form-control"><option>区域管理器中的选定区域</option><option>编辑光标</option><option>时间选择</option><option>完整项目</option></select><small id="userInputCategoryHelp" class="form-text text-muted">选择您想要影响的项目区域。</small></div>');
+                    $("#metadataTitle").html('<i>元数据</i>');
+                    $("#metaDescDiv").html('<label for="userDataLabel">描述</label><input type="text" class="form-control" id="userInputMetaDesc" placeholder="文件内容的完整详细说明">');
+                    $("#metaTitleDiv").html('<div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;"><label for="userDataLabel">标题</label><input type="text" class="form-control" id="userInputMetaTitle" placeholder="简短的标题"></div><div class="form-group col-md-4" style="margin-left: 0px"><label for="userDataLabel">关键词</label><input type="text" class="form-control" id="userInputMetaKeys" placeholder="逗号、分隔符、关键字、标签"></div>');
+                    $("#metaMicDiv").html('<div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;"><label for="userDataLabel">麦克风</label><input type="text" class="form-control" id="userInputMetaMic" placeholder="Mini MS"></div><div class="form-group col-md-4" style="margin-left: 0px"><label for="userDataLabel">录音设备(AD转换工具)</label><input type="text" class="form-control" id="userInputMetaRecMed"></div>');
+                    $("#metaDsgnDiv").html('<div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;"><label for="userDataLabel">设计师</label><input type="text" class="form-control" id="userInputMetaDsgnr" placeholder="例如：张三"></div><div class="form-group col-md-3" style="margin-left: 0px"><label for="userDataLabel">信息库（日期）</label><input type="text" class="form-control" id="userInputMetaLib" placeholder="2021年7月"></div><div class="form-group col-md-3" style="margin-left: 0px"><label for="userDataLabel">URL</label><input type="text" class="form-control" id="userInputMetaURL" placeholder="https://aaroncendan.me"></div>');
+                    $("#userInputMetaPersp").html('<option>-</option><option>近距离 (CU)</option><option>中等距离 (MED)</option><option>远距离 (DST)</option><option>直接 (DI)</option><option>板载 (OB)</option><option>Various (VARI)</option><option disabled></option><option disabled><i>Specialty</i></option>   <option>Contact (CNTCT)</option><option>Hydrophone (HYDRO)</option><option>Electromagnetic (EMF)</option>');
+                    $("#metaIntExtDiv").html('<label for="userDataLabel">室内/室外</label><select id="userInputMetaIntExt" class="form-control" style="margin-top: 0px;"><option>-</option><option>室内 (INT)</option><option>室外 (EXT)</option></select>');
+                    $("#metaMicPerspLabel").text('麦克风角度');
+                    $("#metaLocDiv").html('<!-- Country --><div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;"><label for="userDataLabel" style="margin-bottom: 0px;">地点</label><select name="country" class="form-control countries order-alpha" id="countryId"><option value="">选择国家/地区</option></select><small class="form-text text-muted">国家/地区</small></div><!-- State --><div class="form-group col-md-3" style="margin-left: 0px; margin-top: 35px;"><select name="state" class="form-control states order-alpha" id="stateId"><option value="">选择省份</option></select><small class="form-text text-muted">省份</small></div><!-- City --><div class="form-group col-md-3" style="margin-left: 0px; margin-top: 35px;"><select name="city" class="form-control cities order-alpha limit-pop-10000" id="cityId"><option value="">选择城市</option></select><small class="form-text text-muted">城市</small></div>');
+                    $("#formSubmitButton").html('<img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon">&nbsp;&nbsp;<b>提交</b>');
+
+                    // Table
+                    $("#dataTable").text('UCS音效系统分类表');
+                    $("#UCSTableSubHeading").text('谷歌在线数据库~ UCS v8.1（如无法使用请检查代理）');
+                    $("#downloadUCSButtonText").text('点击这里下载离线使用！');
+                    $("#reenableOnlineUCSButtonText").text('如果您想使用谷歌表数据重新进入“在线模式”，请点击这里.');
+                    $("#downloadUCSButton").html('<img class="icons filter-green" src="ucs_libraries/data-transfer-download.svg" alt="download_icon">&nbsp;&nbsp;<b>下载列表</b>');
+                    $("#ucsTableInstrLabel").html('<i>搜索适当的类别，然后单击表格中的一行即可立即填写表格！</i>');
+                    $("#haveAGreatDay").html('由&nbsp;<a href="https://aaroncendan.me" target="_blank">Aaron Cendan</a>开发，此项目已在GITHUB开源，此界面由<a href="http://wpa.qq.com/pa?p=2:524541577:41" target="_blank">52HZ Studio</a>修改的中文分支');
+
+                    // $("#").html('');
+                    break;
+                default:
+                    break;
+            }
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1826,7 +2213,6 @@
         // ~~~~~~~~~~~~~~~~~~~~
         function loadOfflineUCSDoc() {
             var xhttp = new XMLHttpRequest();
-
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log("Found local UCS data file. Entering OFFLINE mode.");
@@ -1839,7 +2225,20 @@
                     useGSheetsUSCData();
                 }
             }
-            xhttp.open("GET", "UCS.txt", true);
+
+            // Get language specific offline sheet
+            var ucs_lang_file = "";
+            if (localStorage.getItem("ucs_language_country") !== null) {
+                ucs_lang_file = localStorage.getItem("ucs_language_country");
+            } else {
+                // Default to English/US
+                localStorage.setItem("ucs_language_country", "us");
+                ucs_lang_file = "us";
+            }
+            ucs_lang_file = "ucs_languages/UCS_" + ucs_lang_file + ".txt";
+
+            // Load file
+            xhttp.open("GET", ucs_lang_file, true);
             // XML HTTP Cache will try to pull old information if the file is update but keeps the same name.
             // Disable cache controls to get the latest.
             xhttp.setRequestHeader('cache-control', 'no-cache, must-revalidate, post-check=0, pre-check=0');
@@ -1923,6 +2322,7 @@
                 metaState: $("#stateId").val(),
                 metaCity: $("#cityId").val(),
                 metaPersp: $("#userInputMetaPersp").val(),
+                metaConfig: $("#userInputMetaConfig").val(),
                 metaIntExt: $("#userInputMetaIntExt").val(),
                 userItems: $("#userInputItems").val(),
                 userArea: $("#userInputArea").val()
@@ -1976,8 +2376,8 @@
                 }));
             }
 
-            // Clear out preset name entry spot
-            $("#presetName").val("").trigger('change');
+            // Clear out preset name entry spot. Just kidding! Useful for edits.
+            // $("#presetName").val("").trigger('change');
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -1992,30 +2392,39 @@
             
             // Set values
             console.log("Loading preset number: " + index);
-            if (presetSettings.category !== "") $("#userInputCategory").val(presetSettings.category).trigger('change');
-            if (presetSettings.subcategory !== "Please select a category!") $("#userSelectSubCategory").val(presetSettings.subcategory).trigger('change');
-            if (presetSettings.filename !== "") $("#userInputName").val(presetSettings.filename).trigger('change');            
-            if (presetSettings.userCat !== "") $("#userInputUserCat").val(presetSettings.userCat).trigger('change');
-            if (presetSettings.userId !== "") $("#userInputInitials").val(presetSettings.userId).trigger('change');
-            if (presetSettings.showId !== "") $("#userInputShow").val(presetSettings.showId).trigger('change');
-            if (presetSettings.userData !== "") $("#userInputData").val(presetSettings.userData).trigger('change');
-            if (presetSettings.vendorCat !== "") $("#userInputVendCat").val(presetSettings.vendorCat).trigger('change');
-            if (presetSettings.metaTitle !== "") $("#userInputMetaTitle").val(presetSettings.metaTitle).trigger('change');
-            if (presetSettings.metaDesc !== "") $("#userInputMetaDesc").val(presetSettings.metaDesc).trigger('change');
-            if (presetSettings.metaKeys !== "") $("#userInputMetaKeys").val(presetSettings.metaKeys).trigger('change');
-            if (presetSettings.metaMic !== "") $("#userInputMetaMic").val(presetSettings.metaMic).trigger('change');
-            if (presetSettings.metaRecMed !== "") $("#userInputMetaRecMed").val(presetSettings.metaRecMed).trigger('change');
-            if (presetSettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(presetSettings.metaDsgnr).trigger('change');
-            if (presetSettings.metaLib !== "") $("#userInputMetaLib").val(presetSettings.metaLib).trigger('change');
-            if (presetSettings.metaURL !== "") $("#userInputMetaURL").val(presetSettings.metaURL).trigger('change');
-            if (presetSettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(presetSettings.metaCoun).trigger('change'); }, 500);
-            if (presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 1000);
-            if (presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1500);            
-            if (presetSettings.metaPersp !== "-") $("#userInputMetaPersp").val(presetSettings.metaPersp).trigger('change');
-            if (presetSettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(presetSettings.metaIntExt).trigger('change');
-            if (presetSettings.userItems !== "") $("#userInputItems").val(presetSettings.userItems).trigger('change');
-            if (presetSettings.userArea !== "") $("#userInputArea").val(presetSettings.userArea).trigger('change');
+            if (presetSettings.category && presetSettings.category !== "") $("#userInputCategory").val(presetSettings.category).trigger('change');
+            if (presetSettings.subcategory && presetSettings.subcategory !== "Please select a category!") $("#userSelectSubCategory").val(presetSettings.subcategory).trigger('change');
+            if (presetSettings.filename && presetSettings.filename !== "") $("#userInputName").val(presetSettings.filename).trigger('change');            
+            if (presetSettings.userCat && presetSettings.userCat !== "") $("#userInputUserCat").val(presetSettings.userCat).trigger('change');
+            if (presetSettings.userId && presetSettings.userId !== "") $("#userInputInitials").val(presetSettings.userId).trigger('change');
+            if (presetSettings.showId && presetSettings.showId !== "") $("#userInputShow").val(presetSettings.showId).trigger('change');
+            if (presetSettings.userData && presetSettings.userData !== "") $("#userInputData").val(presetSettings.userData).trigger('change');
+            if (presetSettings.vendorCat && presetSettings.vendorCat !== "") $("#userInputVendCat").val(presetSettings.vendorCat).trigger('change');
+            if (presetSettings.metaTitle && presetSettings.metaTitle !== "") $("#userInputMetaTitle").val(presetSettings.metaTitle).trigger('change');
+            if (presetSettings.metaDesc && presetSettings.metaDesc !== "") $("#userInputMetaDesc").val(presetSettings.metaDesc).trigger('change');
+            if (presetSettings.metaKeys && presetSettings.metaKeys !== "") $("#userInputMetaKeys").val(presetSettings.metaKeys).trigger('change');
+            if (presetSettings.metaMic && presetSettings.metaMic !== "") $("#userInputMetaMic").val(presetSettings.metaMic).trigger('change');
+            if (presetSettings.metaRecMed && presetSettings.metaRecMed !== "") $("#userInputMetaRecMed").val(presetSettings.metaRecMed).trigger('change');
+            if (presetSettings.metaDsgnr && presetSettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(presetSettings.metaDsgnr).trigger('change');
+            if (presetSettings.metaLib && presetSettings.metaLib !== "") $("#userInputMetaLib").val(presetSettings.metaLib).trigger('change');
+            if (presetSettings.metaURL && presetSettings.metaURL !== "") $("#userInputMetaURL").val(presetSettings.metaURL).trigger('change');
+            if (presetSettings.metaCoun && presetSettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(presetSettings.metaCoun).trigger('change'); }, 500);
+            if (presetSettings.metaState && presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 1000);
+            if (presetSettings.metaCity && presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1500);            
+            if (presetSettings.metaPersp && presetSettings.metaPersp !== "-") $("#userInputMetaPersp").val(presetSettings.metaPersp).trigger('change');
+            if (presetSettings.metaIntExt && presetSettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(presetSettings.metaIntExt).trigger('change');
+            if (presetSettings.userItems && presetSettings.userItems !== "") $("#userInputItems").val(presetSettings.userItems).trigger('change');
+            if (presetSettings.userArea && presetSettings.userArea !== "") $("#userInputArea").val(presetSettings.userArea).trigger('change');
             $("#userInputVarNumCheckbox").prop("checked",presetSettings.enumerate);
+
+            // Mic config requires a little bit of extra work due to the ambisonics modal
+            if (presetSettings.metaConfig && presetSettings.metaConfig !== "-") {
+                if (presetSettings.metaConfig.includes("Ambisonic")) $("#customAmbi").text(presetSettings.metaConfig);
+                $("#userInputMetaConfig").val(presetSettings.metaConfig).trigger('change');
+            }
+
+            // Set preset edit textbox value
+            $("#presetName").val(presetSettings.preset).trigger('change');
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -2047,13 +2456,176 @@
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // SAVE CURRENT SETTINGS TO HISTORY
+        // ~~~~~~~~~~~~~~~~~~~~
+        function saveThisHistory() {
+            // Get user's settings            
+            var currentCatID = getCatID($("#userInputCategory").val(), $("select#userSelectSubCategory option:checked").val());
+            if ($("#userInputName").val().length > 14) {
+                var historyName = month + "/" + day + ": " + currentCatID + "_" + $("#userInputName").val().substring(0,12) + "..."
+            } else {
+                var historyName = month + "/" + day + ": " + currentCatID + "_" + $("select#userSelectSubCategory option:checked").val() + " " + $("#userInputName").val();
+            }
+
+            var mySettings = {
+                presetIndex: history_index,
+                preset: historyName,
+                category: $("#userInputCategory").val(),
+                subcategory: $("select#userSelectSubCategory option:checked").val(),
+                filename: $("#userInputName").val(),
+                enumerate: $("#userInputVarNumCheckbox").prop("checked"),
+                userCat: $("#userInputUserCat").val(),
+                userId: $("#userInputInitials").val(),
+                showId: $("#userInputShow").val(),
+                userData: $("#userInputData").val(),
+                vendorCat: $("#userInputVendCat").val(),
+                metaTitle: $("#userInputMetaTitle").val(),
+                metaDesc: $("#userInputMetaDesc").val(),
+                metaKeys: $("#userInputMetaKeys").val(),
+                metaMic: $("#userInputMetaMic").val(),
+                metaRecMed: $("#userInputMetaRecMed").val(),
+                metaDsgnr: $("#userInputMetaDsgnr").val(),
+                metaLib: $("#userInputMetaLib").val(),        
+                metaURL: $("#userInputMetaURL").val(),
+                metaCoun: $("#countryId").val(),
+                metaState: $("#stateId").val(),
+                metaCity: $("#cityId").val(),
+                metaPersp: $("#userInputMetaPersp").val(),
+                metaConfig: $("#userInputMetaConfig").val(),
+                metaIntExt: $("#userInputMetaIntExt").val(),
+                userItems: $("#userInputItems").val(),
+                userArea: $("#userInputArea").val()
+            }
+            console.log(mySettings);
+            
+            // Get/update number of user history in local storage
+            var history_index = 0;
+            var edit_mode = false;
+            if (localStorage.getItem("num-history") !== null) {
+
+                // Increment index
+                var num_history = parseInt(localStorage.getItem("num-history"), 10);
+                history_index = parseInt(localStorage.getItem("num-history"), 10) + 1;
+                localStorage.setItem("num-history", history_index.toString());
+
+            } else {
+                // No history stored yet
+                localStorage.setItem("num-history", "1");
+                history_index = 1;
+            }
+
+            // Store current history
+            var settingsString = JSON.stringify(mySettings);
+            localStorage.setItem("ucs-history-" + history_index,settingsString);
+            
+            // Add dropdown element for this history to top of list
+            $("#navbarHistoryDropdownOptions").prepend('<a class="dropdown-item" href="#" id="userHistory' + history_index + '" onClick="loadThisHistory(' + history_index + ')" style="display: flex; align-items: center;">' + mySettings.preset + '</a>');
+        
+            // Delete old history
+            deleteOldHistory();
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // LOAD SPECIFIC HISTORY
+        // ~~~~~~~~~~~~~~~~~~~~
+        function loadThisHistory(index) {
+            // Close presets dropdown menu, if open
+            if ($('#navbarHistoryDropdownOptions').hasClass("show")) $("#navbarHistoryDropdown").dropdown("toggle");
+            
+            // Fetch preset
+            var historySettings = JSON.parse(localStorage.getItem("ucs-history-" + index));
+            
+            // Set values
+            console.log("Loading history number: " + index);
+            if (historySettings.category && historySettings.category !== "") $("#userInputCategory").val(historySettings.category).trigger('change');
+            if (historySettings.subcategory && historySettings.subcategory !== "Please select a category!") $("#userSelectSubCategory").val(historySettings.subcategory).trigger('change');
+            if (historySettings.filename && historySettings.filename !== "") $("#userInputName").val(historySettings.filename).trigger('change');            
+            if (historySettings.userCat && historySettings.userCat !== "") $("#userInputUserCat").val(historySettings.userCat).trigger('change');
+            if (historySettings.userId && historySettings.userId !== "") $("#userInputInitials").val(historySettings.userId).trigger('change');
+            if (historySettings.showId && historySettings.showId !== "") $("#userInputShow").val(historySettings.showId).trigger('change');
+            if (historySettings.userData && historySettings.userData !== "") $("#userInputData").val(historySettings.userData).trigger('change');
+            if (historySettings.vendorCat && historySettings.vendorCat !== "") $("#userInputVendCat").val(historySettings.vendorCat).trigger('change');
+            if (historySettings.metaTitle && historySettings.metaTitle !== "") $("#userInputMetaTitle").val(historySettings.metaTitle).trigger('change');
+            if (historySettings.metaDesc && historySettings.metaDesc !== "") $("#userInputMetaDesc").val(historySettings.metaDesc).trigger('change');
+            if (historySettings.metaKeys && historySettings.metaKeys !== "") $("#userInputMetaKeys").val(historySettings.metaKeys).trigger('change');
+            if (historySettings.metaMic && historySettings.metaMic !== "") $("#userInputMetaMic").val(historySettings.metaMic).trigger('change');
+            if (historySettings.metaRecMed && historySettings.metaRecMed !== "") $("#userInputMetaRecMed").val(historySettings.metaRecMed).trigger('change');
+            if (historySettings.metaDsgnr && historySettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(historySettings.metaDsgnr).trigger('change');
+            if (historySettings.metaLib && historySettings.metaLib !== "") $("#userInputMetaLib").val(historySettings.metaLib).trigger('change');
+            if (historySettings.metaURL && historySettings.metaURL !== "") $("#userInputMetaURL").val(historySettings.metaURL).trigger('change');
+            if (historySettings.metaCoun && historySettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(historySettings.metaCoun).trigger('change'); }, 500);
+            if (historySettings.metaState && historySettings.metaState !== "") setTimeout(() => { $("#stateId").val(historySettings.metaState).trigger('change'); }, 1000);
+            if (historySettings.metaCity && historySettings.metaCity !== "") setTimeout(() => { $("#cityId").val(historySettings.metaCity).trigger('change'); }, 1500);            
+            if (historySettings.metaPersp && historySettings.metaPersp !== "-") $("#userInputMetaPersp").val(historySettings.metaPersp).trigger('change');
+            if (historySettings.metaIntExt && historySettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(historySettings.metaIntExt).trigger('change');
+            if (historySettings.userItems && historySettings.userItems !== "") $("#userInputItems").val(historySettings.userItems).trigger('change');
+            if (historySettings.userArea && historySettings.userArea !== "") $("#userInputArea").val(historySettings.userArea).trigger('change');
+            $("#userInputVarNumCheckbox").prop("checked",historySettings.enumerate);
+
+            // Mic config requires a little bit of extra work due to the ambisonics modal
+            if (historySettings.metaConfig && historySettings.metaConfig !== "-") {
+                if (historySettings.metaConfig.includes("Ambisonic")) $("#customAmbi").text(historySettings.metaConfig);
+                $("#userInputMetaConfig").val(historySettings.metaConfig).trigger('change');
+            }
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // DELETE USER PRESETS
+        // ~~~~~~~~~~~~~~~~~~~~
+        function deleteOldHistory() {
+            // Fetch presets
+            if (localStorage.getItem("num-history") !== null) {
+                // Count the actual number of saved history items
+                var num_history = parseInt(localStorage.getItem("num-history"), 10);
+                var actual_num = 0;
+                for (var history_index = 1; history_index <= num_history; history_index++) {                    
+                    if (localStorage.getItem("ucs-history-" + history_index) !== null) {                        
+                        actual_num = actual_num + 1;
+                    }
+                }
+
+                // Delete the lowest numbers up to the max history slots
+                var max_history_slots = 10
+                for (var history_index = 1; history_index <= num_history; history_index++) {
+                    if (localStorage.getItem("ucs-history-" + history_index) !== null) {                                                                                
+                        if (actual_num > max_history_slots) {
+                            localStorage.removeItem("ucs-history-" + history_index);
+                            $("#userHistory" + history_index).remove();
+                            actual_num = actual_num - 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // LOAD USERS HISTORY AND FILL OUT DROPDOWN
+        // ~~~~~~~~~~~~~~~~~~~~
+        function loadUserHistory() {
+            // Load presets
+            if (localStorage.getItem("num-history") !== null) {
+                // Found existing number of presets
+                var num_history = parseInt(localStorage.getItem("num-history"), 10);
+                for (var history_index = 1; history_index <= num_history; history_index++) {
+                    if (localStorage.getItem("ucs-history-" + history_index) !== null) {
+                        // Parse JSON
+                        var historySettings = JSON.parse(localStorage.getItem("ucs-history-" + history_index));
+                        
+                        // Add dropdown element for history to top of list
+                        $("#navbarHistoryDropdownOptions").prepend('<a class="dropdown-item" href="#" id="userHistory' + history_index + '" onClick="loadThisHistory(' + history_index + ')" style="display: flex; align-items: center;">' + historySettings.preset + '</a>');
+                    }
+                }
+            }
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // USE OFFLINE UCS DATA IF AVAILABLE
         // ~~~~~~~~~~~~~~~~~~~~
         function useOfflineUSCData(offlineTableData) {
             // Display appropriate HTML elements
-            $("#UCSTableSubHeading").text("UCS Data Offline Mode");
-            $("#reenableOnlineUCSButtonText").show();
-            $("#onlineUCSButton").show();
+            $("#UCSTableSubHeading").text("UCS Data Offline Mode ~ UCS v8.1");
+            //$("#reenableOnlineUCSButtonText").show();
+            //$("#onlineUCSButton").show();
 
             // Build full table from offline info
             jsonFullTable = JSON.parse(offlineTableData);
@@ -2136,6 +2708,11 @@
 
             $.getJSON(ucs_gsheet, function (data) {
                 var entry = data.feed.entry;
+
+                // Get UCS data version number
+                var UCSVersionNumber = entry[0].content.$t;
+                $("#UCSTableSubHeading").text("Google Sheets Data/Online Mode ~ UCS " + UCSVersionNumber);
+
                 // Loop through the JSON, starting on the second row (skip headers)
                 // For this process to work, there CANNOT be any blank cells
                 for (var i = 6; i < entry.length - 6; i += 6) {

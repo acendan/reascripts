@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.0.4
+-- @version 5.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,20 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   - Added Julibrary mode for copying Julibrary metadata. Included ".wav" on extension for filename
+--   - Added a dropdown to recall your history/recent submissions! (thanks Noah for the suggestion!)
+--   - Added toggle to place metadata markers after regions & items to avoid embedding as wav cues (thanks Jonathan & Nikolaj!)
+--   - Added Mic Configuration dropdown to set iXML RecType
+--   - Added Ambisonic Mic Configuration modal to mic configs
+--   - Added toggle to set render directory to UCS Category\SubCategory\File 
+--   - Added more options to Mic Perspective field
+--   - Added v6.33 metadata marker ";" separator support
+--   - Added Turkish language support
+--   - Fully translate tool when Chinese is selected
+--   - Updated to UCS v8.1 Categories, Subcategories, Synonyms
+--   - When selecting/entering a preset, set last selection as text in edit box 
+--   - UCS Data Table version number now updates with online sync, rather than hardcoded. Oops.
+--   - Temporarily set all users to use offline UCS data because Google broke their JSON hosting...
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -41,6 +54,9 @@ local ret_num,  ucs_num  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Numbe
 local ret_enum, ucs_enum = reaper.GetProjExtState( 0, "UCS_WebInterface", "EnableNum" )
 local ret_ixml, ucs_ixml = reaper.GetProjExtState( 0, "UCS_WebInterface", "iXMLMetadata" )
 local ret_meta, ucs_meta = reaper.GetProjExtState( 0, "UCS_WebInterface", "ExtendedMetadata" )
+local ret_dir,  ucs_dir  = reaper.GetProjExtState( 0, "UCS_WebInterface", "RenderDirectory" )
+local ret_mkr,  ucs_mkr  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MarkerFormat" )
+local ret_mpos, ucs_mpos = reaper.GetProjExtState( 0, "UCS_WebInterface", "MarkerPosition")
 local ret_init, ucs_init = reaper.GetProjExtState( 0, "UCS_WebInterface", "Initials" )
 local ret_show, ucs_show = reaper.GetProjExtState( 0, "UCS_WebInterface", "Show" )
 local ret_type, ucs_type = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputItems" )
@@ -60,6 +76,7 @@ local retm_lib,    meta_lib    = reaper.GetProjExtState( 0, "UCS_WebInterface", 
 local retm_loc,    meta_loc    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLoc")
 local retm_url,    meta_url    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaURL")
 local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
+local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
 
 -- Initialize global var for full name, see setFullName()
 local ucs_full_name = ""
@@ -223,6 +240,9 @@ function parseUCSWebInterfaceInput()
       end
     end
     
+    -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -- ~~~~~ POST PROCESSING ~~~~~
+    -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -- Set up iXML markers
     if ret_ixml and ucs_ixml == "true" and #iXMLMarkerTbl > 0 then iXMLMarkersEngage() end
     
@@ -231,6 +251,9 @@ function parseUCSWebInterfaceInput()
     
     -- Julibrary mode, copy metadata to clipboard
     if julibrary_mode then reaper.CF_SetClipboard( julibrary_metadata ) end
+
+    -- Set render directory
+    if ret_dir and ucs_dir == "true" then setRenderDirectory() end
     
   -- Copy to clipboard WITHOUT processing
   else
@@ -273,7 +296,13 @@ function renameRegions(num_markers,num_regions)
             -- SET NAME
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             -- METADATA
-            if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
+            if ret_ixml and ucs_ixml == "true" then 
+              if ret_mpos and ucs_mpos == "true" then
+                iXMLMarkers(rgnend + 0.0005,relname)
+              else
+                iXMLMarkers(pos,relname) 
+              end
+            end
             -- INCREMENT
             incrementUCSNumStr()
           end
@@ -297,7 +326,13 @@ function renameRegions(num_markers,num_regions)
         if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
         if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
-        if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
+        if ret_ixml and ucs_ixml == "true" then 
+          if ret_mpos and ucs_mpos == "true" then
+            iXMLMarkers(rgnend + 0.0005,relname)
+          else
+            iXMLMarkers(pos,relname) 
+          end
+        end
         incrementUCSNumStr()
       end
       i = i + 1
@@ -316,7 +351,13 @@ function renameRegions(num_markers,num_regions)
         if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
         if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, regionidx, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
-        if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
+        if ret_ixml and ucs_ixml == "true" then 
+          if ret_mpos and ucs_mpos == "true" then
+            iXMLMarkers(rgnend + 0.0005,relname)
+          else
+            iXMLMarkers(pos,relname) 
+          end
+        end
         incrementUCSNumStr()
       end
     end
@@ -337,7 +378,13 @@ function renameRegions(num_markers,num_regions)
             if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
             if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
-            if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
+            if ret_ixml and ucs_ixml == "true" then 
+              if ret_mpos and ucs_mpos == "true" then
+                iXMLMarkers(rgnend + 0.0005,relname)
+              else
+                iXMLMarkers(pos,relname) 
+              end
+            end
             incrementUCSNumStr()
             break
           end
@@ -455,6 +502,7 @@ function renameMediaItems(num_items)
       for i=0, num_sel_items - 1 do
         local item = reaper.GetSelectedMediaItem( 0, i )
         local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+        local item_end = item_start + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
         local take = reaper.GetActiveTake( item )
         local item_num = tostring(math.floor( reaper.GetMediaItemInfo_Value( item, "IP_ITEMNUMBER" ) + 1))
         if string.len(item_num) == 1 then item_num = "0" .. item_num end
@@ -474,7 +522,13 @@ function renameMediaItems(num_items)
             end
           end
           reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", ucs_full_name, true )
-          if ret_ixml and ucs_ixml == "true" then iXMLMarkers(item_start,relname) end
+          if ret_ixml and ucs_ixml == "true" then 
+            if ret_mpos and ucs_mpos == "true" then
+              iXMLMarkers(item_end + 0.0005,relname)
+            else
+              iXMLMarkers(item_start,relname) 
+            end
+          end
           incrementUCSNumStr()
         end
       end
@@ -486,6 +540,7 @@ function renameMediaItems(num_items)
     for i=0, num_items - 1 do
       local item =  reaper.GetMediaItem( 0, i )
       local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+      local item_end = item_start + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
       local take = reaper.GetActiveTake( item )
       local item_num = tostring(math.floor( reaper.GetMediaItemInfo_Value( item, "IP_ITEMNUMBER" ) + 1))
       if string.len(item_num) == 1 then item_num = "0" .. item_num end
@@ -505,7 +560,13 @@ function renameMediaItems(num_items)
           end
         end
         reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", ucs_full_name, true )
-        if ret_ixml and ucs_ixml == "true" then iXMLMarkers(item_start,relname) end
+        if ret_ixml and ucs_ixml == "true" then 
+          if ret_mpos and ucs_mpos == "true" then
+            iXMLMarkers(item_end + 0.0005,relname)
+          else
+            iXMLMarkers(item_start,relname) 
+          end
+        end
         incrementUCSNumStr()
       end
     end
@@ -809,80 +870,123 @@ function iXMLSetup()
   -- Copied directly from acendan_Set up SoundMiner iXML metadata markers in project render metadata settings.lua
   -- Sets up Project Render Metadata window with iXML marker values
   for k, v in pairs(iXML) do
-    if v == "RecType" then
-      local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$bitdepth/$sampleratekk", true)
-    elseif v == "ReleaseDate" then
+    if v == "ReleaseDate" then
       local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$date", true)
     elseif v == "Embedder" then
       local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|REAPER UCS Renaming Tool", true)
     else
-      local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$marker(" .. v .. ")", true )
+      -- v6.33 Marker Syntax [;]
+      if ret_mkr and ucs_mkr == "true" then
+        local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$marker(" .. v .. ")[;]", true )
+      
+      -- Pre Reaper v6.33 Pile-Of-Markers Syntax
+      else
+        local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$marker(" .. v .. ")", true )
+      end
     end
   end
 end
 
 -- Builds table of markers to setup at location with appropriate iXML info
 function iXMLMarkers(position,relname)
-  -- Marker names format: CatID=FGHTImpt
-  --[[ ONES BUILT IN TO THE UCS RENAMING TOOL ALREADY
-    "CatID"           -- CATId
-    "Category"        -- CATEGORY
-    "SubCategory"     -- SUBCATEGORY
-    "CategoryFull"    -- CATEGORY-SUBCATEGORY
-    "UserCategory"    -- User Category
-    "FXName"          -- File name field
-    "Notes"           -- User Data/Notes (Optional)
-    "Show"            -- Source ID (if not NONE/empty)
-  ]]--
 
-  -- Standard UCS
-  if ret_id   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CatID=" .. ucs_id, ucs_num} end
-  if ret_cat  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Category=" .. ucs_cat, ucs_num} end
-  if ret_scat then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "SubCategory=" .. ucs_scat, ucs_num} end
-  if ret_usca then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "UserCategory=" .. ucs_usca, ucs_num} end
-  if ret_vend then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "VendorCategory=" .. ucs_vend, ucs_num} end
-  if ret_name then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "FXName=" .. relname, ucs_num} end
-  if ret_data then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Notes=" .. ucs_data, ucs_num} end
-  if ret_show then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Show=" .. ucs_show, ucs_num} end
-  if ret_cat and ret_scat then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat, ucs_num} end
-  
-  -- Extended meta
-  if ret_meta then
-    if retm_title  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "TrackTitle=" .. meta_title, ucs_num} end
-    if retm_desc   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Description=" .. meta_desc, ucs_num} end
-    if retm_keys   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Keywords=" .. meta_keys, ucs_num} end
-    if retm_mic    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Microphone=" .. meta_mic, ucs_num} end
-    if retm_recmed then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecMedium=" .. meta_recmed, ucs_num} end
-    if retm_lib    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Library=" .. meta_lib, ucs_num} end
-    if retm_loc    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Location=" .. meta_loc, ucs_num} end
-    if retm_url    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "URL=" .. meta_url, ucs_num} end
-    if retm_persp  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MicPerspective=" .. meta_persp, ucs_num} end
-    
-    -- Designer and Short ID
-    if retm_dsgnr  then 
-      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Designer=" .. meta_dsgnr, ucs_num}
-      local meta_short = ""
-      for i in string.gmatch(meta_dsgnr, "%S+") do
-         meta_short = meta_short .. i:sub(1,3)
+  -- v6.33 Marker Syntax [;]
+  if ret_mkr and ucs_mkr == "true" then
+
+    local mega_marker = "META"
+
+    -- Standard UCS
+    if ret_id   then mega_marker = mega_marker .. ";" .. "CatID=" .. ucs_id end
+    if ret_cat  then mega_marker = mega_marker .. ";" .. "Category=" .. ucs_cat end
+    if ret_scat then mega_marker = mega_marker .. ";" .. "SubCategory=" .. ucs_scat end
+    if ret_usca then mega_marker = mega_marker .. ";" .. "UserCategory=" .. ucs_usca end
+    if ret_vend then mega_marker = mega_marker .. ";" .. "VendorCategory=" .. ucs_vend end
+    if ret_name then mega_marker = mega_marker .. ";" .. "FXName=" .. relname end
+    if ret_data then mega_marker = mega_marker .. ";" .. "Notes=" .. ucs_data end
+    if ret_show then mega_marker = mega_marker .. ";" .. "Show=" .. ucs_show end
+    if ret_cat and ret_scat then mega_marker = mega_marker .. ";" .. "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat end
+
+    -- Extended meta
+    if ret_meta then
+      if retm_title  then mega_marker = mega_marker .. ";" .. "TrackTitle=" .. meta_title end
+      if retm_desc   then mega_marker = mega_marker .. ";" .. "Description=" .. meta_desc end
+      if retm_keys   then mega_marker = mega_marker .. ";" .. "Keywords=" .. meta_keys end
+      if retm_mic    then mega_marker = mega_marker .. ";" .. "Microphone=" .. meta_mic end
+      if retm_recmed then mega_marker = mega_marker .. ";" .. "RecMedium=" .. meta_recmed end
+      if retm_lib    then mega_marker = mega_marker .. ";" .. "Library=" .. meta_lib end
+      if retm_loc    then mega_marker = mega_marker .. ";" .. "Location=" .. meta_loc end
+      if retm_url    then mega_marker = mega_marker .. ";" .. "URL=" .. meta_url end
+      if retm_persp  then mega_marker = mega_marker .. ";" .. "MicPerspective=" .. meta_persp end
+      if retm_config then mega_marker = mega_marker .. ";" .. "RecType=" .. meta_config end
+      
+      -- Designer and Short ID
+      if retm_dsgnr  then 
+        mega_marker = mega_marker .. ";" .. "Designer=" .. meta_dsgnr
+        local meta_short = ""
+        for i in string.gmatch(meta_dsgnr, "%S+") do
+          meta_short = meta_short .. i:sub(1,3)
+        end
+        mega_marker = mega_marker .. ";" .. "ShortID=" .. meta_short
       end
-      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
     end
-  
-    -- Prep clipboard contents for Julibrary mode
-    if julibrary_mode then
-      local rec_type = "24/" .. tostring(reaper.GetSetProjectInfo( 0, "RENDER_SRATE", 0, false)/1000):gsub("%..+","k")
-      julibrary_metadata = julibrary_metadata .. 
-        ucs_full_name .. ".wav" .. tab .. 
-        meta_desc .. tab .. 
-        relname .. tab .. 
-        meta_title .. tab ..
-        meta_persp .. tab ..
-        meta_mic .. tab .. 
-        rec_type .. tab .. 
-        ucs_id .. tab ..
-        meta_loc .. tab .. 
-        ucs_data .. "\n"
+
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, mega_marker, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position + 0.001, "META", ucs_num}
+
+
+  -- Pre Reaper v6.33 Pile-Of-Markers Syntax
+  else
+      
+    -- Standard UCS
+    if ret_id   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CatID=" .. ucs_id, ucs_num} end
+    if ret_cat  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Category=" .. ucs_cat, ucs_num} end
+    if ret_scat then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "SubCategory=" .. ucs_scat, ucs_num} end
+    if ret_usca then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "UserCategory=" .. ucs_usca, ucs_num} end
+    if ret_vend then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "VendorCategory=" .. ucs_vend, ucs_num} end
+    if ret_name then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "FXName=" .. relname, ucs_num} end
+    if ret_data then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Notes=" .. ucs_data, ucs_num} end
+    if ret_show then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Show=" .. ucs_show, ucs_num} end
+    if ret_cat and ret_scat then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat, ucs_num} end
+    
+    -- Extended meta
+    if ret_meta then
+      if retm_title  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "TrackTitle=" .. meta_title, ucs_num} end
+      if retm_desc   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Description=" .. meta_desc, ucs_num} end
+      if retm_keys   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Keywords=" .. meta_keys, ucs_num} end
+      if retm_mic    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Microphone=" .. meta_mic, ucs_num} end
+      if retm_recmed then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecMedium=" .. meta_recmed, ucs_num} end
+      if retm_lib    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Library=" .. meta_lib, ucs_num} end
+      if retm_loc    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Location=" .. meta_loc, ucs_num} end
+      if retm_url    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "URL=" .. meta_url, ucs_num} end
+      if retm_persp  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MicPerspective=" .. meta_persp, ucs_num} end
+      if retm_config then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecType=" .. meta_config, ucs_num} end
+      
+      -- Designer and Short ID
+      if retm_dsgnr  then 
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Designer=" .. meta_dsgnr, ucs_num}
+        local meta_short = ""
+        for i in string.gmatch(meta_dsgnr, "%S+") do
+          meta_short = meta_short .. i:sub(1,3)
+        end
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
+      end
     end
+  end
+
+  -- Prep clipboard contents for Julibrary mode
+  if julibrary_mode then
+    local rec_type = "24/" .. tostring(reaper.GetSetProjectInfo( 0, "RENDER_SRATE", 0, false)/1000):gsub("%..+","k")
+    julibrary_metadata = julibrary_metadata .. 
+      ucs_full_name .. ".wav" .. tab .. 
+      meta_desc .. tab .. 
+      relname .. tab .. 
+      meta_title .. tab ..
+      meta_persp .. tab ..
+      meta_mic .. tab .. 
+      rec_type .. tab .. 
+      ucs_id .. tab ..
+      meta_loc .. tab .. 
+      ucs_data .. "\n"
   end
 end
 
@@ -896,26 +1000,94 @@ function iXMLMarkersEngage()
   while i < nmb_tot do
     local _, isrgn, pos, _, name, idx, _ = reaper.EnumProjectMarkers3( 0, i )
     if not isrgn and name:find("=") then
-      -- Use lua string match to only get the content before the equals sign
-      projMarkerTbl[#projMarkerTbl+1] = tostring(pos) .. name:gsub("=.*","") .. "||" .. tostring(i)
+       -- v6.33 Marker Syntax [;]
+      if ret_mkr and ucs_mkr == "true" then
+        -- Store the position of all metadata related markers
+        if name:sub(1,5) == "META;" then
+          projMarkerTbl[#projMarkerTbl+1] = tostring(pos) .. "META;" .. "||" .. tostring(i)
+        end
+
+      -- Pre Reaper v6.33 Pile-Of-Markers Syntax
+      else
+        -- Use lua string match to only get the content before the equals sign
+        projMarkerTbl[#projMarkerTbl+1] = tostring(pos) .. name:gsub("=.*","") .. "||" .. tostring(i)
+      end
+    elseif not isrgn and name == "META" then
+      projMarkerTbl[#projMarkerTbl+1] = tostring(pos) .. "META_MKR"
     end
     i = i + 1
   end
-  
+
   -- Insert marker in project
   for _, v in pairs(iXMLMarkerTbl) do
-    local search = tostring(v[1]) .. v[2]:gsub("=.*","") -- Search for combination of marker position and metadata prefix
-    if tableContainsVal(projMarkerTbl,search) then
-      -- Found an existing marker with that metadata tag in that position, so just rename it
-      if debug_mode then reaper.ShowConsoleMsg("Found a metadata marker at pos: " .. tostring(v[1]) .. " - " .. v[2] .. "\n") end
-      local val = fetchTableVal(projMarkerTbl,search)
-      val = val:gsub(".*||","") -- Get idx from end of string
-      local retval, isrgn, pos, rgnend, name, markrgnidx, color = reaper.EnumProjectMarkers3( 0, tonumber(val) )
-      reaper.SetProjectMarkerByIndex( 0, tonumber(val), isrgn, pos, rgnend, markrgnidx, v[2], color )
+
+    -- v6.33 Marker Syntax [;]
+    if ret_mkr and ucs_mkr == "true" then
+      -- Search for combination of marker position and metadata prefix
+      local search = tostring(v[1]) .. "META;"
+      local search2 = tostring(v[1]) .. "META_MKR"
+
+      if tableContainsVal(projMarkerTbl,search) then
+        -- Found an existing marker with that metadata tag in that position, so just rename it
+        if debug_mode then reaper.ShowConsoleMsg("Found a metadata marker at pos: " .. tostring(v[1]) .. " - " .. v[2] .. "\n") end
+        local val = fetchTableVal(projMarkerTbl,search)
+        val = val:gsub(".*||","") -- Get idx from end of string
+        local retval, isrgn, pos, rgnend, name, markrgnidx, color = reaper.EnumProjectMarkers3( 0, tonumber(val) )
+        reaper.SetProjectMarkerByIndex( 0, tonumber(val), isrgn, pos, rgnend, markrgnidx, v[2], color )
+      elseif tableContainsVal(projMarkerTbl, search2) then
+        -- This is just a "META" marker that doesn't do anything
+      else
+        -- Need to create a new marker
+        if debug_mode then reaper.ShowConsoleMsg("Did not find an existing metadata marker at pos: " .. tostring(v[1]) .. " - " .. v[2] .. "\n") end
+        reaper.AddProjectMarker( 0, 0, v[1], v[1], v[2], v[3] )
+      end
+      
+    -- Pre Reaper v6.33 Pile-Of-Markers Syntax
     else
-      -- Need to create a new marker
-      if debug_mode then reaper.ShowConsoleMsg("Did not find an existing metadata marker at pos: " .. tostring(v[1]) .. " - " .. v[2] .. "\n") end
-      reaper.AddProjectMarker( 0, 0, v[1], v[1], v[2], v[3] )
+      -- Search for combination of marker position and metadata prefix
+      local search = tostring(v[1]) .. v[2]:gsub("=.*","") 
+      if tableContainsVal(projMarkerTbl,search) then
+        -- Found an existing marker with that metadata tag in that position, so just rename it
+        if debug_mode then reaper.ShowConsoleMsg("Found a metadata marker at pos: " .. tostring(v[1]) .. " - " .. v[2] .. "\n") end
+        local val = fetchTableVal(projMarkerTbl,search)
+        val = val:gsub(".*||","") -- Get idx from end of string
+        local retval, isrgn, pos, rgnend, name, markrgnidx, color = reaper.EnumProjectMarkers3( 0, tonumber(val) )
+        reaper.SetProjectMarkerByIndex( 0, tonumber(val), isrgn, pos, rgnend, markrgnidx, v[2], color )
+      else
+        -- Need to create a new marker
+        if debug_mode then reaper.ShowConsoleMsg("Did not find an existing metadata marker at pos: " .. tostring(v[1]) .. " - " .. v[2] .. "\n") end
+        reaper.AddProjectMarker( 0, 0, v[1], v[1], v[2], v[3] )
+      end
+    end
+  end
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~ Set Render Dir~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function setRenderDirectory()
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_WNMAIN_HIDE_OTHERS"), 0)
+
+  if ret_mkr and ucs_mkr == "true" then
+    if ucs_type == "Regions" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$region", true)
+    elseif ucs_type == "Markers" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$marker", true)
+    elseif ucs_type == "Media Items" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$item", true)
+    elseif ucs_type == "Tracks" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$track", true)
+    end
+
+  else
+    if ucs_type == "Regions" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$region", true)
+    elseif ucs_type == "Markers" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$marker", true)
+    elseif ucs_type == "Media Items" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$item", true)
+    elseif ucs_type == "Tracks" then
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$track", true)
     end
   end
 end
@@ -932,6 +1104,9 @@ function ucsRetsToBool()
   if ret_num  == 1 then ret_num  = true else ret_num  = false end
   if ret_enum == 1 then ret_enum = true else ret_enum = false end
   if ret_ixml == 1 then ret_ixml = true else ret_ixml = false end
+  if ret_dir  == 1 then ret_dir  = true else ret_dir  = false end
+  if ret_mkr  == 1 then ret_mkr  = true else ret_mkr  = false end
+  if ret_mpos == 1 then ret_mpos = true else ret_mpos = false end
   if ret_meta == 1 then ret_meta = true else ret_meta = false end
   if ret_init == 1 then ret_init = true else ret_init = false end
   if ret_show == 1 then ret_show = true else ret_show = false end
@@ -955,6 +1130,7 @@ function ucsRetsToBool()
   if retm_loc    == 1 then retm_loc    = true else retm_loc    = false end
   if retm_url    == 1 then retm_url    = true else retm_url    = false end
   if retm_persp  == 1 then retm_persp  = true else retm_persp  = false end
+  if retm_config == 1 then retm_config = true else retm_config = false end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -970,6 +1146,9 @@ function debugUCSInput()
             "Number: "      .. ucs_num  .. " (" .. tostring(ret_num)  .. ")" .. "\n" .. 
             "Enum: "        .. ucs_enum .. " (" .. tostring(ret_enum) .. ")" .. "\n" ..
             "iXML: "        .. ucs_ixml .. " (" .. tostring(ret_ixml) .. ")" .. "\n" ..
+            "Directory: "   .. ucs_dir  .. " (" .. tostring(ret_dir)  .. ")" .. "\n" ..
+            "Mrkr Format: " .. ucs_mkr  .. " (" .. tostring(ret_mkr)  .. ")" .. "\n" ..
+            "Mrkr Pos:"     .. ucs_mpos .. " (" .. tostring(ret_mpos) .. ")" .. "\n" ..
             "Initials: "    .. ucs_init .. " (" .. tostring(ret_init) .. ")" .. "\n" .. 
             "Show: "        .. ucs_show .. " (" .. tostring(ret_show) .. ")" .. "\n" .. 
             "Type: "        .. ucs_type .. " (" .. tostring(ret_type) .. ")" .. "\n" .. 
@@ -989,7 +1168,8 @@ function debugUCSInput()
             "Library: "     .. meta_lib .. " (" .. tostring(retm_lib) .. ")" .. "\n" ..
             "Location: "    .. meta_loc .. " (" .. tostring(retm_loc) .. ")" .. "\n" ..
             "URL: "         .. meta_url .. " (" .. tostring(retm_url) .. ")" .. "\n" ..
-            "Perspective: " .. meta_persp .. " (" .. tostring(retm_persp) .. ")" .. "\n"
+            "Perspective: " .. meta_persp .. " (" .. tostring(retm_persp) .. ")" .. "\n" ..
+            "Mic Config: "  .. meta_config .. " (" .. tostring(retm_config) .. ")"
             , "UCS Renaming Tool", 0)
 end
 
