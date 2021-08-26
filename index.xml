@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="0c5589eefce4ea4dbd22d55538182acb30c109bc" name="ACendan Scripts">
+<index version="1" commit="446ca000087293a6105d532f1df7e3080926229a" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -330,6 +330,10 @@
         <changelog><![CDATA[# Converted to db increment]]></changelog>
         <source main="main" file="acendan_Mousewheel adjust source volume of item active take under cursor.lua">https://github.com/acendan/reascripts/raw/8f15713abb0ad29d1a69e1458ef73f9786d4cc10/Items%20Editing/acendan_Mousewheel%20adjust%20source%20volume%20of%20item%20active%20take%20under%20cursor.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
+        <changelog><![CDATA[# Optionally adjust volume of track if mouse over track panel]]></changelog>
+        <source main="main" file="acendan_Mousewheel adjust source volume of item active take under cursor.lua">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Items%20Editing/acendan_Mousewheel%20adjust%20source%20volume%20of%20item%20active%20take%20under%20cursor.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Mousewheel adjust volume of item under cursor.lua" type="script" desc="Mousewheel Items Volume">
       <metadata>
@@ -352,6 +356,10 @@
       <version name="1.3" author="Aaron Cendan" time="2021-07-07T05:54:04Z">
         <changelog><![CDATA[# Converted to db increment]]></changelog>
         <source main="main" file="acendan_Mousewheel adjust volume of item under cursor.lua">https://github.com/acendan/reascripts/raw/20733c0d84e5871a56c3f12e62af1f65a6c1b1fc/Items%20Editing/acendan_Mousewheel%20adjust%20volume%20of%20item%20under%20cursor.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
+        <changelog><![CDATA[# Optionally adjust volume of track if mouse over track panel]]></changelog>
+        <source main="main" file="acendan_Mousewheel adjust volume of item under cursor.lua">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Items%20Editing/acendan_Mousewheel%20adjust%20volume%20of%20item%20under%20cursor.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Mousewheel to change volume for all selected items.lua" type="script" desc="Mousewheel Sel Item Vol">
@@ -792,6 +800,14 @@
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/fc3dda71ba5b232f30f6888580269c13018f38dc/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
       </version>
     </reapack>
+    <reapack name="acendan_Export current column arrangement setup to file.lua" type="script" desc="Export Media Explorer Columns">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Media%20Explorer/acendan_Export%20current%20column%20arrangement%20setup%20to%20file.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Filter media explorer for selected media item names.lua" type="script" desc="Filter Media Explorer">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -822,6 +838,14 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-01-09T22:32:01Z">
         <source main="mediaexplorer" file="acendan_Filter media explorer for selected media items source files.lua">https://github.com/acendan/reascripts/raw/669050349b7a31b088e4eb936dc22c0222a30535/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20items%20source%20files.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Import column arrangement setup from file.lua" type="script" desc="Export Media Explorer Columns">
+      <metadata>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Media%20Explorer/acendan_Import%20column%20arrangement%20setup%20from%20file.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Remove all custom user metadata columns.lua" type="script" desc="Remove User Metadata Columns">
