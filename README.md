@@ -70,9 +70,11 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Rename project markers with CHAP prefix for FLAC cues
  - Markers\acendan_Rename project markers with pound hashtag prefix for WAV cues
  - Media Explorer\acendan_Add custom user columns for SoundMiner iXML Metadata
+ - Media Explorer\acendan_Export current column arrangement setup to file
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
  - Media Explorer\acendan_GUI_Display selected media explorer item embedded cover image
+ - Media Explorer\acendan_Import column arrangement setup from file
  - Media Explorer\acendan_Remove all custom user metadata columns
  - Metadata\acendan_Export project render metadata settings to file
  - Metadata\acendan_Import project render metadata settings from file

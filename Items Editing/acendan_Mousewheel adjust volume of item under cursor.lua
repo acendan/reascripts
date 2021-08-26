@@ -1,6 +1,6 @@
 -- @description Mousewheel Items Volume
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Mousewheel adjust volume of item under cursor.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Thanks NVK for the mousewheel script formatting <3
 -- @changelog
---   # Converted to db increment
+--   # Optionally adjust volume of track if mouse over track panel
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -22,6 +22,7 @@ vshift = 0.2     -- The amount to volume shift by, in dB. One 'bump' on my mouse
 
 selected_items = true -- If set to true, this will adjust volume of selected items when mouse is NOT hovering over a specific item.
 
+track_vol = true -- If set to true, this will adjust the volume of the track under the mouse when mouse is over the TCP
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -34,62 +35,92 @@ local function no_undo()reaper.defer(function()end)end
 
 function Main()
   is_new,name,sec,cmd,rel,res,val = reaper.get_action_context()
-  if val < 0 then
-    -- LOWER PITCH
-    for i = 0, speed do
-      local item, position = reaper.BR_ItemAtMouseCursor()
-      if item then
-
+  trk,ctxt,_ = reaper.BR_TrackAtMouseCursor()
+  
+  -- IF HOVERING OVER TRACK CONTROL PANEL
+  if ctxt == 0 and trk and track_vol then
+    if val < 0 then
+      -- LOWER VOLUME
+      for i = 0, speed do
         -- MPL made his fancy pants scripts paid... smh
-        local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
+        local it_vol = reaper.GetMediaTrackInfo_Value( trk, 'D_VOL' ) 
         local it_vol_db = acendan.VAL2DB(it_vol)
         local it_vol_out = math.max(acendan.DB2VAL(it_vol_db - vshift),0)
         
-        reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
-        reaper.UpdateItemInProject( item )
+        reaper.SetMediaTrackInfo_Value(trk, 'D_VOL', it_vol_out)
 
-      elseif selected_items then
-        local num_sel_items = reaper.CountSelectedMediaItems(0)
-        if num_sel_items > 0 then
-          for i=0, num_sel_items - 1 do
-            local item = reaper.GetSelectedMediaItem( 0, i )
-            local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
-            local it_vol_db = acendan.VAL2DB(it_vol)
-            local it_vol_out = math.max(acendan.DB2VAL(it_vol_db - vshift),0)
-                    
-            reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
-            reaper.UpdateItemInProject( item )
-          end
-        end
       end
-    end
-  else
-    -- RAISE PITCH
-    for i = 0, speed do
-      local item, position = reaper.BR_ItemAtMouseCursor()
-      if item then
-        local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
+    else
+      -- RAISE VOLUME
+      for i = 0, speed do
+        -- MPL made his fancy pants scripts paid... smh
+        local it_vol = reaper.GetMediaTrackInfo_Value( trk, 'D_VOL' )
         local it_vol_db = acendan.VAL2DB(it_vol)
         local it_vol_out = math.max(acendan.DB2VAL(it_vol_db + vshift),0)
-        reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
-        reaper.UpdateItemInProject( item )
-      
-      elseif selected_items then
-        local num_sel_items = reaper.CountSelectedMediaItems(0)
-        if num_sel_items > 0 then
-          for i=0, num_sel_items - 1 do
-            local item = reaper.GetSelectedMediaItem( 0, i )
-            local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
-            local it_vol_db = acendan.VAL2DB(it_vol)
-            local it_vol_out = math.max(acendan.DB2VAL(it_vol_db + vshift),0)
-            reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
-            reaper.UpdateItemInProject( item )
+        
+        reaper.SetMediaTrackInfo_Value(trk, 'D_VOL', it_vol_out)
+      end
+    end
+  
+  -- NOT HOVERING OVER TRACK CONTROL PANEL
+  else
+    if val < 0 then
+      -- LOWER PITCH
+      for i = 0, speed do
+        local item, position = reaper.BR_ItemAtMouseCursor()
+        if item then
+  
+          -- MPL made his fancy pants scripts paid... smh
+          local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
+          local it_vol_db = acendan.VAL2DB(it_vol)
+          local it_vol_out = math.max(acendan.DB2VAL(it_vol_db - vshift),0)
+          
+          reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
+          reaper.UpdateItemInProject( item )
+  
+        elseif selected_items then
+          local num_sel_items = reaper.CountSelectedMediaItems(0)
+          if num_sel_items > 0 then
+            for i=0, num_sel_items - 1 do
+              local item = reaper.GetSelectedMediaItem( 0, i )
+              local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
+              local it_vol_db = acendan.VAL2DB(it_vol)
+              local it_vol_out = math.max(acendan.DB2VAL(it_vol_db - vshift),0)
+                      
+              reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
+              reaper.UpdateItemInProject( item )
+            end
+          end
+        end
+      end
+    else
+      -- RAISE PITCH
+      for i = 0, speed do
+        local item, position = reaper.BR_ItemAtMouseCursor()
+        if item then
+          local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
+          local it_vol_db = acendan.VAL2DB(it_vol)
+          local it_vol_out = math.max(acendan.DB2VAL(it_vol_db + vshift),0)
+          reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
+          reaper.UpdateItemInProject( item )
+        
+        elseif selected_items then
+          local num_sel_items = reaper.CountSelectedMediaItems(0)
+          if num_sel_items > 0 then
+            for i=0, num_sel_items - 1 do
+              local item = reaper.GetSelectedMediaItem( 0, i )
+              local it_vol = reaper.GetMediaItemInfo_Value( item, 'D_VOL' )
+              local it_vol_db = acendan.VAL2DB(it_vol)
+              local it_vol_out = math.max(acendan.DB2VAL(it_vol_db + vshift),0)
+              reaper.SetMediaItemInfo_Value( item, 'D_VOL' ,it_vol_out )
+              reaper.UpdateItemInProject( item )
+            end
           end
         end
       end
     end
+    reaper.SetCursorContext(1, nil)
   end
-  reaper.SetCursorContext(1, nil)
 end
 
 reaper.PreventUIRefresh(1)
