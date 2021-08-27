@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="446ca000087293a6105d532f1df7e3080926229a" name="ACendan Scripts">
+<index version="1" commit="ee8020bd3d57591a68f8b1d9a3dd3fa60578e0c7" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -334,6 +334,10 @@
         <changelog><![CDATA[# Optionally adjust volume of track if mouse over track panel]]></changelog>
         <source main="main" file="acendan_Mousewheel adjust source volume of item active take under cursor.lua">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Items%20Editing/acendan_Mousewheel%20adjust%20source%20volume%20of%20item%20active%20take%20under%20cursor.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2021-08-27T15:06:36Z">
+        <changelog><![CDATA[# Added optional reverse direction toggle]]></changelog>
+        <source main="main" file="acendan_Mousewheel adjust source volume of item active take under cursor.lua">https://github.com/acendan/reascripts/raw/ee8020bd3d57591a68f8b1d9a3dd3fa60578e0c7/Items%20Editing/acendan_Mousewheel%20adjust%20source%20volume%20of%20item%20active%20take%20under%20cursor.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Mousewheel adjust volume of item under cursor.lua" type="script" desc="Mousewheel Items Volume">
       <metadata>
@@ -360,6 +364,10 @@
       <version name="1.4" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
         <changelog><![CDATA[# Optionally adjust volume of track if mouse over track panel]]></changelog>
         <source main="main" file="acendan_Mousewheel adjust volume of item under cursor.lua">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Items%20Editing/acendan_Mousewheel%20adjust%20volume%20of%20item%20under%20cursor.lua</source>
+      </version>
+      <version name="1.5" author="Aaron Cendan" time="2021-08-27T15:06:36Z">
+        <changelog><![CDATA[# Added reverse direction toggle]]></changelog>
+        <source main="main" file="acendan_Mousewheel adjust volume of item under cursor.lua">https://github.com/acendan/reascripts/raw/ee8020bd3d57591a68f8b1d9a3dd3fa60578e0c7/Items%20Editing/acendan_Mousewheel%20adjust%20volume%20of%20item%20under%20cursor.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Mousewheel to change volume for all selected items.lua" type="script" desc="Mousewheel Sel Item Vol">
