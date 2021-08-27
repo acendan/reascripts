@@ -1,6 +1,6 @@
 -- @description Mousewheel Items Volume
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Mousewheel adjust volume of item under cursor.lua
@@ -8,21 +8,23 @@
 -- @about
 --   # Thanks NVK for the mousewheel script formatting <3
 -- @changelog
---   # Optionally adjust volume of track if mouse over track panel
+--   # Added reverse direction toggle
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-speed = 1        -- 0 is slowest speed. Set to higher integers to shift faster
+speed = 1             -- 0 is slowest speed. Set to higher integers to shift faster
 
-vshift = 0.2     -- The amount to volume shift by, in dB. One 'bump' on my mousewheel is equal to vshift * 2, but this offset will likely
-                 -- vary depending on the mousewheel settings in your OS. Tweak this value however you'd like.
+vshift = 0.25         -- The amount to volume shift by, in dB. One 'bump' on my mousewheel is equal to vshift * 2, but this offset will likely
+                      -- vary depending on the mousewheel settings in your OS. Tweak this value however you'd like.
 
 selected_items = true -- If set to true, this will adjust volume of selected items when mouse is NOT hovering over a specific item.
 
-track_vol = true -- If set to true, this will adjust the volume of the track under the mouse when mouse is over the TCP
+track_vol = true      -- If set to true, this will adjust the volume of the track under the mouse when mouse is over the TCP
+
+reverse_dir = false   -- If set to true, this will reverse the direction of the scroll wheel
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -36,6 +38,8 @@ local function no_undo()reaper.defer(function()end)end
 function Main()
   is_new,name,sec,cmd,rel,res,val = reaper.get_action_context()
   trk,ctxt,_ = reaper.BR_TrackAtMouseCursor()
+  
+  val = reverse_dir and -val or val
   
   -- IF HOVERING OVER TRACK CONTROL PANEL
   if ctxt == 0 and trk and track_vol then
