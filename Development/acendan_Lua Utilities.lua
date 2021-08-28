@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.0
+-- @version 5.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Added Ko-fi link
+--   # Added OS check function acendan.getOS
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1432,6 +1432,15 @@ function acendan.promptForFolder(message)
     acendan.msg("Something went wrong... Please try again!","Folder picker error")
     acendan.promptForFolder(message)
   end
+end
+
+-- Gets current platform and separator
+-- USE THIS IN YOUR SCRIPTS:
+-- local win, sep = acendan.getOS()
+function acendan.getOS()
+  local win = string.find(reaper.GetOS(), "Win") ~= nil
+  local sep = win and '\\' or '/'
+  return win, sep
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
