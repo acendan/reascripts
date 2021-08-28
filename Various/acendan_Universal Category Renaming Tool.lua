@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.1
+-- @version 5.1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,20 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   - Added a dropdown to recall your history/recent submissions! (thanks Noah for the suggestion!)
---   - Added toggle to place metadata markers after regions & items to avoid embedding as wav cues (thanks Jonathan & Nikolaj!)
---   - Added Mic Configuration dropdown to set iXML RecType
---   - Added Ambisonic Mic Configuration modal to mic configs
---   - Added toggle to set render directory to UCS Category\SubCategory\File 
---   - Added more options to Mic Perspective field
---   - Added v6.33 metadata marker ";" separator support
---   - Added Turkish language support
---   - Fully translate tool when Chinese is selected
---   - Updated to UCS v8.1 Categories, Subcategories, Synonyms
---   - When selecting/entering a preset, set last selection as text in edit box 
---   - UCS Data Table version number now updates with online sync, rather than hardcoded. Oops.
---   - Temporarily set all users to use offline UCS data because Google broke their JSON hosting...
-
+--   - Set filename to $item, $region, $track when submitting by default
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -253,7 +240,7 @@ function parseUCSWebInterfaceInput()
     if julibrary_mode then reaper.CF_SetClipboard( julibrary_metadata ) end
 
     -- Set render directory
-    if ret_dir and ucs_dir == "true" then setRenderDirectory() end
+    setRenderDirectory()
     
   -- Copy to clipboard WITHOUT processing
   else
@@ -1067,27 +1054,37 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function setRenderDirectory()
   reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_WNMAIN_HIDE_OTHERS"), 0)
-
-  if ret_mkr and ucs_mkr == "true" then
-    if ucs_type == "Regions" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$region", true)
-    elseif ucs_type == "Markers" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$marker", true)
-    elseif ucs_type == "Media Items" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$item", true)
-    elseif ucs_type == "Tracks" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$track", true)
+  if ret_dir and ucs_dir == "true" then
+    if ret_mkr and ucs_mkr == "true" then
+      if ucs_type == "Regions" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$region", true)
+      elseif ucs_type == "Markers" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$marker", true)
+      elseif ucs_type == "Media Items" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$item", true)
+      elseif ucs_type == "Tracks" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$track", true)
+      end
+    else
+      if ucs_type == "Regions" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$region", true)
+      elseif ucs_type == "Markers" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$marker", true)
+      elseif ucs_type == "Media Items" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$item", true)
+      elseif ucs_type == "Tracks" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$track", true)
+      end
     end
-
   else
     if ucs_type == "Regions" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$region", true)
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$region", true)
     elseif ucs_type == "Markers" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$marker", true)
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker", true)
     elseif ucs_type == "Media Items" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$item", true)
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$item", true)
     elseif ucs_type == "Tracks" then
-      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$track", true)
+      reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$track", true)
     end
   end
 end
