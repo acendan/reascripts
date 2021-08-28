@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="ee8020bd3d57591a68f8b1d9a3dd3fa60578e0c7" name="ACendan Scripts">
+<index version="1" commit="30f35a00672edb57c921b1bb2f98d100d32d97c0" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -106,6 +106,10 @@
       <version name="5.0" author="Aaron Cendan" time="2021-08-09T22:28:30Z">
         <changelog><![CDATA[# Added Ko-fi link]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/cc4280421701f896e840de92b15a2deefdc02bce/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="5.1" author="Aaron Cendan" time="2021-08-28T19:39:02Z">
+        <changelog><![CDATA[# Added OS check function acendan.getOS]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/30f35a00672edb57c921b1bb2f98d100d32d97c0/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -1602,6 +1606,14 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       <version name="1.4" author="Aaron Cendan" time="2021-07-11T20:15:37Z">
         <changelog><![CDATA[Fixed a bug for Tzvi. Not sure how it happened but whatever, consider it squished.]]></changelog>
         <source main="main" file="acendan_Clean up projects unused MediaFiles and move to separate folder.lua">https://github.com/acendan/reascripts/raw/74d76bd5cea5c7f4370ef5c899ce83fdafc2669e/Various/acendan_Move%20unused%20projects%20MediaFiles%20in%20selected%20directory%20to%20separate%20folder.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Open file from path in project notes.lua" type="script" desc="Open File Project Notes">
+      <metadata>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-08-28T19:39:02Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/30f35a00672edb57c921b1bb2f98d100d32d97c0/Various/acendan_Open%20file%20from%20path%20in%20project%20notes.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour.lua" type="script" desc="NVK Game Audio Affirmations Once An Hour">
