@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="7ad786c64a1a70f10fbeb2e91fb27bcbac9eb377" name="ACendan Scripts">
+<index version="1" commit="336a1f50e8b9cfa3b5815b3e8bb3ab0b59eabdfd" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1580,6 +1580,14 @@
       <version name="1.4" author="Aaron Cendan" time="2021-07-13T23:39:54Z">
         <changelog><![CDATA[Fixed empty item error, thanks Tzvi <3]]></changelog>
         <source main="main" file="acendan_GUI_Display first selected item properties.lua">https://github.com/acendan/reascripts/raw/59f05064888408c6d72cd60a703531a4a858e34b/Various/acendan_GUI_Display%20first%20selected%20item%20properties.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Insert random FX plugin on selected track.lua" type="script" desc="Random Track FX">
+      <metadata>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-08-31T20:54:08Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/336a1f50e8b9cfa3b5815b3e8bb3ab0b59eabdfd/Various/acendan_Insert%20random%20FX%20plugin%20on%20selected%20track.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Move unused projects MediaFiles in selected directory to separate folder.lua" type="script" desc="RPP Cleanup">
