@@ -6,7 +6,7 @@
 --   [main] .
 -- @link https://ko-fi.com/acendan_
 -- @changelog
--- + Added JSFX support
+--   + Added JSFX support
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
