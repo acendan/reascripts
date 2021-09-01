@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c13a364417b0e939e594b69c0440431051376df4" name="ACendan Scripts">
+<index version="1" commit="fe13f9a35e424b2e2ce9103519a8fd608e8fcfd6" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -975,6 +975,10 @@
         <changelog><![CDATA[* Upgraded naming to be more contextually relevant]]></changelog>
         <source main="main" file="acendan_Create one region for selected items across tracks and link to parent in RRM.lua">https://github.com/acendan/reascripts/raw/7844e3a6c28dc9f0138c38a9c69d25691709487c/Regions/acendan_Create%20one%20region%20for%20selected%20items%20across%20tracks%20and%20link%20to%20parent%20in%20RRM.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2021-09-01T15:37:58Z">
+        <changelog><![CDATA[# Added naming w folder tracks]]></changelog>
+        <source main="main" file="acendan_Create one region for selected items across tracks and link to parent in RRM.lua">https://github.com/acendan/reascripts/raw/fe13f9a35e424b2e2ce9103519a8fd608e8fcfd6/Regions/acendan_Create%20one%20region%20for%20selected%20items%20across%20tracks%20and%20link%20to%20parent%20in%20RRM.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Create unique regions for selected items and link to parent track in RRM.lua" type="script" desc="acendan_Create unique regions for selected items and link to parent track in RRM">
       <metadata>
@@ -985,6 +989,10 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-09-23T15:28:06Z">
         <source main="main" file="acendan_Create unique regions for selected items and link to parent track in RRM.lua">https://github.com/acendan/reascripts/raw/f9a5af098b087cfb90f31435eaffb7ab40a248c5/Regions/acendan_Create%20unique%20regions%20for%20selected%20items%20and%20link%20to%20parent%20track%20in%20RRM.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2021-09-01T15:37:58Z">
+        <changelog><![CDATA[# Added naming w folder tracks]]></changelog>
+        <source main="main" file="acendan_Create unique regions for selected items and link to parent track in RRM.lua">https://github.com/acendan/reascripts/raw/fe13f9a35e424b2e2ce9103519a8fd608e8fcfd6/Regions/acendan_Create%20unique%20regions%20for%20selected%20items%20and%20link%20to%20parent%20track%20in%20RRM.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create unique regions for selected items and link to track in RRM.lua" type="script" desc="Add regions for selected items to render matrix name from active take">
