@@ -1,10 +1,20 @@
 -- @description acendan_Create unique regions for selected items and link to parent track in RRM
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for selected items and link to parent track in RRM.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   # Added naming w folder tracks
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Name region with folder track structure. If true, then separator will be used between parent tracks when naming regions.
+local name_w_folders = false
+local separator = "_"
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -36,8 +46,33 @@ function addToRRM()
 			if not retval or trackName == "" then trackName = take_name end
 			
 			-- Build region
-			regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, trackName, 0, take_color)
-			reaper.SetRegionRenderMatrix(0, regionID, item_parent_track, 1)
+			if name_w_folders and item_parent_track then
+			  local name_incl_folders = ""
+			  local ret_prnt, parent_track_name = reaper.GetSetMediaTrackInfo_String(item_parent_track, "P_NAME", "", false)
+			  
+			  if ret_prnt and parent_track_name ~= "" then
+				name_incl_folders = parent_track_name .. separator .. trackName
+			  else
+				name_incl_folders = parent_track_name .. separator .. trackName
+			  end
+			  
+			  -- While loop through parents
+			  local cur_parent = item_parent_track
+			  while reaper.GetParentTrack(cur_parent) do
+			    cur_parent = reaper.GetParentTrack(cur_parent)
+			    local ret_curr_prnt, curr_prnt_trck_name = reaper.GetSetMediaTrackInfo_String(cur_parent, "P_NAME", "", false)
+			    if ret_curr_prnt and curr_prnt_trck_name ~= "" then
+				 name_incl_folders = curr_prnt_trck_name .. separator .. name_incl_folders
+			    end
+			  end
+			  
+			  regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, name_incl_folders, 0, take_color)
+			  reaper.SetRegionRenderMatrix(0, regionID, item_parent_track, 1)
+			  
+			else
+				regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, trackName, 0, take_color)
+				reaper.SetRegionRenderMatrix(0, regionID, item_parent_track, 1)
+			end
 		end
 	end
 	

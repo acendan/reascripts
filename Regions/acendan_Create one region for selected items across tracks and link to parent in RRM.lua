@@ -1,6 +1,6 @@
 -- @description Create Region for Selected Items Across Tracks
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create one region for selected items across tracks and link to parent in RRM.lua
@@ -13,15 +13,18 @@
 --   * Select some items in a folder then run the script. 
 --   * A region will be created and linked to the parent track of the folder.
 -- @changelog
---   * Upgraded naming to be more contextually relevant
+--   # Added naming w folder tracks
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- Optional: Add extra space at end of regions (in seconds)
+-- Add extra space at end of regions (in seconds)
 local additional_space = 0
 
+-- Name region with folder track structure. If true, then separator will be used between parent tracks when naming regions.
+local name_w_folders = false
+local separator = "_"
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -91,15 +94,36 @@ function main()
       if not parent_is_master then
         local parent_track = reaper.BR_GetMediaTrackByGUID( 0, shared_parent_guid )
         local parent_track_color =  reaper.GetTrackColor( parent_track )
+        local ret_prnt, parent_track_name = reaper.GetSetMediaTrackInfo_String(parent_track, "P_NAME", "", false)
               
         if sel_items_start < math.huge then
           -- Naming priority: first track with a name, then parent, then blank
-          if all_same_track and first_named_track ~= "" then
+          if name_w_folders and ret_prnt then
+            
+            local name_incl_folders = ""
+            name_incl_folders = parent_track_name .. separator .. first_named_track
+            
+            -- While loop through parents
+            local cur_parent = parent_track
+            while reaper.GetParentTrack(cur_parent) do
+              cur_parent = reaper.GetParentTrack(cur_parent)
+              local ret_curr_prnt, curr_prnt_trck_name = reaper.GetSetMediaTrackInfo_String(cur_parent, "P_NAME", "", false)
+              if ret_curr_prnt and curr_prnt_trck_name ~= "" then
+                name_incl_folders = curr_prnt_trck_name .. separator .. name_incl_folders
+              end
+            end
+
+
+            --msg(name_incl_folders)
+            
+            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, name_incl_folders, 0, parent_track_color)
+            reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
+          
+          elseif all_same_track and first_named_track ~= "" then
             regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, first_named_track, 0, parent_track_color)
             reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
           else
-            local retval, parent_track_name = reaper.GetSetMediaTrackInfo_String(parent_track, "P_NAME", "", false)
-            if retval then
+            if ret_prnt then
               regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, parent_track_name, 0, parent_track_color)
               reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
             else
@@ -108,11 +132,12 @@ function main()
             end
           end
         end
+        
+      -- Parent track is master track
       else
         regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, 0)
         reaper.SetRegionRenderMatrix(0, regionID, reaper.GetMasterTrack( 0 ), 1)
       end
-          
     else
       local response = reaper.MB("The selected items don't share the same parent folder.\n\nWould you still like to create a region?", "Region from Selected Items", 4)
       -- If yes, create a region
@@ -120,7 +145,6 @@ function main()
         regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, 0)
       end
     end
-    
   else
     msg("No items selected!")
   end
