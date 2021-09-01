@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.1.1
+-- @version 5.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   - Set filename to $item, $region, $track when submitting by default
+--   + Added native Reaper wildcard support in Metadata section of the tool
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -957,6 +957,20 @@ function iXMLMarkers(position,relname)
         end
         iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
       end
+    end
+  end
+
+  -- Set up metadata fields if user input is a Reaper wildcard
+  if ret_meta then
+    for k, v in pairs(iXML) do
+      if retm_title  and v == "TrackTitle"  and meta_title:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_title, true )  end
+      if retm_desc   and v == "Description" and meta_desc:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_desc, true )   end
+      if retm_keys   and v == "Keywords"    and meta_keys:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_keys, true )   end
+      if retm_mic    and v == "Microphone"  and meta_mic:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_mic, true )    end
+      if retm_lib    and v == "Library"     and meta_lib:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_lib, true )    end      
+      if retm_url    and v == "URL"         and meta_url:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_url, true )    end
+      if retm_recmed and v == "RecMedium"   and meta_recmed:sub(1,1) == "$" then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_recmed, true ) end
+      if retm_dsgnr  and v == "Designer"    and meta_dsgnr:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_dsgnr, true )  end
     end
   end
 

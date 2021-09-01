@@ -384,7 +384,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text); transition: background-color 1s, color 1s;" id="ucsNavbar">
         <a class="navbar-brand" href="#">
             <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            <b id="navbarTitle">&nbsp;UCS Reaper Renaming Tool</b>
+            <b id="navbarTitle">&nbsp;UCS Renaming Tool</b>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="white-space: normal;">
             <span class="navbar-toggler-icon"></span>
@@ -789,7 +789,10 @@
             </div>
 
             <!-- METADATA SECTION -->
-            <div><h5 id="metadataTitle"><i>Metadata</i></h5></div>
+            <div id="metadataTitle">
+                <h5><i>Metadata</i></h5>
+                <small id="metadataTitleHelp" class="form-text text-muted"><b>WILDCARDS: </b>Text fields below support all of REAPER's native wildcards!<br />- Please refer to the <i>Wildcard Help</i> menu in REAPER's render window for details.<br />- Common: $project, $author, $track, $region, $item, $itemnotes, $marker, $parent, $user</small>                
+            </div>
             <div class="form-row" id="metadataSection">
                 
                 <!-- Description -->
