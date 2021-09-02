@@ -1,6 +1,6 @@
 -- @description Create Region for Selected Items Across Tracks
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create one region for selected items across tracks and link to parent in RRM.lua
@@ -13,7 +13,7 @@
 --   * Select some items in a folder then run the script. 
 --   * A region will be created and linked to the parent track of the folder.
 -- @changelog
---   # Added naming w folder tracks
+--   # Fixed naming w folder tracks extra underscore
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -23,7 +23,7 @@
 local additional_space = 0
 
 -- Name region with folder track structure. If true, then separator will be used between parent tracks when naming regions.
-local name_w_folders = false
+local name_w_folders = true
 local separator = "_"
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,7 +101,13 @@ function main()
           if name_w_folders and ret_prnt then
             
             local name_incl_folders = ""
-            name_incl_folders = parent_track_name .. separator .. first_named_track
+            if parent_track_name ~= "" and first_named_track ~= "" then
+              name_incl_folders = parent_track_name .. separator .. first_named_track
+            elseif parent_track_name == "" and first_named_track ~= "" then
+              name_incl_folders = first_named_track
+            elseif parent_track_name ~= "" and first_named_track == "" then  
+              name_incl_folders = parent_track_name
+            end
             
             -- While loop through parents
             local cur_parent = parent_track
