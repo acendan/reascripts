@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.2
+-- @version 5.2.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   + Added native Reaper wildcard support in Metadata section of the tool
+--   # Fixed issue with empty metadata fields populated before files with content in those fields - Thanks Nikolaj!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -883,38 +883,36 @@ function iXMLMarkers(position,relname)
     local mega_marker = "META"
 
     -- Standard UCS
-    if ret_id   then mega_marker = mega_marker .. ";" .. "CatID=" .. ucs_id end
-    if ret_cat  then mega_marker = mega_marker .. ";" .. "Category=" .. ucs_cat end
-    if ret_scat then mega_marker = mega_marker .. ";" .. "SubCategory=" .. ucs_scat end
-    if ret_usca then mega_marker = mega_marker .. ";" .. "UserCategory=" .. ucs_usca end
-    if ret_vend then mega_marker = mega_marker .. ";" .. "VendorCategory=" .. ucs_vend end
-    if ret_name then mega_marker = mega_marker .. ";" .. "FXName=" .. relname end
-    if ret_data then mega_marker = mega_marker .. ";" .. "Notes=" .. ucs_data end
-    if ret_show then mega_marker = mega_marker .. ";" .. "Show=" .. ucs_show end
-    if ret_cat and ret_scat then mega_marker = mega_marker .. ";" .. "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat end
+    mega_marker = mega_marker .. ";" .. "CatID=" .. ucs_id
+    mega_marker = mega_marker .. ";" .. "Category=" .. ucs_cat
+    mega_marker = mega_marker .. ";" .. "SubCategory=" .. ucs_scat
+    mega_marker = mega_marker .. ";" .. "UserCategory=" .. ucs_usca
+    mega_marker = mega_marker .. ";" .. "VendorCategory=" .. ucs_vend
+    mega_marker = mega_marker .. ";" .. "FXName=" .. relname
+    mega_marker = mega_marker .. ";" .. "Notes=" .. ucs_data
+    mega_marker = mega_marker .. ";" .. "Show=" .. ucs_show
+    mega_marker = mega_marker .. ";" .. "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat
 
     -- Extended meta
     if ret_meta then
-      if retm_title  then mega_marker = mega_marker .. ";" .. "TrackTitle=" .. meta_title end
-      if retm_desc   then mega_marker = mega_marker .. ";" .. "Description=" .. meta_desc end
-      if retm_keys   then mega_marker = mega_marker .. ";" .. "Keywords=" .. meta_keys end
-      if retm_mic    then mega_marker = mega_marker .. ";" .. "Microphone=" .. meta_mic end
-      if retm_recmed then mega_marker = mega_marker .. ";" .. "RecMedium=" .. meta_recmed end
-      if retm_lib    then mega_marker = mega_marker .. ";" .. "Library=" .. meta_lib end
-      if retm_loc    then mega_marker = mega_marker .. ";" .. "Location=" .. meta_loc end
-      if retm_url    then mega_marker = mega_marker .. ";" .. "URL=" .. meta_url end
-      if retm_persp  then mega_marker = mega_marker .. ";" .. "MicPerspective=" .. meta_persp end
-      if retm_config then mega_marker = mega_marker .. ";" .. "RecType=" .. meta_config end
+      mega_marker = mega_marker .. ";" .. "TrackTitle=" .. meta_title
+      mega_marker = mega_marker .. ";" .. "Description=" .. meta_desc
+      mega_marker = mega_marker .. ";" .. "Keywords=" .. meta_keys
+      mega_marker = mega_marker .. ";" .. "Microphone=" .. meta_mic
+      mega_marker = mega_marker .. ";" .. "RecMedium=" .. meta_recmed
+      mega_marker = mega_marker .. ";" .. "Library=" .. meta_lib
+      mega_marker = mega_marker .. ";" .. "Location=" .. meta_loc
+      mega_marker = mega_marker .. ";" .. "URL=" .. meta_url
+      mega_marker = mega_marker .. ";" .. "MicPerspective=" .. meta_persp
+      mega_marker = mega_marker .. ";" .. "RecType=" .. meta_config
       
       -- Designer and Short ID
-      if retm_dsgnr  then 
-        mega_marker = mega_marker .. ";" .. "Designer=" .. meta_dsgnr
-        local meta_short = ""
-        for i in string.gmatch(meta_dsgnr, "%S+") do
-          meta_short = meta_short .. i:sub(1,3)
-        end
-        mega_marker = mega_marker .. ";" .. "ShortID=" .. meta_short
+      mega_marker = mega_marker .. ";" .. "Designer=" .. meta_dsgnr
+      local meta_short = ""
+      for i in string.gmatch(meta_dsgnr, "%S+") do
+        meta_short = meta_short .. i:sub(1,3)
       end
+      mega_marker = mega_marker .. ";" .. "ShortID=" .. meta_short
     end
 
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, mega_marker, ucs_num}
@@ -925,38 +923,36 @@ function iXMLMarkers(position,relname)
   else
       
     -- Standard UCS
-    if ret_id   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CatID=" .. ucs_id, ucs_num} end
-    if ret_cat  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Category=" .. ucs_cat, ucs_num} end
-    if ret_scat then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "SubCategory=" .. ucs_scat, ucs_num} end
-    if ret_usca then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "UserCategory=" .. ucs_usca, ucs_num} end
-    if ret_vend then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "VendorCategory=" .. ucs_vend, ucs_num} end
-    if ret_name then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "FXName=" .. relname, ucs_num} end
-    if ret_data then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Notes=" .. ucs_data, ucs_num} end
-    if ret_show then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Show=" .. ucs_show, ucs_num} end
-    if ret_cat and ret_scat then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat, ucs_num} end
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CatID=" .. ucs_id, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Category=" .. ucs_cat, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "SubCategory=" .. ucs_scat, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "UserCategory=" .. ucs_usca, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "VendorCategory=" .. ucs_vend, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "FXName=" .. relname, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Notes=" .. ucs_data, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Show=" .. ucs_show, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat, ucs_num}
     
     -- Extended meta
     if ret_meta then
-      if retm_title  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "TrackTitle=" .. meta_title, ucs_num} end
-      if retm_desc   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Description=" .. meta_desc, ucs_num} end
-      if retm_keys   then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Keywords=" .. meta_keys, ucs_num} end
-      if retm_mic    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Microphone=" .. meta_mic, ucs_num} end
-      if retm_recmed then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecMedium=" .. meta_recmed, ucs_num} end
-      if retm_lib    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Library=" .. meta_lib, ucs_num} end
-      if retm_loc    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Location=" .. meta_loc, ucs_num} end
-      if retm_url    then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "URL=" .. meta_url, ucs_num} end
-      if retm_persp  then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MicPerspective=" .. meta_persp, ucs_num} end
-      if retm_config then iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecType=" .. meta_config, ucs_num} end
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "TrackTitle=" .. meta_title, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Description=" .. meta_desc, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Keywords=" .. meta_keys, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Microphone=" .. meta_mic, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecMedium=" .. meta_recmed, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Library=" .. meta_lib, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Location=" .. meta_loc, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "URL=" .. meta_url, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MicPerspective=" .. meta_persp, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecType=" .. meta_config, ucs_num}
       
       -- Designer and Short ID
-      if retm_dsgnr  then 
-        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Designer=" .. meta_dsgnr, ucs_num}
-        local meta_short = ""
-        for i in string.gmatch(meta_dsgnr, "%S+") do
-          meta_short = meta_short .. i:sub(1,3)
-        end
-        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Designer=" .. meta_dsgnr, ucs_num}
+      local meta_short = ""
+      for i in string.gmatch(meta_dsgnr, "%S+") do
+        meta_short = meta_short .. i:sub(1,3)
       end
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
     end
   end
 
