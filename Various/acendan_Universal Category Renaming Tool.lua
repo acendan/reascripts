@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.2.1
+-- @version 5.2.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Fixed issue with empty metadata fields populated before files with content in those fields - Thanks Nikolaj!
+--   # Updated Julibrary mode to include more fields and optional headers! See julibrary_mode variables. Thanks Jonathan!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -76,8 +76,10 @@ local line_to_copy = ""
 -- Toggle for debugging UCS input with message box & opening UCS tool on script file save
 local debug_mode = false
 
--- Toggle for copying metadata to clipboard for Julibrary metadata sheet
-local julibrary_mode = false
+-- Toggle for copying metadata to clipboard for Julibrary and other crowdsource/personal metadata sheets
+local julibrary_mode = false      -- SET THIS TO 'true' IN ORDER TO COPY AFTER SUBMITTING IN THE TOOL 
+local julibrary_headers = false   -- SET THIS TO 'true' TO INCLUDE ROW HEADERS WHILE COPYING
+
 local julibrary_metadata = ""
 local tab = "\t"
 
@@ -972,18 +974,42 @@ function iXMLMarkers(position,relname)
 
   -- Prep clipboard contents for Julibrary mode
   if julibrary_mode then
-    local rec_type = "24/" .. tostring(reaper.GetSetProjectInfo( 0, "RENDER_SRATE", 0, false)/1000):gsub("%..+","k")
+    if julibrary_headers then
+      julibrary_metadata = julibrary_metadata ..
+        "Filename" .. tab .. 
+        "CatID" .. tab ..
+        "Title" .. tab .. 
+        "Description" .. tab ..
+        "Keywords" .. tab ..
+        "Notes" .. tab ..
+        
+        "Configuration" .. tab ..
+        "Perspective" .. tab ..
+        "Microphone" .. tab ..
+        "Recorder" .. tab ..
+        
+        "Designer" .. tab ..
+        "Library" .. tab ..
+        "Location" .. "\n"
+    end
+    
+    
     julibrary_metadata = julibrary_metadata .. 
       ucs_full_name .. ".wav" .. tab .. 
-      meta_desc .. tab .. 
-      relname .. tab .. 
+      ucs_id .. tab ..
       meta_title .. tab ..
+      meta_desc .. tab .. 
+      meta_keys .. tab ..
+      ucs_data .. tab ..
+      
+      meta_config .. tab ..
       meta_persp .. tab ..
       meta_mic .. tab .. 
-      rec_type .. tab .. 
-      ucs_id .. tab ..
-      meta_loc .. tab .. 
-      ucs_data .. "\n"
+      meta_recmed .. tab ..
+      
+      meta_dsgnr .. tab ..
+      meta_lib .. tab ..
+      meta_loc .. "\n"
   end
 end
 
