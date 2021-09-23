@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="1361b6a54c33d3d8a5313b324ce1b05f4041ca01" name="ACendan Scripts">
+<index version="1" commit="d554b7fa3df6de8b4b831b02eb248b33a0a3d64a" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -793,6 +793,25 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-06-15T15:38:59Z">
         <source main="main">https://github.com/acendan/reascripts/raw/92708d5b85f365b1b6fe56ab80a905219d59b12a/Markers/acendan_Rename%20project%20markers%20with%20pound%20hashtag%20prefix%20for%20WAV%20cues.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Snap cursor to nearest marker and scroll to associated @TRACK.lua" type="script" desc="Marker Track Wildcards">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 To use this script, simply name your markers with an @ symbol at the start, followed by a number, then shift+alt+click on the ruler near a marker\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 For example, you can have markers named:\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 @24 <- This would jump to track number 24 when you shift+alt+click on the ruler near that marker\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 @47 Impact <- This would jump to track number 47, ignoring the additional text after your marker number wildcard\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Alt on PC = Option on Mac\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-09-23T16:16:35Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/d554b7fa3df6de8b4b831b02eb248b33a0a3d64a/Markers/acendan_Snap%20cursor%20to%20nearest%20marker%20and%20scroll%20to%20associated%20@TRACK.lua</source>
       </version>
     </reapack>
   </category>
