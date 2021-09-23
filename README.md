@@ -69,6 +69,7 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Markers\acendan_Remove pound hashtag prefix from project markers for WAV cues
  - Markers\acendan_Rename project markers with CHAP prefix for FLAC cues
  - Markers\acendan_Rename project markers with pound hashtag prefix for WAV cues
+ - Markers\acendan_Snap cursor to nearest marker and scroll to associated @TRACK
  - Media Explorer\acendan_Add custom user columns for SoundMiner iXML Metadata
  - Media Explorer\acendan_Export current column arrangement setup to file
  - Media Explorer\acendan_Filter media explorer for selected media item names
