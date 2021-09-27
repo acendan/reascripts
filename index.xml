@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5975a384b4a3e5832cb75e5bddcbd9ce455993c6" name="ACendan Scripts">
+<index version="1" commit="821ed3964621d39ca2ab6d1ddd9e55c151502d0d" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1527,6 +1527,20 @@
         <source>https://github.com/acendan/reascripts/raw/7c1a1cd5253f8c948336e73c3dc596cb4cfec060/Utility/Parallel%20Joiner%20(Linear).jsfx</source>
       </version>
     </reapack>
+    <reapack name="Parallel Joiner x3.jsfx" type="effect" desc="acendan_Parallel Joiner x3">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Joins/merges channels 1/2 3/4 5/6 onto channels 1/2, with sliders\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-09-27T19:33:26Z">
+        <source>https://github.com/acendan/reascripts/raw/821ed3964621d39ca2ab6d1ddd9e55c151502d0d/Utility/Parallel%20Joiner%20x3.jsfx</source>
+      </version>
+    </reapack>
     <reapack name="Parallel Joiner.jsfx" type="effect" desc="acendan_Parallel Joiner">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -1539,6 +1553,20 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-01-02T22:48:32Z">
         <source>https://github.com/acendan/reascripts/raw/a58459864469950ae8d1ac5170097d1935efa5f5/Utility/Parallel%20Joiner.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="Parallel Splitter x3.jsfx" type="effect" desc="acendan_Parallel Splitter x3">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Duplicates channels 1 and 2 onto channels 3 and 4, 5 and 6, with sliders\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-09-27T19:33:26Z">
+        <source>https://github.com/acendan/reascripts/raw/821ed3964621d39ca2ab6d1ddd9e55c151502d0d/Utility/Parallel%20Splitter%20x3.jsfx</source>
       </version>
     </reapack>
     <reapack name="Parallel Splitter.jsfx" type="effect" desc="acendan_Parallel Splitter">
