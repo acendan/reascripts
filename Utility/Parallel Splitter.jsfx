@@ -2,7 +2,7 @@
  * JSFX Name: acendan_Parallel Splitter
  * About: Duplicates channels 1 and 2 onto channels 3 and 4, with sliders
  * Author: Aaron Cendan
- * Version: 1.0
+ * Version: 1.1
  */
 
 desc:Parallel Splitter
@@ -21,13 +21,14 @@ out_pin:Duplicate Out 2
 
 
 @slider
-
 adj1 = (2^(slider1/6));
 adj2 = (2^(slider2/6));
 
 
 @sample
-spl(0) = spl(0)*adj1;
-spl(1) = spl(1)*adj1;
-spl(2) = spl(0)*adj2;
-spl(3) = spl(1)*adj2;
+smp0 = spl(0);
+smp1 = spl(1);
+spl(0) = smp0*adj1;
+spl(1) = smp1*adj1;
+spl(2) = smp0*adj2;
+spl(3) = smp1*adj2;
