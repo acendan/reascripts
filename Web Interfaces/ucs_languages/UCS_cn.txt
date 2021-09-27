@@ -273,7 +273,7 @@
 ["器具","高科技","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","宇航服，实用腰带"],
 ["器具","其他","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","各种各样的"],
 ["器具","户外装备","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","背包，远足，远足，登山，攀岩，攀岩，营地，帐篷"],
-["器具","运动设施","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","护肩、护膝、护胫、护腿带"],
+["器具","运动设施","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","护肩、护膝、护胫、护腿带"],
 ["器具","战术装备","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","腰带, 战术, 职责腰带, 弹药腰带, 警察, 军事, 子弹带"],
 ["爆炸","设计后的","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","冲击波、甜味剂、回声"],
 ["爆炸","其他","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","爆炸"],

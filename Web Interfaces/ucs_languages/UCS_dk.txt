@@ -273,7 +273,7 @@
 ["UDSTYR","HØJTEKNOLOGISK","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","rumdragt, hjælpebælte"],
 ["UDSTYR","DIVERSE","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","diverse"],
 ["UDSTYR","REKREATIV","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","rygsæk, vandretur, vandreture, bjergbestigning, klatring, lejr, telt"],
-["UDSTYR","SPORT","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","skulderpude, knæpude, skinneben, jockrem"],
+["UDSTYR","SPORT","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","skulderpude, knæpude, skinneben, jockrem"],
 ["UDSTYR","TAKTISK","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","bælte, taktisk, toldbælte, ammunitionsbælte, politi, militær, bandoleer"],
 ["EKSPLOSION","DESIGNET","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","stødbølge, sødemiddel, ekko"],
 ["EKSPLOSION","DIVERSE","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","detonation"],

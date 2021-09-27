@@ -273,7 +273,7 @@
 ["СНАРЯЖЕНИЕ","ВИСОКОТЕХНОЛОГИЧНОЕ","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","скафандр, служебный пояс"],
 ["СНАРЯЖЕНИЕ","РАЗНОЕ","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","разнообразный"],
 ["СНАРЯЖЕНИЕ","ТУРИСТИЧЕСКОЕ","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","рюкзак, поход, походы в горы, альпинизм, скалолазание, лагерь, палатка"],
-["СНАРЯЖЕНИЕ","СПОРТИВНОЕ","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","подплечник, наколенник, голень, качающийся ремень"],
+["СНАРЯЖЕНИЕ","СПОРТИВНОЕ","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","подплечник, наколенник, голень, качающийся ремень"],
 ["СНАРЯЖЕНИЕ","ТАКТИЧЕСКОЕ","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","пояс, тактический, дежурный пояс, боезапас, полиция, военный, патронташ"],
 ["ВЗРЫВЫ","ЗВУКОВОЙ ДИЗАЙН","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","ударная волна, подсластитель, эхо"],
 ["ВЗРЫВЫ","РАЗНОЕ","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","детонация"],

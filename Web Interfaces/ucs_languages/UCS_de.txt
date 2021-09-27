@@ -273,7 +273,7 @@
 ["EQUIPMENT","HI-TECH","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","Raumanzug, Utility-Gürtel"],
 ["EQUIPMENT","DIV","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","Sonstiges"],
 ["EQUIPMENT","KLETTERN","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","Rucksack, Wanderung, Wandern, Bergsteigen, Klettern, Camp, Zelt"],
-["EQUIPMENT","SPORT","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","Schulterpolster, Kniepolster, Schienbeinpolster, Jock Strap"],
+["EQUIPMENT","SPORT","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","Schulterpolster, Kniepolster, Schienbeinpolster, Jock Strap"],
 ["EQUIPMENT","MILITÄR & POLIZEI","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","gürtel, taktisch, dienstgürtel, munitionsgürtel, polizei, militär, bandoleer"],
 ["EXPLOSION","DESIGNED","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","Schockwelle, Süßstoff, Echo"],
 ["EXPLOSION","DIV","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","Detonation"],

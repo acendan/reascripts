@@ -273,7 +273,7 @@
 ["EKWIPUNEK","HITECH","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","skafander kosmiczny, pas na narzędzia"],
 ["EKWIPUNEK","RÓŻNE","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","Różne"],
 ["EKWIPUNEK","TURYSTYCZNY","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","plecak, wycieczka, piesze wycieczki, wspinaczka górska, wspinaczka, wspinaczka skałkowa, obóz, namiot"],
-["EKWIPUNEK","SPORTOWY","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","ochraniacz na ramię, ochraniacz na kolana, ochraniacz na goleń, ochraniacz na ochraniacze"],
+["EKWIPUNEK","SPORTOWY","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","ochraniacz na ramię, ochraniacz na kolana, ochraniacz na goleń, ochraniacz na ochraniacze"],
 ["EKWIPUNEK","WOJSKO I POLICJA","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","pas, pas taktyczny, pas służbowy, pas amunicyjny, policja, wojsko, bandoleer"],
 ["EKSPLOZJE","DESIGNED","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","fala uderzeniowa, słodzik, echo"],
 ["EKSPLOZJE","RÓŻNE","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","detonacja"],

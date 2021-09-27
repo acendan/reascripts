@@ -273,7 +273,7 @@
 ["EQUIPMENT","HITECH","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","space suit, utility belt"],
 ["EQUIPMENT","MISC","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","miscellaneous"],
 ["EQUIPMENT","RECREATIONAL","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","backpack, hike, hiking, mountaineering, climb, rock climb, camp, tent"],
-["EQUIPMENT","SPORT","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","shoulder pad, knee pad, shin pad, jock strap"],
+["EQUIPMENT","SPORT","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","shoulder pad, knee pad, shin pad, jock strap"],
 ["EQUIPMENT","TACTICAL","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","belt, tactical, duty belt, ammo belt, police, military, bandoleer"],
 ["EXPLOSIONS","DESIGNED","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","shockwave, sweetener, echo"],
 ["EXPLOSIONS","MISC","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","detonation"],

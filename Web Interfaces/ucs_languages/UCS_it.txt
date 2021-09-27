@@ -273,7 +273,7 @@
 ["ATTREZZATURA","HITECH","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","tuta spaziale, cintura multiuso"],
 ["ATTREZZATURA","MISC","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","varie"],
 ["ATTREZZATURA","RECREAZIONE","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","zaino, escursione, escursionismo, alpinismo, arrampicata, arrampicata su roccia, campo, tenda"],
-["ATTREZZATURA","SPORTIVA","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","spalline, ginocchiere, parastinchi, sospensori"],
+["ATTREZZATURA","SPORTIVA","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","spalline, ginocchiere, parastinchi, sospensori"],
 ["ATTREZZATURA","TATTICO","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","cintura, tattica, cintura di servizio, cintura di munizioni, polizia, militare, bandoliera"],
 ["ESPLOSIONI","DISEGNATO","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","onda d'urto, dolcificante, eco"],
 ["ESPLOSIONI","MISC","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","detonazione"],

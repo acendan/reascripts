@@ -273,7 +273,7 @@
 ["СПОРЯДЖЕННЯ","ВИСОКОТЕХНОЛОГІЧНЕ","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","скафандр, корисний ремінь"],
 ["СПОРЯДЖЕННЯ","РІЗНЕ","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","різне"],
 ["СПОРЯДЖЕННЯ","ТУРИСТИЧНЕ","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","рюкзак, похід, альпінізм, підйом, скелелазіння, табір, намет"],
-["СПОРЯДЖЕННЯ","СПОРТИВНЕ","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","плечова накладка, колінна подушка, гомілка, ремінець для бігу"],
+["СПОРЯДЖЕННЯ","СПОРТИВНЕ","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","плечова накладка, колінна подушка, гомілка, ремінець для бігу"],
 ["СПОРЯДЖЕННЯ","ТАКТИЧНЕ","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","ремінь, тактичний, черговий ремінь, боєприпаси, міліція, військовий, бандолер"],
 ["ВИБУХИ","ЗВУКОВИЙ ДИЗАЙН","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","ударна хвиля, підсолоджувач, ехо"],
 ["ВИБУХИ","РІЗНЕ","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","детонація"],

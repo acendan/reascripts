@@ -273,7 +273,7 @@
 ["道具、器具","ハイテク","EQUIPTech","EQUIP","Hi-Tech gear, things like spacesuits, complex suits with lots of gizmos or complex parts.","宇宙服、ユーティリティベルト"],
 ["道具、器具","その他","EQUIPMisc","EQUIP","Equipment sounds not fitting another category in this list.","その他"],
 ["道具、器具","アウドドア","EQUIPRec","EQUIP","Recreational gear, like backpacks, hiking gear, rock climbing harnesses, camping tents.","バックパック、ハイキング、ハイキング、登山、登山、ロッククライミング、キャンプ、テント"],
-["道具、器具","スポーツ","EQUISprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","ショルダーパッド、ニーパッド、すねパッド、ジョックストラップ"],
+["道具、器具","スポーツ","EQUIPSprt","EQUIP","Gear worn while playing sports, American football shoulder pads, hockey gear, etc.","ショルダーパッド、ニーパッド、すねパッド、ジョックストラップ"],
 ["道具、器具","軍用、警察用","EQUIPTact","EQUIP","Military and police belts, bandoliers, ammo belts. Military gear, troop gear.","ベルト、戦術、デューティベルト、弾薬ベルト、警察、軍隊、装弾ベルト"],
 ["爆発","デザイン創作音","EXPLDsgn","EXPL","Designed or stylized explosions and sweeteners. Hyperreal explosions.","衝撃波、甘味料、エコー"],
 ["爆発","その他","EXPLMisc","EXPL","Explosion sounds not fitting another category in this list.","爆発"],
