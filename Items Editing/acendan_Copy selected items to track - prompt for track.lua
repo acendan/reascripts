@@ -1,6 +1,6 @@
 -- @description Copy Selected Items to Track
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Copy selected items to track - prompt for track.lua
@@ -9,7 +9,11 @@
 --   # Lua Utilities
 --   By Aaron Cendan - August 2020
 --   * Select some items. Select a track. Run the script. Bam.
---   * Adapted from XRaym's script: Copy selected items and paste at mouse cursor
+--   * Adapted from X-Raym's script: Copy selected items and paste at mouse cursor
+-- @changelog
+--   + Update by X-Raym
+--   + last track bug fix
+--   + hidden track support   
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,7 +36,7 @@ function copyPasteSelItems()
   local num_tracks_proj = reaper.CountTracks( 0 )
   
   if (type(track_num) == "number") then
-    if track_num < num_tracks_proj then
+    if track_num < num_tracks_proj + 1 then -- +1 is for last track
       if reaper.CountSelectedTracks() > 0 then
         if reaper.CountSelectedMediaItems() > 0 then
           reaper.Main_OnCommand(40297, 0) -- Unselect all tracks (so that it can copy items)
@@ -117,7 +121,8 @@ end
 init_sel_tracks = {}
 function SaveSelectedTracks (table)
   for i = 0, reaper.CountSelectedTracks(0)-1 do
-    table[i+1] = reaper.GetSelectedTrack(0, i)
+    local track = reaper.GetSelectedTrack(0, i)
+    table[i+1] = { track = reaper.GetSelectedTrack(0, i), tcp_show = reaper.GetMediaTrackInfo_Value( track, "B_SHOWINTCP") }
   end
 end
 
@@ -125,7 +130,7 @@ end
 function RestoreSelectedTracks (table)
   reaper.Main_OnCommand(40297, 0) -- Unselect all tracks
   for _, track in ipairs(table) do
-    reaper.SetTrackSelected(track, true)
+    reaper.SetTrackSelected(track.track, true)
   end
 end
 
@@ -150,6 +155,23 @@ function RestoreView()
   reaper.BR_SetArrangeView(0, start_time_view, end_time_view)
 end
 
+function SaveAllTracksAndShow()
+  local count_tracks = reaper.CountTracks(0)
+  local t = {}
+  for i = 0, count_tracks - 1 do
+    local track = reaper.GetTrack(0,i)
+    t[i+1] = {track = track, tcp_show = reaper.GetMediaTrackInfo_Value( track, "B_SHOWINTCP") }
+    reaper.SetMediaTrackInfo_Value( track, "B_SHOWINTCP", 1) 
+  end
+  return t
+end
+
+function RestoreTracksVisibility( t )
+  for i, track in ipairs( t ) do
+    reaper.SetMediaTrackInfo_Value( track.track, "B_SHOWINTCP", track.tcp_show) 
+  end
+end
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -161,9 +183,11 @@ SaveView()
 SaveCursorPos()
 SaveSelectedItems(init_sel_items)
 SaveSelectedTracks(init_sel_tracks)
+all_tracks = SaveAllTracksAndShow()
 
 copyPasteSelItems()
 
+RestoreTracksVisibility( all_tracks )
 RestoreCursorPos()
 RestoreSelectedItems(init_sel_items)
 RestoreSelectedTracks(init_sel_tracks)
