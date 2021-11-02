@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="821ed3964621d39ca2ab6d1ddd9e55c151502d0d" name="ACendan Scripts">
+<index version="1" commit="4f2eb28e3a7656ffc911909da64c4b08aa11973b" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -238,13 +238,19 @@
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Lua Utilities\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select some items. Select a track. Run the script. Bam.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from XRaym's script: Copy selected items and paste at mouse cursor\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from X-Raym's script: Copy selected items and paste at mouse cursor\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-08-12T16:53:40Z">
         <source main="main" file="acendan_Copy selected items to track - prompt for track.lua">https://github.com/acendan/reascripts/raw/a910eaa869694363366983b69acce73eed56f227/Items%20Editing/acendan_Copy%20selected%20items%20to%20track%20-%20prompt%20for%20track.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2021-11-02T19:35:48Z">
+        <changelog><![CDATA[+ Update by X-Raym
++ last track bug fix
++ hidden track support   ]]></changelog>
+        <source main="main" file="acendan_Copy selected items to track - prompt for track.lua">https://github.com/acendan/reascripts/raw/a00ad9a5d65bda0db0547de6ca2e1285518e5c53/Items%20Editing/acendan_Copy%20selected%20items%20to%20track%20-%20prompt%20for%20track.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Count number of selected items in media explorer.lua" type="script" desc="Count Selection in Media Explorer">
