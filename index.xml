@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="4f2eb28e3a7656ffc911909da64c4b08aa11973b" name="ACendan Scripts">
+<index version="1" commit="dc5f7405bc10c15e2bec73342a35180130246a25" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1517,6 +1517,20 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2021-03-30T01:56:52Z">
         <source>https://github.com/acendan/reascripts/raw/4567cc005774d07dd204dff40115a11ed2cf156d/Utility/acendan_Center%20Control.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_De-Click Discontinuous Waveform.jsfx" type="effect" desc="acendan_De-Click Discontinuous Waveform">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Fixes waveform discontinuities based on a de-clicking threshold\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-11-04T01:12:16Z">
+        <source>https://github.com/acendan/reascripts/raw/dc5f7405bc10c15e2bec73342a35180130246a25/Utility/acendan_De-Click%20Discontinuous%20Waveform.jsfx</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
