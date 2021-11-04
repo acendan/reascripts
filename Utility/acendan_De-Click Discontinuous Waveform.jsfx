@@ -1,0 +1,32 @@
+/**
+ * JSFX Name: acendan_De-Click Discontinuous Waveform
+ * About: Fixes waveform discontinuities based on a de-clicking threshold
+ * Author: Aaron Cendan
+ * Version: 1.0
+ */
+
+desc:acendan_De-Click Discontinuous Waveform
+//tags: declick click discontinuous discontinuity
+//author: Aaron Cendan
+
+slider1:0.25<0.1,1.0,0.01>De-Click Sensitivity
+
+@slider
+declick_sens = slider1;
+
+@init
+declick_sens = 0.1;
+last_smpl0 = 0;
+last_smpl1 = 0;
+delta0 = 0;
+delta1 = 0;
+  
+@sample
+delta0 = abs(spl0 - last_smpl0);
+delta1 = abs(spl1 - last_smpl1);
+
+delta0 > declick_sens ? (spl0=last_smpl0) :(spl0 = spl0);
+delta1 > declick_sens ? (spl1=last_smpl1) :(spl1 = spl1);
+
+last_smpl0 = spl0;
+last_smpl1 = spl1;
