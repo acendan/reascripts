@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="dc5f7405bc10c15e2bec73342a35180130246a25" name="ACendan Scripts">
+<index version="1" commit="a0e99b2c11595310bd8ca3adf3faa094b2a76ecf" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -507,6 +507,21 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-04-02T17:14:11Z">
         <source main="main" file="acendan_Save stretch markers in selected items as named project markers.lua">https://github.com/acendan/reascripts/raw/bfd24151b260ec9bb648accf06cf9438f367303a/Items%20Editing/acendan_Save%20stretch%20markers%20in%20selected%20items%20as%20named%20project%20markers.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Select next item in track keep current selection.lua" type="script" desc="Select Next Item Track Keep Current Selection">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Adapted from Archie's "Select Next item in track"\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2021-11-11T19:44:15Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/a0e99b2c11595310bd8ca3adf3faa094b2a76ecf/Items%20Editing/acendan_Select%20next%20item%20in%20track%20keep%20current%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Set distance between items to X seconds track respective.lua" type="script" desc="Set Distance Between Items Track Respective">
