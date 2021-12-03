@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 5.2.2
+-- @version 6.0
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,46 +24,13 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Updated Julibrary mode to include more fields and optional headers! See julibrary_mode variables. Thanks Jonathan!
+--   + Added support for embedding Sony Playstation ASWG Metadata
+--   + Added setting to disable FX Name capitalization and formatting - thanks Jaden!
+--   # Automatically detect REAPER version to determine marker syntax
 
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
--- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
--- Retrieve stored projextstate data set by web interface
-local ret_cat,  ucs_cat  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Category" )
-local ret_scat, ucs_scat = reaper.GetProjExtState( 0, "UCS_WebInterface", "Subcategory" )
-local ret_usca, ucs_usca = reaper.GetProjExtState( 0, "UCS_WebInterface", "UserCategory" )
-local ret_vend, ucs_vend = reaper.GetProjExtState( 0, "UCS_WebInterface", "VendorCategory" )
-local ret_id,   ucs_id   = reaper.GetProjExtState( 0, "UCS_WebInterface", "CatID" )
-local ret_name, ucs_name = reaper.GetProjExtState( 0, "UCS_WebInterface", "Name" )
-local ret_num,  ucs_num  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Number" )
-local ret_enum, ucs_enum = reaper.GetProjExtState( 0, "UCS_WebInterface", "EnableNum" )
-local ret_ixml, ucs_ixml = reaper.GetProjExtState( 0, "UCS_WebInterface", "iXMLMetadata" )
-local ret_meta, ucs_meta = reaper.GetProjExtState( 0, "UCS_WebInterface", "ExtendedMetadata" )
-local ret_dir,  ucs_dir  = reaper.GetProjExtState( 0, "UCS_WebInterface", "RenderDirectory" )
-local ret_mkr,  ucs_mkr  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MarkerFormat" )
-local ret_mpos, ucs_mpos = reaper.GetProjExtState( 0, "UCS_WebInterface", "MarkerPosition")
-local ret_init, ucs_init = reaper.GetProjExtState( 0, "UCS_WebInterface", "Initials" )
-local ret_show, ucs_show = reaper.GetProjExtState( 0, "UCS_WebInterface", "Show" )
-local ret_type, ucs_type = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputItems" )
-local ret_area, ucs_area = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputArea" )
-local ret_data, ucs_data = reaper.GetProjExtState( 0, "UCS_WebInterface", "Data" )
-local ret_caps, ucs_caps = reaper.GetProjExtState( 0, "UCS_WebInterface", "nameCapitalizationSetting")
-local ret_copy, ucs_copy = reaper.GetProjExtState( 0, "UCS_WebInterface", "copyResultsSetting")
-
--- Extended metadata fields
-local retm_title,  meta_title  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaTitle")
-local retm_desc,   meta_desc   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaDesc")
-local retm_keys,   meta_keys   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaKeys")
-local retm_mic,    meta_mic    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMic")
-local retm_recmed, meta_recmed = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaRecMed")
-local retm_dsgnr,  meta_dsgnr  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaDsgnr")
-local retm_lib,    meta_lib    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLib")
-local retm_loc,    meta_loc    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLoc")
-local retm_url,    meta_url    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaURL")
-local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
-local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Initialize global var for full name, see setFullName()
 local ucs_full_name = ""
@@ -83,6 +50,108 @@ local julibrary_headers = false   -- SET THIS TO 'true' TO INCLUDE ROW HEADERS W
 local julibrary_metadata = ""
 local tab = "\t"
 
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~ FETCH EXT STATES ~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--region Fetch Extended States
+-- Retrieve stored projextstate data set by web interface
+local ret_cat,  ucs_cat  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Category" )
+local ret_scat, ucs_scat = reaper.GetProjExtState( 0, "UCS_WebInterface", "Subcategory" )
+local ret_usca, ucs_usca = reaper.GetProjExtState( 0, "UCS_WebInterface", "UserCategory" )
+local ret_vend, ucs_vend = reaper.GetProjExtState( 0, "UCS_WebInterface", "VendorCategory" )
+local ret_id,   ucs_id   = reaper.GetProjExtState( 0, "UCS_WebInterface", "CatID" )
+local ret_name, ucs_name = reaper.GetProjExtState( 0, "UCS_WebInterface", "Name" )
+local ret_num,  ucs_num  = reaper.GetProjExtState( 0, "UCS_WebInterface", "Number" )
+local ret_enum, ucs_enum = reaper.GetProjExtState( 0, "UCS_WebInterface", "EnableNum" )
+local ret_ixml, ucs_ixml = reaper.GetProjExtState( 0, "UCS_WebInterface", "iXMLMetadata" )
+local ret_meta, ucs_meta = reaper.GetProjExtState( 0, "UCS_WebInterface", "ExtendedMetadata" )
+local ret_dir,  ucs_dir  = reaper.GetProjExtState( 0, "UCS_WebInterface", "RenderDirectory" )
+local ret_mpos, ucs_mpos = reaper.GetProjExtState( 0, "UCS_WebInterface", "MarkerPosition")
+local ret_init, ucs_init = reaper.GetProjExtState( 0, "UCS_WebInterface", "Initials" )
+local ret_show, ucs_show = reaper.GetProjExtState( 0, "UCS_WebInterface", "Show" )
+local ret_type, ucs_type = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputItems" )
+local ret_area, ucs_area = reaper.GetProjExtState( 0, "UCS_WebInterface", "userInputArea" )
+local ret_data, ucs_data = reaper.GetProjExtState( 0, "UCS_WebInterface", "Data" )
+local ret_caps, ucs_caps = reaper.GetProjExtState( 0, "UCS_WebInterface", "nameCapitalizationSetting")
+local ret_frmt, ucs_frmt = reaper.GetProjExtState( 0, "UCS_WebInterface", "fxFormattingSetting")
+local ret_copy, ucs_copy = reaper.GetProjExtState( 0, "UCS_WebInterface", "copyResultsSetting")
+
+-- Extended metadata fields
+local retm_title,  meta_title  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaTitle")
+local retm_desc,   meta_desc   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaDesc")
+local retm_keys,   meta_keys   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaKeys")
+local retm_mic,    meta_mic    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMic")
+local retm_recmed, meta_recmed = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaRecMed")
+local retm_dsgnr,  meta_dsgnr  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaDsgnr")
+local retm_lib,    meta_lib    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLib")
+local retm_loc,    meta_loc    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLoc")
+local retm_url,    meta_url    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaURL")
+local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
+local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
+
+-- ASWG
+local ret_aswg_contentType,  aswg_contentType  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcontentType")
+local ret_aswg_project,  aswg_project  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGproject")
+local ret_aswg_originatorStudio,  aswg_originatorStudio  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGoriginatorStudio")
+local ret_aswg_notes,  aswg_notes  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGnotes")
+local ret_aswg_state,  aswg_state  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGstate")
+local ret_aswg_editor,  aswg_editor  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGeditor")
+local ret_aswg_mixer,  aswg_mixer  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGmixer")
+local ret_aswg_fxChainName,  aswg_fxChainName  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGfxChainName")
+local ret_aswg_channelConfig,  aswg_channelConfig  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGchannelConfig")
+local ret_aswg_ambisonicFormat,  aswg_ambisonicFormat  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGambisonicFormat")
+local ret_aswg_ambisonicChnOrder,  aswg_ambisonicChnOrder  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGambisonicChnOrder")
+local ret_aswg_ambisonicNorm,  aswg_ambisonicNorm  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGambisonicNorm")
+local ret_aswg_isDesigned,  aswg_isDesigned  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisDesigned")
+local ret_aswg_recEngineer,  aswg_recEngineer  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGrecEngineer")
+local ret_aswg_recStudio,  aswg_recStudio  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGrecStudio")
+local ret_aswg_impulseLocation,  aswg_impulseLocation  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGimpulseLocation")
+local ret_aswg_text,  aswg_text  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGtext")
+local ret_aswg_efforts,  aswg_efforts  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGefforts")
+local ret_aswg_effortType,  aswg_effortType  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGeffortType")
+local ret_aswg_projection,  aswg_projection  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGprojection")
+local ret_aswg_language,  aswg_language  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGlanguage")
+local ret_aswg_timingRestriction,  aswg_timingRestriction  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGtimingRestriction")
+local ret_aswg_characterName,  aswg_characterName  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcharacterName")
+local ret_aswg_characterGender,  aswg_characterGender  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcharacterGender")
+local ret_aswg_characterAge,  aswg_characterAge  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcharacterAge")
+local ret_aswg_characterRole,  aswg_characterRole  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcharacterRole")
+local ret_aswg_actorName,  aswg_actorName  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGactorName")
+local ret_aswg_actorGender,  aswg_actorGender  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGactorGender")
+local ret_aswg_direction,  aswg_direction  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGdirection")
+local ret_aswg_director,  aswg_director  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGdirector")
+local ret_aswg_fxUsed,  aswg_fxUsed  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGfxUsed")
+local ret_aswg_usageRights,  aswg_usageRights  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGusageRights")
+local ret_aswg_isUnion,  aswg_isUnion  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisUnion")
+local ret_aswg_accent,  aswg_accent  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGaccent")
+local ret_aswg_emotion,  aswg_emotion  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGemotion")
+local ret_aswg_composer,  aswg_composer  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcomposer")
+local ret_aswg_artist,  aswg_artist  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGartist")
+local ret_aswg_songTitle,  aswg_songTitle  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGsongTitle")
+local ret_aswg_genre,  aswg_genre  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGgenre")
+local ret_aswg_subGenre,  aswg_subGenre  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGsubGenre")
+local ret_aswg_producer,  aswg_producer  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGproducer")
+local ret_aswg_musicSup,  aswg_musicSup  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGmusicSup")
+local ret_aswg_instrument,  aswg_instrument  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGinstrument")
+local ret_aswg_musicPublisher,  aswg_musicPublisher  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGmusicPublisher")
+local ret_aswg_rightsOwner,  aswg_rightsOwner  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGrightsOwner")
+local ret_aswg_intensity,  aswg_intensity  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGintensity")
+local ret_aswg_orderRef,  aswg_orderRef  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGorderRef")
+local ret_aswg_isSource,  aswg_isSource  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisSource")
+local ret_aswg_isLoop,  aswg_isLoop  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisLoop")
+local ret_aswg_isFinal,  aswg_isFinal  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisFinal")
+local ret_aswg_isOst,  aswg_isOst  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisOst")
+local ret_aswg_isCinematic,  aswg_isCinematic  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisCinematic")
+local ret_aswg_isLicensed,  aswg_isLicensed  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisLicensed")
+local ret_aswg_isDiegetic,  aswg_isDiegetic  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisDiegetic")
+local ret_aswg_musicVersion,  aswg_musicVersion  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGmusicVersion")
+local ret_aswg_isrcId,  aswg_isrcId  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGisrcId")
+local ret_aswg_tempo,  aswg_tempo  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGtempo")
+local ret_aswg_timeSig,  aswg_timeSig  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGtimeSig")
+local ret_aswg_inKey,  aswg_inKey  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGinKey")
+local ret_aswg_billingCode,  aswg_billingCode  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGbillingCode")
+--endregion
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~ METADATA ~~~~~~~~~~~~~~~~~~~~~~
@@ -106,6 +175,7 @@ iXML["IXML:USER:Description"]    = "Description"     -- Detailed description.   
 iXML["IXML:USER:Keywords"]       = "Keywords"        -- Comma separated keywords.                   userInputMetaKeys
 iXML["IXML:USER:Microphone"]     = "Microphone"      -- Microphone                                  userInputMetaMic
 iXML["IXML:USER:MicPerspective"] = "MicPerspective"  -- MED | INT                                   userInputMetaPersp | userInputMetaIntExt
+iXML["IXML:USER:RecType"]        = "RecType"         -- Mono/Stereo/Ambi Mic Configuration
 iXML["IXML:USER:RecMedium"]      = "RecMedium"       -- Recorder                                    userInputMetaRecMed
 iXML["IXML:USER:Designer"]       = "Designer"        -- The designer/recordist.                     userInputMetaDsgnr
 iXML["IXML:USER:ShortID"]        = "ShortID"         -- ^ Shorten to 3 letters first, 3 last        ^^^
@@ -114,7 +184,6 @@ iXML["IXML:USER:URL"]            = "URL"             -- Recordist's URL         
 iXML["IXML:USER:Library"]        = "Library"         -- Library                                     userInputMetaLib
 
 -- Reference other wildcards
-iXML["IXML:USER:RecType"]        = "RecType"         -- $bitdepth/$sampleratekk
 iXML["IXML:USER:ReleaseDate"]    = "ReleaseDate"     -- $date
 iXML["IXML:USER:Embedder"]       = "Embedder"        -- REAPER UCS Renaming Tool
 
@@ -154,6 +223,89 @@ iXML["VORBIS:TITLE"]             = "TrackTitle"
 iXML["VORBIS:ARTIST"]            = "Designer"
 iXML["VORBIS:ALBUM"]             = "Library"
 
+--region ASWG
+iXML["ASWG:contentType"] = "ASWGcontentType"
+iXML["ASWG:project"] = "ASWGproject"
+iXML["ASWG:originatorStudio"] = "ASWGoriginatorStudio"
+iXML["ASWG:notes"] = "ASWGnotes"
+iXML["ASWG:state"] = "ASWGstate"
+iXML["ASWG:editor"] = "ASWGeditor"
+iXML["ASWG:mixer"] = "ASWGmixer"
+iXML["ASWG:fxChainName"] = "ASWGfxChainName"
+iXML["ASWG:channelConfig"] = "ASWGchannelConfig"
+iXML["ASWG:ambisonicFormat"] = "ASWGambisonicFormat"
+iXML["ASWG:ambisonicChnOrder"] = "ASWGambisonicChnOrder"
+iXML["ASWG:ambisonicNorm"] = "ASWGambisonicNorm"
+iXML["ASWG:isDesigned"] = "ASWGisDesigned"
+iXML["ASWG:recEngineer"] = "ASWGrecEngineer"
+iXML["ASWG:recStudio"] = "ASWGrecStudio"
+iXML["ASWG:impulseLocation"] = "ASWGimpulseLocation"
+iXML["ASWG:text"] = "ASWGtext"
+iXML["ASWG:efforts"] = "ASWGefforts"
+iXML["ASWG:effortType"] = "ASWGeffortType"
+iXML["ASWG:projection"] = "ASWGprojection"
+iXML["ASWG:language"] = "ASWGlanguage"
+iXML["ASWG:timingRestriction"] = "ASWGtimingRestriction"
+iXML["ASWG:characterName"] = "ASWGcharacterName"
+iXML["ASWG:characterGender"] = "ASWGcharacterGender"
+iXML["ASWG:characterAge"] = "ASWGcharacterAge"
+iXML["ASWG:characterRole"] = "ASWGcharacterRole"
+iXML["ASWG:actorName"] = "ASWGactorName"
+iXML["ASWG:actorGender"] = "ASWGactorGender"
+iXML["ASWG:direction"] = "ASWGdirection"
+iXML["ASWG:director"] = "ASWGdirector"
+iXML["ASWG:fxUsed"] = "ASWGfxUsed"
+iXML["ASWG:usageRights"] = "ASWGusageRights"
+iXML["ASWG:isUnion"] = "ASWGisUnion"
+iXML["ASWG:accent"] = "ASWGaccent"
+iXML["ASWG:emotion"] = "ASWGemotion"
+iXML["ASWG:composer"] = "ASWGcomposer"
+iXML["ASWG:artist"] = "ASWGartist"
+iXML["ASWG:songTitle"] = "ASWGsongTitle"
+iXML["ASWG:genre"] = "ASWGgenre"
+iXML["ASWG:subGenre"] = "ASWGsubGenre"
+iXML["ASWG:producer"] = "ASWGproducer"
+iXML["ASWG:musicSup"] = "ASWGmusicSup"
+iXML["ASWG:instrument"] = "ASWGinstrument"
+iXML["ASWG:musicPublisher"] = "ASWGmusicPublisher"
+iXML["ASWG:rightsOwner"] = "ASWGrightsOwner"
+iXML["ASWG:intensity"] = "ASWGintensity"
+iXML["ASWG:orderRef"] = "ASWGorderRef"
+iXML["ASWG:isSource"] = "ASWGisSource"
+iXML["ASWG:isLoop"] = "ASWGisLoop"
+iXML["ASWG:isFinal"] = "ASWGisFinal"
+iXML["ASWG:isOst"] = "ASWGisOst"
+iXML["ASWG:isCinematic"] = "ASWGisCinematic"
+iXML["ASWG:isLicensed"] = "ASWGisLicensed"
+iXML["ASWG:isDiegetic"] = "ASWGisDiegetic"
+iXML["ASWG:musicVersion"] = "ASWGmusicVersion"
+iXML["ASWG:isrcId"] = "ASWGisrcId"
+iXML["ASWG:tempo"] = "ASWGtempo"
+iXML["ASWG:timeSig"] = "ASWGtimeSig"
+iXML["ASWG:inKey"] = "ASWGinKey"
+iXML["ASWG:billingCode"] = "ASWGbillingCode"
+
+-- Duplicates of existing fields
+iXML["ASWG:originator"] = "Designer"
+iXML["ASWG:micConfig"] = "RecType"
+iXML["ASWG:micType"] = "Microphone"
+iXML["ASWG:micDistance"] = "MicPerspective"
+iXML["ASWG:recordingLoc"] = "Location"
+iXML["ASWG:vendorCategory"] = "VendorCategory"
+iXML["ASWG:userCategory"] = "UserCategory"
+iXML["ASWG:subCategory"] = "SubCategory"
+iXML["ASWG:sourceId"] = "Show"
+iXML["ASWG:userData"] = "Notes"
+iXML["ASWG:library"] = "Library"
+iXML["ASWG:fxName"] = "FXName"
+iXML["ASWG:creatorId"] = "ShortID"
+iXML["ASWG:catId"] = "CatID"
+iXML["ASWG:category"] = "Category"
+
+-- Reaper project name
+iXML["ASWG:session"] = "ASWGsession"
+--endregion
+
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~  
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -164,6 +316,10 @@ iXML["VORBIS:ALBUM"]             = "Library"
 function parseUCSWebInterfaceInput()
 
   reaper.Undo_BeginBlock()
+
+  -- Check Reaper version
+  local reaper_version = tonumber(reaper.GetAppVersion():match("%d+%.%d+"))
+  v633_mkrs = (reaper_version >= 6.33) and true or false
 
   -- Convert rets to booleans for cleaner function-writing down the line
   ucsRetsToBool()
@@ -658,7 +814,12 @@ function setFullName()
   elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_init_final = "_" .. ucs_init
   else ucs_init_final = "_" .. string.upper(ucs_init) end
 
-  -- Name and Vendor
+  -- FX Name Title Case
+  if ret_frmt and ucs_frmt:find("Enable") then
+    ucs_name = ucs_name:gsub("(%a)([%w_']*)", toTitleCase)
+  end
+
+  -- Vendor & Enumeration
   if ret_vend then
     -- Vendor found
     if ret_caps and ucs_caps == "ALL CAPS (Default)"                   then ucs_vend = string.upper(ucs_vend)
@@ -667,16 +828,16 @@ function setFullName()
     else ucs_vend = string.upper(ucs_vend) end
     
     if (ucs_enum == "true") then
-      ucs_name_num_final = "_" .. ucs_vend .. "-" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+      ucs_name_num_final = "_" .. ucs_vend .. "-" .. ucs_name .. " " .. ucs_num
     else
-      ucs_name_num_final = "_" .. ucs_vend .. "-" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase)
+      ucs_name_num_final = "_" .. ucs_vend .. "-" .. ucs_name
     end
   else
     -- No Vendor
     if (ucs_enum == "true") then
-      ucs_name_num_final = "_" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase) .. " " .. ucs_num
+      ucs_name_num_final = "_" .. ucs_name .. " " .. ucs_num
     else
-      ucs_name_num_final = "_" .. ucs_name:gsub("(%a)([%w_']*)", toTitleCase)
+      ucs_name_num_final = "_" .. ucs_name
     end
   end
 
@@ -863,9 +1024,11 @@ function iXMLSetup()
       local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$date", true)
     elseif v == "Embedder" then
       local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|REAPER UCS Renaming Tool", true)
+    elseif v == "ASWGsession" then
+      local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$project", true)
     else
       -- v6.33 Marker Syntax [;]
-      if ret_mkr and ucs_mkr == "true" then
+      if v633_mkrs then
         local ret, str = reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|$marker(" .. v .. ")[;]", true )
       
       -- Pre Reaper v6.33 Pile-Of-Markers Syntax
@@ -879,8 +1042,68 @@ end
 -- Builds table of markers to setup at location with appropriate iXML info
 function iXMLMarkers(position,relname)
 
+  -- Set ASWG blanks for Content Type fields other than selection
+  if ret_aswg_contentType and aswg_contentType ~= "" and aswg_contentType ~= "Mixed" then
+    -- Set Dialogue specific fields blank
+    if aswg_contentType ~= "Dialogue" then  
+      aswg_text = ""
+      aswg_efforts = ""
+      aswg_effortType = ""
+      aswg_projection = ""
+      aswg_language = ""
+      aswg_timingRestriction = ""
+      aswg_characterName = ""
+      aswg_characterGender = ""
+      aswg_characterAge = ""
+      aswg_characterRole = ""
+      aswg_actorName = ""
+      aswg_actorGender = ""
+      aswg_direction = ""
+      aswg_director = ""
+      aswg_fxUsed = ""
+      aswg_usageRights = ""
+      aswg_isUnion = ""
+      aswg_accent = ""
+      aswg_emotion = ""
+    end
+
+    -- Set Music specific fields blank
+    if aswg_contentType ~= "Music" then
+      aswg_composer = ""
+      aswg_artist = ""
+      aswg_songTitle = ""
+      aswg_genre = ""
+      aswg_subGenre = ""
+      aswg_producer = ""
+      aswg_musicSup = ""
+      aswg_instrument = ""
+      aswg_musicPublisher = ""
+      aswg_rightsOwner = ""
+      aswg_intensity = ""
+      aswg_orderRef = ""
+      aswg_isSource = ""
+      aswg_isLoop = ""
+      aswg_isFinal = ""
+      aswg_isOst = ""
+      aswg_isCinematic = ""
+      aswg_isLicensed = ""
+      aswg_isDiegetic = ""
+      aswg_musicVersion = ""
+      aswg_isrcId = ""
+      aswg_tempo = ""
+      aswg_timeSig = ""
+      aswg_inKey = ""
+      aswg_billingCode = ""
+    end
+
+    -- Set Impulse location blank
+    if aswg_contentType ~= "Impulse (IR)" then
+      aswg_impulseLocation = ""
+    end
+  end
+
   -- v6.33 Marker Syntax [;]
-  if ret_mkr and ucs_mkr == "true" then
+  if v633_mkrs then
 
     local mega_marker = "META"
 
@@ -915,6 +1138,70 @@ function iXMLMarkers(position,relname)
         meta_short = meta_short .. i:sub(1,3)
       end
       mega_marker = mega_marker .. ";" .. "ShortID=" .. meta_short
+
+      -- ASWG
+      if ret_aswg_contentType and aswg_contentType ~= "" then
+        mega_marker = mega_marker .. ";" .. "ASWGcontentType=" .. aswg_contentType
+        mega_marker = mega_marker .. ";" .. "ASWGproject=" .. aswg_project
+        mega_marker = mega_marker .. ";" .. "ASWGoriginatorStudio=" .. aswg_originatorStudio
+        mega_marker = mega_marker .. ";" .. "ASWGnotes=" .. aswg_notes
+        mega_marker = mega_marker .. ";" .. "ASWGstate=" .. aswg_state
+        mega_marker = mega_marker .. ";" .. "ASWGeditor=" .. aswg_editor
+        mega_marker = mega_marker .. ";" .. "ASWGmixer=" .. aswg_mixer
+        mega_marker = mega_marker .. ";" .. "ASWGfxChainName=" .. aswg_fxChainName
+        mega_marker = mega_marker .. ";" .. "ASWGchannelConfig=" .. aswg_channelConfig
+        mega_marker = mega_marker .. ";" .. "ASWGambisonicFormat=" .. aswg_ambisonicFormat
+        mega_marker = mega_marker .. ";" .. "ASWGambisonicChnOrder=" .. aswg_ambisonicChnOrder
+        mega_marker = mega_marker .. ";" .. "ASWGambisonicNorm=" .. aswg_ambisonicNorm
+        mega_marker = mega_marker .. ";" .. "ASWGisDesigned=" .. aswg_isDesigned
+        mega_marker = mega_marker .. ";" .. "ASWGrecEngineer=" .. aswg_recEngineer
+        mega_marker = mega_marker .. ";" .. "ASWGrecStudio=" .. aswg_recStudio
+        mega_marker = mega_marker .. ";" .. "ASWGimpulseLocation=" .. aswg_impulseLocation
+        mega_marker = mega_marker .. ";" .. "ASWGtext=" .. aswg_text
+        mega_marker = mega_marker .. ";" .. "ASWGefforts=" .. aswg_efforts
+        mega_marker = mega_marker .. ";" .. "ASWGeffortType=" .. aswg_effortType
+        mega_marker = mega_marker .. ";" .. "ASWGprojection=" .. aswg_projection
+        mega_marker = mega_marker .. ";" .. "ASWGlanguage=" .. aswg_language
+        mega_marker = mega_marker .. ";" .. "ASWGtimingRestriction=" .. aswg_timingRestriction
+        mega_marker = mega_marker .. ";" .. "ASWGcharacterName=" .. aswg_characterName
+        mega_marker = mega_marker .. ";" .. "ASWGcharacterGender=" .. aswg_characterGender
+        mega_marker = mega_marker .. ";" .. "ASWGcharacterAge=" .. aswg_characterAge
+        mega_marker = mega_marker .. ";" .. "ASWGcharacterRole=" .. aswg_characterRole
+        mega_marker = mega_marker .. ";" .. "ASWGactorName=" .. aswg_actorName
+        mega_marker = mega_marker .. ";" .. "ASWGactorGender=" .. aswg_actorGender
+        mega_marker = mega_marker .. ";" .. "ASWGdirection=" .. aswg_direction
+        mega_marker = mega_marker .. ";" .. "ASWGdirector=" .. aswg_director
+        mega_marker = mega_marker .. ";" .. "ASWGfxUsed=" .. aswg_fxUsed
+        mega_marker = mega_marker .. ";" .. "ASWGusageRights=" .. aswg_usageRights
+        mega_marker = mega_marker .. ";" .. "ASWGisUnion=" .. aswg_isUnion
+        mega_marker = mega_marker .. ";" .. "ASWGaccent=" .. aswg_accent
+        mega_marker = mega_marker .. ";" .. "ASWGemotion=" .. aswg_emotion
+        mega_marker = mega_marker .. ";" .. "ASWGcomposer=" .. aswg_composer
+        mega_marker = mega_marker .. ";" .. "ASWGartist=" .. aswg_artist
+        mega_marker = mega_marker .. ";" .. "ASWGsongTitle=" .. aswg_songTitle
+        mega_marker = mega_marker .. ";" .. "ASWGgenre=" .. aswg_genre
+        mega_marker = mega_marker .. ";" .. "ASWGsubGenre=" .. aswg_subGenre
+        mega_marker = mega_marker .. ";" .. "ASWGproducer=" .. aswg_producer
+        mega_marker = mega_marker .. ";" .. "ASWGmusicSup=" .. aswg_musicSup
+        mega_marker = mega_marker .. ";" .. "ASWGinstrument=" .. aswg_instrument
+        mega_marker = mega_marker .. ";" .. "ASWGmusicPublisher=" .. aswg_musicPublisher
+        mega_marker = mega_marker .. ";" .. "ASWGrightsOwner=" .. aswg_rightsOwner
+        mega_marker = mega_marker .. ";" .. "ASWGintensity=" .. aswg_intensity
+        mega_marker = mega_marker .. ";" .. "ASWGorderRef=" .. aswg_orderRef
+        mega_marker = mega_marker .. ";" .. "ASWGisSource=" .. aswg_isSource
+        mega_marker = mega_marker .. ";" .. "ASWGisLoop=" .. aswg_isLoop
+        mega_marker = mega_marker .. ";" .. "ASWGisFinal=" .. aswg_isFinal
+        mega_marker = mega_marker .. ";" .. "ASWGisOst=" .. aswg_isOst
+        mega_marker = mega_marker .. ";" .. "ASWGisCinematic=" .. aswg_isCinematic
+        mega_marker = mega_marker .. ";" .. "ASWGisLicensed=" .. aswg_isLicensed
+        mega_marker = mega_marker .. ";" .. "ASWGisDiegetic=" .. aswg_isDiegetic
+        mega_marker = mega_marker .. ";" .. "ASWGmusicVersion=" .. aswg_musicVersion
+        mega_marker = mega_marker .. ";" .. "ASWGisrcId=" .. aswg_isrcId
+        mega_marker = mega_marker .. ";" .. "ASWGtempo=" .. aswg_tempo
+        mega_marker = mega_marker .. ";" .. "ASWGtimeSig=" .. aswg_timeSig
+        mega_marker = mega_marker .. ";" .. "ASWGinKey=" .. aswg_inKey
+        mega_marker = mega_marker .. ";" .. "ASWGbillingCode=" .. aswg_billingCode
+      end
     end
 
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, mega_marker, ucs_num}
@@ -955,6 +1242,70 @@ function iXMLMarkers(position,relname)
         meta_short = meta_short .. i:sub(1,3)
       end
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ShortID=" .. meta_short, ucs_num}
+
+      -- ASWG
+      if ret_aswg_contentType and aswg_contentType ~= "" then
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGcontentType=" .. aswg_contentType, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGproject=" .. aswg_project, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGoriginatorStudio=" .. aswg_originatorStudio, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGnotes=" .. aswg_notes, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGstate=" .. aswg_state, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGeditor=" .. aswg_editor, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGmixer=" .. aswg_mixer, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGfxChainName=" .. aswg_fxChainName, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGchannelConfig=" .. aswg_channelConfig, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGambisonicFormat=" .. aswg_ambisonicFormat, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGambisonicChnOrder=" .. aswg_ambisonicChnOrder, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGambisonicNorm=" .. aswg_ambisonicNorm, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisDesigned=" .. aswg_isDesigned, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGrecEngineer=" .. aswg_recEngineer, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGrecStudio=" .. aswg_recStudio, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGimpulseLocation=" .. aswg_impulseLocation, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGtext=" .. aswg_text, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGefforts=" .. aswg_efforts, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGeffortType=" .. aswg_effortType, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGprojection=" .. aswg_projection, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGlanguage=" .. aswg_language, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGtimingRestriction=" .. aswg_timingRestriction, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGcharacterName=" .. aswg_characterName, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGcharacterGender=" .. aswg_characterGender, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGcharacterAge=" .. aswg_characterAge, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGcharacterRole=" .. aswg_characterRole, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGactorName=" .. aswg_actorName, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGactorGender=" .. aswg_actorGender, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGdirection=" .. aswg_direction, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGdirector=" .. aswg_director, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGfxUsed=" .. aswg_fxUsed, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGusageRights=" .. aswg_usageRights, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisUnion=" .. aswg_isUnion, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGaccent=" .. aswg_accent, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGemotion=" .. aswg_emotion, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGcomposer=" .. aswg_composer, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGartist=" .. aswg_artist, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGsongTitle=" .. aswg_songTitle, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGgenre=" .. aswg_genre, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGsubGenre=" .. aswg_subGenre, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGproducer=" .. aswg_producer, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGmusicSup=" .. aswg_musicSup, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGinstrument=" .. aswg_instrument, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGmusicPublisher=" .. aswg_musicPublisher, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGrightsOwner=" .. aswg_rightsOwner, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGintensity=" .. aswg_intensity, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGorderRef=" .. aswg_orderRef, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisSource=" .. aswg_isSource, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisLoop=" .. aswg_isLoop, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisFinal=" .. aswg_isFinal, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisOst=" .. aswg_isOst, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisCinematic=" .. aswg_isCinematic, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisLicensed=" .. aswg_isLicensed, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisDiegetic=" .. aswg_isDiegetic, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGmusicVersion=" .. aswg_musicVersion, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGisrcId=" .. aswg_isrcId, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGtempo=" .. aswg_tempo, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGtimeSig=" .. aswg_timeSig, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGinKey=" .. aswg_inKey, ucs_num}
+        iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "ASWGbillingCode=" .. aswg_billingCode, ucs_num}
+      end
     end
   end
 
@@ -1024,7 +1375,7 @@ function iXMLMarkersEngage()
     local _, isrgn, pos, _, name, idx, _ = reaper.EnumProjectMarkers3( 0, i )
     if not isrgn and name:find("=") then
        -- v6.33 Marker Syntax [;]
-      if ret_mkr and ucs_mkr == "true" then
+      if v633_mkrs then
         -- Store the position of all metadata related markers
         if name:sub(1,5) == "META;" then
           projMarkerTbl[#projMarkerTbl+1] = tostring(pos) .. "META;" .. "||" .. tostring(i)
@@ -1045,7 +1396,7 @@ function iXMLMarkersEngage()
   for _, v in pairs(iXMLMarkerTbl) do
 
     -- v6.33 Marker Syntax [;]
-    if ret_mkr and ucs_mkr == "true" then
+    if v633_mkrs then
       -- Search for combination of marker position and metadata prefix
       local search = tostring(v[1]) .. "META;"
       local search2 = tostring(v[1]) .. "META_MKR"
@@ -1091,7 +1442,7 @@ end
 function setRenderDirectory()
   reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_WNMAIN_HIDE_OTHERS"), 0)
   if ret_dir and ucs_dir == "true" then
-    if ret_mkr and ucs_mkr == "true" then
+    if v633_mkrs then
       if ucs_type == "Regions" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$region", true)
       elseif ucs_type == "Markers" then
@@ -1147,6 +1498,7 @@ function ucsRetsToBool()
   if ret_area == 1 then ret_area = true else ret_area = false end
   if ret_data == 1 then ret_data = true else ret_data = false end
   if ret_caps == 1 then ret_caps = true else ret_caps = false end
+  if ret_frmt == 1 then ret_frmt = true else ret_frmt = false end
   if ret_copy == 1 then ret_copy = true else ret_copy = false end
   
   -- Vendor category
@@ -1164,46 +1516,169 @@ function ucsRetsToBool()
   if retm_url    == 1 then retm_url    = true else retm_url    = false end
   if retm_persp  == 1 then retm_persp  = true else retm_persp  = false end
   if retm_config == 1 then retm_config = true else retm_config = false end
+
+  -- ASWG
+  if ret_aswg_contentType == 1 then ret_aswg_contentType  = true else ret_aswg_contentType = false end
+  if ret_aswg_project == 1 then ret_aswg_project  = true else ret_aswg_project = false end
+  if ret_aswg_originatorStudio == 1 then ret_aswg_originatorStudio  = true else ret_aswg_originatorStudio = false end
+  if ret_aswg_notes == 1 then ret_aswg_notes  = true else ret_aswg_notes = false end
+  if ret_aswg_state == 1 then ret_aswg_state  = true else ret_aswg_state = false end
+  if ret_aswg_editor == 1 then ret_aswg_editor  = true else ret_aswg_editor = false end
+  if ret_aswg_mixer == 1 then ret_aswg_mixer  = true else ret_aswg_mixer = false end
+  if ret_aswg_fxChainName == 1 then ret_aswg_fxChainName  = true else ret_aswg_fxChainName = false end
+  if ret_aswg_channelConfig == 1 then ret_aswg_channelConfig  = true else ret_aswg_channelConfig = false end
+  if ret_aswg_ambisonicFormat == 1 then ret_aswg_ambisonicFormat  = true else ret_aswg_ambisonicFormat = false end
+  if ret_aswg_ambisonicChnOrder == 1 then ret_aswg_ambisonicChnOrder  = true else ret_aswg_ambisonicChnOrder = false end
+  if ret_aswg_ambisonicNorm == 1 then ret_aswg_ambisonicNorm  = true else ret_aswg_ambisonicNorm = false end
+  if ret_aswg_isDesigned == 1 then ret_aswg_isDesigned  = true else ret_aswg_isDesigned = false end
+  if ret_aswg_recEngineer == 1 then ret_aswg_recEngineer  = true else ret_aswg_recEngineer = false end
+  if ret_aswg_recStudio == 1 then ret_aswg_recStudio  = true else ret_aswg_recStudio = false end
+  if ret_aswg_impulseLocation == 1 then ret_aswg_impulseLocation  = true else ret_aswg_impulseLocation = false end
+  if ret_aswg_text == 1 then ret_aswg_text  = true else ret_aswg_text = false end
+  if ret_aswg_efforts == 1 then ret_aswg_efforts  = true else ret_aswg_efforts = false end
+  if ret_aswg_effortType == 1 then ret_aswg_effortType  = true else ret_aswg_effortType = false end
+  if ret_aswg_projection == 1 then ret_aswg_projection  = true else ret_aswg_projection = false end
+  if ret_aswg_language == 1 then ret_aswg_language  = true else ret_aswg_language = false end
+  if ret_aswg_timingRestriction == 1 then ret_aswg_timingRestriction  = true else ret_aswg_timingRestriction = false end
+  if ret_aswg_characterName == 1 then ret_aswg_characterName  = true else ret_aswg_characterName = false end
+  if ret_aswg_characterGender == 1 then ret_aswg_characterGender  = true else ret_aswg_characterGender = false end
+  if ret_aswg_characterAge == 1 then ret_aswg_characterAge  = true else ret_aswg_characterAge = false end
+  if ret_aswg_characterRole == 1 then ret_aswg_characterRole  = true else ret_aswg_characterRole = false end
+  if ret_aswg_actorName == 1 then ret_aswg_actorName  = true else ret_aswg_actorName = false end
+  if ret_aswg_actorGender == 1 then ret_aswg_actorGender  = true else ret_aswg_actorGender = false end
+  if ret_aswg_direction == 1 then ret_aswg_direction  = true else ret_aswg_direction = false end
+  if ret_aswg_director == 1 then ret_aswg_director  = true else ret_aswg_director = false end
+  if ret_aswg_fxUsed == 1 then ret_aswg_fxUsed  = true else ret_aswg_fxUsed = false end
+  if ret_aswg_usageRights == 1 then ret_aswg_usageRights  = true else ret_aswg_usageRights = false end
+  if ret_aswg_isUnion == 1 then ret_aswg_isUnion  = true else ret_aswg_isUnion = false end
+  if ret_aswg_accent == 1 then ret_aswg_accent  = true else ret_aswg_accent = false end
+  if ret_aswg_emotion == 1 then ret_aswg_emotion  = true else ret_aswg_emotion = false end
+  if ret_aswg_composer == 1 then ret_aswg_composer  = true else ret_aswg_composer = false end
+  if ret_aswg_artist == 1 then ret_aswg_artist  = true else ret_aswg_artist = false end
+  if ret_aswg_songTitle == 1 then ret_aswg_songTitle  = true else ret_aswg_songTitle = false end
+  if ret_aswg_genre == 1 then ret_aswg_genre  = true else ret_aswg_genre = false end
+  if ret_aswg_subGenre == 1 then ret_aswg_subGenre  = true else ret_aswg_subGenre = false end
+  if ret_aswg_producer == 1 then ret_aswg_producer  = true else ret_aswg_producer = false end
+  if ret_aswg_musicSup == 1 then ret_aswg_musicSup  = true else ret_aswg_musicSup = false end
+  if ret_aswg_instrument == 1 then ret_aswg_instrument  = true else ret_aswg_instrument = false end
+  if ret_aswg_musicPublisher == 1 then ret_aswg_musicPublisher  = true else ret_aswg_musicPublisher = false end
+  if ret_aswg_rightsOwner == 1 then ret_aswg_rightsOwner  = true else ret_aswg_rightsOwner = false end
+  if ret_aswg_intensity == 1 then ret_aswg_intensity  = true else ret_aswg_intensity = false end
+  if ret_aswg_orderRef == 1 then ret_aswg_orderRef  = true else ret_aswg_orderRef = false end
+  if ret_aswg_isSource == 1 then ret_aswg_isSource  = true else ret_aswg_isSource = false end
+  if ret_aswg_isLoop == 1 then ret_aswg_isLoop  = true else ret_aswg_isLoop = false end
+  if ret_aswg_isFinal == 1 then ret_aswg_isFinal  = true else ret_aswg_isFinal = false end
+  if ret_aswg_isOst == 1 then ret_aswg_isOst  = true else ret_aswg_isOst = false end
+  if ret_aswg_isCinematic == 1 then ret_aswg_isCinematic  = true else ret_aswg_isCinematic = false end
+  if ret_aswg_isLicensed == 1 then ret_aswg_isLicensed  = true else ret_aswg_isLicensed = false end
+  if ret_aswg_isDiegetic == 1 then ret_aswg_isDiegetic  = true else ret_aswg_isDiegetic = false end
+  if ret_aswg_musicVersion == 1 then ret_aswg_musicVersion  = true else ret_aswg_musicVersion = false end
+  if ret_aswg_isrcId == 1 then ret_aswg_isrcId  = true else ret_aswg_isrcId = false end
+  if ret_aswg_tempo == 1 then ret_aswg_tempo  = true else ret_aswg_tempo = false end
+  if ret_aswg_timeSig == 1 then ret_aswg_timeSig  = true else ret_aswg_timeSig = false end
+  if ret_aswg_inKey == 1 then ret_aswg_inKey  = true else ret_aswg_inKey = false end
+  if ret_aswg_billingCode == 1 then ret_aswg_billingCode  = true else ret_aswg_billingCode = false end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~ Debug UCS Input ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function debugUCSInput()
-  reaper.MB("Category: "    .. ucs_cat  .. " (" .. tostring(ret_cat)  .. ")" .. "\n" .. 
-            "Subcategory: " .. ucs_scat .. " (" .. tostring(ret_scat) .. ")" .. "\n" .. 
-            "User Cat.: "   .. ucs_usca .. " (" .. tostring(ret_usca) .. ")" .. "\n" .. 
-            "Vendor Cat.: " .. ucs_vend .. " (" .. tostring(ret_vend) .. ")" .. "\n" ..
-            "CatID: "       .. ucs_id   .. " (" .. tostring(ret_id)   .. ")" .. "\n" .. 
-            "Name: "        .. ucs_name .. " (" .. tostring(ret_name) .. ")" .. "\n" .. 
-            "Number: "      .. ucs_num  .. " (" .. tostring(ret_num)  .. ")" .. "\n" .. 
-            "Enum: "        .. ucs_enum .. " (" .. tostring(ret_enum) .. ")" .. "\n" ..
-            "iXML: "        .. ucs_ixml .. " (" .. tostring(ret_ixml) .. ")" .. "\n" ..
-            "Directory: "   .. ucs_dir  .. " (" .. tostring(ret_dir)  .. ")" .. "\n" ..
-            "Mrkr Format: " .. ucs_mkr  .. " (" .. tostring(ret_mkr)  .. ")" .. "\n" ..
-            "Mrkr Pos:"     .. ucs_mpos .. " (" .. tostring(ret_mpos) .. ")" .. "\n" ..
-            "Initials: "    .. ucs_init .. " (" .. tostring(ret_init) .. ")" .. "\n" .. 
-            "Show: "        .. ucs_show .. " (" .. tostring(ret_show) .. ")" .. "\n" .. 
-            "Type: "        .. ucs_type .. " (" .. tostring(ret_type) .. ")" .. "\n" .. 
-            "Data: "        .. ucs_data .. " (" .. tostring(ret_data) .. ")" .. "\n" ..
-            "Caps: "        .. ucs_caps .. " (" .. tostring(ret_caps) .. ")" .. "\n" .. 
-            "Copy: "        .. ucs_copy .. " (" .. tostring(ret_copy) .. ")" .. "\n" ..
-            "Area: "        .. ucs_area .. " (" .. tostring(ret_area) .. ")" .. "\n" ..
-            
-            "\n~~~EXTENDED METADATA~~~\n" ..
-            "Meta: "        .. ucs_meta .. " (" .. tostring(ret_meta) .. ")" .. "\n" ..
-            "Title: "       .. meta_title .. " (" .. tostring(retm_title) .. ")" .. "\n" ..
-            "Desc: "        .. meta_desc .. " (" .. tostring(retm_desc) .. ")" .. "\n" ..
-            "Keys: "        .. meta_keys .. " (" .. tostring(retm_keys) .. ")" .. "\n" ..
-            "Mic: "         .. meta_mic .. " (" .. tostring(retm_mic) .. ")" .. "\n" ..
-            "RecMed: "      .. meta_recmed .. " (" .. tostring(retm_recmed) .. ")" .. "\n" ..
-            "Designer: "    .. meta_dsgnr .. " (" .. tostring(retm_dsgnr) .. ")" .. "\n" ..
-            "Library: "     .. meta_lib .. " (" .. tostring(retm_lib) .. ")" .. "\n" ..
-            "Location: "    .. meta_loc .. " (" .. tostring(retm_loc) .. ")" .. "\n" ..
-            "URL: "         .. meta_url .. " (" .. tostring(retm_url) .. ")" .. "\n" ..
-            "Perspective: " .. meta_persp .. " (" .. tostring(retm_persp) .. ")" .. "\n" ..
-            "Mic Config: "  .. meta_config .. " (" .. tostring(retm_config) .. ")"
-            , "UCS Renaming Tool", 0)
+  reaper.ShowConsoleMsg("Category: " .. ucs_cat .. " (" .. tostring(ret_cat) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Subcategory: " .. ucs_scat .. " (" .. tostring(ret_scat) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("User Cat.: " .. ucs_usca .. " (" .. tostring(ret_usca) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Vendor Cat.: " .. ucs_vend .. " (" .. tostring(ret_vend) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("CatID: " .. ucs_id .. " (" .. tostring(ret_id) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Name: " .. ucs_name .. " (" .. tostring(ret_name) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Number: ".. ucs_num .. " (" .. tostring(ret_num).. ")" .. "\n")
+  reaper.ShowConsoleMsg("Enum: " .. ucs_enum .. " (" .. tostring(ret_enum) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("iXML: " .. ucs_ixml .. " (" .. tostring(ret_ixml) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Directory: " .. ucs_dir .." (" .. tostring(ret_dir) ..")" .. "\n")
+  reaper.ShowConsoleMsg("Mrkr Pos:" .. ucs_mpos .. " (" .. tostring(ret_mpos) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Initials: ".. ucs_init .. " (" .. tostring(ret_init) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Show: ".. ucs_show .. " (" .. tostring(ret_show) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Type: ".. ucs_type .. " (" .. tostring(ret_type) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Data: ".. ucs_data .. " (" .. tostring(ret_data) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Caps: ".. ucs_caps .. " (" .. tostring(ret_caps) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("FX Frmt: ".. ucs_frmt .. " (" .. tostring(ret_frmt) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Copy: ".. ucs_copy .. " (" .. tostring(ret_copy) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Area: ".. ucs_area .. " (" .. tostring(ret_area) .. ")" .. "\n")
+
+  reaper.ShowConsoleMsg("\n~~~EXTENDED METADATA~~~\n")
+  reaper.ShowConsoleMsg("Meta: ".. ucs_meta .. " (" .. tostring(ret_meta) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Title: " .. meta_title .. " (" .. tostring(retm_title) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Desc: ".. meta_desc .. " (" .. tostring(retm_desc) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Keys: ".. meta_keys .. " (" .. tostring(retm_keys) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Mic: " .. meta_mic .. " (" .. tostring(retm_mic) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("RecMed: ".. meta_recmed .. " (" .. tostring(retm_recmed) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Designer: ".. meta_dsgnr .. " (" .. tostring(retm_dsgnr) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Library: " .. meta_lib .. " (" .. tostring(retm_lib) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Location: ".. meta_loc .. " (" .. tostring(retm_loc) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("URL: " .. meta_url .. " (" .. tostring(retm_url) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Perspective: " .. meta_persp .. " (" .. tostring(retm_persp) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Mic Config: ".. meta_config .. " (" .. tostring(retm_config) .. ")" .. "\n")
+
+  reaper.ShowConsoleMsg("\n~~~ASWG~~~\n")
+  reaper.ShowConsoleMsg("ASWGcontentType: " .. aswg_contentType .. " (" .. tostring(ret_aswg_contentType) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGproject: " .. aswg_project .. " (" .. tostring(ret_aswg_project) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGoriginatorStudio: " .. aswg_originatorStudio .. " (" .. tostring(ret_aswg_originatorStudio) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGnotes: " .. aswg_notes .. " (" .. tostring(ret_aswg_notes) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGstate: " .. aswg_state .. " (" .. tostring(ret_aswg_state) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGeditor: " .. aswg_editor .. " (" .. tostring(ret_aswg_editor) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGmixer: " .. aswg_mixer .. " (" .. tostring(ret_aswg_mixer) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGfxChainName: " .. aswg_fxChainName .. " (" .. tostring(ret_aswg_fxChainName) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGchannelConfig: " .. aswg_channelConfig .. " (" .. tostring(ret_aswg_channelConfig) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGambisonicFormat: " .. aswg_ambisonicFormat .. " (" .. tostring(ret_aswg_ambisonicFormat) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGambisonicChnOrder: " .. aswg_ambisonicChnOrder .. " (" .. tostring(ret_aswg_ambisonicChnOrder) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGambisonicNorm: " .. aswg_ambisonicNorm .. " (" .. tostring(ret_aswg_ambisonicNorm) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisDesigned: " .. aswg_isDesigned .. " (" .. tostring(ret_aswg_isDesigned) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGrecEngineer: " .. aswg_recEngineer .. " (" .. tostring(ret_aswg_recEngineer) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGrecStudio: " .. aswg_recStudio .. " (" .. tostring(ret_aswg_recStudio) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGimpulseLocation: " .. aswg_impulseLocation .. " (" .. tostring(ret_aswg_impulseLocation) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGtext: " .. aswg_text .. " (" .. tostring(ret_aswg_text) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGefforts: " .. aswg_efforts .. " (" .. tostring(ret_aswg_efforts) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGeffortType: " .. aswg_effortType .. " (" .. tostring(ret_aswg_effortType) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGprojection: " .. aswg_projection .. " (" .. tostring(ret_aswg_projection) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGlanguage: " .. aswg_language .. " (" .. tostring(ret_aswg_language) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGtimingRestriction: " .. aswg_timingRestriction .. " (" .. tostring(ret_aswg_timingRestriction) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGcharacterName: " .. aswg_characterName .. " (" .. tostring(ret_aswg_characterName) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGcharacterGender: " .. aswg_characterGender .. " (" .. tostring(ret_aswg_characterGender) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGcharacterAge: " .. aswg_characterAge .. " (" .. tostring(ret_aswg_characterAge) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGcharacterRole: " .. aswg_characterRole .. " (" .. tostring(ret_aswg_characterRole) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGactorName: " .. aswg_actorName .. " (" .. tostring(ret_aswg_actorName) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGactorGender: " .. aswg_actorGender .. " (" .. tostring(ret_aswg_actorGender) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGdirection: " .. aswg_direction .. " (" .. tostring(ret_aswg_direction) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGdirector: " .. aswg_director .. " (" .. tostring(ret_aswg_director) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGfxUsed: " .. aswg_fxUsed .. " (" .. tostring(ret_aswg_fxUsed) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGusageRights: " .. aswg_usageRights .. " (" .. tostring(ret_aswg_usageRights) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisUnion: " .. aswg_isUnion .. " (" .. tostring(ret_aswg_isUnion) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGaccent: " .. aswg_accent .. " (" .. tostring(ret_aswg_accent) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGemotion: " .. aswg_emotion .. " (" .. tostring(ret_aswg_emotion) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGcomposer: " .. aswg_composer .. " (" .. tostring(ret_aswg_composer) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGartist: " .. aswg_artist .. " (" .. tostring(ret_aswg_artist) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGsongTitle: " .. aswg_songTitle .. " (" .. tostring(ret_aswg_songTitle) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGgenre: " .. aswg_genre .. " (" .. tostring(ret_aswg_genre) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGsubGenre: " .. aswg_subGenre .. " (" .. tostring(ret_aswg_subGenre) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGproducer: " .. aswg_producer .. " (" .. tostring(ret_aswg_producer) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGmusicSup: " .. aswg_musicSup .. " (" .. tostring(ret_aswg_musicSup) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGinstrument: " .. aswg_instrument .. " (" .. tostring(ret_aswg_instrument) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGmusicPublisher: " .. aswg_musicPublisher .. " (" .. tostring(ret_aswg_musicPublisher) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGrightsOwner: " .. aswg_rightsOwner .. " (" .. tostring(ret_aswg_rightsOwner) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGintensity: " .. aswg_intensity .. " (" .. tostring(ret_aswg_intensity) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGorderRef: " .. aswg_orderRef .. " (" .. tostring(ret_aswg_orderRef) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisSource: " .. aswg_isSource .. " (" .. tostring(ret_aswg_isSource) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisLoop: " .. aswg_isLoop .. " (" .. tostring(ret_aswg_isLoop) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisFinal: " .. aswg_isFinal .. " (" .. tostring(ret_aswg_isFinal) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisOst: " .. aswg_isOst .. " (" .. tostring(ret_aswg_isOst) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisCinematic: " .. aswg_isCinematic .. " (" .. tostring(ret_aswg_isCinematic) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisLicensed: " .. aswg_isLicensed .. " (" .. tostring(ret_aswg_isLicensed) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisDiegetic: " .. aswg_isDiegetic .. " (" .. tostring(ret_aswg_isDiegetic) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGmusicVersion: " .. aswg_musicVersion .. " (" .. tostring(ret_aswg_musicVersion) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGisrcId: " .. aswg_isrcId .. " (" .. tostring(ret_aswg_isrcId) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGtempo: " .. aswg_tempo .. " (" .. tostring(ret_aswg_tempo) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGtimeSig: " .. aswg_timeSig .. " (" .. tostring(ret_aswg_timeSig) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGinKey: " .. aswg_inKey .. " (" .. tostring(ret_aswg_inKey) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("ASWGbillingCode: " .. aswg_billingCode .. " (" .. tostring(ret_aswg_billingCode) .. ")" .. "\n")
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~

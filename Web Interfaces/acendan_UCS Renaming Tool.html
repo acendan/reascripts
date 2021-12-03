@@ -115,7 +115,7 @@
         }
 
         /* Form elements */
-        .form-group label, input, select {
+        .form-group label, input, select, textarea {
             color: var(--text-color) !important;
             background-color: var(--background-color) !important;
             transition: background-color 1s, color 1s;
@@ -173,6 +173,7 @@
         }
 
         /* Button Icons */
+        /* https://www.svgrepo.com/ */
         .icons {
             position: relative;
             display: inline-block;
@@ -187,6 +188,7 @@
         }
 
         /* BUTTON COLOR FILTERS */
+        /* https://codepen.io/sosuke/pen/Pjoqqp */
         .filter-green {
             filter: invert(24%) sepia(76%) saturate(458%) hue-rotate(82deg) brightness(94%) contrast(95%);
         }
@@ -197,6 +199,43 @@
 
         .filter-blue {
             filter: invert(16%) sepia(74%) saturate(2294%) hue-rotate(198deg) brightness(104%) contrast(101%);
+        }
+
+        .filter-info {
+            filter: invert(64%) sepia(44%) saturate(6740%) hue-rotate(153deg) brightness(93%) contrast(82%);
+        }
+
+        .filter-light {
+            filter: invert(100%) sepia(11%) saturate(496%) hue-rotate(176deg) brightness(100%) contrast(97%);
+        }
+
+        .filter-dark {
+            filter: invert(21%) sepia(13%) saturate(448%) hue-rotate(169deg) brightness(93%) contrast(93%);
+        }
+
+        /* SET BUTTON ICON COLORS WHITE ON HOVER */
+        .btn-outline-primary:hover .filter-blue {
+            filter: invert(99%) sepia(9%) saturate(0%) hue-rotate(203deg) brightness(115%) contrast(100%);
+        }
+
+        .btn-outline-info:hover .filter-info {
+            filter: invert(99%) sepia(9%) saturate(0%) hue-rotate(203deg) brightness(115%) contrast(100%);
+        }
+
+        .btn-outline-light:hover {
+            color: #161719 !important;
+        }
+
+        .btn-outline-light:hover .filter-light {
+            filter: invert(21%) sepia(13%) saturate(448%) hue-rotate(169deg) brightness(93%) contrast(93%);
+        }
+
+        .btn-outline-dark:hover {
+            color: #F8F9FA !important;
+        }
+
+        .btn-outline-dark:hover .filter-dark {
+            filter: invert(100%) sepia(11%) saturate(496%) hue-rotate(176deg) brightness(100%) contrast(97%);
         }
 
         /* BUTTON SUBMISSION ANIMATION */
@@ -453,8 +492,8 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center; justify-content: center;">
                 <!-- SETTINGS MENU -->
-                <a id="settingsBtnDark" type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img src="ucs_libraries/settings-icon-dark.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
-                <a id="settingsBtnLight" type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal"><img src="ucs_libraries/settings-icon-light.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Settings</a>
+                <a id="settingsBtnDark" type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-dark" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
+                <a id="settingsBtnLight" type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-light" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
             </form>
         </div>
     </nav>
@@ -478,9 +517,16 @@
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="vendorCatCheckbox">
                     <h7 id="settingsVendorDescription">Show Vendor Category field. Only relevant for library vendors.</h7>
-                </div>                
+                </div>
+                <!-- DISABLE FX NAME FORMATTING -->
+                <p style="margin-bottom:0px;margin-top:15px;" id="settingsFXFormattingHeader">File Name Cleanup:</p>
+                <small class="form-text text-muted" id="settingsfxFormatting">Title Case, Remove Illegal Characters, Extra Spaces, etc.</small>
+                <select id="fxFormattingSetting" class="form-control col-md-5" style="margin-left:30px">
+                    <option>Enable name cleanup (Default)</option>
+                    <option>Disable name cleanup</option>
+                </select>                
                 <!-- DISABLE CAPITALIZATION -->
-                <p style="margin-bottom:0px;margin-top:15px;" id="settingsCapsHeader">Automatic Capitalization:</p>
+                <p style="margin-bottom:0px;margin-top:15px;" id="settingsCapsHeader">Automatic Field Capitalization:</p>
                 <small class="form-text text-muted" id="settingsCapsDesc">Creator ID, Source ID, User Category, Vendor Category</small>
                 <select id="nameCapitalizationSetting" class="form-control col-md-5" style="margin-left:30px">
                     <option>ALL CAPS (Default)</option>
@@ -488,7 +534,7 @@
                     <option>Disable automatic capitalization</option>
                 </select>
                 <!-- COPY RESULTS -->
-                <p style="margin-bottom:0px;margin-top:15px;" id="settingsCopyHeader">Copy to Clipboard:</p>
+                <p style="margin-bottom:0px;margin-top:15px;" id="settingsCopyHeader">Copy UCS File Name to Clipboard:</p>
                 <select id="copyResultsSetting" class="form-control col-md-5" style="margin-left:30px">
                     <option>Do not copy (Default)</option>
                     <option>Copy after processing</option>
@@ -534,12 +580,6 @@
                     <h7 id="settingsExtMetaDesc">Show extended metadata input fields like microphone, perpective, location, etc</h7>
                 </div>
                 <div id="metadataWarning" style="margin:0;" class="alert alert-warning" role="alert">- Render Metadata requires 'Embed: Metadata' to be checked in your render settings<br>- Render Metadata does <b>NOT</b> apply when renaming Tracks<br>- Render Metadata fields are all optional, and can be left blank.</div>
-                <!-- Metadata Marker Style -->
-                <p style="margin-bottom:0px;margin-top:20px;">Metadata Marker Format:</p>
-                <div class="form-check" style="margin-left:30px">
-                    <input class="form-check-input" type="checkbox" id="markerFormatSettings">
-                    <h7>Uses new marker formatting to merge separate metadata markers into one marker per item/region. <b>Requires Reaper v6.33+</b>. No semi-colons ";" allowed in any fields.</h7>
-                </div>
                 <!-- Metadata Marker Positioning -->
                 <p style="margin-bottom:0px;">Metadata Marker Position:</p>
                 <div class="form-check" style="margin-left:30px">
@@ -551,6 +591,12 @@
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="renderDirectorySettings">
                     <h7>Sets render dialog wildcards for <b>/UCS Category/UCS Subcategory/Filename</b></h7>
+                </div>
+                <!-- ASWG Metadata -->
+                <p style="margin-bottom:0px;" id="ASWGMetaHeader">Sony ASWG Scheme Metadata:</p>
+                <div class="form-check" style="margin-left:30px">
+                    <input class="form-check-input" type="checkbox" id="ASWGSettings">
+                    <h7 id="ASWGMetaDesc">Show additional fields for ASWG General, SFX, Dialogue, and Music metadata?<br>Requires "Render Additional Fields" above.</h7>
                 </div>
 
                 <!------------------------>
@@ -673,6 +719,796 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onClick="setAmbiConfig()" data-dismiss="modal">Confirm</button>
                     <button type="button" class="btn btn-secondary" onClick="doubleCheckAmbiConfig()" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------------>
+    <!---  ASWG MODALS    ---->
+    <!------------------------>
+    <!---  ASWG Info ---->
+    <div class="modal fade ASWGInfoModal" id="ASWGInfoModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="ASWGInfoModalContent">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Sony ASWG - General</h3>
+                </div>
+                <div class="modal-body"> 
+                    <form id="ASWGInfoForm">
+                        <div id="ASWGInfoFormError" style="display: none; margin:0;" class="alert alert-danger" role="alert">Invalid field found! Please double check this form.</div>
+                        <h4 style="margin:0;" class="modal-title">Info & Format</h4>
+                        <div class="form-row">                            
+                            <!-- Project -->
+                            <div class="form-group col-md-4">
+                                <h7>Project</h7>
+                                <br><input type="text" class="form-control" id="ASWGproject" aria-describedby="ASWGprojectHelp" placeholder="Int#">
+                                <small id="ASWGprojectHelp" class="form-text text-muted">Project name asset was developed for.</small>
+                            </div>
+
+                            <!-- Originator Studio -->
+                            <div class="form-group col-md-4">
+                                <h7>Originator Studio</h7>
+                                <br><input type="text" class="form-control" id="ASWGoriginatorStudio" aria-describedby="ASWGoriginatorStudioHelp" placeholder="Santa Monica Studio (SMS)">
+                                <small id="ASWGoriginatorStudioHelp" class="form-text text-muted">Group or studio of originator.</small>
+                            </div>
+
+                            <!-- State -->
+                            <div class="form-group col-md-4">
+                                <h7>State</h7>
+                                <select id="ASWGstate" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>Mastered</option>
+                                    <option>Processed</option>
+                                    <option>Raw</option>
+                                    <option>Placeholder</option>
+                                </select>
+                                <small id="ASWGstateHelp" class="form-text text-muted">File version.</small>
+                            </div> 
+
+                            <!-- Editor -->
+                            <div class="form-group col-md-4">
+                                <h7>Editor</h7>
+                                <br><input type="text" class="form-control" id="ASWGeditor" aria-describedby="ASWGeditorHelp" placeholder="">
+                                <small id="ASWGeditorHelp" class="form-text text-muted">Name of editor.</small>
+                            </div>
+
+                            <!-- Mixer -->
+                            <div class="form-group col-md-4">
+                                <h7>Mixer</h7>
+                                <br><input type="text" class="form-control" id="ASWGmixer" aria-describedby="ASWGmixerHelp" placeholder="">
+                                <small id="ASWGmixerHelp" class="form-text text-muted">Name of mix engineer.</small>
+                            </div>
+
+                            <!-- FX Chain -->
+                            <div class="form-group col-md-4">
+                                <h7>FX Chain Name</h7>
+                                <br><input type="text" class="form-control" id="ASWGfxChainName" aria-describedby="ASWGfxChainNameHelp" placeholder="">
+                                <small id="ASWGfxChainNameHelp" class="form-text text-muted">Name of any FX Chain (.RfxChain) used.</small>
+                            </div>
+
+                            <!-- Channel Config -->
+                            <div class="form-group col-md-4">
+                                <h7>Channel Configuration</h7>
+                                <select id="ASWGchannelConfig" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>Mono</option>
+                                    <option>Stereo</option>
+                                    <option>LCR</option>
+                                    <option>Quad</option>
+                                    <option>5.0</option>
+                                    <option>5.1</option>
+                                    <option>7.0</option>
+                                    <option>7.1</option>
+                                    <option>12.2</option>
+                                    <option>Ambisonic</option>
+                                </select>
+                                <small id="ASWGchannelConfigHelp" class="form-text text-muted">Channel configuration of the file.</small>
+                            </div> 
+
+                            <!-- Ambisonic Format -->
+                            <div class="form-group col-md-4" id="ASWGambisonicFormatSection" style="display:none">
+                                <h7>Ambisonic Order Format</h7>
+                                <br><input type="text" class="form-control" id="ASWGambisonicFormat" aria-describedby="ASWGambisonicFormatHelp" placeholder="Format: #h#v, #h#p, #p" required pattern="\s*|[0-9]p|[0-9]h[0-9]p|[0-9]h[0-9]v">
+                                <small id="ASWGambisonicFormatHelp" class="form-text text-muted">Refer to <a href="https://ambisonics.iem.at/symposium2009/proceedings/ambisym09-travis-newmixedorder.pdf/view" target="_blank">Travis (2009)</a> for scheme.</small>
+                            </div>
+
+                            <!-- Ambisonic Chn Order -->
+                            <div class="form-group col-md-4" id="ASWGambisonicChnOrderSection" style="display:none">
+                                <h7>Ambisonic Channel Order</h7>
+                                <select id="ASWGambisonicChnOrder" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>FUMA</option>
+                                    <option>ACN</option>
+                                </select>
+                                <small id="ASWGambisonicChnOrderHelp" class="form-text text-muted"></small>
+                            </div> 
+
+                            <!-- Ambisonic Normalization -->
+                            <div class="form-group col-md-4" id="ASWGambisonicNormSection" style="display:none">
+                                <h7>Ambisonic Normalization</h7>
+                                <select id="ASWGambisonicNorm" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>SND3</option>
+                                    <option>MAXN</option>
+                                    <option>N3D</option>
+                                </select>
+                                <small id="ASWGambisonicNormHelp" class="form-text text-muted"></small>
+                            </div> 
+
+                            <!-- Notes -->
+                            <div class="form-group col-md-9">
+                                <h7>Notes</h7>
+                                <textarea class="form-control" id="ASWGnotes" rows="3"></textarea>
+                                <small id="ASWGnotesHelp" class="form-text text-muted">General information not covered in other fields.</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Recording -->
+                        <h4 style="margin:0;" class="modal-title">Recording</h4>
+                        <div class="form-row">                        
+                            <!-- Designed -->
+                            <div class="form-group col-md-4">
+                                <h7>Designed?</h7>
+                                <select id="ASWGisDesigned" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisDesignedHelp" class="form-text text-muted">Whether designed (True) or raw (False).</small>
+                            </div> 
+
+                            <!-- Rec Engineer -->
+                            <div class="form-group col-md-4">
+                                <h7>Recording Engineer</h7>
+                                <br><input type="text" class="form-control" id="ASWGrecEngineer" aria-describedby="ASWGrecEngineerHelp" placeholder="">
+                                <small id="ASWGrecEngineerHelp" class="form-text text-muted">Name of recording engineer.</small>
+                            </div>
+
+                            <!-- Rec Studio -->
+                            <div class="form-group col-md-4">
+                                <h7>Recording Studio</h7>
+                                <br><input type="text" class="form-control" id="ASWGrecStudio" aria-describedby="ASWGrecStudioHelp" placeholder="">
+                                <small id="ASWGrecStudioHelp" class="form-text text-muted">Name of recording studio.</small>
+                            </div>
+
+                            <!-- Impulse Location -->
+                            <div class="form-group col-lg-9" id="ASWGimpulseLocationSection" >
+                                <h7>Impulse (IR) Location</h7>
+                                <br><input type="text" class="form-control" id="ASWGimpulseLocation" aria-describedby="ASWGimpulseLocationHelp" placeholder="Grand Canyon National Park, Desert View Watchtower">
+                                <small id="ASWGimpulseLocationHelp" class="form-text text-muted">Specific location of recorded impulse.</small>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---  ASWG SFX ---->
+    <div class="modal fade ASWGSFXModal" id="ASWGSFXModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="ASWGSFXModalContent">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Sony ASWG - Sound Effects (SFX)</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="ASWGSFXForm">
+                        <h4 style="margin:0;" class="modal-title">Info & Format</h4>
+                        <div class="form-row">                            
+                            
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---  ASWG Dialogue ---->
+    <div class="modal fade ASWGDialogueModal" id="ASWGDialogueModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="ASWGDialogueContent">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Sony ASWG - Dialogue</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="ASWGDialogueForm">
+                        <div id="ASWGDialogueFormError" style="display: none; margin:0;" class="alert alert-danger" role="alert">Invalid field found! Please double check this form.</div>
+                        <h4 style="margin:0;" class="modal-title">Info & Format</h4>
+                        <div class="form-row">                            
+                            <!-- Text Transcript-->
+                            <div class="form-group col-md-9">
+                                <h7>Text Transcript</h7>
+                                <textarea class="form-control" id="ASWGtext" rows="2"></textarea>
+                                <small id="ASWGtextHelp" class="form-text text-muted">Transcript of the dialogue file.</small>
+                            </div>
+
+                            <!-- Language -->
+                            <div class="form-group col-lg-9">
+                                <h7>Language</h7>
+                                <select id="ASWGlanguage" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>ab - Abkhazian</option>
+                                    <option>aa - Afar</option>
+                                    <option>af - Afrikaans</option>
+                                    <option>ak - Akan</option>
+                                    <option>sq - Albanian</option>
+                                    <option>am - Amharic</option>
+                                    <option>ar - Arabic</option>
+                                    <option>an - Aragonese</option>
+                                    <option>hy - Armenian</option>
+                                    <option>as - Assamese</option>
+                                    <option>av - Avaric</option>
+                                    <option>ae - Avestan</option>
+                                    <option>ay - Aymara</option>
+                                    <option>az - Azerbaijani</option>
+                                    <option>bm - Bambara</option>
+                                    <option>ba - Bashkir</option>
+                                    <option>eu - Basque</option>
+                                    <option>be - Belarusian</option>
+                                    <option>bn - Bengali</option>
+                                    <option>bi - Bislama</option>
+                                    <option>bs - Bosnian</option>
+                                    <option>br - Breton</option>
+                                    <option>bg - Bulgarian</option>
+                                    <option>my - Burmese</option>
+                                    <option>ca - Catalan, Valencian</option>
+                                    <option>ch - Chamorro</option>
+                                    <option>ce - Chechen</option>
+                                    <option>ny - Chichewa, Chewa, Nyanja</option>
+                                    <option>zh - Chinese</option>
+                                    <option>cv - Chuvash</option>
+                                    <option>kw - Cornish</option>
+                                    <option>co - Corsican</option>
+                                    <option>cr - Cree</option>
+                                    <option>hr - Croatian</option>
+                                    <option>cs - Czech</option>
+                                    <option>da - Danish</option>
+                                    <option>dv - Divehi, Dhivehi, Maldivian</option>
+                                    <option>nl - Dutch, Flemish</option>
+                                    <option>dz - Dzongkha</option>
+                                    <option>en - English</option>
+                                    <option>eo - Esperanto</option>
+                                    <option>et - Estonian</option>
+                                    <option>ee - Ewe</option>
+                                    <option>fo - Faroese</option>
+                                    <option>fj - Fijian</option>
+                                    <option>fi - Finnish</option>
+                                    <option>fr - French</option>
+                                    <option>ff - Fulah</option>
+                                    <option>gl - Galician</option>
+                                    <option>ka - Georgian</option>
+                                    <option>de - German</option>
+                                    <option>el - Greek, Modern (1453-)</option>
+                                    <option>gn - Guarani</option>
+                                    <option>gu - Gujarati</option>
+                                    <option>ht - Haitian, Haitian Creole</option>
+                                    <option>ha - Hausa</option>
+                                    <option>he - Hebrew</option>
+                                    <option>hz - Herero</option>
+                                    <option>hi - Hindi</option>
+                                    <option>ho - Hiri Motu</option>
+                                    <option>hu - Hungarian</option>
+                                    <option>ia - Interlingua (International Auxiliary Language Association)</option>
+                                    <option>id - Indonesian</option>
+                                    <option>ie - Interlingue, Occidental</option>
+                                    <option>ga - Irish</option>
+                                    <option>ig - Igbo</option>
+                                    <option>ik - Inupiaq</option>
+                                    <option>io - Ido</option>
+                                    <option>is - Icelandic</option>
+                                    <option>it - Italian</option>
+                                    <option>iu - Inuktitut</option>
+                                    <option>ja - Japanese</option>
+                                    <option>jv - Javanese</option>
+                                    <option>kl - Kalaallisut, Greenlandic</option>
+                                    <option>kn - Kannada</option>
+                                    <option>kr - Kanuri</option>
+                                    <option>ks - Kashmiri</option>
+                                    <option>kk - Kazakh</option>
+                                    <option>km - Central Khmer</option>
+                                    <option>ki - Kikuyu, Gikuyu</option>
+                                    <option>rw - Kinyarwanda</option>
+                                    <option>ky - Kirghiz, Kyrgyz</option>
+                                    <option>kv - Komi</option>
+                                    <option>kg - Kongo</option>
+                                    <option>ko - Korean</option>
+                                    <option>ku - Kurdish</option>
+                                    <option>kj - Kuanyama, Kwanyama</option>
+                                    <option>la - Latin</option>
+                                    <option>lb - Luxembourgish, Letzeburgesch</option>
+                                    <option>lg - Ganda</option>
+                                    <option>li - Limburgan, Limburger, Limburgish</option>
+                                    <option>ln - Lingala</option>
+                                    <option>lo - Lao</option>
+                                    <option>lt - Lithuanian</option>
+                                    <option>lu - Luba-Katanga</option>
+                                    <option>lv - Latvian</option>
+                                    <option>gv - Manx</option>
+                                    <option>mk - Macedonian</option>
+                                    <option>mg - Malagasy</option>
+                                    <option>ms - Malay</option>
+                                    <option>ml - Malayalam</option>
+                                    <option>mt - Maltese</option>
+                                    <option>mi - Maori</option>
+                                    <option>mr - Marathi</option>
+                                    <option>mh - Marshallese</option>
+                                    <option>mn - Mongolian</option>
+                                    <option>na - Nauru</option>
+                                    <option>nv - Navajo, Navaho</option>
+                                    <option>nd - North Ndebele</option>
+                                    <option>ne - Nepali</option>
+                                    <option>ng - Ndonga</option>
+                                    <option>nb - Norwegian Bokmål</option>
+                                    <option>nn - Norwegian Nynorsk</option>
+                                    <option>no - Norwegian</option>
+                                    <option>ii - Sichuan Yi, Nuosu</option>
+                                    <option>nr - South Ndebele</option>
+                                    <option>oc - Occitan</option>
+                                    <option>oj - Ojibwa</option>
+                                    <option>cu - Church Slavic, Old Slavonic, Church Slavonic, Old Bulgarian, Old Church Slavonic</option>
+                                    <option>om - Oromo</option>
+                                    <option>or - Oriya</option>
+                                    <option>os - Ossetian, Ossetic</option>
+                                    <option>pa - Punjabi, Panjabi</option>
+                                    <option>pi - Pali</option>
+                                    <option>fa - Persian</option>
+                                    <option>pl - Polish</option>
+                                    <option>ps - Pashto, Pushto</option>
+                                    <option>pt - Portuguese</option>
+                                    <option>qu - Quechua</option>
+                                    <option>rm - Romansh</option>
+                                    <option>rn - Rundi</option>
+                                    <option>ro - Romanian, Moldavian, Moldovan</option>
+                                    <option>ru - Russian</option>
+                                    <option>sa - Sanskrit</option>
+                                    <option>sc - Sardinian</option>
+                                    <option>sd - Sindhi</option>
+                                    <option>se - Northern Sami</option>
+                                    <option>sm - Samoan</option>
+                                    <option>sg - Sango</option>
+                                    <option>sr - Serbian</option>
+                                    <option>gd - Gaelic, Scottish Gaelic</option>
+                                    <option>sn - Shona</option>
+                                    <option>si - Sinhala, Sinhalese</option>
+                                    <option>sk - Slovak</option>
+                                    <option>sl - Slovenian</option>
+                                    <option>so - Somali</option>
+                                    <option>st - Southern Sotho</option>
+                                    <option>es - Spanish, Castilian</option>
+                                    <option>su - Sundanese</option>
+                                    <option>sw - Swahili</option>
+                                    <option>ss - Swati</option>
+                                    <option>sv - Swedish</option>
+                                    <option>ta - Tamil</option>
+                                    <option>te - Telugu</option>
+                                    <option>tg - Tajik</option>
+                                    <option>th - Thai</option>
+                                    <option>ti - Tigrinya</option>
+                                    <option>bo - Tibetan</option>
+                                    <option>tk - Turkmen</option>
+                                    <option>tl - Tagalog</option>
+                                    <option>tn - Tswana</option>
+                                    <option>to - Tonga (Tonga Islands)</option>
+                                    <option>tr - Turkish</option>
+                                    <option>ts - Tsonga</option>
+                                    <option>tt - Tatar</option>
+                                    <option>tw - Twi</option>
+                                    <option>ty - Tahitian</option>
+                                    <option>ug - Uighur, Uyghur</option>
+                                    <option>uk - Ukrainian</option>
+                                    <option>ur - Urdu</option>
+                                    <option>uz - Uzbek</option>
+                                    <option>ve - Venda</option>
+                                    <option>vi - Vietnamese</option>
+                                    <option>vo - Volapük</option>
+                                    <option>wa - Walloon</option>
+                                    <option>cy - Welsh</option>
+                                    <option>wo - Wolof</option>
+                                    <option>fy - Western Frisian</option>
+                                    <option>xh - Xhosa</option>
+                                    <option>yi - Yiddish</option>
+                                    <option>yo - Yoruba</option>
+                                    <option>za - Zhuang, Chuang</option>
+                                    <option>zu - Zulu</option>
+                                </select>
+                                <small id="ASWGlanguageHelp" class="form-text text-muted"><a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">ISO639-1 Language Code.</a></small>
+                            </div> 
+
+                            <!-- Efforts -->
+                            <div class="form-group col-md-4">
+                                <h7>Contains Efforts</h7>
+                                <select id="ASWGefforts" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                    <option>Mixed</option>
+                                </select>
+                                <small id="ASWGeffortsHelp" class="form-text text-muted">Efforts (True), Dialogue (False), or mixed.</small>
+                            </div> 
+
+                            <!-- Effort Type -->
+                            <div class="form-group col-md-4">
+                                <h7>Effort Type</h7>
+                                <br><input type="text" class="form-control" id="ASWGeffortType" aria-describedby="ASWGeffortTypeHelp" placeholder="Strain, Pain">
+                            </div>
+
+                            <!-- Projection -->
+                            <div class="form-group col-md-4">
+                                <h7>Projection</h7>
+                                <select id="ASWGprojection" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>1 - Whispered</option>
+                                    <option>2 - To Self</option>
+                                    <option>3 - Spoken</option>
+                                    <option>4 - Projected</option>
+                                    <option>5 - Shouted</option>
+                                </select>
+                                <small id="ASWGprojectionHelp" class="form-text text-muted">Dialogue projection level.</small>
+                            </div> 
+
+                            <!-- Timing Restriction -->
+                            <div class="form-group col-md-4">
+                                <h7>Timing Restriction</h7>
+                                <select id="ASWGtimingRestriction" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>Wild</option>
+                                    <option>Time-Sync</option>
+                                    <option>Lip-Sync</option>
+                                    <option>N/A</option>
+                                </select>
+                                <small id="ASWGtimingRestrictionHelp" class="form-text text-muted">Dialogue timing restriction.</small>
+                            </div> 
+
+                            <!-- FX Used -->
+                            <div class="form-group col-md-4">
+                                <h7>Effects Used</h7>
+                                <br><input type="text" class="form-control" id="ASWGfxUsed" placeholder="Radio, Reverb">
+                                <small id="ASWGfxUsedHelp" class="form-text text-muted">General description of any effects.</small>
+                            </div>
+                        </div>
+
+                        <!-- Character & Actor-->
+                        <h4 style="margin:0;" class="modal-title">Character & Actor</h4>
+                        <div class="form-row">
+                            <!-- Character Name -->
+                            <div class="form-group col-md-4">
+                                <h7>Character Name</h7>
+                                <br><input type="text" class="form-control" id="ASWGcharacterName" placeholder="Atreus">
+                            </div>
+
+                            <!-- Character Gender -->
+                            <div class="form-group col-md-4">
+                                <h7>Character Gender/Sex</h7>
+                                <select id="ASWGcharacterGender" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>Female</option>
+                                    <option>Male</option>
+                                    <option>Other</option>
+                                    <option>Unknown</option>
+                                </select>
+                            </div>
+
+                            <!-- Character Age -->
+                            <div class="form-group col-md-4">
+                                <h7>Character Age</h7>
+                                <br><input type="text" class="form-control" id="ASWGcharacterAge" placeholder="12" pattern="[0-9]*">
+                                <small id="ASWGcharacterAgeHelp" class="form-text text-muted">Integer value, in years.</small>
+                            </div>
+                            
+                            <!-- Character Role -->
+                            <div class="form-group col-md-4">
+                                <h7>Character Role</h7>
+                                <select id="ASWGcharacterRole" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>Significant</option>
+                                    <option>Background</option>
+                                </select>
+                                <small id="ASWGcharacterRoleHelp" class="form-text text-muted">Main (Significant) or background.</small>
+                            </div> 
+
+                            <!-- Actor Name -->
+                            <div class="form-group col-md-4">
+                                <h7>Actor Name</h7>
+                                <br><input type="text" class="form-control" id="ASWGactorName" placeholder="">
+                            </div>
+
+                            <!-- Actor Gender -->
+                            <div class="form-group col-md-4">
+                                <h7>Actor Gender/Sex</h7>
+                                <select id="ASWGactorGender" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>Female</option>
+                                    <option>Male</option>
+                                    <option>Other</option>
+                                    <option>Unknown</option>
+                                </select>
+                            </div>
+
+                            <!-- Accent -->
+                            <div class="form-group col-md-4">
+                                <h7>Accent</h7>
+                                <br><input type="text" class="form-control" id="ASWGaccent" placeholder="">
+                                <small id="ASWGaccentHelp" class="form-text text-muted">Regional accent of the spoken dialogue.</small>
+                            </div>
+                            
+                            <!-- Emotion -->
+                            <div class="form-group col-md-4">
+                                <h7>Emotion</h7>
+                                <br><input type="text" class="form-control" id="ASWGemotion" placeholder="">
+                                <small id="ASWGemotionHelp" class="form-text text-muted">Emotional content in delivery.</small>
+                            </div>
+                        </div>
+
+                        <!-- Direction & Usage -->
+                        <h4 style="margin:0;" class="modal-title">Direction & Usage</h4>
+                        <div class="form-row">
+                            <!-- Director -->
+                            <div class="form-group col-md-4">
+                                <h7>Director</h7>
+                                <br><input type="text" class="form-control" id="ASWGdirector" placeholder="">
+                                <small id="ASWGdirectorHelp" class="form-text text-muted">Name of dialogue director.</small>
+                            </div>
+
+                            <!-- Direction -->
+                            <div class="form-group col-md-4">
+                                <h7>Direction Notes</h7>
+                                <br><input type="text" class="form-control" id="ASWGdirection" placeholder="">
+                                <small id="ASWGdirectionHelp" class="form-text text-muted">Dialogue notes, for context.</small>
+                            </div>
+                            
+                            <!-- Usage Rights -->
+                            <div class="form-group col-md-4">
+                                <h7>Usage Rights</h7>
+                                <br><input type="text" class="form-control" id="ASWGusageRights" placeholder="">
+                                <small id="ASWGusageRightsHelp" class="form-text text-muted">Internal code denoting usage rights.</small>
+                            </div>
+
+                            <!-- Union -->
+                            <div class="form-group col-md-4">
+                                <h7>Union</h7>
+                                <select id="ASWGisUnion" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisUnionHelp" class="form-text text-muted">Whether asset recorded under union contract.</small>
+                            </div>                           
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---  ASWG Music ---->
+    <div class="modal fade ASWGMusicModal" id="ASWGMusicModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="ASWGMusicModalContent">
+                <div class="modal-header">
+                    <h3 style="margin:0;" class="modal-title">Sony ASWG - Music</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="ASWGMusicForm">
+                        <div id="ASWGMusicFormError" style="display: none; margin:0;" class="alert alert-danger" role="alert">Invalid field found! Please double check this form.</div>
+                        <h4 style="margin:0;" class="modal-title">Info</h4>
+                        <div class="form-row">                            
+                            <!-- Composer -->
+                            <div class="form-group col-md-4">
+                                <h7>Composer</h7>
+                                <br><input type="text" class="form-control" id="ASWGcomposer" placeholder="">
+                            </div>
+
+                            <!-- Artist -->
+                            <div class="form-group col-md-4">
+                                <h7>Artist</h7>
+                                <br><input type="text" class="form-control" id="ASWGartist" placeholder="">
+                            </div>
+
+                            <!-- Song Title -->
+                            <div class="form-group col-md-4">
+                                <h7>Song Title</h7>
+                                <br><input type="text" class="form-control" id="ASWGsongTitle" placeholder="">
+                            </div>
+
+                            <!-- Producer -->
+                            <div class="form-group col-md-4">
+                                <h7>Producer</h7>
+                                <br><input type="text" class="form-control" id="ASWGproducer" placeholder="">
+                            </div>
+
+                            <!-- Genre -->
+                            <div class="form-group col-md-4">
+                                <h7>Genre</h7>
+                                <br><input type="text" class="form-control" id="ASWGgenre" placeholder="">
+                            </div>
+                            
+                            <!-- Sub Genre -->
+                            <div class="form-group col-md-4">
+                                <h7>Sub-Genre</h7>
+                                <br><input type="text" class="form-control" id="ASWGsubGenre" placeholder="">
+                            </div>
+                                                                                    
+                            <!-- Instrument -->
+                            <div class="form-group col-md-4">
+                                <h7>Instrument</h7>
+                                <br><input type="text" class="form-control" id="ASWGinstrument" placeholder="">
+                            </div> 
+                            
+                            <!-- Intensity -->
+                            <div class="form-group col-md-4">
+                                <h7>Intensity</h7>
+                                <br><input type="text" class="form-control" id="ASWGintensity" placeholder="">
+                            </div>   
+                            
+                            <!-- Tempo -->
+                            <div class="form-group col-md-4">
+                                <h7>Tempo</h7>
+                                <br><input type="text" class="form-control" id="ASWGtempo" aria-describedby="ASWGtempoHelp" placeholder="Format: 128, 144, 106" pattern="(,\s*|[0-9]*)*">
+                                <small id="ASWGtempoHelp" class="form-text text-muted">Tempo(s), in BPM.</small>
+                            </div> 
+
+                            <!-- Time Signature -->
+                            <div class="form-group col-md-4">
+                                <h7>Time Signature</h7>
+                                <br><input type="text" class="form-control" id="ASWGtimeSig" aria-describedby="ASWGtimeSigHelp" placeholder="Format: 3:4, 4:4, 6:8" pattern="(,\s*|[0-9]*:[0-9]*)*">
+                                <small id="ASWGtimeSigHelp" class="form-text text-muted">Time signature(s), in X:Y.</small>
+                            </div> 
+
+                            <!-- Key -->
+                            <div class="form-group col-md-4">
+                                <h7>Key</h7>
+                                <br><input type="text" class="form-control" id="ASWGinKey" aria-describedby="ASWGinKeyHelp" placeholder="A#m, D">
+                                <small id="ASWGinKeyHelp" class="form-text text-muted">Key(s)</small>
+                            </div> 
+
+                            <!-- Rights Owner -->
+                            <div class="form-group col-md-4">
+                                <h7>Rights Owner</h7>
+                                <br><input type="text" class="form-control" id="ASWGrightsOwner" aria-describedby="ASWGrightsOwnerHelp" placeholder="">
+                                <small id="ASWGrightsOwnerHelp" class="form-text text-muted">Owner of the recorded work.</small>
+                            </div>
+                            
+                            <!-- Music Supervisor -->
+                            <div class="form-group col-md-4">
+                                <h7>Music Supervisor</h7>
+                                <br><input type="text" class="form-control" id="ASWGmusicSup" placeholder="">
+                            </div>
+
+                            <!-- Music Publisher -->
+                            <div class="form-group col-md-4">
+                                <h7>Music Publisher</h7>
+                                <br><input type="text" class="form-control" id="ASWGmusicPublisher" placeholder="">
+                            </div>
+                        </div>
+
+                        <!-- Format -->
+                        <h4 style="margin:0;" class="modal-title">Format - True/False</h4>
+                        <div class="form-row">
+                            <!-- Source -->
+                            <div class="form-group col-md-4">
+                                <h7>Source</h7>
+                                <select id="ASWGisSource" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisSourceHelp" class="form-text text-muted">Source (True) or edit/other (False).</small>
+                            </div>   
+
+                            <!-- Loop -->
+                            <div class="form-group col-md-4">
+                                <h7>Loop</h7>
+                                <select id="ASWGisLoop" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisLoopHelp" class="form-text text-muted">Seamlessly loopable?</small>
+                            </div>  
+
+                            <!-- Final -->
+                            <div class="form-group col-md-4">
+                                <h7>Final</h7>
+                                <select id="ASWGisFinal" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisFinalHelp" class="form-text text-muted">Final (True) or temp/other (False).</small>
+                            </div>  
+
+                            <!-- OST -->
+                            <div class="form-group col-md-4">
+                                <h7>OST</h7>
+                                <select id="ASWGisOst" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisOstHelp" class="form-text text-muted">Part of original soundtrack?</small>
+                            </div>  
+
+                            <!-- Cinematic -->
+                            <div class="form-group col-md-4">
+                                <h7>Cinematic</h7>
+                                <select id="ASWGisCinematic" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisCinematicHelp" class="form-text text-muted">Associated with a cinematic?</small>
+                            </div>  
+
+                            <!-- Diegetic -->
+                            <div class="form-group col-md-4">
+                                <h7>Diegetic</h7>
+                                <select id="ASWGisDiegetic" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisDiegeticHelp" class="form-text text-muted">Used diegetically?</small>
+                            </div>  
+
+                            <!-- Licensed -->
+                            <div class="form-group col-md-4">
+                                <h7>Licensed</h7>
+                                <select id="ASWGisLicensed" class="form-control" style="margin:0px;">
+                                    <option>-</option>
+                                    <option>True</option>
+                                    <option>False</option>
+                                </select>
+                                <small id="ASWGisLicensedHelp" class="form-text text-muted">Licensed from a third party?</small>
+                            </div>                            
+                        </div>
+
+                        <!-- Cataloguing -->
+                        <h4 style="margin:0;" class="modal-title">Cataloguing</h4>
+                        <div class="form-row">
+                            <!-- Order Reference -->
+                            <div class="form-group col-md-4">
+                                <h7>Order Reference</h7>
+                                <br><input type="text" class="form-control" id="ASWGorderRef" aria-describedby="ASWGorderRefHelp" placeholder="">
+                                <small id="ASWGorderRefHelp" class="form-text text-muted">Internal cue order, if applicable.</small>
+                            </div>  
+
+                            <!-- Music Version -->
+                            <div class="form-group col-md-4">
+                                <h7>Music Version</h7>
+                                <br><input type="text" class="form-control" id="ASWGmusicVersion" aria-describedby="ASWGmusicVersionHelp" placeholder="">
+                                <small id="ASWGmusicVersionHelp" class="form-text text-muted">Internal version number.</small>
+                            </div> 
+
+                            <!-- ISRC Code -->
+                            <div class="form-group col-md-4">
+                                <h7>ISRC Code</h7>
+                                <br><input type="text" class="form-control" id="ASWGisrcId" aria-describedby="ASWGisrcIdHelp" placeholder="">
+                                <small id="ASWGisrcIdHelp" class="form-text text-muted"><a href="https://www.usisrc.org/" target="_blank">ISRC Code.</a></small>
+                            </div> 
+
+                            <!-- Billing Code -->
+                            <div class="form-group col-md-4">
+                                <h7>Billing Code</h7>
+                                <br><input type="text" class="form-control" id="ASWGbillingCode" aria-describedby="ASWGbillingCodeHelp" placeholder="">
+                                <small id="ASWGbillingCodeHelp" class="form-text text-muted">Internal project billing code.</small>
+                            </div> 
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -958,9 +1794,45 @@
                     <small id="userInputMetaArtHelp" class="form-text text-muted">Supports drag-and-drop! Must be .jpg or .png</small>
                 </div>
                 -->
+                
+                <!-- ASWG -->
+                <div style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="ASWGSection">
+                    <div class="form-group col-lg-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                        <div class="form-group col-lg-9" style="margin-left: 15px; margin-right: 15px; margin-top: 10px; margin-bottom: 0px;">
+                            <h6><i>Sony ASWG Scheme v1.00</i></h6>
+                            <small id="ASWGTitleHelp" class="form-text text-muted">The Sony Playstation&reg; Studios' Audio Standards Working Group (ASWG) Specification</small> 
+                        </div>                                                         
+                    </div>
+                    <!-- Content Type -->
+                    <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                        <div class="form-group col-md-4" style="margin-left: 15px;">
+                            <h7>Content Type*</h7>
+                            <select id="ASWGcontentType" class="form-control" style="margin-top:0; margin-bottom: 0px;" required>
+                                <option>-</option>
+                                <option>SFX</option>
+                                <option>Dialogue</option>
+                                <option>Music</option>
+
+                                <option disabled data-divider="true"></option>
+                                <option>Mixed</option>
+                                <option>Haptic</option>
+                                <option>Impulse (IR)</option>                                
+                            </select>
+                            <small id="ASWGcontentTypeHelp" class="form-text text-muted"></small>
+                        </div> 
+                    </div>
+                    <div class="form-group col-lg-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;">
+                        <div class="form-group col-lg-9" style="margin-left: 15px; margin-right: 15px; margin-top: 0px; margin-bottom: 0px;">
+                            <button id="ASWGInfoBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".ASWGInfoModal" style="display:none"><img class="icons filter-info" src="ucs_libraries/info.svg" alt="info_icon">&nbsp;&nbsp;<b>ASWG - General</b></button>
+                            <button id="ASWGSFXBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".ASWGSFXModal" style="display:none"><img class="icons filter-info" src="ucs_libraries/sfx.svg" alt="sfx_icon">&nbsp;&nbsp;<b>ASWG - SFX</b></button>
+                            <button id="ASWGDialogueBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".ASWGDialogueModal" style="display:none"><img class="icons filter-info" src="ucs_libraries/dialogue.svg" alt="dialogue_icon">&nbsp;&nbsp;<b>ASWG - Dialogue</b></button> 
+                            <button id="ASWGMusicBtn" type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".ASWGMusicModal" style="display:none"><img class="icons filter-info" src="ucs_libraries/music2.svg" alt="music_icon">&nbsp;&nbsp;<b>ASWG - Music</b></button>                                                   
+                        </div>
+                    </div>   
+                </div>             
             </div>  
             <!-- SUBMIT BUTTON - Web_Interface_Button_1_Test.lua -->
-            <div>
+            <div style="margin-top: 30px;">
                 <button id="formSubmitButton" type="button" class="btn btn-outline-primary"><img class="icons filter-blue" src="ucs_libraries/share.svg" alt="share_icon">&nbsp;&nbsp;<b>Submit</b></button>
             </div>
             <!-- PAGE DIVIDER -->
@@ -1151,13 +2023,6 @@
                 $("#renderDirectorySettings").prop('checked',false);      
             }
 
-            // Get marker render formatting setting
-            if (localStorage.getItem("marker-format-setting")) {
-                $("#markerFormatSettings").prop('checked',true);
-            } else {
-                $("#markerFormatSettings").prop('checked',false);
-            }
-
             // Get marker position format setting
             if (localStorage.getItem("marker-pos-setting")) {
                 $("#markerPositionSettings").prop('checked',true);
@@ -1179,6 +2044,15 @@
                 $("#metadataScroll").hide();
             }
 
+            // Get ASWG metadata setting
+            if (localStorage.getItem("aswg-setting")) {
+                $("#ASWGSettings").prop('checked',true);
+                $("#ASWGSection").show();
+            } else {
+                $("#ASWGSettings").prop('checked',false);
+                $("#ASWGSection").hide();
+            }
+
             // Get vendor cat setting
             if (localStorage.getItem("vendor-cat-setting")) {
                 $("#vendorCatCheckbox").prop('checked',true);
@@ -1196,6 +2070,11 @@
             // Get name/source capitalization settings
             if (localStorage.getItem("caps-setting")) {
                 $("#nameCapitalizationSetting").val(localStorage.getItem("caps-setting"));
+            }
+
+            // Get filename formatting settings
+            if (localStorage.getItem("fx-format-setting")) {
+                $("#fxFormattingSetting").val(localStorage.getItem("fx-format-setting"));
             }
         }
 
@@ -1310,7 +2189,6 @@
             var vendorChecked = $("#vendorCatCheckbox").prop("checked");
             var metadataChecked = $("#metadataSettings").prop("checked");
             var directoryChecked = $("#renderDirectorySettings").prop("checked");
-            var markerFormatChecked = $("#markerFormatSettings").prop("checked");
             var markerPosChecked = $("#markerPositionSettings").prop("checked");
             var cleanUserCat = stringCleaning($("#userInputUserCat").val());
             var cleanInitials = stringCleaning($("#userInputInitials").val());
@@ -1321,6 +2199,9 @@
             if (selectedCatID == "CATID_INVALID") { return; }                           // Alert is included in getCatID above
             if (nameOnly == "") { $("#userInputNameError").show(); $("#userCategoryGroup")[0].scrollIntoView(); return; }
             if (cleanInitials == "") { $("#userInitialsError").show(); $("#fileNameGroup")[0].scrollIntoView(); return; }
+            if ($("#ASWGcontentType").val() !== "-" && $("#ASWGInfoForm").hasClass("was-validated") && $("#ASWGInfoForm")[0].checkValidity() === false) { $("#ASWGInfoModal").modal(); $("#ASWGInfoFormError").show(); return;}
+            if ($("#ASWGcontentType").val() !== "-" && $("#ASWGDialogueForm").hasClass("was-validated") && $("#ASWGDialogueForm")[0].checkValidity() === false) { $("#ASWGDialogueModal").modal(); $("#ASWGDialogueFormError").show(); return;}
+            if ($("#ASWGcontentType").val() !== "-" && $("#ASWGMusicForm").hasClass("was-validated") && $("#ASWGMusicForm")[0].checkValidity() === false) { $("#ASWGMusicModal").modal(); $("#ASWGMusicFormError").show(); return;}
 
             // Trigger CSS Animation
             $("#formSubmitButton").addClass('anim-trig');
@@ -1340,7 +2221,6 @@
             setProjExtState(iXMLChecked, "iXMLMetadata");
             setProjExtState(metadataChecked, "ExtendedMetadata");
             setProjExtState(directoryChecked, "RenderDirectory");
-            setProjExtState(markerFormatChecked, "MarkerFormat");
             setProjExtState(markerPosChecked, "MarkerPosition");
             setProjExtState(cleanUserCat, "UserCategory");
             setProjExtState(cleanInitials, "Initials");
@@ -1351,6 +2231,7 @@
             setProjExtState("userInputItems");
             setProjExtState("userInputArea");
             setProjExtState("nameCapitalizationSetting");
+            setProjExtState("fxFormattingSetting");
             setProjExtState("copyResultsSetting");
 
             // Vendor category
@@ -1416,6 +2297,154 @@
                 setProjExtState(metaPersp, "MetaPersp");
             }
 
+            //#region Fetch ASWG fields           
+            var aswgChecked = $("#ASWGSettings").prop("checked");
+            if (aswgChecked) {
+                var ASWGcontentType = $("#ASWGcontentType").val();
+                var ASWGproject = $("#ASWGproject").val();
+                var ASWGoriginatorStudio = $("#ASWGoriginatorStudio").val();
+                var ASWGnotes = $("#ASWGnotes").val();
+                var ASWGstate = $("#ASWGstate").val();
+                var ASWGeditor = $("#ASWGeditor").val();
+                var ASWGmixer = $("#ASWGmixer").val();
+                var ASWGfxChainName = $("#ASWGfxChainName").val();
+                var ASWGchannelConfig = $("#ASWGchannelConfig").val();
+                var ASWGambisonicFormat = $("#ASWGambisonicFormat").val();
+                var ASWGambisonicChnOrder = $("#ASWGambisonicChnOrder").val();
+                var ASWGambisonicNorm = $("#ASWGambisonicNorm").val();
+                var ASWGisDesigned = $("#ASWGisDesigned").val();
+                var ASWGrecEngineer = $("#ASWGrecEngineer").val();
+                var ASWGrecStudio = $("#ASWGrecStudio").val();
+                var ASWGimpulseLocation = $("#ASWGimpulseLocation").val();
+                var ASWGtext = $("#ASWGtext").val();
+                var ASWGefforts = $("#ASWGefforts").val();
+                var ASWGeffortType = $("#ASWGeffortType").val();
+                var ASWGprojection = $("#ASWGprojection").val();
+                var ASWGlanguage = $("#ASWGlanguage").val();
+                var ASWGtimingRestriction = $("#ASWGtimingRestriction").val();
+                var ASWGcharacterName = $("#ASWGcharacterName").val();
+                var ASWGcharacterGender = $("#ASWGcharacterGender").val();
+                var ASWGcharacterAge = $("#ASWGcharacterAge").val();
+                var ASWGcharacterRole = $("#ASWGcharacterRole").val();
+                var ASWGactorName = $("#ASWGactorName").val();
+                var ASWGactorGender = $("#ASWGactorGender").val();
+                var ASWGdirection = $("#ASWGdirection").val();
+                var ASWGdirector = $("#ASWGdirector").val();
+                var ASWGfxUsed = $("#ASWGfxUsed").val();
+                var ASWGusageRights = $("#ASWGusageRights").val();
+                var ASWGisUnion = $("#ASWGisUnion").val();
+                var ASWGaccent = $("#ASWGaccent").val();
+                var ASWGemotion = $("#ASWGemotion").val();
+                var ASWGcomposer = $("#ASWGcomposer").val();
+                var ASWGartist = $("#ASWGartist").val();
+                var ASWGsongTitle = $("#ASWGsongTitle").val();
+                var ASWGgenre = $("#ASWGgenre").val();
+                var ASWGsubGenre = $("#ASWGsubGenre").val();
+                var ASWGproducer = $("#ASWGproducer").val();
+                var ASWGmusicSup = $("#ASWGmusicSup").val();
+                var ASWGinstrument = $("#ASWGinstrument").val();
+                var ASWGmusicPublisher = $("#ASWGmusicPublisher").val();
+                var ASWGrightsOwner = $("#ASWGrightsOwner").val();
+                var ASWGintensity = $("#ASWGintensity").val();
+                var ASWGorderRef = $("#ASWGorderRef").val();
+                var ASWGisSource = $("#ASWGisSource").val();
+                var ASWGisLoop = $("#ASWGisLoop").val();
+                var ASWGisFinal = $("#ASWGisFinal").val();
+                var ASWGisOst = $("#ASWGisOst").val();
+                var ASWGisCinematic = $("#ASWGisCinematic").val();
+                var ASWGisLicensed = $("#ASWGisLicensed").val();
+                var ASWGisDiegetic = $("#ASWGisDiegetic").val();
+                var ASWGmusicVersion = $("#ASWGmusicVersion").val();
+                var ASWGisrcId = $("#ASWGisrcId").val();
+                var ASWGtempo = $("#ASWGtempo").val();
+                var ASWGtimeSig = $("#ASWGtimeSig").val();
+                var ASWGinKey = $("#ASWGinKey").val();
+                var ASWGbillingCode = $("#ASWGbillingCode").val();
+
+                ASWGcontentType = (ASWGcontentType != "-") ? ASWGcontentType : "";
+                ASWGstate = (ASWGstate != "-") ? ASWGstate : "";
+                ASWGchannelConfig = (ASWGchannelConfig != "-") ? ASWGchannelConfig : "";
+                ASWGambisonicChnOrder = (ASWGambisonicChnOrder != "-") ? ASWGambisonicChnOrder : "";
+                ASWGambisonicNorm = (ASWGambisonicNorm != "-") ? ASWGambisonicNorm : "";
+                ASWGisDesigned = (ASWGisDesigned != "-") ? ASWGisDesigned : "";
+                ASWGefforts = (ASWGefforts != "-") ? ASWGefforts : "";
+                ASWGprojection = (ASWGprojection != "-") ? ASWGprojection.substring(0,1) : "";               // Fetch projection value number only
+                ASWGlanguage = (ASWGlanguage != "-") ? ASWGlanguage.substring(0,2) : "";                     // Fetch language code only
+                ASWGtimingRestriction = (ASWGtimingRestriction != "-") ? ASWGtimingRestriction : "";
+                ASWGcharacterRole = (ASWGcharacterRole != "-") ? ASWGcharacterRole : "";
+                ASWGactorGender = (ASWGactorGender != "-") ? ASWGactorGender : "";
+                ASWGisUnion = (ASWGisUnion != "-") ? ASWGisUnion : "";
+                ASWGisSource = (ASWGisSource != "-") ? ASWGisSource : "";
+                ASWGisLoop = (ASWGisLoop != "-") ? ASWGisLoop : "";
+                ASWGisFinal = (ASWGisFinal != "-") ? ASWGisFinal : "";
+                ASWGisOst = (ASWGisOst != "-") ? ASWGisOst : "";
+                ASWGisCinematic = (ASWGisCinematic != "-") ? ASWGisCinematic : "";
+                ASWGisLicensed = (ASWGisLicensed != "-") ? ASWGisLicensed : "";
+                ASWGisDiegetic = (ASWGisDiegetic != "-") ? ASWGisDiegetic : "";
+
+                setProjExtState(ASWGcontentType,  "ASWGcontentType");
+                setProjExtState(ASWGproject,  "ASWGproject");
+                setProjExtState(ASWGoriginatorStudio,  "ASWGoriginatorStudio");
+                setProjExtState(ASWGnotes,  "ASWGnotes");
+                setProjExtState(ASWGstate,  "ASWGstate");
+                setProjExtState(ASWGeditor,  "ASWGeditor");
+                setProjExtState(ASWGmixer,  "ASWGmixer");
+                setProjExtState(ASWGfxChainName,  "ASWGfxChainName");
+                setProjExtState(ASWGchannelConfig,  "ASWGchannelConfig");
+                setProjExtState(ASWGambisonicFormat,  "ASWGambisonicFormat");
+                setProjExtState(ASWGambisonicChnOrder,  "ASWGambisonicChnOrder");
+                setProjExtState(ASWGambisonicNorm,  "ASWGambisonicNorm");
+                setProjExtState(ASWGisDesigned,  "ASWGisDesigned");
+                setProjExtState(ASWGrecEngineer,  "ASWGrecEngineer");
+                setProjExtState(ASWGrecStudio,  "ASWGrecStudio");
+                setProjExtState(ASWGimpulseLocation,  "ASWGimpulseLocation");
+                setProjExtState(ASWGtext,  "ASWGtext");
+                setProjExtState(ASWGefforts,  "ASWGefforts");
+                setProjExtState(ASWGeffortType,  "ASWGeffortType");
+                setProjExtState(ASWGprojection,  "ASWGprojection");
+                setProjExtState(ASWGlanguage,  "ASWGlanguage");
+                setProjExtState(ASWGtimingRestriction,  "ASWGtimingRestriction");
+                setProjExtState(ASWGcharacterName,  "ASWGcharacterName");
+                setProjExtState(ASWGcharacterGender,  "ASWGcharacterGender");
+                setProjExtState(ASWGcharacterAge,  "ASWGcharacterAge");
+                setProjExtState(ASWGcharacterRole,  "ASWGcharacterRole");
+                setProjExtState(ASWGactorName,  "ASWGactorName");
+                setProjExtState(ASWGactorGender,  "ASWGactorGender");
+                setProjExtState(ASWGdirection,  "ASWGdirection");
+                setProjExtState(ASWGdirector,  "ASWGdirector");
+                setProjExtState(ASWGfxUsed,  "ASWGfxUsed");
+                setProjExtState(ASWGusageRights,  "ASWGusageRights");
+                setProjExtState(ASWGisUnion,  "ASWGisUnion");
+                setProjExtState(ASWGaccent,  "ASWGaccent");
+                setProjExtState(ASWGemotion,  "ASWGemotion");
+                setProjExtState(ASWGcomposer,  "ASWGcomposer");
+                setProjExtState(ASWGartist,  "ASWGartist");
+                setProjExtState(ASWGsongTitle,  "ASWGsongTitle");
+                setProjExtState(ASWGgenre,  "ASWGgenre");
+                setProjExtState(ASWGsubGenre,  "ASWGsubGenre");
+                setProjExtState(ASWGproducer,  "ASWGproducer");
+                setProjExtState(ASWGmusicSup,  "ASWGmusicSup");
+                setProjExtState(ASWGinstrument,  "ASWGinstrument");
+                setProjExtState(ASWGmusicPublisher,  "ASWGmusicPublisher");
+                setProjExtState(ASWGrightsOwner,  "ASWGrightsOwner");
+                setProjExtState(ASWGintensity,  "ASWGintensity");
+                setProjExtState(ASWGorderRef,  "ASWGorderRef");
+                setProjExtState(ASWGisSource,  "ASWGisSource");
+                setProjExtState(ASWGisLoop,  "ASWGisLoop");
+                setProjExtState(ASWGisFinal,  "ASWGisFinal");
+                setProjExtState(ASWGisOst,  "ASWGisOst");
+                setProjExtState(ASWGisCinematic,  "ASWGisCinematic");
+                setProjExtState(ASWGisLicensed,  "ASWGisLicensed");
+                setProjExtState(ASWGisDiegetic,  "ASWGisDiegetic");
+                setProjExtState(ASWGmusicVersion,  "ASWGmusicVersion");
+                setProjExtState(ASWGisrcId,  "ASWGisrcId");
+                setProjExtState(ASWGtempo,  "ASWGtempo");
+                setProjExtState(ASWGtimeSig,  "ASWGtimeSig");
+                setProjExtState(ASWGinKey,  "ASWGinKey");
+                setProjExtState(ASWGbillingCode,  "ASWGbillingCode");       
+            }
+            //#endregion
+
             // Tell ReaScript that this is being run from a web interface
             wwr_req("SET/EXTSTATEPERSIST/UCS_WebInterface/" + "runFromWeb" + "/" + "true");
 
@@ -1471,9 +2500,17 @@
         $(document).keydown(function (event) {
             if (event.which === 13) {
                 var categoryFocused = $('#userInputCategory').is(':focus');
-                if (!categoryFocused) {
+                var modalFocused = $('body').find('.modal.show').length > 0;
+                if (!categoryFocused && !modalFocused) {
                     $("#formSubmitButton").click();
-                }                
+                } else if ($('#presetsModal').hasClass('show')) {
+                    saveThisAsPreset();
+                } else if ($('#deletePresetsModal').hasClass('show')) {
+                    $('#deletePresetsModal').modal('hide'); 
+                    deleteThisPreset();                    
+                } else if (modalFocused) {
+                    $('.modal').modal('hide');
+                }               
             }
         });
 
@@ -1773,14 +2810,44 @@
             if (loadedSeconds > 1) {
                 // validateCategory();
                 // Fetch form to apply custom Bootstrap validation
-                var form = $("#ucsForm")
-
+                var form = $("#ucsForm");
                 if (form[0].checkValidity() === false) {
-                    event.preventDefault()
-                    event.stopPropagation()
+                    // Form is invalid
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
-
                 form.addClass('was-validated');
+
+                if ($('#ASWGInfoModal').hasClass('show')) {
+                    form = $("#ASWGInfoForm");
+                    if (form[0].checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        $("#ASWGInfoFormError").hide();
+                    }
+                    form.addClass('was-validated');
+                    
+                } else if ($('#ASWGMusicModal').hasClass('show')) {
+                    form = $("#ASWGMusicForm");
+                    if (form[0].checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        $("#ASWGMusicFormError").hide();
+                    }
+                    form.addClass('was-validated');
+
+                } else if ($('#ASWGDialogueModal').hasClass('show')) {
+                    form = $("#ASWGDialogueForm");
+                    if (form[0].checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();                       
+                    } else {
+                        $("#ASWGDialogueFormError").hide();
+                    }
+                    form.addClass('was-validated');                    
+                } 
             }
         });
 
@@ -1818,6 +2885,72 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // ASWG Content Type
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#ASWGcontentType").change(function () {
+            var key = $(this).val();
+            if (key == "SFX") {
+                $("#ASWGInfoBtn").show();
+                //$("#ASWGSFXBtn").show();
+                $("#ASWGMusicBtn").hide();
+                $("#ASWGDialogueBtn").hide();
+                $("#ASWGimpulseLocationSection").hide();
+            } else if (key == "Music") {
+                $("#ASWGInfoBtn").show();
+                //$("#ASWGSFXBtn").hide();
+                $("#ASWGMusicBtn").show();
+                $("#ASWGDialogueBtn").hide();
+                $("#ASWGimpulseLocationSection").hide();
+            } else if (key == "Dialogue") {
+                $("#ASWGInfoBtn").show();
+                //$("#ASWGSFXBtn").hide();
+                $("#ASWGMusicBtn").hide();
+                $("#ASWGDialogueBtn").show();
+                $("#ASWGimpulseLocationSection").hide();
+            } else if (key == "Mixed") {
+                $("#ASWGInfoBtn").show();
+                //$("#ASWGSFXBtn").show();
+                $("#ASWGMusicBtn").show();
+                $("#ASWGDialogueBtn").show();
+                $("#ASWGimpulseLocationSection").show();
+            } else if (key == "Impulse (IR)") {
+                $("#ASWGInfoBtn").show();
+                //$("#ASWGSFXBtn").hide();
+                $("#ASWGMusicBtn").hide();
+                $("#ASWGDialogueBtn").hide();
+                $("#ASWGimpulseLocationSection").show();
+            } else if (key == "Haptic") {
+                $("#ASWGInfoBtn").show();
+                //$("#ASWGSFXBtn").hide();
+                $("#ASWGMusicBtn").hide();
+                $("#ASWGDialogueBtn").hide();
+                $("#ASWGimpulseLocationSection").hide();
+            } else {
+                $("#ASWGInfoBtn").hide();
+                //$("#ASWGSFXBtn").hide();
+                $("#ASWGMusicBtn").hide();
+                $("#ASWGDialogueBtn").hide();
+                $("#ASWGimpulseLocationSection").hide();
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // ASWG Ambisonic Channels
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#ASWGchannelConfig").change(function () {
+            var key = $(this).val();
+            if (key == "Ambisonic") {
+                $("#ASWGambisonicFormatSection").show();
+                $("#ASWGambisonicChnOrderSection").show();
+                $("#ASWGambisonicNormSection").show();
+            } else {
+                $("#ASWGambisonicFormatSection").hide();
+                $("#ASWGambisonicChnOrderSection").hide();
+                $("#ASWGambisonicNormSection").hide();
+            }
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // UCS iXML RENDERING ON CHANGE
         // ~~~~~~~~~~~~~~~~~~~~
         $("#iXMLSettings").change(function () {
@@ -1842,18 +2975,6 @@
                 localStorage.setItem("directory-setting",directoryChecked); // Set value in local storage
             } else {            
                 localStorage.removeItem("directory-setting");
-            }
-        });
-        
-        // ~~~~~~~~~~~~~~~~~~~~
-        // MARKER FORMAT SETTINGS ON CHANGE
-        // ~~~~~~~~~~~~~~~~~~~~
-        $("#markerFormatSettings").change(function () {
-            var markerFormatChecked = $(this).prop("checked");
-            if (markerFormatChecked) {
-                localStorage.setItem("marker-format-setting",markerFormatChecked); // Set value in local storage
-            } else {            
-                localStorage.removeItem("marker-format-setting");
             }
         });
 
@@ -1892,6 +3013,20 @@
         })
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // ASWG METADATA TOGGLE ON CHANGE
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#ASWGSettings").change(function() {
+            var aswgChecked = $(this).prop("checked");
+            if (aswgChecked) {
+                localStorage.setItem("aswg-setting",aswgChecked);
+                $("#ASWGSection").show();
+            } else {
+                localStorage.removeItem("aswg-setting");
+                $("#ASWGSection").hide();
+            }
+        })
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // VENDOR CAT CHECKBOX TOGGLE ON CHANGE
         // ~~~~~~~~~~~~~~~~~~~~
         $("#vendorCatCheckbox").change(function () {
@@ -1919,8 +3054,16 @@
         // STORE CAPITALIZATION SETTINGS
         // ~~~~~~~~~~~~~~~~~~~~
         $("#nameCapitalizationSetting").change(function () {
-            var key = $(this).val();
+            var key = $(this).val();            
             localStorage.setItem("caps-setting",key); // Set value in local storage
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // FX NAME FORMAT SETTINGS
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#fxFormattingSetting").change(function () {
+            var key = $(this).val();
+            localStorage.setItem("fx-format-setting",key); // Set value in local storage
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -2300,7 +3443,7 @@
             // Hide modal
             $('#presetsModal').modal('hide');            
 
-            // Get user's settings            
+            //#region Fetch user's settings...            
             var mySettings = {
                 presetIndex: preset_index,
                 preset: $("#presetName").val(),
@@ -2328,9 +3471,70 @@
                 metaConfig: $("#userInputMetaConfig").val(),
                 metaIntExt: $("#userInputMetaIntExt").val(),
                 userItems: $("#userInputItems").val(),
-                userArea: $("#userInputArea").val()
+                userArea: $("#userInputArea").val(),
+                ASWGcontentType: $("#ASWGcontentType").val(),
+                ASWGproject: $("#ASWGproject").val(),
+                ASWGoriginatorStudio: $("#ASWGoriginatorStudio").val(),
+                ASWGnotes: $("#ASWGnotes").val(),
+                ASWGstate: $("#ASWGstate").val(),
+                ASWGeditor: $("#ASWGeditor").val(),
+                ASWGmixer: $("#ASWGmixer").val(),
+                ASWGfxChainName: $("#ASWGfxChainName").val(),
+                ASWGchannelConfig: $("#ASWGchannelConfig").val(),
+                ASWGambisonicFormat: $("#ASWGambisonicFormat").val(),
+                ASWGambisonicChnOrder: $("#ASWGambisonicChnOrder").val(),
+                ASWGambisonicNorm: $("#ASWGambisonicNorm").val(),
+                ASWGisDesigned: $("#ASWGisDesigned").val(),
+                ASWGrecEngineer: $("#ASWGrecEngineer").val(),
+                ASWGrecStudio: $("#ASWGrecStudio").val(),
+                ASWGimpulseLocation: $("#ASWGimpulseLocation").val(),
+                ASWGtext: $("#ASWGtext").val(),
+                ASWGefforts: $("#ASWGefforts").val(),
+                ASWGeffortType: $("#ASWGeffortType").val(),
+                ASWGprojection: $("#ASWGprojection").val(),
+                ASWGlanguage: $("#ASWGlanguage").val(),
+                ASWGtimingRestriction: $("#ASWGtimingRestriction").val(),
+                ASWGcharacterName: $("#ASWGcharacterName").val(),
+                ASWGcharacterGender: $("#ASWGcharacterGender").val(),
+                ASWGcharacterAge: $("#ASWGcharacterAge").val(),
+                ASWGcharacterRole: $("#ASWGcharacterRole").val(),
+                ASWGactorName: $("#ASWGactorName").val(),
+                ASWGactorGender: $("#ASWGactorGender").val(),
+                ASWGdirection: $("#ASWGdirection").val(),
+                ASWGdirector: $("#ASWGdirector").val(),
+                ASWGfxUsed: $("#ASWGfxUsed").val(),
+                ASWGusageRights: $("#ASWGusageRights").val(),
+                ASWGisUnion: $("#ASWGisUnion").val(),
+                ASWGaccent: $("#ASWGaccent").val(),
+                ASWGemotion: $("#ASWGemotion").val(),
+                ASWGcomposer: $("#ASWGcomposer").val(),
+                ASWGartist: $("#ASWGartist").val(),
+                ASWGsongTitle: $("#ASWGsongTitle").val(),
+                ASWGgenre: $("#ASWGgenre").val(),
+                ASWGsubGenre: $("#ASWGsubGenre").val(),
+                ASWGproducer: $("#ASWGproducer").val(),
+                ASWGmusicSup: $("#ASWGmusicSup").val(),
+                ASWGinstrument: $("#ASWGinstrument").val(),
+                ASWGmusicPublisher: $("#ASWGmusicPublisher").val(),
+                ASWGrightsOwner: $("#ASWGrightsOwner").val(),
+                ASWGintensity: $("#ASWGintensity").val(),
+                ASWGorderRef: $("#ASWGorderRef").val(),
+                ASWGisSource: $("#ASWGisSource").val(),
+                ASWGisLoop: $("#ASWGisLoop").val(),
+                ASWGisFinal: $("#ASWGisFinal").val(),
+                ASWGisOst: $("#ASWGisOst").val(),
+                ASWGisCinematic: $("#ASWGisCinematic").val(),
+                ASWGisLicensed: $("#ASWGisLicensed").val(),
+                ASWGisDiegetic: $("#ASWGisDiegetic").val(),
+                ASWGmusicVersion: $("#ASWGmusicVersion").val(),
+                ASWGisrcId: $("#ASWGisrcId").val(),
+                ASWGtempo: $("#ASWGtempo").val(),
+                ASWGtimeSig: $("#ASWGtimeSig").val(),
+                ASWGinKey: $("#ASWGinKey").val(),
+                ASWGbillingCode: $("#ASWGbillingCode").val()
             }
             console.log(mySettings);
+            //#endregion
             
             // Get/update number of user presets in local storage
             var preset_index = 0;
@@ -2393,7 +3597,7 @@
             // Fetch preset
             var presetSettings = JSON.parse(localStorage.getItem("ucs-preset-" + index));
             
-            // Set values
+            //#region Set values
             console.log("Loading preset number: " + index);
             if (presetSettings.category && presetSettings.category !== "") $("#userInputCategory").val(presetSettings.category).trigger('change');
             if (presetSettings.subcategory && presetSettings.subcategory !== "Please select a category!") $("#userSelectSubCategory").val(presetSettings.subcategory).trigger('change');
@@ -2419,6 +3623,68 @@
             if (presetSettings.userItems && presetSettings.userItems !== "") $("#userInputItems").val(presetSettings.userItems).trigger('change');
             if (presetSettings.userArea && presetSettings.userArea !== "") $("#userInputArea").val(presetSettings.userArea).trigger('change');
             $("#userInputVarNumCheckbox").prop("checked",presetSettings.enumerate);
+
+            if (presetSettings.ASWGcontentType && presetSettings.ASWGcontentType !== "-") $("#ASWGcontentType").val(presetSettings.ASWGcontentType).trigger('change');
+            if (presetSettings.ASWGproject && presetSettings.ASWGproject !== "") $("#ASWGproject").val(presetSettings.ASWGproject).trigger('change');
+            if (presetSettings.ASWGoriginatorStudio && presetSettings.ASWGoriginatorStudio !== "") $("#ASWGoriginatorStudio").val(presetSettings.ASWGoriginatorStudio).trigger('change');
+            if (presetSettings.ASWGnotes && presetSettings.ASWGnotes !== "") $("#ASWGnotes").val(presetSettings.ASWGnotes).trigger('change');
+            if (presetSettings.ASWGstate && presetSettings.ASWGstate !== "-") $("#ASWGstate").val(presetSettings.ASWGstate).trigger('change');
+            if (presetSettings.ASWGeditor && presetSettings.ASWGeditor !== "") $("#ASWGeditor").val(presetSettings.ASWGeditor).trigger('change');
+            if (presetSettings.ASWGmixer && presetSettings.ASWGmixer !== "") $("#ASWGmixer").val(presetSettings.ASWGmixer).trigger('change');
+            if (presetSettings.ASWGfxChainName && presetSettings.ASWGfxChainName !== "") $("#ASWGfxChainName").val(presetSettings.ASWGfxChainName).trigger('change');
+            if (presetSettings.ASWGchannelConfig && presetSettings.ASWGchannelConfig !== "-") $("#ASWGchannelConfig").val(presetSettings.ASWGchannelConfig).trigger('change');
+            if (presetSettings.ASWGambisonicFormat && presetSettings.ASWGambisonicFormat !== "") $("#ASWGambisonicFormat").val(presetSettings.ASWGambisonicFormat).trigger('change');
+            if (presetSettings.ASWGambisonicChnOrder && presetSettings.ASWGambisonicChnOrder !== "-") $("#ASWGambisonicChnOrder").val(presetSettings.ASWGambisonicChnOrder).trigger('change');
+            if (presetSettings.ASWGambisonicNorm && presetSettings.ASWGambisonicNorm !== "-") $("#ASWGambisonicNorm").val(presetSettings.ASWGambisonicNorm).trigger('change');
+            if (presetSettings.ASWGisDesigned && presetSettings.ASWGisDesigned !== "-") $("#ASWGisDesigned").val(presetSettings.ASWGisDesigned).trigger('change');
+            if (presetSettings.ASWGrecEngineer && presetSettings.ASWGrecEngineer !== "") $("#ASWGrecEngineer").val(presetSettings.ASWGrecEngineer).trigger('change');
+            if (presetSettings.ASWGrecStudio && presetSettings.ASWGrecStudio !== "") $("#ASWGrecStudio").val(presetSettings.ASWGrecStudio).trigger('change');
+            if (presetSettings.ASWGimpulseLocation && presetSettings.ASWGimpulseLocation !== "") $("#ASWGimpulseLocation").val(presetSettings.ASWGimpulseLocation).trigger('change');
+            if (presetSettings.ASWGtext && presetSettings.ASWGtext !== "") $("#ASWGtext").val(presetSettings.ASWGtext).trigger('change');
+            if (presetSettings.ASWGefforts && presetSettings.ASWGefforts !== "-") $("#ASWGefforts").val(presetSettings.ASWGefforts).trigger('change');
+            if (presetSettings.ASWGeffortType && presetSettings.ASWGeffortType !== "") $("#ASWGeffortType").val(presetSettings.ASWGeffortType).trigger('change');
+            if (presetSettings.ASWGprojection && presetSettings.ASWGprojection !== "-") $("#ASWGprojection").val(presetSettings.ASWGprojection).trigger('change');
+            if (presetSettings.ASWGlanguage && presetSettings.ASWGlanguage !== "-") $("#ASWGlanguage").val(presetSettings.ASWGlanguage).trigger('change');
+            if (presetSettings.ASWGtimingRestriction && presetSettings.ASWGtimingRestriction !== "-") $("#ASWGtimingRestriction").val(presetSettings.ASWGtimingRestriction).trigger('change');
+            if (presetSettings.ASWGcharacterName && presetSettings.ASWGcharacterName !== "") $("#ASWGcharacterName").val(presetSettings.ASWGcharacterName).trigger('change');
+            if (presetSettings.ASWGcharacterGender && presetSettings.ASWGcharacterGender !== "-") $("#ASWGcharacterGender").val(presetSettings.ASWGcharacterGender).trigger('change');
+            if (presetSettings.ASWGcharacterAge && presetSettings.ASWGcharacterAge !== "") $("#ASWGcharacterAge").val(presetSettings.ASWGcharacterAge).trigger('change');
+            if (presetSettings.ASWGcharacterRole && presetSettings.ASWGcharacterRole !== "-") $("#ASWGcharacterRole").val(presetSettings.ASWGcharacterRole).trigger('change');
+            if (presetSettings.ASWGactorName && presetSettings.ASWGactorName !== "") $("#ASWGactorName").val(presetSettings.ASWGactorName).trigger('change');
+            if (presetSettings.ASWGactorGender && presetSettings.ASWGactorGender !== "-") $("#ASWGactorGender").val(presetSettings.ASWGactorGender).trigger('change');
+            if (presetSettings.ASWGdirection && presetSettings.ASWGdirection !== "") $("#ASWGdirection").val(presetSettings.ASWGdirection).trigger('change');
+            if (presetSettings.ASWGdirector && presetSettings.ASWGdirector !== "") $("#ASWGdirector").val(presetSettings.ASWGdirector).trigger('change');
+            if (presetSettings.ASWGfxUsed && presetSettings.ASWGfxUsed !== "") $("#ASWGfxUsed").val(presetSettings.ASWGfxUsed).trigger('change');
+            if (presetSettings.ASWGusageRights && presetSettings.ASWGusageRights !== "") $("#ASWGusageRights").val(presetSettings.ASWGusageRights).trigger('change');
+            if (presetSettings.ASWGisUnion && presetSettings.ASWGisUnion !== "-") $("#ASWGisUnion").val(presetSettings.ASWGisUnion).trigger('change');
+            if (presetSettings.ASWGaccent && presetSettings.ASWGaccent !== "") $("#ASWGaccent").val(presetSettings.ASWGaccent).trigger('change');
+            if (presetSettings.ASWGemotion && presetSettings.ASWGemotion !== "") $("#ASWGemotion").val(presetSettings.ASWGemotion).trigger('change');
+            if (presetSettings.ASWGcomposer && presetSettings.ASWGcomposer !== "") $("#ASWGcomposer").val(presetSettings.ASWGcomposer).trigger('change');
+            if (presetSettings.ASWGartist && presetSettings.ASWGartist !== "") $("#ASWGartist").val(presetSettings.ASWGartist).trigger('change');
+            if (presetSettings.ASWGsongTitle && presetSettings.ASWGsongTitle !== "") $("#ASWGsongTitle").val(presetSettings.ASWGsongTitle).trigger('change');
+            if (presetSettings.ASWGgenre && presetSettings.ASWGgenre !== "") $("#ASWGgenre").val(presetSettings.ASWGgenre).trigger('change');
+            if (presetSettings.ASWGsubGenre && presetSettings.ASWGsubGenre !== "") $("#ASWGsubGenre").val(presetSettings.ASWGsubGenre).trigger('change');
+            if (presetSettings.ASWGproducer && presetSettings.ASWGproducer !== "") $("#ASWGproducer").val(presetSettings.ASWGproducer).trigger('change');
+            if (presetSettings.ASWGmusicSup && presetSettings.ASWGmusicSup !== "") $("#ASWGmusicSup").val(presetSettings.ASWGmusicSup).trigger('change');
+            if (presetSettings.ASWGinstrument && presetSettings.ASWGinstrument !== "") $("#ASWGinstrument").val(presetSettings.ASWGinstrument).trigger('change');
+            if (presetSettings.ASWGmusicPublisher && presetSettings.ASWGmusicPublisher !== "") $("#ASWGmusicPublisher").val(presetSettings.ASWGmusicPublisher).trigger('change');
+            if (presetSettings.ASWGrightsOwner && presetSettings.ASWGrightsOwner !== "") $("#ASWGrightsOwner").val(presetSettings.ASWGrightsOwner).trigger('change');
+            if (presetSettings.ASWGintensity && presetSettings.ASWGintensity !== "") $("#ASWGintensity").val(presetSettings.ASWGintensity).trigger('change');
+            if (presetSettings.ASWGorderRef && presetSettings.ASWGorderRef !== "") $("#ASWGorderRef").val(presetSettings.ASWGorderRef).trigger('change');
+            if (presetSettings.ASWGisSource && presetSettings.ASWGisSource !== "-") $("#ASWGisSource").val(presetSettings.ASWGisSource).trigger('change');
+            if (presetSettings.ASWGisLoop && presetSettings.ASWGisLoop !== "-") $("#ASWGisLoop").val(presetSettings.ASWGisLoop).trigger('change');
+            if (presetSettings.ASWGisFinal && presetSettings.ASWGisFinal !== "-") $("#ASWGisFinal").val(presetSettings.ASWGisFinal).trigger('change');
+            if (presetSettings.ASWGisOst && presetSettings.ASWGisOst !== "-") $("#ASWGisOst").val(presetSettings.ASWGisOst).trigger('change');
+            if (presetSettings.ASWGisCinematic && presetSettings.ASWGisCinematic !== "-") $("#ASWGisCinematic").val(presetSettings.ASWGisCinematic).trigger('change');
+            if (presetSettings.ASWGisLicensed && presetSettings.ASWGisLicensed !== "-") $("#ASWGisLicensed").val(presetSettings.ASWGisLicensed).trigger('change');
+            if (presetSettings.ASWGisDiegetic && presetSettings.ASWGisDiegetic !== "-") $("#ASWGisDiegetic").val(presetSettings.ASWGisDiegetic).trigger('change');
+            if (presetSettings.ASWGmusicVersion && presetSettings.ASWGmusicVersion !== "") $("#ASWGmusicVersion").val(presetSettings.ASWGmusicVersion).trigger('change');
+            if (presetSettings.ASWGisrcId && presetSettings.ASWGisrcId !== "") $("#ASWGisrcId").val(presetSettings.ASWGisrcId).trigger('change');
+            if (presetSettings.ASWGtempo && presetSettings.ASWGtempo !== "") $("#ASWGtempo").val(presetSettings.ASWGtempo).trigger('change');
+            if (presetSettings.ASWGtimeSig && presetSettings.ASWGtimeSig !== "") $("#ASWGtimeSig").val(presetSettings.ASWGtimeSig).trigger('change');
+            if (presetSettings.ASWGinKey && presetSettings.ASWGinKey !== "") $("#ASWGinKey").val(presetSettings.ASWGinKey).trigger('change');
+            if (presetSettings.ASWGbillingCode && presetSettings.ASWGbillingCode !== "") $("#ASWGbillingCode").val(presetSettings.ASWGbillingCode).trigger('change');
+            //#endregion
 
             // Mic config requires a little bit of extra work due to the ambisonics modal
             if (presetSettings.metaConfig && presetSettings.metaConfig !== "-") {
@@ -2470,6 +3736,7 @@
                 var historyName = month + "/" + day + ": " + currentCatID + "_" + $("select#userSelectSubCategory option:checked").val() + " " + $("#userInputName").val();
             }
 
+            //#region Fetch user's settings
             var mySettings = {
                 presetIndex: history_index,
                 preset: historyName,
@@ -2497,9 +3764,70 @@
                 metaConfig: $("#userInputMetaConfig").val(),
                 metaIntExt: $("#userInputMetaIntExt").val(),
                 userItems: $("#userInputItems").val(),
-                userArea: $("#userInputArea").val()
+                userArea: $("#userInputArea").val(),
+                ASWGcontentType: $("#ASWGcontentType").val(),
+                ASWGproject: $("#ASWGproject").val(),
+                ASWGoriginatorStudio: $("#ASWGoriginatorStudio").val(),
+                ASWGnotes: $("#ASWGnotes").val(),
+                ASWGstate: $("#ASWGstate").val(),
+                ASWGeditor: $("#ASWGeditor").val(),
+                ASWGmixer: $("#ASWGmixer").val(),
+                ASWGfxChainName: $("#ASWGfxChainName").val(),
+                ASWGchannelConfig: $("#ASWGchannelConfig").val(),
+                ASWGambisonicFormat: $("#ASWGambisonicFormat").val(),
+                ASWGambisonicChnOrder: $("#ASWGambisonicChnOrder").val(),
+                ASWGambisonicNorm: $("#ASWGambisonicNorm").val(),
+                ASWGisDesigned: $("#ASWGisDesigned").val(),
+                ASWGrecEngineer: $("#ASWGrecEngineer").val(),
+                ASWGrecStudio: $("#ASWGrecStudio").val(),
+                ASWGimpulseLocation: $("#ASWGimpulseLocation").val(),
+                ASWGtext: $("#ASWGtext").val(),
+                ASWGefforts: $("#ASWGefforts").val(),
+                ASWGeffortType: $("#ASWGeffortType").val(),
+                ASWGprojection: $("#ASWGprojection").val(),
+                ASWGlanguage: $("#ASWGlanguage").val(),
+                ASWGtimingRestriction: $("#ASWGtimingRestriction").val(),
+                ASWGcharacterName: $("#ASWGcharacterName").val(),
+                ASWGcharacterGender: $("#ASWGcharacterGender").val(),
+                ASWGcharacterAge: $("#ASWGcharacterAge").val(),
+                ASWGcharacterRole: $("#ASWGcharacterRole").val(),
+                ASWGactorName: $("#ASWGactorName").val(),
+                ASWGactorGender: $("#ASWGactorGender").val(),
+                ASWGdirection: $("#ASWGdirection").val(),
+                ASWGdirector: $("#ASWGdirector").val(),
+                ASWGfxUsed: $("#ASWGfxUsed").val(),
+                ASWGusageRights: $("#ASWGusageRights").val(),
+                ASWGisUnion: $("#ASWGisUnion").val(),
+                ASWGaccent: $("#ASWGaccent").val(),
+                ASWGemotion: $("#ASWGemotion").val(),
+                ASWGcomposer: $("#ASWGcomposer").val(),
+                ASWGartist: $("#ASWGartist").val(),
+                ASWGsongTitle: $("#ASWGsongTitle").val(),
+                ASWGgenre: $("#ASWGgenre").val(),
+                ASWGsubGenre: $("#ASWGsubGenre").val(),
+                ASWGproducer: $("#ASWGproducer").val(),
+                ASWGmusicSup: $("#ASWGmusicSup").val(),
+                ASWGinstrument: $("#ASWGinstrument").val(),
+                ASWGmusicPublisher: $("#ASWGmusicPublisher").val(),
+                ASWGrightsOwner: $("#ASWGrightsOwner").val(),
+                ASWGintensity: $("#ASWGintensity").val(),
+                ASWGorderRef: $("#ASWGorderRef").val(),
+                ASWGisSource: $("#ASWGisSource").val(),
+                ASWGisLoop: $("#ASWGisLoop").val(),
+                ASWGisFinal: $("#ASWGisFinal").val(),
+                ASWGisOst: $("#ASWGisOst").val(),
+                ASWGisCinematic: $("#ASWGisCinematic").val(),
+                ASWGisLicensed: $("#ASWGisLicensed").val(),
+                ASWGisDiegetic: $("#ASWGisDiegetic").val(),
+                ASWGmusicVersion: $("#ASWGmusicVersion").val(),
+                ASWGisrcId: $("#ASWGisrcId").val(),
+                ASWGtempo: $("#ASWGtempo").val(),
+                ASWGtimeSig: $("#ASWGtimeSig").val(),
+                ASWGinKey: $("#ASWGinKey").val(),
+                ASWGbillingCode: $("#ASWGbillingCode").val()
             }
             console.log(mySettings);
+            //#endregion
             
             // Get/update number of user history in local storage
             var history_index = 0;
@@ -2538,7 +3866,7 @@
             // Fetch preset
             var historySettings = JSON.parse(localStorage.getItem("ucs-history-" + index));
             
-            // Set values
+            //#region Set values
             console.log("Loading history number: " + index);
             if (historySettings.category && historySettings.category !== "") $("#userInputCategory").val(historySettings.category).trigger('change');
             if (historySettings.subcategory && historySettings.subcategory !== "Please select a category!") $("#userSelectSubCategory").val(historySettings.subcategory).trigger('change');
@@ -2564,6 +3892,68 @@
             if (historySettings.userItems && historySettings.userItems !== "") $("#userInputItems").val(historySettings.userItems).trigger('change');
             if (historySettings.userArea && historySettings.userArea !== "") $("#userInputArea").val(historySettings.userArea).trigger('change');
             $("#userInputVarNumCheckbox").prop("checked",historySettings.enumerate);
+
+            if (historySettings.ASWGcontentType && historySettings.ASWGcontentType !== "-") $("#ASWGcontentType").val(historySettings.ASWGcontentType).trigger('change');
+            if (historySettings.ASWGproject && historySettings.ASWGproject !== "") $("#ASWGproject").val(historySettings.ASWGproject).trigger('change');
+            if (historySettings.ASWGoriginatorStudio && historySettings.ASWGoriginatorStudio !== "") $("#ASWGoriginatorStudio").val(historySettings.ASWGoriginatorStudio).trigger('change');
+            if (historySettings.ASWGnotes && historySettings.ASWGnotes !== "") $("#ASWGnotes").val(historySettings.ASWGnotes).trigger('change');
+            if (historySettings.ASWGstate && historySettings.ASWGstate !== "-") $("#ASWGstate").val(historySettings.ASWGstate).trigger('change');
+            if (historySettings.ASWGeditor && historySettings.ASWGeditor !== "") $("#ASWGeditor").val(historySettings.ASWGeditor).trigger('change');
+            if (historySettings.ASWGmixer && historySettings.ASWGmixer !== "") $("#ASWGmixer").val(historySettings.ASWGmixer).trigger('change');
+            if (historySettings.ASWGfxChainName && historySettings.ASWGfxChainName !== "") $("#ASWGfxChainName").val(historySettings.ASWGfxChainName).trigger('change');
+            if (historySettings.ASWGchannelConfig && historySettings.ASWGchannelConfig !== "-") $("#ASWGchannelConfig").val(historySettings.ASWGchannelConfig).trigger('change');
+            if (historySettings.ASWGambisonicFormat && historySettings.ASWGambisonicFormat !== "") $("#ASWGambisonicFormat").val(historySettings.ASWGambisonicFormat).trigger('change');
+            if (historySettings.ASWGambisonicChnOrder && historySettings.ASWGambisonicChnOrder !== "-") $("#ASWGambisonicChnOrder").val(historySettings.ASWGambisonicChnOrder).trigger('change');
+            if (historySettings.ASWGambisonicNorm && historySettings.ASWGambisonicNorm !== "-") $("#ASWGambisonicNorm").val(historySettings.ASWGambisonicNorm).trigger('change');
+            if (historySettings.ASWGisDesigned && historySettings.ASWGisDesigned !== "-") $("#ASWGisDesigned").val(historySettings.ASWGisDesigned).trigger('change');
+            if (historySettings.ASWGrecEngineer && historySettings.ASWGrecEngineer !== "") $("#ASWGrecEngineer").val(historySettings.ASWGrecEngineer).trigger('change');
+            if (historySettings.ASWGrecStudio && historySettings.ASWGrecStudio !== "") $("#ASWGrecStudio").val(historySettings.ASWGrecStudio).trigger('change');
+            if (historySettings.ASWGimpulseLocation && historySettings.ASWGimpulseLocation !== "") $("#ASWGimpulseLocation").val(historySettings.ASWGimpulseLocation).trigger('change');
+            if (historySettings.ASWGtext && historySettings.ASWGtext !== "") $("#ASWGtext").val(historySettings.ASWGtext).trigger('change');
+            if (historySettings.ASWGefforts && historySettings.ASWGefforts !== "-") $("#ASWGefforts").val(historySettings.ASWGefforts).trigger('change');
+            if (historySettings.ASWGeffortType && historySettings.ASWGeffortType !== "") $("#ASWGeffortType").val(historySettings.ASWGeffortType).trigger('change');
+            if (historySettings.ASWGprojection && historySettings.ASWGprojection !== "-") $("#ASWGprojection").val(historySettings.ASWGprojection).trigger('change');
+            if (historySettings.ASWGlanguage && historySettings.ASWGlanguage !== "-") $("#ASWGlanguage").val(historySettings.ASWGlanguage).trigger('change');
+            if (historySettings.ASWGtimingRestriction && historySettings.ASWGtimingRestriction !== "-") $("#ASWGtimingRestriction").val(historySettings.ASWGtimingRestriction).trigger('change');
+            if (historySettings.ASWGcharacterName && historySettings.ASWGcharacterName !== "") $("#ASWGcharacterName").val(historySettings.ASWGcharacterName).trigger('change');
+            if (historySettings.ASWGcharacterGender && historySettings.ASWGcharacterGender !== "-") $("#ASWGcharacterGender").val(historySettings.ASWGcharacterGender).trigger('change');
+            if (historySettings.ASWGcharacterAge && historySettings.ASWGcharacterAge !== "") $("#ASWGcharacterAge").val(historySettings.ASWGcharacterAge).trigger('change');
+            if (historySettings.ASWGcharacterRole && historySettings.ASWGcharacterRole !== "-") $("#ASWGcharacterRole").val(historySettings.ASWGcharacterRole).trigger('change');
+            if (historySettings.ASWGactorName && historySettings.ASWGactorName !== "") $("#ASWGactorName").val(historySettings.ASWGactorName).trigger('change');
+            if (historySettings.ASWGactorGender && historySettings.ASWGactorGender !== "-") $("#ASWGactorGender").val(historySettings.ASWGactorGender).trigger('change');
+            if (historySettings.ASWGdirection && historySettings.ASWGdirection !== "") $("#ASWGdirection").val(historySettings.ASWGdirection).trigger('change');
+            if (historySettings.ASWGdirector && historySettings.ASWGdirector !== "") $("#ASWGdirector").val(historySettings.ASWGdirector).trigger('change');
+            if (historySettings.ASWGfxUsed && historySettings.ASWGfxUsed !== "") $("#ASWGfxUsed").val(historySettings.ASWGfxUsed).trigger('change');
+            if (historySettings.ASWGusageRights && historySettings.ASWGusageRights !== "") $("#ASWGusageRights").val(historySettings.ASWGusageRights).trigger('change');
+            if (historySettings.ASWGisUnion && historySettings.ASWGisUnion !== "-") $("#ASWGisUnion").val(historySettings.ASWGisUnion).trigger('change');
+            if (historySettings.ASWGaccent && historySettings.ASWGaccent !== "") $("#ASWGaccent").val(historySettings.ASWGaccent).trigger('change');
+            if (historySettings.ASWGemotion && historySettings.ASWGemotion !== "") $("#ASWGemotion").val(historySettings.ASWGemotion).trigger('change');
+            if (historySettings.ASWGcomposer && historySettings.ASWGcomposer !== "") $("#ASWGcomposer").val(historySettings.ASWGcomposer).trigger('change');
+            if (historySettings.ASWGartist && historySettings.ASWGartist !== "") $("#ASWGartist").val(historySettings.ASWGartist).trigger('change');
+            if (historySettings.ASWGsongTitle && historySettings.ASWGsongTitle !== "") $("#ASWGsongTitle").val(historySettings.ASWGsongTitle).trigger('change');
+            if (historySettings.ASWGgenre && historySettings.ASWGgenre !== "") $("#ASWGgenre").val(historySettings.ASWGgenre).trigger('change');
+            if (historySettings.ASWGsubGenre && historySettings.ASWGsubGenre !== "") $("#ASWGsubGenre").val(historySettings.ASWGsubGenre).trigger('change');
+            if (historySettings.ASWGproducer && historySettings.ASWGproducer !== "") $("#ASWGproducer").val(historySettings.ASWGproducer).trigger('change');
+            if (historySettings.ASWGmusicSup && historySettings.ASWGmusicSup !== "") $("#ASWGmusicSup").val(historySettings.ASWGmusicSup).trigger('change');
+            if (historySettings.ASWGinstrument && historySettings.ASWGinstrument !== "") $("#ASWGinstrument").val(historySettings.ASWGinstrument).trigger('change');
+            if (historySettings.ASWGmusicPublisher && historySettings.ASWGmusicPublisher !== "") $("#ASWGmusicPublisher").val(historySettings.ASWGmusicPublisher).trigger('change');
+            if (historySettings.ASWGrightsOwner && historySettings.ASWGrightsOwner !== "") $("#ASWGrightsOwner").val(historySettings.ASWGrightsOwner).trigger('change');
+            if (historySettings.ASWGintensity && historySettings.ASWGintensity !== "") $("#ASWGintensity").val(historySettings.ASWGintensity).trigger('change');
+            if (historySettings.ASWGorderRef && historySettings.ASWGorderRef !== "") $("#ASWGorderRef").val(historySettings.ASWGorderRef).trigger('change');
+            if (historySettings.ASWGisSource && historySettings.ASWGisSource !== "-") $("#ASWGisSource").val(historySettings.ASWGisSource).trigger('change');
+            if (historySettings.ASWGisLoop && historySettings.ASWGisLoop !== "-") $("#ASWGisLoop").val(historySettings.ASWGisLoop).trigger('change');
+            if (historySettings.ASWGisFinal && historySettings.ASWGisFinal !== "-") $("#ASWGisFinal").val(historySettings.ASWGisFinal).trigger('change');
+            if (historySettings.ASWGisOst && historySettings.ASWGisOst !== "-") $("#ASWGisOst").val(historySettings.ASWGisOst).trigger('change');
+            if (historySettings.ASWGisCinematic && historySettings.ASWGisCinematic !== "-") $("#ASWGisCinematic").val(historySettings.ASWGisCinematic).trigger('change');
+            if (historySettings.ASWGisLicensed && historySettings.ASWGisLicensed !== "-") $("#ASWGisLicensed").val(historySettings.ASWGisLicensed).trigger('change');
+            if (historySettings.ASWGisDiegetic && historySettings.ASWGisDiegetic !== "-") $("#ASWGisDiegetic").val(historySettings.ASWGisDiegetic).trigger('change');
+            if (historySettings.ASWGmusicVersion && historySettings.ASWGmusicVersion !== "") $("#ASWGmusicVersion").val(historySettings.ASWGmusicVersion).trigger('change');
+            if (historySettings.ASWGisrcId && historySettings.ASWGisrcId !== "") $("#ASWGisrcId").val(historySettings.ASWGisrcId).trigger('change');
+            if (historySettings.ASWGtempo && historySettings.ASWGtempo !== "") $("#ASWGtempo").val(historySettings.ASWGtempo).trigger('change');
+            if (historySettings.ASWGtimeSig && historySettings.ASWGtimeSig !== "") $("#ASWGtimeSig").val(historySettings.ASWGtimeSig).trigger('change');
+            if (historySettings.ASWGinKey && historySettings.ASWGinKey !== "") $("#ASWGinKey").val(historySettings.ASWGinKey).trigger('change');
+            if (historySettings.ASWGbillingCode && historySettings.ASWGbillingCode !== "") $("#ASWGbillingCode").val(historySettings.ASWGbillingCode).trigger('change');
+            //#endregion
 
             // Mic config requires a little bit of extra work due to the ambisonics modal
             if (historySettings.metaConfig && historySettings.metaConfig !== "-") {
@@ -2817,7 +4207,8 @@
         // Splits into name & number (formatted as string)
         // Uses RegEx to ensure name conforms to UCS standard (see RegEx function below)
         function getNameAndNumber(name) {
-            var cleanName = stringCleaning(name);
+            var fxFormattingSetting = $("#fxFormattingSetting").val();
+            var cleanName = (fxFormattingSetting.includes("Enable")) ? stringCleaning(name) : name.replace(/_/g, " ");
             var matches = cleanName.match(/\d+$/);
             if (matches) {
                 // If user included a number at the end of the name...
@@ -2839,7 +4230,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // RegEx to clean up user input fields, see comments on right
         function stringCleaning(inString) {
-            var noIllegalChars = inString.replace(/[\"\&\*\/\:\<\>\?\|\%\#\!\+\[\]\{\}]/g, "");    // Removes illegal characters
+            var noIllegalChars = inString.replace(/[\"\'\~\`\@\=\&\*\/\\\:\<\>\?\|\%\#\!\+\[\]\{\}\$]/g, "");    // Removes illegal characters
             var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
             var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");                    // Removes whitespace at end of string
             var noUnderscores = noTrailingWhitespace.replace(/_/g, " ");                           // Replaces underscores with spaces

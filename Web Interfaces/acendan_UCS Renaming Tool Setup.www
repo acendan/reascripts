@@ -1,10 +1,12 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 5.2.1
+@version 6.0
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-  # Updated EQUIPSprt CatID
+  + Added support for embedding Sony Playstation ASWG Metadata
+  + Added setting to disable FX Name capitalization and formatting - thanks Jaden!
+  # Automatically detect REAPER version to determine marker syntax
