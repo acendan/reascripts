@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.0
+-- @version 6.0.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,9 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   + Added support for embedding Sony Playstation ASWG Metadata
---   + Added setting to disable FX Name capitalization and formatting - thanks Jaden!
---   # Automatically detect REAPER version to determine marker syntax
+--   # Fixed wildcards in filenames (thanks Jerome!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -436,8 +434,8 @@ function renameRegions(num_markers,num_regions)
             local rgn_num = tostring(markrgnindexnumber)
             local relname = ucs_name
             if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
-            if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
-            if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
+            if ucs_full_name:ifind("$Regionnumber") then ucs_full_name = ucs_full_name:gisub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
+            if ucs_full_name:ifind("$Region") then ucs_full_name = ucs_full_name:gisub("$Region",name); relname = relname:gisub("$Region",name) end
             -- SET NAME
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             -- METADATA
@@ -468,8 +466,8 @@ function renameRegions(num_markers,num_regions)
         local rgn_num = tostring(markrgnindexnumber)
         local relname = ucs_name
         if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
-        if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
-        if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
+        if ucs_full_name:ifind("$Regionnumber") then ucs_full_name = ucs_full_name:gisub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
+        if ucs_full_name:ifind("$Region") then ucs_full_name = ucs_full_name:gisub("$Region",name); relname = relname:gisub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         if ret_ixml and ucs_ixml == "true" then 
           if ret_mpos and ucs_mpos == "true" then
@@ -493,8 +491,8 @@ function renameRegions(num_markers,num_regions)
         local rgn_num = tostring(markrgnindexnumber)
         local relname = ucs_name
         if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
-        if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
-        if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
+        if ucs_full_name:ifind("$Regionnumber") then ucs_full_name = ucs_full_name:gisub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
+        if ucs_full_name:ifind("$Region") then ucs_full_name = ucs_full_name:gisub("$Region",name); relname = relname:gisub("$Region",name) end
         reaper.SetProjectMarkerByIndex( 0, regionidx, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         if ret_ixml and ucs_ixml == "true" then 
           if ret_mpos and ucs_mpos == "true" then
@@ -520,8 +518,8 @@ function renameRegions(num_markers,num_regions)
             local rgn_num = tostring(markrgnindexnumber)
             local relname = ucs_name
             if string.len(rgn_num) == 1 then rgn_num = "0" .. rgn_num end
-            if ucs_full_name:find("$Regionnumber") then ucs_full_name = ucs_full_name:gsub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
-            if ucs_full_name:find("$Region") then ucs_full_name = ucs_full_name:gsub("$Region",name); relname = relname:gisub("$Region",name) end
+            if ucs_full_name:ifind("$Regionnumber") then ucs_full_name = ucs_full_name:gisub("$Regionnumber",rgn_num); relname = relname:gisub("$Regionnumber",rgn_num) end
+            if ucs_full_name:ifind("$Region") then ucs_full_name = ucs_full_name:gisub("$Region",name); relname = relname:gisub("$Region",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             if ret_ixml and ucs_ixml == "true" then 
               if ret_mpos and ucs_mpos == "true" then
@@ -569,8 +567,8 @@ function renameMarkers(num_markers,num_regions)
             local mkr_num = tostring(markrgnindexnumber)
             local relname = ucs_name
             if string.len(mkr_num) == 1 then mkr_num = "0" .. mkr_num end
-            if ucs_full_name:find("$Markernumber") then ucs_full_name = ucs_full_name:gsub("$Markernumber",mkr_num); relname = relname:gisub("$Markernumber",mkr_num) end
-            if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name); relname = relname:gisub("$Marker",name) end
+            if ucs_full_name:ifind("$Markernumber") then ucs_full_name = ucs_full_name:gisub("$Markernumber",mkr_num); relname = relname:gisub("$Markernumber",mkr_num) end
+            if ucs_full_name:ifind("$Marker") then ucs_full_name = ucs_full_name:gisub("$Marker",name); relname = relname:gisub("$Marker",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
             incrementUCSNumStr()
@@ -592,8 +590,8 @@ function renameMarkers(num_markers,num_regions)
         local mkr_num = tostring(markrgnindexnumber)
         local relname = ucs_name
         if string.len(mkr_num) == 1 then mkr_num = "0" .. mkr_num end
-        if ucs_full_name:find("$Markernumber") then ucs_full_name = ucs_full_name:gsub("$Markernumber",mkr_num); relname = relname:gisub("$Markernumber",mkr_num) end
-        if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name); relname = relname:gisub("$Marker",name) end
+        if ucs_full_name:ifind("$Markernumber") then ucs_full_name = ucs_full_name:gisub("$Markernumber",mkr_num); relname = relname:gisub("$Markernumber",mkr_num) end
+        if ucs_full_name:ifind("$Marker") then ucs_full_name = ucs_full_name:gisub("$Marker",name); relname = relname:gisub("$Marker",name) end
         reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
         if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
         incrementUCSNumStr()
@@ -614,8 +612,8 @@ function renameMarkers(num_markers,num_regions)
             local mkr_num = tostring(markrgnindexnumber)
             local relname = ucs_name
             if string.len(mkr_num) == 1 then mkr_num = "0" .. mkr_num end
-            if ucs_full_name:find("$Markernumber") then ucs_full_name = ucs_full_name:gsub("$Markernumber",mkr_num); relname = relname:gisub("$Markernumber",mkr_num) end
-            if ucs_full_name:find("$Marker") then ucs_full_name = ucs_full_name:gsub("$Marker",name); relname = relname:gisub("$Marker",name) end
+            if ucs_full_name:ifind("$Markernumber") then ucs_full_name = ucs_full_name:gisub("$Markernumber",mkr_num); relname = relname:gisub("$Markernumber",mkr_num) end
+            if ucs_full_name:ifind("$Marker") then ucs_full_name = ucs_full_name:gisub("$Marker",name); relname = relname:gisub("$Marker",name) end
             reaper.SetProjectMarkerByIndex( 0, i, isrgn, pos, rgnend, markrgnindexnumber, ucs_full_name, color )
             if ret_ixml and ucs_ixml == "true" then iXMLMarkers(pos,relname) end
             incrementUCSNumStr()
@@ -655,14 +653,14 @@ function renameMediaItems(num_items)
           leadingZeroUCSNumStr()
           setFullName()
           local relname = ucs_name
-          if ucs_full_name:find("$Itemnumber") then ucs_full_name = ucs_full_name:gsub("$Itemnumber", item_num); relname = relname:gisub("$Itemnumber", item_num) end
-          if ucs_full_name:find("$Item") then 
+          if ucs_full_name:ifind("$Itemnumber") then ucs_full_name = ucs_full_name:gisub("$Itemnumber", item_num); relname = relname:gisub("$Itemnumber", item_num) end
+          if ucs_full_name:ifind("$Item") then 
             local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
             if ret_name then 
-              ucs_full_name = ucs_full_name:gsub("$Item",item_name)
+              ucs_full_name = ucs_full_name:gisub("$Item",item_name)
               relname = relname:gisub("$Item",item_name)
             else 
-              ucs_full_name = ucs_full_name:gsub("$Item","") 
+              ucs_full_name = ucs_full_name:gisub("$Item","") 
               relname = relname:gisub("$Item","")
             end
           end
@@ -693,14 +691,14 @@ function renameMediaItems(num_items)
         leadingZeroUCSNumStr()
         setFullName()
         local relname = ucs_name
-        if ucs_full_name:find("$Itemnumber") then ucs_full_name = ucs_full_name:gsub("$Itemnumber", item_num); relname = relname:gisub("$Itemnumber", item_num) end
-        if ucs_full_name:find("$Item") then 
+        if ucs_full_name:ifind("$Itemnumber") then ucs_full_name = ucs_full_name:gisub("$Itemnumber", item_num); relname = relname:gisub("$Itemnumber", item_num) end
+        if ucs_full_name:ifind("$Item") then 
           local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
           if ret_name then 
-            ucs_full_name = ucs_full_name:gsub("$Item",item_name)
+            ucs_full_name = ucs_full_name:gisub("$Item",item_name)
             relname = relname:gisub("$Item",item_name)
           else 
-            ucs_full_name = ucs_full_name:gsub("$Item","") 
+            ucs_full_name = ucs_full_name:gisub("$Item","") 
             relname = relname:gisub("$Item","")
           end
         end
@@ -737,11 +735,11 @@ function renameTracks(num_tracks)
         if string.len(track_num) == 1 then track_num = "0" .. track_num end
         leadingZeroUCSNumStr()
         setFullName()
-        if ucs_full_name:find("$Tracknumber") then ucs_full_name = ucs_full_name:gsub("$Tracknumber", track_num) end
-        if ucs_full_name:find("$Track") then 
+        if ucs_full_name:ifind("$Tracknumber") then ucs_full_name = ucs_full_name:gisub("$Tracknumber", track_num) end
+        if ucs_full_name:ifind("$Track") then 
           local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
-          if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
-          else ucs_full_name = ucs_full_name:gsub("$Track","") end
+          if ret_name then ucs_full_name = ucs_full_name:gisub("$Track",track_name)
+          else ucs_full_name = ucs_full_name:gisub("$Track","") end
         end
         reaper.GetSetMediaTrackInfo_String( track, "P_NAME", ucs_full_name, true )
         incrementUCSNumStr()
@@ -759,11 +757,11 @@ function renameTracks(num_tracks)
         if string.len(track_num) == 1 then track_num = "0" .. track_num end
         leadingZeroUCSNumStr()
         setFullName()
-        if ucs_full_name:find("$Tracknumber") then ucs_full_name = ucs_full_name:gsub("$Tracknumber", track_num) end
-        if ucs_full_name:find("$Track") then 
+        if ucs_full_name:ifind("$Tracknumber") then ucs_full_name = ucs_full_name:gisub("$Tracknumber", track_num) end
+        if ucs_full_name:ifind("$Track") then 
           local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
-          if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
-          else ucs_full_name = ucs_full_name:gsub("$Track","") end
+          if ret_name then ucs_full_name = ucs_full_name:gisub("$Track",track_name)
+          else ucs_full_name = ucs_full_name:gisub("$Track","") end
         end
         reaper.GetSetMediaTrackInfo_String( track, "P_NAME", ucs_full_name, true )
         incrementUCSNumStr()
@@ -779,11 +777,11 @@ function renameTracks(num_tracks)
      if string.len(track_num) == 1 then track_num = "0" .. track_num end
      leadingZeroUCSNumStr()
      setFullName()
-     if ucs_full_name:find("$Tracknumber") then ucs_full_name = ucs_full_name:gsub("$Tracknumber", track_num) end
-     if ucs_full_name:find("$Track") then 
+     if ucs_full_name:ifind("$Tracknumber") then ucs_full_name = ucs_full_name:gisub("$Tracknumber", track_num) end
+     if ucs_full_name:ifind("$Track") then 
        local ret_name, track_name = reaper.GetSetMediaTrackInfo_String( track, "P_NAME", "", false )
-       if ret_name then ucs_full_name = ucs_full_name:gsub("$Track",track_name)
-       else ucs_full_name = ucs_full_name:gsub("$Track","") end
+       if ret_name then ucs_full_name = ucs_full_name:gisub("$Track",track_name)
+       else ucs_full_name = ucs_full_name:gisub("$Track","") end
      end
      reaper.GetSetMediaTrackInfo_String( track, "P_NAME", ucs_full_name, true )
      incrementUCSNumStr()
@@ -1776,6 +1774,10 @@ function string.gisub(s, pat, repl, n)
   end
 end
 
+-- Case insensitive find // returns Bool
+function string.ifind(s, word)
+  return string.find(string.lower(s),string.lower(word)) and true or false
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~  
