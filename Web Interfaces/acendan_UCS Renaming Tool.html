@@ -4230,7 +4230,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         // RegEx to clean up user input fields, see comments on right
         function stringCleaning(inString) {
-            var noIllegalChars = inString.replace(/[\"\'\~\`\@\=\&\*\/\\\:\<\>\?\|\%\#\!\+\[\]\{\}\$]/g, "");    // Removes illegal characters
+            var noIllegalChars = inString.replace(/[\"\'\~\`\@\=\&\*\/\\\:\<\>\?\|\%\#\!\+\[\]\{\}]/g, "");    // Removes illegal characters
             var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
             var noTrailingWhitespace = noLeadingWhitespace.replace(/\s+$/, "");                    // Removes whitespace at end of string
             var noUnderscores = noTrailingWhitespace.replace(/_/g, " ");                           // Replaces underscores with spaces
