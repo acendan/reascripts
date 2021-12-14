@@ -451,7 +451,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarPresetsDropdown" id="navbarPresetsDropdownOptions">
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showPresetModal()" style="display: flex; align-items: center;">Save/Edit Preset...</a>
-                        <a class="dropdown-item" href="#" id="saveThisAsPreset" onClick="showDeletePresetModal()" style="display: flex; align-items: center;">Delete Preset...</a>
+                        <a class="dropdown-item" href="#" id="deleteAPreset" onClick="showDeletePresetModal()" style="display: flex; align-items: center;">Delete Preset...</a>
                     </div>
                 </li>
 
@@ -507,7 +507,7 @@
               <div class="modal-header">
                 <h3 style="margin:0;" class="modal-title" id="settingsMenuTitle">UCS Renaming Tool Settings</h4>
               </div>
-              <div class="modal-body">
+              <div class="modal-body">               
                 <!------------------------>
                 <!---  PROCESSING     ---->
                 <!------------------------>
@@ -607,6 +607,16 @@
                 <a class="btn color-mode__btn btn-outline-light light--hidden" id="settingsLightModeButton"><img src="ucs_libraries/light-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Light Mode</a>
                 <a class="btn color-mode__btn btn-outline-dark dark--hidden" id="settingsDarkModeButton"><img src="ucs_libraries/dark-mode-icon.png" width="25" height="25" class="d-inline-block align-top" alt="">&nbsp;Dark Mode</a>
                 
+                <!------------------------>
+                <!---  STORAGE        ---->
+                <!------------------------>
+                <h5 class="modal-heading" style="margin-top:35px;" id="settingsLinksHeader">Data Storage</h5>
+                <div>
+                    <h7>Allows you to backup and transfer all settings, language, presets, and history data.<br>- Exporting will download a file that can be used for backup and transfer.<br>- Importing will overwrite <b>ALL</b> local data on this PC.</h7><br><br>
+                    <a class="btn btn-success" href="#" id="exportPresets" onClick="exportPresetStorage()" style="display: flex; align-items: center; width: 150px; margin-bottom: 10px;"><img class="icons filter-light" src="ucs_libraries/export-data-2.svg" alt="settings_icon">&nbsp;Export Data</a>
+                    <label class="btn btn-info" style="display: flex; align-items: center; cursor: pointer; width: 150px;"><i class="fa fa-image"><img class="icons filter-light" src="ucs_libraries/import-data.svg" alt="settings_icon"></i>&nbsp;Import Data<input id="uploadedPresetFile" type="file" style="display: none;" name="image" accept=".txt"></label>                        
+                </div>
+
                 <!------------------------>
                 <!---  LINKS          ---->
                 <!------------------------>
@@ -3434,6 +3444,81 @@
 
         function showDeletePresetModal() {
             $('#deletePresetsModal').modal();
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // IMPORT/EXPORT PRESETS
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#uploadedPresetFile").change(function () {
+            // Get uploaded file
+            var uploadedPresetFile = document.getElementById('uploadedPresetFile').files[0];
+            if (uploadedPresetFile) {
+                
+                var r = new FileReader();
+                r.onload = function(e) { 
+                    var presetFileContents = e.target.result;
+                    /*
+                    alert( "Got the file.n" 
+                        +"name: " + uploadedPresetFile.name + "n"
+                        +"type: " + uploadedPresetFile.type + "n"
+                        +"size: " + uploadedPresetFile.size + " bytesn"
+                        + "starts with: " + presetFileContents.substr(1, presetFileContents.indexOf("n"))
+                    ); 
+                    console.log(presetFileContents);
+                    */ 
+
+                    // Validate file
+                    if (presetFileContents.includes("exported-preset-file")) {
+                        // Clear existing local storage
+                        localStorage.clear();
+
+                        // Write local storage using preset file
+                        var presetsJSON = JSON.parse(presetFileContents);                        
+                        for (var name in presetsJSON) { localStorage.setItem(name, presetsJSON[name] ); }
+                        console.log(presetsJSON); 
+                        
+                        // Reload page
+                        location.reload();
+                    } else {
+                        alert("Invalid settings file! Please only import files that were exported using Settings > Export Data.")
+                    }
+
+                }
+                r.readAsText(uploadedPresetFile);
+            }
+        });
+
+        function exportPresetStorage() {
+            // Set local storage for preset export
+            localStorage.setItem("exported-preset-file", "true");
+            
+            // Create text file from array input
+            var textFile = null,
+                makeTextFile = function (arr) {
+                    var arrToText = new Blob([JSON.stringify(arr)], { type: 'text/plain' });
+                    // If we are replacing a previously generated file we need to
+                    // manually revoke the object URL to avoid memory leaks.
+                    if (textFile !== null) {
+                        window.URL.revokeObjectURL(textFile);
+                    }
+                    textFile = window.URL.createObjectURL(arrToText);
+                    return textFile;
+                };
+
+            // Create page element for link to file
+            var link = document.createElement('a');
+            link.setAttribute('download', 'UCS_Data.txt');
+            
+            // Write out the whole contents of the localStorage..
+            link.href = makeTextFile(localStorage);
+
+            // Spoof user clicking on new download link
+            document.body.appendChild(link);
+            window.requestAnimationFrame(function () {
+                var event = new MouseEvent('click');
+                link.dispatchEvent(event);
+                document.body.removeChild(link);
+            });
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
