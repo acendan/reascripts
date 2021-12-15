@@ -54,7 +54,7 @@ function editReadme()
       table.insert(readme_info, line)
     end
     
-    if line:find("Scripts included in my GitHub") then 
+    if line:find("Included Scripts") then 
       insert_here = #readme_info
       for _, script in pairs(script_table) do
         table.insert(readme_info, script)
