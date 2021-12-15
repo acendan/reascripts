@@ -9,7 +9,7 @@ These scripts were written to add additional functionality to the digital audio 
 Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
-### Scripts included in my GitHub that are *NOT* included in ReaTeams
+### Included Scripts
  - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
  - Envelopes\acendan_Insert automation items on all selected tracks envelopes in time selection
