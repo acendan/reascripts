@@ -5,19 +5,8 @@ These scripts were written to add additional functionality to the digital audio 
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X4592I4)
 
-## ReaTeams download instructions
-A select few of my scripts are included by default when installing ReaPack, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). Simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
-
-### Scripts included with ReaTeams
-- acendan_Find and Replace in Region Names.lua
-- acendan_Find and Replace in Marker Names.lua
-- acendan_Set subprojects in selected items to custom color slot.lua (Installs 8 actions - first 8 color slots)
-- acendan_Set subprojects in selected items to color.lua
-- acendan_Set subprojects in selected items to random colors.lua
-- acendan_Set subprojects in selected items to random custom colors.lua
-
 ## My GitHub ReaPack Installation
-If you would like to import the remainder of my scripts, those that are not packaged with ReaTeams, copy and paste the following URL in Extensions > ReaPack > Import a Repository:
+Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
 ### Scripts included in my GitHub that are *NOT* included in ReaTeams
@@ -126,6 +115,17 @@ If you would like to import the remainder of my scripts, those that are not pack
  - Video\acendan_Create video processor text items for all project markers on new track
  - Video\acendan_Create video processor text items for all project regions on new track
  - Video\acendan_Prompt to match project frame rate with first video item import - background
+
+## ReaTeams download instructions
+A select few of my scripts are included by default when installing ReaPack, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). Simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
+
+### Scripts included with ReaTeams
+- acendan_Find and Replace in Region Names.lua
+- acendan_Find and Replace in Marker Names.lua
+- acendan_Set subprojects in selected items to custom color slot.lua (Installs 8 actions - first 8 color slots)
+- acendan_Set subprojects in selected items to color.lua
+- acendan_Set subprojects in selected items to random colors.lua
+- acendan_Set subprojects in selected items to random custom colors.lua
 
 ## Manual Download Instructions (Optional)
 If you would prefer to download the scripts here manually, you can click on "Clone or Download", Download as ZIP, and then place the scripts anywhere you would like on your PC. I would recommend placing them within <AppData\Roaming\REAPER\Scripts\>, as they will get included whenever you export or backup your Reaper configuration.
