@@ -35,6 +35,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
  - Items Editing\acendan_Restore stretch markers in selected items from named project markers
  - Items Editing\acendan_Save stretch markers in selected items as named project markers
+ - Items Editing\acendan_Select next item in track keep current selection
  - Items Editing\acendan_Set distance between items to X seconds track respective
  - Items Editing\acendan_Set distance between items to XXXX milliseconds track respective
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
