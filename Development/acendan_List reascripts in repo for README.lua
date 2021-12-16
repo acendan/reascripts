@@ -62,7 +62,7 @@ function editReadme()
       save_line = false 
     end
     
-    if line:find("Manual Download Instructions") then 
+    if line:find("ReaTeams download instructions") then 
       table.insert(readme_info, "\n" .. line)
       save_line = true 
     end
