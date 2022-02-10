@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="4e126015187f92c414ca65d175499166385736e7" name="ACendan Scripts">
+<index version="1" commit="1c784d03718d33b8c8238ff9c3bc606d78077425" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -114,6 +114,10 @@
       <version name="5.2" author="Aaron Cendan" time="2021-12-03T02:11:22Z">
         <changelog><![CDATA[# Added REAPER version check match]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/fdd05c93bbec507539555d08d85753e3e88a1f51/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="5.3" author="Aaron Cendan" time="2022-02-10T08:10:06Z">
+        <changelog><![CDATA[# Added tableCountOccurrences]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/1c784d03718d33b8c8238ff9c3bc606d78077425/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -1062,7 +1066,10 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This script requires ACendan Lua Utilities!!!\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script requires ACendan Lua Utilities!!!\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab There are quite a few options in this script, so I recommend messing around in a test project.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab "Only Repeated Regions" will restart enumeration for repeated names and SKIP enumerating one-off/single occurrences\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Also set up recall using extstates. Didn't do it very efficiently but whatever I'm tired.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1077,6 +1084,10 @@
       <version name="1.2" author="Aaron Cendan" time="2021-01-25T22:26:03Z">
         <changelog><![CDATA[Options for full project, time selection, or selected regions in region render matrix]]></changelog>
         <source main="main" file="acendan_Enumerate regions in project.lua">https://github.com/acendan/reascripts/raw/c20b5716f29d23e98bd82abb5d6c3216f9cb0006/Regions/acendan_Enumerate%20selected%20regions%20in%20manager.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-02-10T08:10:06Z">
+        <changelog><![CDATA[Added support for enumerating duplicates]]></changelog>
+        <source main="main" file="acendan_Enumerate regions in project.lua">https://github.com/acendan/reascripts/raw/1c784d03718d33b8c8238ff9c3bc606d78077425/Regions/acendan_Enumerate%20selected%20regions%20in%20manager.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Extend all regions by length.lua" type="script" desc="Extend All Regions by Length">
