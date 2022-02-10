@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="88ad9d536d85a059c81b79d49da34f89e74472ba" name="ACendan Scripts">
+<index version="1" commit="4e126015187f92c414ca65d175499166385736e7" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1144,6 +1144,14 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2021-03-31T21:21:23Z">
         <source main="main" file="acendan_Extend regions in time selection left edge by length.lua">https://github.com/acendan/reascripts/raw/7db6f5b1c68a1f46acf7c7e97287e7f6828481e0/Regions/acendan_Extend%20regions%20in%20time%20selection%20left%20edge%20by%20length.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Rename regions from nearest markers.lua" type="script" desc="Rename Regions Nearest Markers">
+      <metadata>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2022-02-10T06:56:22Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/4e126015187f92c414ca65d175499166385736e7/Regions/acendan_Rename%20regions%20from%20nearest%20markers.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Set nearest regions edges to selected media items.lua" type="script" desc="Nearest Regions Edges To Items">
