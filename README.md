@@ -82,6 +82,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Regions\acendan_Extend all regions left edge by length
  - Regions\acendan_Extend regions in time selection by length
  - Regions\acendan_Extend regions in time selection left edge by length
+ - Regions\acendan_Rename regions from nearest markers
  - Regions\acendan_Set nearest regions edges to selected media items
  - Regions\acendan_Shrink overlapping regions edges to time selection
  - Regions\acendan_Shrink overlapping regions to edges of selected media items
@@ -106,6 +107,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Tracks Properties\acendan_View Saved URLs By Track Name
  - Utility\acendan_Bounce In Place
  - Various\acendan_Auto generate scripts to open web interfaces
+ - Various\acendan_Game recommendation engine
  - Various\acendan_GUI_Display first selected item properties
  - Various\acendan_Insert random FX plugin on selected track
  - Various\acendan_Move unused projects MediaFiles in selected directory to separate folder
