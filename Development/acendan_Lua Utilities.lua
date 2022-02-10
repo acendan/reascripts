@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.2
+-- @version 5.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Added REAPER version check match
+--   # Added tableCountOccurrences
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -641,6 +641,17 @@ function acendan.tableContainsVal(table, val)
       end
   end
   return false
+end
+
+-- Counts num of occurrences of a given value in a table // returns Number
+function acendan.tableCountOccurrences(table, val)
+  local occurrences = 0
+  for index, value in ipairs(table) do
+      if value == val then
+          occurrences = occurrences + 1
+      end
+  end
+  return occurrences
 end
 
 -- Append new item to end of table
