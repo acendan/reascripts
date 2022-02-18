@@ -1,6 +1,6 @@
 -- @description Count Num Unique Samples in Items
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -33,6 +33,8 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 
 function main()
   if #init_sel_items > 0 then
+    local total_num_samples = 0
+    
     for i=1,#init_sel_items do
       local item = init_sel_items[i]
       local take = reaper.GetActiveTake(item)
@@ -43,11 +45,16 @@ function main()
         -- Consolidate takes, then debug print num samples
         reaper.Undo_BeginBlock()
         reaper.Main_OnCommand(nvk_consolidate_takes,0)
-        acendan.dbg(item_name .. " - " .. tostring(reaper.GetNumTakeMarkers(take)))
+        local num_take_markers = reaper.GetNumTakeMarkers(take)
+        total_num_samples = total_num_samples + num_take_markers
+        acendan.dbg(item_name .. " - " .. tostring(num_take_markers))
         reaper.Undo_EndBlock(script_name,-1)
         reaper.Undo_DoUndo2(0)
       end
     end
+    
+    acendan.dbg("~~~~~")
+    acendan.dbg("TOTAL NUM ITEMS: " .. #init_sel_items .. " - SAMPLES: " .. total_num_samples)
   else
     acendan.msg("No items selected!")
   end
