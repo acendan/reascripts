@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="d3bfa7f15ae31b3550e8c312debc561153e93afc" name="ACendan Scripts">
+<index version="1" commit="fc609726ce2fb4eaa54a0abc4f16c0f92ef803ab" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -277,6 +277,22 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2020-09-21T13:51:14Z">
         <source main="main" file="acendan_Count number of selected items in media explorer.lua">https://github.com/acendan/reascripts/raw/cafcbd7a6c92f9358b62f31aaadef9edc4561f51/Items%20Editing/acendan_Count%20number%20of%20selected%20items%20in%20media%20explorer.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Count number of unique samples in selected items.lua" type="script" desc="Count Num Unique Samples in Items">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This requires nvk_WORKFLOW to work!\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Sample detection thresholds can be set in: nvk_TAKES - Consolidate takes with take markers SMART.eel\sa180\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2022-02-18T07:47:04Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/fc609726ce2fb4eaa54a0abc4f16c0f92ef803ab/Items%20Editing/acendan_Count%20number%20of%20unique%20samples%20in%20selected%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Glue each item in selected track separately.lua" type="script" desc="Separately Glue Items in Track">
