@@ -22,6 +22,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Count number of selected items in media explorer
  - Items Editing\acendan_Count number of unique samples in selected items
  - Items Editing\acendan_Glue each item in selected track separately
+ - Items Editing\acendan_Import selected item names from text file
  - Items Editing\acendan_Lock item horizontal movement while shortcut held (background)
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
  - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
@@ -76,6 +77,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Regions\acendan_Change region color if region exceeds length
  - Regions\acendan_Create one region for all items on selected tracks
  - Regions\acendan_Create one region for selected items across tracks and link to parent in RRM
+ - Regions\acendan_Create unique regions for overlapping items on selected track
  - Regions\acendan_Create unique regions for selected items and link to parent track in RRM
  - Regions\acendan_Create unique regions for selected items and link to track in RRM
  - Regions\acendan_Enumerate selected regions in manager
@@ -83,6 +85,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Regions\acendan_Extend all regions left edge by length
  - Regions\acendan_Extend regions in time selection by length
  - Regions\acendan_Extend regions in time selection left edge by length
+ - Regions\acendan_Import region names from text file
  - Regions\acendan_Rename regions from nearest markers
  - Regions\acendan_Set nearest regions edges to selected media items
  - Regions\acendan_Shrink overlapping regions edges to time selection

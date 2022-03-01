@@ -1,16 +1,20 @@
 -- @description SoundMiner iXML Metadata Columns
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main=mediaexplorer] .
 -- @link https://aaroncendan.me
 -- @changelog
---   #Fixed capitalization issues for Mac
+--   #Fixed section issues for Mac, thanks LifePassFilter for the bug report!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Load lua utilities
+acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- Table of iXML Columns
 local iXML = {}
@@ -51,7 +55,8 @@ iXML["IXML:USER:VendorCategory"] = "VendorCategory"
 -- Other globals
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
-local ini_section = "reaper_explorer"
+local win, sep = acendan.getOS()
+local ini_section = win and "reaper_explorer" or "reaper_sexplorer" -- For some reason, it's 'sexplorer' on Mac
 local dbg = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
