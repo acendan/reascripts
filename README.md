@@ -48,6 +48,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Trim left edge of selected items by amount...
  - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
+ - Markers\acendan_Add marker to end of project regions prompt for name
  - Markers\acendan_Add marker to end of selected items prompt for name
  - Markers\acendan_Export markers and regions for Izotope RX relative to items with shared take source
  - Markers\acendan_Export markers and regions for Izotope RX relative to selected item
@@ -57,6 +58,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Markers\acendan_Insert marker at start of selected items with sel item number
  - Markers\acendan_Insert markers at start or end of selected items prompt for name
  - Markers\acendan_Insert markers every x seconds after edit cursor
+ - Markers\acendan_Move markers in project by time
  - Markers\acendan_Remove CHAP prefix from project markers for FLAC cues
  - Markers\acendan_Remove pound hashtag prefix from project markers for WAV cues
  - Markers\acendan_Rename project markers with CHAP prefix for FLAC cues
