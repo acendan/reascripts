@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="8a47b7224c6f6596d303383bbe7c5baacabbe763" name="ACendan Scripts">
+<index version="1" commit="8303e45c3928a1ee37b10ef73e20ac2bb08e49e4" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1671,6 +1671,39 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-11-04T01:12:16Z">
         <source>https://github.com/acendan/reascripts/raw/dc5f7405bc10c15e2bec73342a35180130246a25/Utility/acendan_De-Click%20Discontinuous%20Waveform.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Playrate - Jump to target playrate.lua" type="script" desc="Playrate - Jump to target value">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This script jumps to the target playrate set by: acendan_Playrate - Set target playrate value.lua\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This script was written by Edgemeal, on this Reaper forum thread: https://forum.cockos.com/showthread.php?t=262914\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=262914</link>
+      </metadata>
+      <version name="1.0" author="Edgemeal, Aaron Cendan" time="2022-03-03T18:55:14Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/8303e45c3928a1ee37b10ef73e20ac2bb08e49e4/Utility/acendan_Playrate%20-%20Jump%20to%20target%20playrate.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Playrate - Set target playrate value.lua" type="script" desc="Playrate - Set target value">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This script sets the target playrate used by: acendan_Playrate - Jump to target playrate.lua\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 This script was written almost entirely by Edgemeal, on this Reaper forum thread: https://forum.cockos.com/showthread.php?t=262914\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Added support for negative playrates\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=262914</link>
+      </metadata>
+      <version name="1.0" author="Edgemeal, Aaron Cendan" time="2022-03-03T18:55:14Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/8303e45c3928a1ee37b10ef73e20ac2bb08e49e4/Utility/acendan_Playrate%20-%20Set%20target%20playrate%20value.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
