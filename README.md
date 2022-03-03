@@ -112,6 +112,8 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Tracks Properties\acendan_Store and Open saved URL by track name
  - Tracks Properties\acendan_View Saved URLs By Track Name
  - Utility\acendan_Bounce In Place
+ - Utility\acendan_Playrate - Jump to target playrate
+ - Utility\acendan_Playrate - Set target playrate value
  - Various\acendan_Auto generate scripts to open web interfaces
  - Various\acendan_Game recommendation engine
  - Various\acendan_GUI_Display first selected item properties
