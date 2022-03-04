@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="8303e45c3928a1ee37b10ef73e20ac2bb08e49e4" name="ACendan Scripts">
+<index version="1" commit="abb1df2b62332de9a6a0a53e4a53b869088602ee" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2239,6 +2239,32 @@ Added option for copying to clipboard without processing]]></changelog>
       <version name="1.1" author="Aaron Cendan" time="2021-05-05T15:17:07Z">
         <changelog><![CDATA[Mac support!]]></changelog>
         <source main="main" file="acendan_Prompt to match project frame rate with first video item import.lua">https://github.com/acendan/reascripts/raw/b055ee050d5efb597d52753ee6b8ab69bce95622/Video/acendan_Prompt%20to%20match%20project%20frame%20rate%20with%20first%20video%20item%20import%20-%20background.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Set project video frame rate keeping session timecode start.lua" type="script" desc="Set Project Frame Rate">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Modified from cfillion's Script: cfillion_Set timecode at edit cursor.lua\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2022-03-04T01:45:39Z">
+        <changelog><![CDATA[Add a "set to 0" action]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (23.976).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (24).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (25).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (29.97ND).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (29.97DF).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (30).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (48).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (50).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (60).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (75).lua">https://github.com/acendan/reascripts/raw/abb1df2b62332de9a6a0a53e4a53b869088602ee/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
       </version>
     </reapack>
   </category>
