@@ -1,9 +1,8 @@
 -- @description Set Project Frame Rate
 -- @author Aaron Cendan
--- @version 1.0
--- @changelog Add a "set to 0" action
+-- @version 1.1
+-- @changelog Reaper really just hates 23.976, huh...
 -- @provides
---   .
 --   [main] . > acendan_Set project video frame rate keeping session timecode start (23.976).lua
 --   [main] . > acendan_Set project video frame rate keeping session timecode start (24).lua
 --   [main] . > acendan_Set project video frame rate keeping session timecode start (25).lua
@@ -17,6 +16,10 @@
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # Modified from cfillion's Script: cfillion_Set timecode at edit cursor.lua
+
+-- Load lua utilities
+acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- Load Ultraschall API
 ultraschall_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua"
@@ -40,21 +43,27 @@ local PROJECT_FRAMERATE = ({
 assert(PROJECT_FRAMERATE, "Internal error: unknown timecode format")
 assert(reaper.SNM_GetDoubleConfigVar, "SWS is required to use this script")
 
--- Save and recall cursor
-init_cur_pos = reaper.GetCursorPosition()
+local dbg = false
+if dbg then acendan.dbg("____" .. SCRIPT_NAME:match('%(([^%)]+)%)') .. "______") end
 
 -- Get original session start timecode
-reaper.Main_OnCommand(40042,0) -- Transport: Go to start of project
-local curpos = reaper.GetCursorPosition()
-local timecode = 0
-timecode = reaper.format_timestr_pos(curpos, '', 5) --5 = frames mode
-timecode = reaper.parse_timestr_len(timecode, 0, 5)
+local proj_timeoffset = reaper.GetProjectTimeOffset(0, true)
+if dbg then acendan.dbg("Initial proj time offset: " .. tostring(proj_timeoffset)) end
 
 -- Set new frame rate using Ultraschall API
 local retval = ultraschall.ProjectSettings_SetVideoFramerate(PROJECT_FRAMERATE, false)
+reaper.UpdateTimeline()
+reaper.UpdateArrange()
+
+local after_setvideoframerate = reaper.GetProjectTimeOffset(0, true)
+if dbg then acendan.dbg("After set project framerate: " .. tostring(after_setvideoframerate)) end
 
 -- Set session start timecode
-reaper.SNM_SetDoubleConfigVar('projtimeoffs', timecode - curpos)
-
-reaper.SetEditCurPos(init_cur_pos,false,false)
+local reaper_proj = acendan.getProjDir() .. reaper.GetProjectName(0)
+ret, _ = ultraschall.SetProject_ProjOffsets(reaper_proj, proj_timeoffset,1,0)
+reaper.SNM_SetDoubleConfigVar('projtimeoffs', proj_timeoffset)
 reaper.UpdateTimeline()
+reaper.UpdateArrange()
+
+local after_setsession = reaper.GetProjectTimeOffset(0, true)
+if dbg then acendan.dbg("After set project time offset: " .. tostring(after_setsession)) end
