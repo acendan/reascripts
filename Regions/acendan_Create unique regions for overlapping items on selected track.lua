@@ -1,6 +1,6 @@
 -- @description Create Unique Regions Overlapping Items
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for overlapping items on selected tracks.lua
@@ -8,14 +8,14 @@
 -- @about
 --   # Creates unique regions for each bundle of overlapping items on the selected track
 -- @changelog
---   # Add support for items across multiple tracks
+--   # Add support for setting parent tracks in RRM
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- Set this to 'true' in order to assign the created regions to the selected track(s) in the RRM
-set_region_render_matrix_to_tracks = false
+-- Set this to 'true' in order to assign regions to the selected track(s), their shared parent track, or the master in the RRM
+set_region_render_matrix_to_tracks = true
 
 -- Set this to 'true' in order to assign newly created region names to the *first* item that was used to create the region
 -- This should correspond to the first overlapping item on the earliest track on the timeline
@@ -44,10 +44,31 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 function main()
   local num_sel_tracks = reaper.CountSelectedTracks( 0 )
   if num_sel_tracks > 0 then
+    
+    -- Get shared parent track
+    if set_region_render_matrix_to_tracks then
+      if num_sel_tracks == 1 then
+        shared_parent_track = reaper.GetSelectedTrack(0,0)
+      else
+        for k = 0, num_sel_tracks-1 do
+          local track = reaper.GetSelectedTrack(0,k)
+          local parent_track = reaper.GetParentTrack(track)
+          if not parent_track then parent_track =  reaper.GetMasterTrack( 0 ) end
+          if k == 0 then 
+            shared_parent_track = parent_track
+          else
+            if reaper.GetTrackGUID(parent_track) ~= reaper.GetTrackGUID(shared_parent_track) then 
+              shared_parent_track = reaper.GetMasterTrack( 0 ) 
+              break
+            end
+          end
+        end
+      end
+    end
+    
+    -- Loop through items on selected tracks and create regions
     for k = 0, num_sel_tracks-1 do
       local track = reaper.GetSelectedTrack(0,k)
-      
-      -- Loop through items on track
       local num_track_items = reaper.CountTrackMediaItems(track)
       if num_track_items > 0 then
         for i=0, num_track_items - 1 do
@@ -91,7 +112,7 @@ function main()
                 end
                 
                 -- Set region to track in RRM
-                if set_region_render_matrix_to_tracks then reaper.SetRegionRenderMatrix(0, overlapping_region_idx, track, 1) end
+                if set_region_render_matrix_to_tracks and shared_parent_track then reaper.SetRegionRenderMatrix(0, overlapping_region_idx, shared_parent_track, 1) end
               end
               j = j + 1
             end
@@ -99,10 +120,15 @@ function main()
           
           -- Check if there was no overlapping region, then create region at item bounds...
           if overlapping_region_idx == -1 then
+            -- Global settings
             if not use_first_item_name then item_name = "" end
             if not use_first_item_color then item_color = 0 end
+            
+            -- Create region
             local new_region_idx = reaper.AddProjectMarker2(0, true, item_start_pos, item_end_pos, item_name, 0, item_color) 
-            if set_region_render_matrix_to_tracks then reaper.SetRegionRenderMatrix(0, new_region_idx, track, 1) end
+            
+            -- Assign track in RRM
+            if set_region_render_matrix_to_tracks and shared_parent_track then reaper.SetRegionRenderMatrix(0, new_region_idx, shared_parent_track, 1) end
           end
           
         end
