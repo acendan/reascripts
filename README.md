@@ -126,6 +126,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Video\acendan_Create video processor text items for all project markers on new track
  - Video\acendan_Create video processor text items for all project regions on new track
  - Video\acendan_Prompt to match project frame rate with first video item import - background
+ - Video\acendan_Set project video frame rate keeping session timecode start
 
 ## ReaTeams download instructions
 A select few of my scripts are included by default when installing ReaPack, as part of the [ReaTeam Scripts Repository](https://github.com/ReaTeam/ReaScripts). Simply install ReaPack and synchronize packages by going to the Extensions menu > ReaPack, and clicking "Synchronize Packages".
