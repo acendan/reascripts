@@ -1,6 +1,6 @@
 -- @description Create Unique Regions Overlapping Items
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for overlapping items on selected tracks.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Creates unique regions for each bundle of overlapping items on the selected track
 -- @changelog
---   # Add support for setting parent tracks in RRM
+--   # Add support for items within time selection. Lua's total lack of a 'continue' statement is just super duper awesome.
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -23,6 +23,9 @@ use_first_item_name = true
 
 -- Set this to 'true' in order to assign newly created regions color to the *first* item color that was used to create the region
 use_first_item_color = true
+
+-- Set this to 'true' to only process items within the time selection on the selected tracks
+only_items_time_selection = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -44,6 +47,7 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 function main()
   local num_sel_tracks = reaper.CountSelectedTracks( 0 )
   if num_sel_tracks > 0 then
+    local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
     
     -- Get shared parent track
     if set_region_render_matrix_to_tracks then
@@ -79,12 +83,20 @@ function main()
           local item_end_pos = item_start_pos + reaper.GetMediaItemInfo_Value(item,"D_LENGTH")
           local item_color = reaper.GetDisplayedMediaItemColor(item)
           
+          -- Check if item is within time selection
+          local skip_item = false
+          if only_items_time_selection then
+            if item_end_pos < start_time_sel or item_start_pos > end_time_sel then
+              skip_item = true
+            end
+          end
+          
           -- Check if there is a region overlapping this item already
           -- Loop through all regions
           local overlapping_region_idx = -1
           local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
           local num_total = num_markers + num_regions
-          if num_regions > 0 then
+          if num_regions > 0 and not skip_item then
             local j = 0
             while j < num_total do
               local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, j )
@@ -119,7 +131,7 @@ function main()
           end
           
           -- Check if there was no overlapping region, then create region at item bounds...
-          if overlapping_region_idx == -1 then
+          if overlapping_region_idx == -1 and not skip_item then
             -- Global settings
             if not use_first_item_name then item_name = "" end
             if not use_first_item_color then item_color = 0 end
