@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="bae1f805df049606482e31962ef4cdfb71be199c" name="ACendan Scripts">
+<index version="1" commit="b6ea60181b0090fbc445cf3919fcd85a9c9aa206" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1121,6 +1121,10 @@
       <version name="1.2" author="Aaron Cendan" time="2022-03-09T21:48:19Z">
         <changelog><![CDATA[# Add support for setting parent tracks in RRM]]></changelog>
         <source main="main" file="acendan_Create unique regions for overlapping items on selected tracks.lua">https://github.com/acendan/reascripts/raw/bae1f805df049606482e31962ef4cdfb71be199c/Regions/acendan_Create%20unique%20regions%20for%20overlapping%20items%20on%20selected%20track.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-03-10T00:11:14Z">
+        <changelog><![CDATA[# Add support for items within time selection. Lua's total lack of a 'continue' statement is just super duper awesome.]]></changelog>
+        <source main="main" file="acendan_Create unique regions for overlapping items on selected tracks.lua">https://github.com/acendan/reascripts/raw/b6ea60181b0090fbc445cf3919fcd85a9c9aa206/Regions/acendan_Create%20unique%20regions%20for%20overlapping%20items%20on%20selected%20track.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create unique regions for selected items and link to parent track in RRM.lua" type="script" desc="acendan_Create unique regions for selected items and link to parent track in RRM">
