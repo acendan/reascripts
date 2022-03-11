@@ -1,6 +1,6 @@
 -- @description Move Project Markers
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Added tableCountOccurrences
+--   # Settings recall
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -37,12 +37,20 @@ function main()
   local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
   local num_total = num_markers + num_regions
   if num_markers > 0 then
+    -- Get placeholders from ext state if exist
+    local pl_all_or_ts = reaper.HasExtState( "acendan_Item markers", "all_or_ts" ) and  reaper.GetExtState( "acendan_Item markers", "all_or_ts" ) or "a"
+    local pl_pos_off  = reaper.HasExtState( "acendan_Item markers", "pos_off" )  and  reaper.GetExtState( "acendan_Item markers", "pos_off" )  or "0.0"
+
     -- Prompt for user input
     local ret_input, user_input = reaper.GetUserInputs( "Move Markers", 2,
                               "All Mkrs (a) or Time Sel (t),Marker Pos Offset" .. ",extrawidth=100",
-                              "a,0.0" )
+                              pl_all_or_ts .. "," .. pl_pos_off )
     if not ret_input then return end
     local all_or_ts, pos_off = user_input:match("([^,]+),([^,]+)")
+    
+    -- Store to ext states
+    reaper.SetExtState( "acendan_Item markers", "all_or_ts", all_or_ts, true )
+    reaper.SetExtState( "acendan_Item markers", "pos_off",  pos_off,  true )
     pos_off = tonumber(pos_off)
     
     if all_or_ts == "t" then
