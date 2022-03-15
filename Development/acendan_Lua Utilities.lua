@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.3
+-- @version 5.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,8 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Added tableCountOccurrences
+--   + Added selectTracksOfSelectedItems
+--	 + Added getSelectedTracksSharedParent
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -768,6 +769,17 @@ function acendan.setOnlyItemSelected(item)
   reaper.SetMediaItemSelected(item, true)
 end
 
+-- Select only tracks with selected items
+function acendan.selectTracksOfSelectedItems()
+  reaper.Main_OnCommand(40297,0) -- Unselect all tracks
+  local num_sel_items = reaper.CountSelectedMediaItems(0)
+  if num_sel_items > 0 then
+    for i=0, num_sel_items - 1 do
+      reaper.SetTrackSelected(reaper.GetMediaItemTrack(reaper.GetSelectedMediaItem( 0, i )),true)
+    end
+  end
+end
+
 -- Get starting position of selected items // returns Number (position)
 function acendan.getStartPosSelItems()
   local position = math.huge
@@ -802,7 +814,6 @@ function acendan.getFilenameTrackActiveTake(item)
   end
   return nil
 end
-
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ TRACKS ~~~~~~~~~~~~~~
@@ -883,6 +894,36 @@ function acendan.countTrackItemsMaxChannels(track)
     reaper.MB("No media items found on selected track!","",0)
     return 0
   end
+end
+
+-- Gets the shared parent track (or master track) of the selected tracks // returns MediaTrack
+function acendan.getSelectedTracksSharedParent()
+  local shared_parent_track = nil
+	
+	-- Loop through selected tracks
+  local num_sel_tracks = reaper.CountSelectedTracks( 0 )
+  if num_sel_tracks > 0 then
+    local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
+	  if num_sel_tracks == 1 then
+			shared_parent_track = reaper.GetSelectedTrack(0,0)
+	  else
+			for k = 0, num_sel_tracks-1 do
+				local track = reaper.GetSelectedTrack(0,k)
+				local parent_track = reaper.GetParentTrack(track)
+				if not parent_track then parent_track = reaper.GetMasterTrack( 0 ) end
+				if k == 0 then 
+					shared_parent_track = parent_track
+				else
+					if reaper.GetTrackGUID(parent_track) ~= reaper.GetTrackGUID(shared_parent_track) then 
+						shared_parent_track = reaper.GetMasterTrack( 0 ) 
+						break
+					end
+				end
+			end
+	  end
+  end
+	
+	return shared_parent_track or reaper.GetMasterTrack( 0 )
 end
 
 
