@@ -51,7 +51,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,23 +80,7 @@ function main()
     
     -- Get shared parent track
     if set_region_render_matrix_to_tracks then
-      if num_sel_tracks == 1 then
-        shared_parent_track = reaper.GetSelectedTrack(0,0)
-      else
-        for k = 0, num_sel_tracks-1 do
-          local track = reaper.GetSelectedTrack(0,k)
-          local parent_track = reaper.GetParentTrack(track)
-          if not parent_track then parent_track =  reaper.GetMasterTrack( 0 ) end
-          if k == 0 then 
-            shared_parent_track = parent_track
-          else
-            if reaper.GetTrackGUID(parent_track) ~= reaper.GetTrackGUID(shared_parent_track) then 
-              shared_parent_track = reaper.GetMasterTrack( 0 ) 
-              break
-            end
-          end
-        end
-      end
+      shared_parent_track = acendan.getSelectedTracksSharedParent()
     end
     
     -- Loop through items on selected tracks and create regions
