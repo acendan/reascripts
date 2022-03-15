@@ -1,6 +1,6 @@
 -- @description Create Unique Regions Overlapping Items
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for overlapping items on selected tracks.lua
@@ -8,24 +8,38 @@
 -- @about
 --   # Creates unique regions for each bundle of overlapping items on the selected track
 -- @changelog
---   # Add support for items within time selection. Lua's total lack of a 'continue' statement is just super duper awesome.
+--   # Added user config settings for processing selected items (regardless of tracks)
+--   # Added user config settings for overlapping item buffer (window on either side of item being processed)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Set this to 'true' in order to assign regions to the selected track(s), their shared parent track, or the master in the RRM
+-- DEFAULT = true
 set_region_render_matrix_to_tracks = true
 
 -- Set this to 'true' in order to assign newly created region names to the *first* item that was used to create the region
 -- This should correspond to the first overlapping item on the earliest track on the timeline
+-- DEFAULT = true
 use_first_item_name = true
 
 -- Set this to 'true' in order to assign newly created regions color to the *first* item color that was used to create the region
+-- DEFAULT = true
 use_first_item_color = true
 
 -- Set this to 'true' to only process items within the time selection on the selected tracks
+-- DEFAULT = false
 only_items_time_selection = false
+
+-- Set this to 'true' to only process selected items (regardless of track)
+-- DEFAULT = false
+only_selected_items = false
+
+-- Set this to a non-zero value (in seconds) to check within an overlapping 'window' on either side of the item
+-- Good for adjacent items that may not be fully overlapping
+-- DEFAULT = 0.0
+overlapping_item_buffer = 0.0
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -45,6 +59,21 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
+  -- Select only tracks w selected items
+  if only_selected_items then
+    reaper.Main_OnCommand(40297,0) -- Unselect all tracks
+    local num_sel_items = reaper.CountSelectedMediaItems(0)
+    if num_sel_items > 0 then
+      for i=0, num_sel_items - 1 do
+        reaper.SetTrackSelected(reaper.GetMediaItemTrack(reaper.GetSelectedMediaItem( 0, i )),true)
+      end
+    else
+      acendan.msg("No items selected! Please set 'only_selected_items' to false, or select some items to process.")
+      return
+    end
+  end
+  
+  -- Loop through selected tracks
   local num_sel_tracks = reaper.CountSelectedTracks( 0 )
   if num_sel_tracks > 0 then
     local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
@@ -91,6 +120,11 @@ function main()
             end
           end
           
+          -- Check if item is selected
+          if only_selected_items then
+            skip_item = not reaper.IsMediaItemSelected(item)
+          end
+          
           -- Check if there is a region overlapping this item already
           -- Loop through all regions
           local overlapping_region_idx = -1
@@ -102,7 +136,7 @@ function main()
               local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, j )
               -- Check if it's a region and it's bounds are within the current media item's
               -- Start of region happens before the end of the item AND end of region happens after start of item
-              if isrgn and pos < item_end_pos and rgnend > item_start_pos then
+              if isrgn and pos < item_end_pos + overlapping_item_buffer and rgnend > item_start_pos - overlapping_item_buffer then
                 --acendan.dbg("OVERLAPPING REGION: Item #" .. tostring(i+1) .. " - Region #" .. tostring(j+1))
                 overlapping_region_idx = markrgnindexnumber
                 
