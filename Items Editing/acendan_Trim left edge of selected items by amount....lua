@@ -1,6 +1,6 @@
 -- @description Trim left edge of selected items by amount
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Trim or extend left edge of selected items by amount...lua
@@ -10,6 +10,9 @@
 --
 --   ### Credits
 --   * Adapted from me2beats: Trim sel items right edges to nearest grid divisions
+-- @changelog
+--   # Not sure why, but this script no longer works as expected. Fixed by adding start offset 
+--      adjustment (lines 27 - 29). Thanks @Austin Boi for the heads up <3
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -21,6 +24,10 @@ function trim_items(trim_len)
   len = reaper.GetMediaItemInfo_Value(it, 'D_LENGTH')
   end_pos = start_pos + len
   reaper.ApplyNudge(0, 1, 2, 1, start_pos+trim_len, false, 0)
+  
+  local take = reaper.GetActiveTake(it)
+  local curr_offset = reaper.GetMediaItemTakeInfo_Value(take, "D_STARTOFFS")
+  reaper.SetMediaItemTakeInfo_Value(take,"D_STARTOFFS",curr_offset + trim_len)
 end
 
 function main()
