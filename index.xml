@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5be3a6c5cb9961edbebb9966868ac8af6d6a415c" name="ACendan Scripts">
+<index version="1" commit="948e4debb8472b762742fcf00aed219cfedef716" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -337,6 +337,10 @@
       <version name="1.0" author="Aaron Cendan" time="2022-03-28T02:48:39Z">
         <changelog><![CDATA[+ Initial release]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/5be3a6c5cb9961edbebb9966868ac8af6d6a415c/Items%20Editing/acendan_Horizontal%20reorder%20selected%20items%20by%20color.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-03-28T17:32:59Z">
+        <changelog><![CDATA[# Fix reordering of items on separate tracks]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/948e4debb8472b762742fcf00aed219cfedef716/Items%20Editing/acendan_Horizontal%20reorder%20selected%20items%20by%20color.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Import selected item names from text file.lua" type="script" desc="Import Selected Item Names Text File">
