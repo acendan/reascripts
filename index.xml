@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="28e4f165514a927d825c73014f8e3b4bc1d8bc01" name="ACendan Scripts">
+<index version="1" commit="490988d7627b0d754cc1a9bcbd49be4928d3c76d" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -325,13 +325,6 @@
     </reapack>
     <reapack name="acendan_Horizontal reorder selected items by color.lua" type="script" desc="Horizontal Reorder Color">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Horizontal Reorder Items By Color\par}
-}
-]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2022-03-28T02:48:39Z">
@@ -345,6 +338,10 @@
       <version name="1.2" author="Aaron Cendan" time="2022-03-28T17:45:42Z">
         <changelog><![CDATA[# Fix reordering of items on separate tracks]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/28e4f165514a927d825c73014f8e3b4bc1d8bc01/Items%20Editing/acendan_Horizontal%20reorder%20selected%20items%20by%20color.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-03-28T19:05:00Z">
+        <changelog><![CDATA[# Why isn't ReaPack cooperating today...]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/490988d7627b0d754cc1a9bcbd49be4928d3c76d/Items%20Editing/acendan_Horizontal%20reorder%20selected%20items%20by%20color.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Import selected item names from text file.lua" type="script" desc="Import Selected Item Names Text File">
