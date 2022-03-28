@@ -22,6 +22,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Count number of selected items in media explorer
  - Items Editing\acendan_Count number of unique samples in selected items
  - Items Editing\acendan_Glue each item in selected track separately
+ - Items Editing\acendan_Horizontal reorder selected items by color
  - Items Editing\acendan_Import selected item names from text file
  - Items Editing\acendan_Lock item horizontal movement while shortcut held (background)
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata

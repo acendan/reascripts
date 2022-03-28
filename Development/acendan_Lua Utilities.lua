@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.4
+-- @version 5.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,8 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   + Added selectTracksOfSelectedItems
---	 + Added getSelectedTracksSharedParent
+--   # Updated some debug messaging w correct prefix
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -728,7 +727,7 @@ if num_items > 0 then
     end
   end
 else
-  msg("Project has no items!")
+  acendan.msg("Project has no items!")
 end
 
 -- Loop through selected items
@@ -744,7 +743,7 @@ if num_sel_items > 0 then
     end
   end
 else
-  msg("No items selected!")
+  acendan.msg("No items selected!")
 end
 ]]--
 
@@ -827,7 +826,7 @@ if num_tracks > 0 then
     -- Process track
   end
 else
-  msg("Project has no tracks!")
+  acendan.msg("Project has no tracks!")
 end
     
 -- Loop through selected tracks
@@ -838,7 +837,7 @@ if num_sel_tracks > 0 then
     -- Process track
   end
 else
-  msg("No tracks selected!")
+  acendan.msg("No tracks selected!")
 end
 ]]--
 
@@ -944,7 +943,7 @@ if num_regions > 0 then
     i = i + 1
   end
 else
-  msg("Project has no regions!")
+  acendan.msg("Project has no regions!")
 end
     
 -- Loop through regions in time selection
@@ -963,7 +962,7 @@ if start_time_sel ~= end_time_sel then
     i = i + 1
   end
 else
-  msg("You need to make a time selection!")
+  acendan.msg("You need to make a time selection!")
 end
 ]]--
 
@@ -1050,7 +1049,7 @@ if num_markers > 0 then
     i = i + 1
   end
 else
-  msg("Project has no markers!")
+  acendan.msg("Project has no markers!")
 end
     
 -- Loop through markers in time selection
@@ -1069,7 +1068,7 @@ if start_time_sel ~= end_time_sel then
     i = i + 1
   end
 else
-  msg("You need to make a time selection!")
+  acendan.msg("You need to make a time selection!")
 end
 ]]--
 
@@ -1079,10 +1078,10 @@ end
   local sel_mkr_table = getSelectedMarkers()
   if sel_mkr_table then 
     for _, mkr_idx in pairs(sel_mkr_table) do 
-      dbg(mkr_idx)
+      acendan.dbg(mkr_idx)
     end
   else
-    msg("No markers selected!\n\nPlease go to View > Region/Marker Manager to select regions.") 
+    acendan.msg("No markers selected!\n\nPlease go to View > Region/Marker Manager to select regions.") 
   end
   
 ]]--
@@ -1294,7 +1293,7 @@ local fil_idx = 0
 repeat
    local dir_file = reaper.EnumerateFiles( directory, fil_idx )
    -- Do stuff to the dir_files
-   dbg(dir_file)
+   acendan.dbg(dir_file)
    
    fil_idx = fil_idx + 1
 until not reaper.EnumerateFiles( directory, fil_idx )
@@ -1304,7 +1303,7 @@ local dir_idx = 0
 repeat
   local sub_dir = reaper.EnumerateSubdirectories( directory, dir_idx)
   -- Do stuff to the sub_dirs
-  dbg(sub_dir)
+  acendan.dbg(sub_dir)
   
   dir_idx = dir_idx + 1
 until not  reaper.EnumerateSubdirectories( directory, dir_idx )
@@ -1634,7 +1633,7 @@ end
 if reaper.JS_Dialog_BrowseForSaveFile then
 
 else
-  msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
+  acendan.msg("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.")
 end
 ]]--
 
