@@ -1,6 +1,6 @@
 -- @description Horizontal Reorder Color
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
