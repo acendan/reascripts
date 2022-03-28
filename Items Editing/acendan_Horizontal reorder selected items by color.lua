@@ -1,14 +1,12 @@
 -- @description Horizontal Reorder Color
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] .
 -- @link https://ko-fi.com/acendan_
--- @about
---   # Horizontal Reorder Items By Color
 -- @changelog
---   # Fix reordering of items on separate tracks
+--   # Why isn't ReaPack cooperating today...
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
