@@ -1,6 +1,6 @@
 -- @description Reaper Blog Smart Duplicate
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,15 +8,18 @@
 -- @about
 --   # Script request from Jon @ Reaper Blog
 -- @changelog
---   + Initial release
+--   # Fix duplication of items exactly at time selection edges (thanks mauro @kytdkut!)
+--   # Split up options for scrolling to duped items and moving edit cursor (thanks Jon @reaperblog!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Horizontal scroll to duplicated items
--- Set to false for default item duplication edit cursor/scroll behavior
 scroll_to_duped_items = true
+
+-- Move edit cursor to start of duplicated items
+move_edit_curs_start = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -52,7 +55,7 @@ function main()
     if num_sel_items > 0 then
       local items_start_pos = acendan.getStartPosSelItems()
       local items_end_pos = acendan.getEndPosSelItems()
-      if items_start_pos > s and items_end_pos < e then items_within_sel = true end
+      if items_start_pos >= s and items_end_pos <= e then items_within_sel = true end
     end
     
     -- Duplicate items
@@ -62,13 +65,14 @@ function main()
       reaper.Main_OnCommand(41296, 0) -- Item: Duplicate selected area of items
     end
     
-    -- Scroll to duplicated items
-    if scroll_to_duped_items and reaper.CountSelectedMediaItems(0) > 0 then
-      local items_start_pos = acendan.getStartPosSelItems()
-      reaper.SetEditCurPos(items_start_pos, false, false)
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_HSCROLL50"),0) -- SWS: Horizontal scroll to put edit cursor at 50%
+    -- Post-processing
+    if reaper.CountSelectedMediaItems(0) > 0 then
+      -- Move edit cursor to start of duplicated items
+      if move_edit_curs_start then reaper.SetEditCurPos(acendan.getStartPosSelItems(), false, false) end
+      
+      -- SWS: Horizontal scroll to put edit cursor at 50%
+      if scroll_to_duped_items then reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_HSCROLL50"),0) end
     end
-  
   -- ENVELOPES
   elseif context == 2 then
     reaper.Main_OnCommand(42085, 0) -- Envelope: Duplicate and pool automation items
