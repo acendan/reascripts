@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.5
+-- @version 5.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -791,6 +791,28 @@ function acendan.getStartPosSelItems()
       local item_start_pos = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
       if item_start_pos < position then
         position = item_start_pos
+      end
+    end
+  else
+    acendan.dbg("No items selected!")
+  end
+
+  return position
+end
+
+-- Get ending position of selected items // returns Number (position)
+function acendan.getEndPosSelItems()
+  local position = 0.0
+
+  -- Loop through selected items
+  local num_sel_items = reaper.CountSelectedMediaItems(0)
+  if num_sel_items > 0 then
+    for i=0, num_sel_items - 1 do
+      local item = reaper.GetSelectedMediaItem( 0, i )
+      local item_start_pos = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+			local item_end_pos = item_start_pos + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
+      if item_end_pos > position then
+        position = item_end_pos
       end
     end
   else
