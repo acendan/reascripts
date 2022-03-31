@@ -1,6 +1,6 @@
 -- @description Match Proj Framerate
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Prompt to match project frame rate with first video item import.lua
@@ -9,8 +9,10 @@
 --   This is a background/toggle script! It works best when set up as a startup action, or enabled in a default project template. 
 --   It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning.
 --   It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed
--- @changelog Mac support!
-
+-- @changelog
+--   # Fixed media item take source bug (Thanks @Thommaz Kauffmann!)
+--   # Cleaned up some prompts and feedback for dirty/unsaved projects 
+ 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,48 +75,54 @@ function main()
         for i=0, num_items - 1 do
           local item =  reaper.GetMediaItem( 0, i )
           local take = reaper.GetActiveTake( item )
-          local src =  reaper.GetMediaItemTake_Source( take )
-          local typebuf = reaper.GetMediaSourceType( src, "" )
+          if take then 
+            local src =  reaper.GetMediaItemTake_Source( take )
+            local typebuf = reaper.GetMediaSourceType( src, "" )
 
-          -- If video item found, then check frame rate and prompt to match
-          if typebuf == "VIDEO" then
-          
-            -- Save project
-            reaper.Main_SaveProject( 0, false )
+            -- If video item found, then check frame rate and prompt to match
+            if typebuf == "VIDEO" then
             
-            -- Get project's current framerate settings
-            local project_framerate = getRPPFrameRateSettings()
-            if dbg then acendan.dbg("Project Framerate: " .. project_framerate) end
-            
-            if project_framerate then
-              local item_framerate = getVideoItemFramerate(item, take, src)
-              if item_framerate == "29.970" or item_framerate == "29.97" then item_framerate = "30.0" end
-              if dbg then acendan.dbg("Item Framerate: " .. item_framerate) end
-              if item_framerate ~= project_framerate then
-                -- Prompt to conform
-                local result = reaper.MB("Current project framerate (" .. project_framerate .. "fps) does not match imported video's framerate! Would you like to set project framerate to: " .. item_framerate .. "fps?","Project Framerate Mismatch!",4)
-                if result == 6 then
-                  local new_proj_framerate = (item_framerate == "29.97ND") and -2 or
-                                             (item_framerate == "23.976")  and -1 or 
-                                             (item_framerate == "29.97DF") and 0 or
-                                             tonumber(item_framerate:sub(1,-3))
-                  if dbg then acendan.dbg(new_proj_framerate) end                         
-                  local retval = ultraschall.ProjectSettings_SetVideoFramerate(new_proj_framerate, false)
-                  if retval then acendan.msg("Succesfully set project to new framerate!\n\nThis script is relatively resource-intensive, so it will be automatically disabled now. To manually re-enable it, search for 'acendan video import' in the actions list. It works best as a startup action or when enabled in a default project template.","ACendan Project Framerate Checker") else acendan.msg("Failed to set project to new framerate :( Please do so manually in File > Project Settings.\n\nThis script is relatively resource-intensive, so it will be automatically disabled now. To manually re-enable it, search for 'acendan video import' in the actions list. It works best as a startup action or when enabled in a default project template.","ACendan Project Framerate Checker") end
+              -- Save project
+              reaper.Main_SaveProject( 0, false )
+              if reaper.IsProjectDirty(0) > 0 then
+                local r = reaper.MB("To check whether imported videos match the current project's framerate, the project must be saved!\n\nClick 'Retry' to save the project or 'Cancel' to turn off this script.\n\n~~~\nacendan_Prompt to match project frame rate with first video item import.lua","ACendan Project Framerate Checker",5)
+                if r == 2 then do_once = false end
+                break
+              end
+              
+              -- Get project's current framerate settings
+              local project_framerate = getRPPFrameRateSettings()
+              if dbg then acendan.dbg("Project Framerate: " .. project_framerate) end
+              
+              if project_framerate then
+                local item_framerate = getVideoItemFramerate(item, take, src)
+                if item_framerate == "29.970" or item_framerate == "29.97" then item_framerate = "30.0" end
+                if dbg then acendan.dbg("Item Framerate: " .. item_framerate) end
+                if item_framerate ~= project_framerate then
+                  -- Prompt to conform
+                  local result = reaper.MB("Current project framerate (" .. project_framerate .. "fps) does not match imported video's framerate! Would you like to set project framerate to: " .. item_framerate .. "fps?\n\n~~~\nacendan_Prompt to match project frame rate with first video item import.lua","Project Framerate Mismatch!",4)
+                  if result == 6 then
+                    local new_proj_framerate = (item_framerate == "29.97ND") and -2 or
+                                               (item_framerate == "23.976")  and -1 or 
+                                               (item_framerate == "29.97DF") and 0 or
+                                               tonumber(item_framerate:sub(1,-3))
+                    if dbg then acendan.dbg(new_proj_framerate) end                         
+                    local retval = ultraschall.ProjectSettings_SetVideoFramerate(new_proj_framerate, false)
+                    if retval then acendan.msg("Succesfully set project to new framerate!\n\nThis script is relatively resource-intensive, so it will be automatically disabled now. To manually re-enable it, search for 'acendan video import' in the actions list. It works best as a startup action or when enabled in a default project template.\n\n~~~\nacendan_Prompt to match project frame rate with first video item import.lua","ACendan Project Framerate Checker") else acendan.msg("Failed to set project to new framerate :( Please do so manually in File > Project Settings.\n\nThis script is relatively resource-intensive, so it will be automatically disabled now. To manually re-enable it, search for 'acendan video import' in the actions list. It works best as a startup action or when enabled in a default project template.","ACendan Project Framerate Checker") end
+                  end
+                else
+                  acendan.msg("Project framerate matches imported video!\n\nThis script is relatively resource-intensive, so it will be automatically disabled now. To manually re-enable it, search for 'acendan video import' in the actions list. It works best as a startup action or when enabled in a default project template.\n\n~~~\nacendan_Prompt to match project frame rate with first video item import.lua","ACendan Project Framerate Checker") 
                 end
               else
-                acendan.msg("Project framerate matches imported video!\n\nThis script is relatively resource-intensive, so it will be automatically disabled now. To manually re-enable it, search for 'acendan video import' in the actions list. It works best as a startup action or when enabled in a default project template.","ACendan Project Framerate Checker") 
+                if dbg then acendan.dbg("Failed to find project framerate in RPP file.") end
               end
-            else
-              if dbg then acendan.dbg("Failed to find project framerate in RPP file.") end
+              
+              -- Save project and exit loop
+              reaper.Main_SaveProject( 0, false )
+              do_once = false
+              break
             end
-            
-            -- Save project and exit loop
-            reaper.Main_SaveProject( 0, false )
-            do_once = false
-            break
           end
-          
         end
       end
     else
@@ -191,7 +199,7 @@ function getVideoItemFramerate(item, take, source)
       ffprobe_info = reaper.ExecProcess( command, 0 )
     else
       --If people report issues with this, then try to use os.execute. Otherwise, ExecProcess seems to work on my mac...
-	  --ffprobe_info = os.execute(command)
+    --ffprobe_info = os.execute(command)
       ffprobe_info = reaper.ExecProcess( command, 0 )
     end
 
