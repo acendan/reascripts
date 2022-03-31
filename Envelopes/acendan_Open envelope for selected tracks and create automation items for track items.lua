@@ -1,6 +1,6 @@
 -- @description Open Envelope w Automation Items
 -- @author Aaron Cendan, ausbaxter
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Open (volume) envelope for selected tracks and create (pooled) automation items for track items.lua
@@ -14,12 +14,14 @@
 --   # Open Envelope w Automation Items
 --   * Opens the appropriate envelope in script name and creates automation items based on track item positions.
 -- @changelog
---   + Initial release (thanks @faydenko for the idea!)
+--   # Optional toggle to only process selected items
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- Only process selected items 
+only_selected_items = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -33,6 +35,8 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
+-- Only used for testing
+if script_name:find("Open envelope") then test_vol_pan = true; test_last_touched = false end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -43,12 +47,18 @@ function main()
   local pooled = true
   if script_name:find("(unpooled)") then pooled = false end
   
+  -- Check if items are selected
+  if only_selected_items and reaper.CountSelectedMediaItems(0) == 0 then
+    acendan.msg("No media items selected! Please select an item or disable 'only_selected_items' in this script's user config section.\n\n~~~\n" .. script_name)
+    return
+  end
+  
   -- Process envelope by script name
-  if script_name:find("(volume)") or script_name:find("(pan)") then
+  if script_name:find("(volume)") or script_name:find("(pan)") or test_vol_pan then
     -- Check num tracks selected
     local num_sel_tracks = reaper.CountSelectedTracks( 0 )
     if not (num_sel_tracks > 0) then 
-      acendan.msg("No tracks selected!") 
+      acendan.msg("No tracks selected!\n\n~~~\n" .. script_name) 
       return 
     end
     
@@ -57,7 +67,7 @@ function main()
     acendan.saveSelectedTracks(sel_tracks)
     
     -- Select all items on selected tracks
-    SelectAllItemsOnSelectedTracks()
+    if not only_selected_items then SelectAllItemsOnSelectedTracks() end
     
     -- Open and select track envelopes by command ID accordingly
     local sel_env_cmd = script_name:find("(volume)") and 41866 or 41868       -- Track: Select volume envelope   OR   Track: Select pan envelope
@@ -70,18 +80,18 @@ function main()
     acendan.restoreSelectedTracks(sel_tracks)
     
     
-  elseif script_name:find("(last touched FX parameter)") then
+  elseif script_name:find("(last touched FX parameter)") or test_last_touched then
     
     -- Select last touched fx parameter env track, adapted from:
     -- Script: Archie_Env; Show track envelope last touched FX parameter(add point in start of time selection)(`).lua
     local retval, tracknumber, fxnumber, paramnumber = reaper.GetLastTouchedFX()
-    if not retval then acendan.msg("Unable to fetch last touched FX parameter. Please move an FX parameter and try again!"); return end
+    if not retval then acendan.msg("Unable to fetch last touched FX parameter. Please move an FX parameter and try again!\n\n~~~\n" .. script_name); return end
     
     -- Select track
     local track = reaper.GetTrack(0, tracknumber-1)
-    if not track then acendan.msg("Unable to fetch the track for last touched FX parameter. Please try again!"); return end
+    if not track then acendan.msg("Unable to fetch the track for last touched FX parameter. Please try again!\n\n~~~\n" .. script_name); return end
     reaper.SetOnlyTrackSelected(track)
-    SelectAllItemsOnSelectedTracks()
+    if not only_selected_items then SelectAllItemsOnSelectedTracks() end
     
     -- Select envelope
     local envelope =  reaper.GetFXEnvelope(track, fxnumber, paramnumber, true)
@@ -92,7 +102,7 @@ function main()
     ausbaxter_InsertAutomationItems(pooled)
   
   else
-    acendan.msg("Unable to parse script name for necessary envelope. Did you change the name of this script?")
+    acendan.msg("Unable to parse script name for necessary envelope. Did you change the name of this script?\n\n~~~\n" .. script_name)
   end
 end
 
@@ -244,7 +254,7 @@ function ausbaxter_InsertAutomationItems(pooled)
     end
     local env_track = reaper.Envelope_GetParentTrack(envelope)
     if not IsGoodTrackEnvelope(envelope) then 
-        reaper.ShowMessageBox("Selected envelope is not on a track with selected items.", "Error: Selected Envelope", 0) 
+        reaper.ShowMessageBox("No media items found on selected track!\n\n~~~\n" .. script_name, "Create Automation Items", 0) 
         return 
     end
     local item_tracks = GetSelectedItemsTracks()
