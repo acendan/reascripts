@@ -13,6 +13,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
  - Envelopes\acendan_Insert automation items on all selected tracks envelopes in time selection
+ - Envelopes\acendan_Open envelope for selected tracks and create automation items for track items
  - Envelopes\acendan_Set closest envelope point shape at mouse cursor
  - Items Editing\acendan_Append selected items BWF metadata subfield to item name
  - Items Editing\acendan_Append selected items BWF metadata subfield to item notes
@@ -91,6 +92,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Regions\acendan_Import region names from text file
  - Regions\acendan_Rename regions from nearest markers
  - Regions\acendan_Set nearest regions edges to selected media items
+ - Regions\acendan_Set region color near edit cursor to SWS custom color
  - Regions\acendan_Shrink overlapping regions edges to time selection
  - Regions\acendan_Shrink overlapping regions to edges of selected media items
  - Regions\acendan_Stretch overlapping regions edges to time selection
@@ -115,6 +117,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Utility\acendan_Bounce In Place
  - Utility\acendan_Playrate - Jump to target playrate
  - Utility\acendan_Playrate - Set target playrate value
+ - Utility\acendan_reaperblog_Duplicate items or tracks depending on focus and time selection
  - Various\acendan_Auto generate scripts to open web interfaces
  - Various\acendan_Game recommendation engine
  - Various\acendan_GUI_Display first selected item properties

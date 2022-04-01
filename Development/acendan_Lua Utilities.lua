@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.6
+-- @version 5.7
 -- @metapackage
 -- @provides
 --   [main] .
@@ -26,7 +26,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.7 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -986,6 +986,24 @@ if start_time_sel ~= end_time_sel then
 else
   acendan.msg("You need to make a time selection!")
 end
+
+-- Loop through regions at edit cursor
+local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+local num_total = num_markers + num_regions
+if num_regions > 0 then
+	local edit_cur_pos = reaper.GetCursorPosition()
+	local i = 0
+	while i < num_total do
+		local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+		if isrgn and pos <= edit_cur_pos and rgnend >= edit_cur_pos then
+			-- Process regions
+		end
+		i = i + 1
+	end
+else
+	acendan.msg("Project has no regions!")
+end
+	
 ]]--
 
 -- Get selected regions in Rgn Mrkr Manager using JS_Reaper API, requires getRegionManager
@@ -1284,6 +1302,30 @@ end
 function acendan.rgb2int ( R, G, B )
   return (R + 256 * G + 65536 * B)|16777216
 end
+
+-- Get SWS custom color using a temp track // returns Number (os-dependent color)
+-- color_index = 1 - 16 for SWS custom color #
+function acendan.getSWSCustomColor(color_index)
+  local init_sel_trks = {}
+  acendan.saveSelectedTracks(init_sel_trks)
+  
+  -- Insert temp track
+  local temp_trk_idx = reaper.CountTracks(0)
+  reaper.InsertTrackAtIndex(temp_trk_idx,false)
+  local temp_trk = reaper.GetTrack(0, temp_trk_idx)
+  reaper.SetOnlyTrackSelected(temp_trk)
+  
+  -- Set/get SWS color
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_TRACKCUSTCOL" .. tostring(color_index)),0) -- SWS: Set selected track(s) to custom color *color_index*
+  local cust_color = reaper.GetTrackColor(temp_trk)
+  
+  -- Delete temp track
+  reaper.DeleteTrack(temp_trk)
+  
+  acendan.restoreSelectedTracks(init_sel_trks)
+  return cust_color
+end
+
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
