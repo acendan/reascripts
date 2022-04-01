@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="0c5b275b5a717a4079268a9d2b61330bda2fd719" name="ACendan Scripts">
+<index version="1" commit="607996588d2677a36cad6b69869b89fe7266834a" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1404,6 +1404,25 @@
         <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 14.lua">https://github.com/acendan/reascripts/raw/0c5b275b5a717a4079268a9d2b61330bda2fd719/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
         <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 15.lua">https://github.com/acendan/reascripts/raw/0c5b275b5a717a4079268a9d2b61330bda2fd719/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
         <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 16.lua">https://github.com/acendan/reascripts/raw/0c5b275b5a717a4079268a9d2b61330bda2fd719/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-04-01T22:33:40Z">
+        <changelog><![CDATA[# Minor optimization]]></changelog>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 1.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 2.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 3.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 4.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 5.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 6.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 7.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 8.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 9.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 10.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 11.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 12.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 13.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 14.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 15.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 16.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
