@@ -1,6 +1,6 @@
 -- @description Region Color Edit Cursor
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Set region color near edit cursor to SWS custom color 1.lua
@@ -23,8 +23,7 @@
 -- @about
 --   # Set regions at edit cursor to SWS custom color!
 -- @changelog
---   + Initial release (Thanks @Matthew Steven Miller for the idea!)
---   ? Would love a better way to get SWS custom colors via ReaScript API...
+--   # Minor optimization
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -49,8 +48,9 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function main()
-  -- Get SWS custom color index from script name
+  -- Get SWS custom color from script name
   local sws_color_idx = acendan.extractNumberInScriptName(script_name) or 1
+  local sws_color = acendan.getSWSCustomColor(sws_color_idx)
   
   -- Loop through regions at edit cursor
   local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
@@ -61,7 +61,7 @@ function main()
     while i < num_total do
       local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
       if isrgn and pos <= edit_cur_pos and rgnend >= edit_cur_pos then
-        reaper.SetProjectMarker3(0, markrgnindexnumber, isrgn, pos, rgnend, name, acendan.getSWSCustomColor(sws_color_idx))
+        reaper.SetProjectMarker3(0, markrgnindexnumber, isrgn, pos, rgnend, name, sws_color)
       end
       i = i + 1
     end
