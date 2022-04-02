@@ -748,7 +748,7 @@ end
 ]]--
 
 -- Save initially selected items to table
-function acendan.saveSelectedItems (table)
+function acendan.saveSelectedItems(table)
   for i = 1, reaper.CountSelectedMediaItems(0) do
     table[i] = reaper.GetSelectedMediaItem(0, i-1)
   end
