@@ -1,6 +1,6 @@
 -- @description Count Selection in Media Explorer
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Count number of selected items in media explorer.lua
@@ -11,6 +11,8 @@
 --
 --   * Requires the JS_ReascriptAPI extension.
 --   * Script adapted from: http://forum.cockos.com/showthread.php?p=2071080#post2071080
+-- @changelog
+--   # Fixed file listview child window handle identification
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -42,12 +44,16 @@ end
 
 -- Count selected items media explorer
 function countSelectedItemsMediaExplorer()
+  -- Get media explorer
   local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
-  if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
+  if hWnd == nil then msg("Unable to find Media Explorer window handle!") return end  
   
-  local container = reaper.JS_Window_FindChildByID(hWnd, 0)
-  local file_LV = reaper.JS_Window_FindChildByID(container, 1000)
+  -- Get file listview from child class name
+  -- Microsoft Spy++ is amazing
+  local file_LV = reaper.JS_Window_FindEx(hWnd, nil, "SysListView32", "")
+  if not reaper.JS_Window_IsWindow(file_LV) then msg("Unable to find Media Explorer file list child window!") return end  
   
+  -- Get selected item info
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
   if sel_count == 0 then 
     msg("No items selected in media explorer!")
