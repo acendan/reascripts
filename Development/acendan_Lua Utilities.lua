@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.8
+-- @version 5.9
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,8 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Fixed bug in acendan.restoreSelectedTracks() when tables have non-incremental indexes
+--   # Updated functions that rely on JS_Window_ functions to avoid magic numbers
+--	 # This change affects: acendan.getRegionManager(), acendan.getRegionManagerList(), acendan.getMediaExplorer(), acendan.getMediaExplorerList()
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,7 +27,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.7 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.9 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -748,7 +749,7 @@ end
 ]]--
 
 -- Save initially selected items to table
-function acendan.saveSelectedItems(table)
+function acendan.saveSelectedItems (table)
   for i = 1, reaper.CountSelectedMediaItems(0) do
     table[i] = reaper.GetSelectedMediaItem(0, i-1)
   end
@@ -1034,20 +1035,25 @@ end
   end
   
 ]]--
+function acendan.getRegionManager()
+  return reaper.JS_Window_Find(reaper.JS_Localize("Region/Marker Manager","common"), true) or nil
+end
+
+function acendan.getRegionManagerList()
+	return reaper.JS_Window_FindEx(acendan.getRegionManager(), nil, "SysListView32", "") or nil
+end
+
 function acendan.getSelectedRegions()
-  local hWnd = acendan.getRegionManager()
-  if hWnd == nil then return end  
+  local rgn_list = acendan.getRegionManagerList()
 
-  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
-
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
   if sel_count == 0 then return end 
 
   names = {}
   i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do 
     i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
     if sel_item:find("R") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
     end
@@ -1056,21 +1062,6 @@ function acendan.getSelectedRegions()
   -- Return table of selected regions
   return names
 end
-
-function acendan.getRegionManager()
-  local title = reaper.JS_Localize("Region/Marker Manager", "common")
-  local arr = reaper.new_array({}, 1024)
-  reaper.JS_Window_ArrayFind(title, true, arr)
-  local adr = arr.table()
-  for j = 1, #adr do
-    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
-    -- verify window by checking if it also has a specific child.
-    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
-      return hwnd
-    end 
-  end
-end
-
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ MARKERS ~~~~~~~~~~~~~
@@ -1591,33 +1582,33 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~ MEDIA EXPLORER ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Returns hWnd for media explorer window
+function acendan.getMediaExplorer()
+  return reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true) or nil
+end
+
+-- Returns list view hWnd for media explorer's file list
+function acendan.getMediaExplorerList()
+	return reaper.JS_Window_FindEx(acendan.getMediaExplorer(), nil, "SysListView32", "") or nil
+end
+
 -- Count selected items media explorer // returns Number
 function acendan.countSelectedItemsMediaExplorer()
-  local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
+  local hWnd = acendan.getMediaExplorer()
   if hWnd == nil then msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.") return end  
-  
-  local container = reaper.JS_Window_FindChildByID(hWnd, 0)
-  local file_LV = reaper.JS_Window_FindChildByID(container, 1000)
+
+  local file_LV = acendan.getMediaExplorerList()
   
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
-  if sel_count == 0 then 
-    acendan.msg("No items selected in media explorer!","Media Explorer Items")
-  elseif sel_count == 1 then
-    acendan.msg("1 item selected in media explorer.","Media Explorer Items")
-  else
-    acendan.msg(sel_count .. " items selected in media explorer.","Media Explorer Items")
-  end 
-  
   return sel_count
 end
 
 -- Get selected item details media explorer
 function acendan.getSelectedItemsDetailsMediaExplorer()
-  local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
+  local hWnd = acendan.getMediaExplorer()
   if hWnd == nil then acendan.msg("Unable to find media explorer. Try going to:\n\nExtensions > ReaPack > Browse Packages\n\nand re-installing the JS_Reascript extension.","Media Explorer Items") return end  
-  
-  local container = reaper.JS_Window_FindChildByID(hWnd, 0)
-  local file_LV = reaper.JS_Window_FindChildByID(container, 1000)
+
+  local file_LV = acendan.getMediaExplorerList()
   
   sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
   if sel_count == 0 then acendan.msg("No items selected in media explorer!","Media Explorer Items") return end
@@ -1647,7 +1638,7 @@ function acendan.filterMediaExplorer(search)
     local CBN_EDITCHANGE = 5
     
     local mediaExplorer = reaper.OpenMediaExplorer( "", false )
-    local winHWND = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer", "common"),true)
+    local winHWND = acendan.getMediaExplorer()
     local mediaExpFilter =  reaper.JS_Window_FindChildByID( winHWND, 1015 )
     local filtered = reaper.JS_Window_SetTitle(mediaExpFilter,search)
     reaper.BR_Win32_SendMessage(mediaExplorer, WM_COMMAND, (CBN_EDITCHANGE<<16) | IDC_SEARCH, 0)

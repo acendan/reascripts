@@ -1,6 +1,6 @@
 -- @description Count Selection in Media Explorer
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Count number of selected items in media explorer.lua
@@ -12,7 +12,7 @@
 --   * Requires the JS_ReascriptAPI extension.
 --   * Script adapted from: http://forum.cockos.com/showthread.php?p=2071080#post2071080
 -- @changelog
---   # Fixed file listview child window handle identification
+--   # Moved hWnd functions to Lua Utils
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -20,6 +20,10 @@
 
 -- Get script name for undo text and extracting numbers/other info, if needed
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
+
+-- Load lua utilities
+acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.7 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -44,17 +48,9 @@ end
 
 -- Count selected items media explorer
 function countSelectedItemsMediaExplorer()
-  -- Get media explorer
-  local hWnd = reaper.JS_Window_Find(reaper.JS_Localize("Media Explorer","common"), true)
-  if hWnd == nil then msg("Unable to find Media Explorer window handle!") return end  
-  
-  -- Get file listview from child class name
-  -- Microsoft Spy++ is amazing
-  local file_LV = reaper.JS_Window_FindEx(hWnd, nil, "SysListView32", "")
-  if not reaper.JS_Window_IsWindow(file_LV) then msg("Unable to find Media Explorer file list child window!") return end  
-  
   -- Get selected item info
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(file_LV)
+  sel_count = acendan.countSelectedItemsMediaExplorer()
+  
   if sel_count == 0 then 
     msg("No items selected in media explorer!")
   elseif sel_count == 1 then
@@ -62,23 +58,6 @@ function countSelectedItemsMediaExplorer()
   else
     msg(sel_count .. " items selected in media explorer.")
   end 
-  
-  --[[ ADDITIONAL MEDIA EXPLORER ITEM PARSING
-  for ndx in string.gmatch(sel_indexes, '[^,]+') do 
-    index = tonumber(ndx)
-    local fname = reaper.JS_ListView_GetItemText(file_LV, index, 0)
-    local size = reaper.JS_ListView_GetItemText(file_LV, index, 1)
-    local date = reaper.JS_ListView_GetItemText(file_LV, index, 2)
-    local ftype = reaper.JS_ListView_GetItemText(file_LV, index, 3)
-    dbg(fname .. ', ' .. size .. ', ' .. date .. ', ' .. ftype) 
-  end
-  
-  -- get selected path  from edit control inside combobox
-  local combo = reaper.JS_Window_FindChildByID(hWnd, 1002)
-  local edit = reaper.JS_Window_FindChildByID(combo, 1001)
-  local path = reaper.JS_Window_GetTitle(edit, "", 255)
-  dbg(path)
-  ]]--
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
