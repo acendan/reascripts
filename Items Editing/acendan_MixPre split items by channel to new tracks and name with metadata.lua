@@ -1,6 +1,6 @@
 -- @description Sound Devices MixPre Metadata Tools - Split Channels
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_MixPre split selected item by channel to new tracks and name with metadata.lua
@@ -8,7 +8,7 @@
 -- @about
 --   Splits items onto new tracks, renames with BWF sub-field after hyphen (-) in script name to track name.
 -- @changelog
---   # Support multiple selected items (Thanks @Shanice Yang!)
+--   # Minor optimization
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -104,12 +104,14 @@ function appendMetadata()
             reaper.SetMediaItemTakeInfo_Value( reaper.GetActiveTake( new_item ) , "I_CHANMODE", 3 + i)
   
             -- Rename new track
-            local start_of_field = string.find( full_desc, names[i+1] ) + string.len( names[i+1] )
-            local field_to_end = string.sub( full_desc, start_of_field, string.len( full_desc ))
-            local end_of_field = start_of_field + string.find( field_to_end , "\r\n")
-            local bwf_field_contents = string.sub( full_desc, start_of_field, end_of_field)
-            
-            local ret2, new_name = reaper.GetSetMediaTrackInfo_String( new_track, "P_NAME", bwf_field_contents, true )
+            if is_max_channels then
+              local start_of_field = string.find( full_desc, names[i+1] ) + string.len( names[i+1] )
+              local field_to_end = string.sub( full_desc, start_of_field, string.len( full_desc ))
+              local end_of_field = start_of_field + string.find( field_to_end , "\r\n")
+              local bwf_field_contents = string.sub( full_desc, start_of_field, end_of_field)
+              
+              local ret2, new_name = reaper.GetSetMediaTrackInfo_String( new_track, "P_NAME", bwf_field_contents, true )
+            end
           end
         end
         

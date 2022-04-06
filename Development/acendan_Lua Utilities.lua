@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.7
+-- @version 5.8
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Updated some debug messaging w correct prefix
+--   # Fixed bug in acendan.restoreSelectedTracks() when tables have non-incremental indexes
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -873,8 +873,8 @@ end
 -- Restore selected tracks from table. Requires tableLength() above
 function acendan.restoreSelectedTracks(table)
   reaper.Main_OnCommand(40297, 0) -- Unselect all tracks
-  for i = 1, acendan.tableLength(table) do
-    reaper.SetTrackSelected( table[i], true )
+  for _, track in pairs(table) do
+    reaper.SetTrackSelected( track, true )
   end
 end
 

@@ -34,6 +34,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Mousewheel to move selected items up down tracks
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
  - Items Editing\acendan_mpl_Search items
+ - Items Editing\acendan_Organize selected items by channel count on new tracks
  - Items Editing\acendan_Prevent extending media items past source length
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
