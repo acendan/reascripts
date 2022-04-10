@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.2
+-- @version 6.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Added support for custom location metadata w. preference in settings (thanks @Jonathan Snipes!)
+--   # Added Manufacturer IXML field (Thanks @Arthur Sauer!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -85,6 +85,7 @@ local retm_dsgnr,  meta_dsgnr  = reaper.GetProjExtState( 0, "UCS_WebInterface", 
 local retm_lib,    meta_lib    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLib")
 local retm_loc,    meta_loc    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLoc")
 local retm_url,    meta_url    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaURL")
+local retm_mftr,   meta_mftr   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMftr")
 local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
 local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
 
@@ -179,6 +180,7 @@ iXML["IXML:USER:Designer"]       = "Designer"        -- The designer/recordist. 
 iXML["IXML:USER:ShortID"]        = "ShortID"         -- ^ Shorten to 3 letters first, 3 last        ^^^
 iXML["IXML:USER:Location"]       = "Location"        -- Location where it was recorded              userInputMetaLoc
 iXML["IXML:USER:URL"]            = "URL"             -- Recordist's URL                             userInputMetaURL
+iXML["IXML:USER:Manufacturer"]   = "Manufacturer"    -- Manufacturer
 iXML["IXML:USER:Library"]        = "Library"         -- Library                                     userInputMetaLib
 
 -- Reference other wildcards
@@ -881,19 +883,16 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 function getSelectedRegions()
-  local hWnd = getRegionManager()
-  if hWnd == nil then return end  
+  local rgn_list = getRegionManagerList()
 
-  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
-
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
   if sel_count == 0 then return end 
 
   names = {}
   i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do 
     i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
     if sel_item:find("R") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
     end
@@ -904,19 +903,16 @@ function getSelectedRegions()
 end
 
 function getSelectedMarkers()
-  local hWnd = getRegionManager()
-  if hWnd == nil then return end
-  
-  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
+  local rgn_list = getRegionManagerList()
 
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
   if sel_count == 0 then return end 
 
   names = {}
   i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do 
     i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
     if sel_item:find("M") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
     end
@@ -927,20 +923,12 @@ function getSelectedMarkers()
 end
 
 function getRegionManager()
-  local title = reaper.JS_Localize("Region/Marker Manager", "common")
-  local arr = reaper.new_array({}, 1024)
-  reaper.JS_Window_ArrayFind(title, true, arr)
-  local adr = arr.table()
-
-  for j = 1, #adr do
-    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
-    -- verify window by checking if it also has a specific child.
-    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
-      return hwnd
-    end 
-  end
+  return reaper.JS_Window_Find(reaper.JS_Localize("Region/Marker Manager","common"), true) or nil
 end
 
+function getRegionManagerList()
+	return reaper.JS_Window_FindEx(getRegionManager(), nil, "SysListView32", "") or nil
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~ GET SELECTED TRACKS  ~~
@@ -1126,6 +1114,7 @@ function iXMLMarkers(position,relname)
       mega_marker = mega_marker .. ";" .. "Library=" .. meta_lib
       mega_marker = mega_marker .. ";" .. "Location=" .. meta_loc
       mega_marker = mega_marker .. ";" .. "URL=" .. meta_url
+      mega_marker = mega_marker .. ";" .. "Manufacturer=" .. meta_mftr
       mega_marker = mega_marker .. ";" .. "MicPerspective=" .. meta_persp
       mega_marker = mega_marker .. ";" .. "RecType=" .. meta_config
       
@@ -1230,6 +1219,7 @@ function iXMLMarkers(position,relname)
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Library=" .. meta_lib, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Location=" .. meta_loc, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "URL=" .. meta_url, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Manufacturer=" .. meta_mftr, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MicPerspective=" .. meta_persp, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecType=" .. meta_config, ucs_num}
       
@@ -1310,14 +1300,15 @@ function iXMLMarkers(position,relname)
   -- Set up metadata fields if user input is a Reaper wildcard
   if ret_meta then
     for k, v in pairs(iXML) do
-      if retm_title  and v == "TrackTitle"  and meta_title:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_title, true )  end
-      if retm_desc   and v == "Description" and meta_desc:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_desc, true )   end
-      if retm_keys   and v == "Keywords"    and meta_keys:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_keys, true )   end
-      if retm_mic    and v == "Microphone"  and meta_mic:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_mic, true )    end
-      if retm_lib    and v == "Library"     and meta_lib:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_lib, true )    end      
-      if retm_url    and v == "URL"         and meta_url:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_url, true )    end
-      if retm_recmed and v == "RecMedium"   and meta_recmed:sub(1,1) == "$" then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_recmed, true ) end
-      if retm_dsgnr  and v == "Designer"    and meta_dsgnr:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_dsgnr, true )  end
+      if retm_title  and v == "TrackTitle"   and meta_title:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_title, true )  end
+      if retm_desc   and v == "Description"  and meta_desc:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_desc, true )   end
+      if retm_keys   and v == "Keywords"     and meta_keys:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_keys, true )   end
+      if retm_mic    and v == "Microphone"   and meta_mic:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_mic, true )    end
+      if retm_lib    and v == "Library"      and meta_lib:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_lib, true )    end      
+      if retm_url    and v == "URL"          and meta_url:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_url, true )    end
+      if retm_mftr   and v == "Manufacturer" and meta_mftr:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_mftr, true )   end
+      if retm_recmed and v == "RecMedium"    and meta_recmed:sub(1,1) == "$" then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_recmed, true ) end
+      if retm_dsgnr  and v == "Designer"     and meta_dsgnr:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_dsgnr, true )  end
     end
   end
 
@@ -1613,6 +1604,7 @@ function debugUCSInput()
   reaper.ShowConsoleMsg("Library: " .. meta_lib .. " (" .. tostring(retm_lib) .. ")" .. "\n")
   reaper.ShowConsoleMsg("Location: ".. meta_loc .. " (" .. tostring(retm_loc) .. ")" .. "\n")
   reaper.ShowConsoleMsg("URL: " .. meta_url .. " (" .. tostring(retm_url) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Manufacturer: " .. meta_mftr .. " (" .. tostring(retm_mftr) .. ")" .. "\n")
   reaper.ShowConsoleMsg("Perspective: " .. meta_persp .. " (" .. tostring(retm_persp) .. ")" .. "\n")
   reaper.ShowConsoleMsg("Mic Config: ".. meta_config .. " (" .. tostring(retm_config) .. ")" .. "\n")
 

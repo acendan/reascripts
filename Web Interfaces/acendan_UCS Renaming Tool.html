@@ -579,12 +579,12 @@
                     <input class="form-check-input" type="checkbox" id="metadataSettings">
                     <h7 id="settingsExtMetaDesc">Show extended metadata input fields like microphone, perpective, location, etc</h7>
                 </div>
-                <div id="metadataWarning" style="margin:0;" class="alert alert-warning" role="alert">- Render Metadata requires 'Embed: Metadata' to be checked in your render settings<br>- Render Metadata does <b>NOT</b> apply when renaming Tracks<br>- Render Metadata fields are all optional, and can be left blank.</div>
+                <div id="metadataWarning" style="margin:0;margin-bottom:20px;" class="alert alert-warning" role="alert">- Render Metadata requires 'Embed: Metadata' to be checked in your render settings<br>- Render Metadata does <b>NOT</b> apply when renaming Tracks<br>- Render Metadata fields are all optional, and can be left blank.</div>
                 <!-- Metadata Marker Positioning -->
                 <p style="margin-bottom:0px;">Metadata Marker Position:</p>
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="markerPositionSettings">
-                    <h7>Places markers slightly <i>after</i> regions and items so that they don't get embedded as cue markers at render. Be careful with overlapping regions and items.</h7>
+                    <h7>Places metadata (META) markers slightly <i>after</i> regions and items so that they don't get embedded as cue markers at render.<br>This is useful when embedding regular project markers as cue markers in files.<br>Be careful with overlapping regions and items.</h7>
                 </div>
                 <!-- Render Directory -->
                 <p style="margin-bottom:0px;">Render to Category/Subcategory Directory:</p>
@@ -602,7 +602,7 @@
                 <p style="margin-bottom:0px;">Location Input:</p>
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="locationInputSettings">
-                    <h7 id="locationInputDesc">Unchecked: Country, State, City - Separate dropdowns<br>Checked: Textbox - User input</h7>
+                    <h7 id="locationInputDesc"><b>Unchecked</b>: Country, State, City - Separate dropdowns (Default; requires online connection for location API)<br><b>Checked</b>: Textbox - User input</h7>
                 </div>
 
                 <!------------------------>
@@ -1668,13 +1668,18 @@
                 </div>
                 
                 <!-- Microphone -->
-                <div class="form-group col-md-9 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaMicDiv">
-                    <div class="form-group col-md-4" style="margin-left: 15px; margin-right: 15px;">
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaMicDiv">
+                    <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="userDataLabel">Designer</label>
+                        <input type="text" class="form-control" id="userInputMetaDsgnr" placeholder="Aaron Cendan">
+                    </div>                    
+                    
+                    <div class="form-group col-md-3" style="margin-left: 0px">
                         <label for="userDataLabel">Microphone</label>
                         <input type="text" class="form-control" id="userInputMetaMic" placeholder="Mini MS">
                     </div>
                     
-                    <div class="form-group col-md-4" style="margin-left: 0px">
+                    <div class="form-group col-md-3" style="margin-left: 0px">
                         <label for="userDataLabel">Recording Medium</label>
                         <input type="text" class="form-control" id="userInputMetaRecMed" placeholder="Sound Devices MixPre3II">
                     </div>                                        
@@ -1760,11 +1765,6 @@
                 <!-- Designer/URL -->
                 <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaDsgnDiv">
                     <div class="form-group col-md-3" style="margin-left: 15px; margin-right: 15px;">
-                        <label for="userDataLabel">Designer</label>
-                        <input type="text" class="form-control" id="userInputMetaDsgnr" placeholder="Aaron Cendan">
-                    </div>
-
-                    <div class="form-group col-md-3" style="margin-left: 0px">
                         <label for="userDataLabel">Library</label>
                         <input type="text" class="form-control" id="userInputMetaLib" placeholder="Julibrary 2021">
                     </div>
@@ -1772,6 +1772,11 @@
                     <div class="form-group col-md-3" style="margin-left: 0px">
                         <label for="userDataLabel">URL</label>
                         <input type="text" class="form-control" id="userInputMetaURL" placeholder="https://aaroncendan.me">
+                    </div>
+
+                    <div class="form-group col-md-3" style="margin-left: 0px">
+                        <label for="userDataLabel">Manufacturer</label>
+                        <input type="text" class="form-control" id="userInputMetaManufacturer" placeholder="ARC Sounds, Inc.">
                     </div>
                 </div>
 
@@ -2291,6 +2296,7 @@
                 var metaDsgnr  = stringCleaning($("#userInputMetaDsgnr").val());
                 var metaLib    = stringCleaning($("#userInputMetaLib").val());                
                 var metaURL    = $("#userInputMetaURL").val();
+                var metaMftr   = $("#userInputMetaManufacturer").val();
 
                 // Extended metadata - location
                 var metaCoun   = $("#countryId").val();
@@ -2338,6 +2344,7 @@
                 setProjExtState(metaLib, "MetaLib")
                 setProjExtState(metaLoc, "MetaLoc");
                 setProjExtState(metaURL, "MetaURL");
+                setProjExtState(metaMftr, "MetaMftr");
                 setProjExtState(metaConfig, "MetaConfig");
                 setProjExtState(metaPersp, "MetaPersp");
             }
@@ -3600,6 +3607,7 @@
                 metaDsgnr: $("#userInputMetaDsgnr").val(),
                 metaLib: $("#userInputMetaLib").val(),        
                 metaURL: $("#userInputMetaURL").val(),
+                metaMftr: $("#userInputMetaManufacturer").val(),
                 metaCoun: $("#countryId").val(),
                 metaState: $("#stateId").val(),
                 metaCity: $("#cityId").val(),
@@ -3752,6 +3760,7 @@
             if (presetSettings.metaDsgnr && presetSettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(presetSettings.metaDsgnr).trigger('change');
             if (presetSettings.metaLib && presetSettings.metaLib !== "") $("#userInputMetaLib").val(presetSettings.metaLib).trigger('change');
             if (presetSettings.metaURL && presetSettings.metaURL !== "") $("#userInputMetaURL").val(presetSettings.metaURL).trigger('change');
+            if (presetSettings.metaMftr && presetSettings.metaMftr !== "") $("#userInputMetaManufacturer").val(presetSettings.metaMftr).trigger('change');
             if (presetSettings.metaCoun && presetSettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(presetSettings.metaCoun).trigger('change'); }, 500);
             if (presetSettings.metaState && presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 1000);
             if (presetSettings.metaCity && presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1500);            
@@ -3895,6 +3904,7 @@
                 metaDsgnr: $("#userInputMetaDsgnr").val(),
                 metaLib: $("#userInputMetaLib").val(),        
                 metaURL: $("#userInputMetaURL").val(),
+                metaMftr: $("#userInputMetaManufacturer").val(),
                 metaCoun: $("#countryId").val(),
                 metaState: $("#stateId").val(),
                 metaCity: $("#cityId").val(),
@@ -4023,6 +4033,7 @@
             if (historySettings.metaDsgnr && historySettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(historySettings.metaDsgnr).trigger('change');
             if (historySettings.metaLib && historySettings.metaLib !== "") $("#userInputMetaLib").val(historySettings.metaLib).trigger('change');
             if (historySettings.metaURL && historySettings.metaURL !== "") $("#userInputMetaURL").val(historySettings.metaURL).trigger('change');
+            if (historySettings.metaMftr && historySettings.metaMftr !== "") $("#userInputMetaManufacturer").val(historySettings.metaMftr).trigger('change');            
             if (historySettings.metaCoun && historySettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(historySettings.metaCoun).trigger('change'); }, 500);
             if (historySettings.metaState && historySettings.metaState !== "") setTimeout(() => { $("#stateId").val(historySettings.metaState).trigger('change'); }, 1000);
             if (historySettings.metaCity && historySettings.metaCity !== "") setTimeout(() => { $("#cityId").val(historySettings.metaCity).trigger('change'); }, 1500);            

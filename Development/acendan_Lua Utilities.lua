@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 5.9
+-- @version 6.0
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,8 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Updated functions that rely on JS_Window_ functions to avoid magic numbers
---	 # This change affects: acendan.getRegionManager(), acendan.getRegionManagerList(), acendan.getMediaExplorer(), acendan.getMediaExplorerList()
+--   # Updated acendan.getSelectedMarkers()
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,7 +26,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.9 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1117,19 +1116,16 @@ end
   
 ]]--
 function acendan.getSelectedMarkers()
-  local hWnd = acendan.getRegionManager()
-  if hWnd == nil then return end  
+  local rgn_list = acendan.getRegionManagerList()
 
-  local container = reaper.JS_Window_FindChildByID(hWnd, 1071)
-
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(container)
+  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
   if sel_count == 0 then return end 
 
   names = {}
   i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do 
     i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(container, tonumber(index), 1)
+    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
     if sel_item:find("M") ~= nil then
       names[i] = tonumber(sel_item:sub(2))
     end
