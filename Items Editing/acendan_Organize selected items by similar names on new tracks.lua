@@ -1,6 +1,6 @@
 -- @description Organize Items by Similar Names
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -100,7 +100,7 @@ reaper.PreventUIRefresh(1)
 reaper.Undo_BeginBlock()
 
 mpl_move = reaper.NamedCommandLookup("_RSae522affae0c8487d338e4c637b6d29a80f95201")
-if not mpl_move then
+if mpl_move then
   main()
 else
   acendan.msg("This script requires the script:\n\nScript: mpl_Move selected items to tracks with same name as items.lua\n\nPlease install it via ReaPack: Extensions > ReaPack > Browse Packages","Missing MPL Script")  
