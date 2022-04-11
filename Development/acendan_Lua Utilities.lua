@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.0
+-- @version 6.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Updated acendan.getSelectedMarkers()
+--   + Added acendan.removeLeadTrailWhitespace(), acendan.removeEnumeration()
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -585,6 +585,19 @@ end
 --> input_string = input_string:gsub("(%a)([%w_']*)", toTitleCase)
 function acendan.toTitleCase(first, rest)
   return first:upper()..rest:lower()
+end
+
+-- remove trailing and leading whitespace from string.
+-- http://en.wikipedia.org/wiki/Trim_(programming)
+function acendan.removeLeadTrailWhitespace(s)
+  -- from PiL2 20.4
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+-- attempts to remove _01 style enumeration from the end of strings
+function acendan.removeEnumeration(s)
+	local pattern = '^(.-)%_%d+'
+	return s:find(pattern) and s:match(pattern) or s
 end
 
 -- Convert seconds (w decimal) into h:mm:ss:ms
