@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="f60a5fe6a0796aa3967b61bb4ebd937282a39890" name="ACendan Scripts">
+<index version="1" commit="1285917ce71aeebb0022024eb0b1c40cf94d4c5b" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -146,6 +146,10 @@
       <version name="6.0" author="Aaron Cendan" time="2022-04-10T00:40:12Z">
         <changelog><![CDATA[# Updated acendan.getSelectedMarkers()]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/f60a5fe6a0796aa3967b61bb4ebd937282a39890/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="6.1" author="Aaron Cendan" time="2022-04-11T22:41:43Z">
+        <changelog><![CDATA[+ Added acendan.removeLeadTrailWhitespace(), acendan.removeEnumeration()]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/1285917ce71aeebb0022024eb0b1c40cf94d4c5b/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -1260,6 +1264,22 @@
       <version name="1.3" author="Aaron Cendan" time="2021-09-02T16:38:46Z">
         <changelog><![CDATA[# Fixed naming w folder tracks extra underscore]]></changelog>
         <source main="main" file="acendan_Create one region for selected items across tracks and link to parent in RRM.lua">https://github.com/acendan/reascripts/raw/4038e2537a6a3beffb3cd445f4041ac9f276155c/Regions/acendan_Create%20one%20region%20for%20selected%20items%20across%20tracks%20and%20link%20to%20parent%20in%20RRM.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Create separate regions around each set of X selected items.lua" type="script" desc="Create Separate Regions Around X Items">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Create Separate Regions Around X Items\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2022-04-11T22:41:43Z">
+        <changelog><![CDATA[# Initial release (script request from the lovely folks over at GBX!)]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/1285917ce71aeebb0022024eb0b1c40cf94d4c5b/Regions/acendan_Create%20separate%20regions%20around%20each%20set%20of%20X%20selected%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create unique regions for overlapping items on selected track.lua" type="script" desc="Create Unique Regions Overlapping Items">
