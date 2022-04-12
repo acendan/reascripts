@@ -1,6 +1,6 @@
 -- @description Create Separate Regions Around X Items
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Create Separate Regions Around X Items
 -- @changelog
---   # Initial release (script request from the lovely folks over at GBX!)
+--   # Assign region to shared parent in RRM
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -38,6 +38,9 @@ function main()
 
   local num_sel_items = reaper.CountSelectedMediaItems(0)
   if num_sel_items > 0 then
+    acendan.selectTracksOfSelectedItems()
+    local shared_parent = acendan.getSelectedTracksSharedParent()
+    
     local counter = 1
     local num_regions = 1
     local rgn_name = ""
@@ -78,7 +81,8 @@ function main()
       else
         -- Last item in bundle, close and create region then reset counter
         rgn_end = item_end_pos
-        reaper.AddProjectMarker(0, true, rgn_start, rgn_end, rgn_name, -1)
+        local rgn_idx = reaper.AddProjectMarker(0, true, rgn_start, rgn_end, rgn_name, -1)
+        reaper.SetRegionRenderMatrix(0, rgn_idx, shared_parent, 1)
         if dbg then acendan.dbg("REGION #" .. tostring(num_regions) .. "\n") end
         rgn_name = ""
         num_regions = num_regions + 1
@@ -92,7 +96,8 @@ function main()
     
     -- Make sure last region was safely closed
     if counter > 1 then
-      reaper.AddProjectMarker(0, true, rgn_start, rgn_end, tostring(rgn_name), -1)
+      local rgn_idx = reaper.AddProjectMarker(0, true, rgn_start, rgn_end, tostring(rgn_name), -1)
+      reaper.SetRegionRenderMatrix(0, rgn_idx, shared_parent, 1)
       if dbg then acendan.dbg("REGION #" .. tostring(num_regions) .. "\n") end
       rgn_name = ""
       num_regions = num_regions + 1
