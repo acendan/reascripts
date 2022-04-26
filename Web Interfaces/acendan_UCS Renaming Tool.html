@@ -1578,10 +1578,10 @@
 
                 <!-- Name w Var ID -->
                 <div class="form-group col-md-6 required" id="fileNameGroup">
-                    <label for="userInputNameLabel">File Name*</label>
+                    <label id="fileNameLabelText" for="userInputNameLabel">File Name*</label>
                     <input type="text" class="form-control" id="userInputName" aria-describedby="userInputNameHelp" placeholder="Name your items using spaces (not underscores)." required pattern="(.|\s)*\S(.|\s)*">
                     <div id="userInputNameError" style="display: none; margin:0;" class="alert alert-warning" role="alert">File Name cannot be blank!</div>
-                    <div class="form-check" style="margin-left:0px">
+                    <div id="varNumberingDiv" class="form-check" style="margin-left:0px">
                         <input class="form-check-input" type="checkbox" checked id="userInputVarNumCheckbox">
                         <h7>Enable variation numbering?</h7>
                     </div>                    
@@ -1597,7 +1597,7 @@
                 </div>
 
                 <!-- Show -->
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="showGroup">
                     <label for="userInputShowLabel">Source ID</label>
                     <input type="text" class="form-control" id="userInputShow" aria-describedby="userInputShowHelp" placeholder="Optional Project/Show ID">
                     <small id="userInputShowHelp" class="form-text text-muted">If none, leave blank; it will be replaced with "NONE" per the UCS guidelines.</small>
@@ -1605,9 +1605,19 @@
 
                 <!-- User Data -->
                 <div class="form-group col-md-6">
-                    <label for="userDataLabel">User Data/Notes</label>
+                    <label id="userInputDataLabel" for="userDataLabel">User Data/Notes</label>
                     <input type="text" class="form-control" id="userInputData" aria-describedby="userInputDataHelp" placeholder="Optional Notes">
                     <small id="userInputDataHelp" class="form-text text-muted">If none, leave blank.</small>
+                </div>
+
+                <!-- GBX Mod - Suffix -->
+                <div class="form-group col-md-6" id="gbxSuffixGroup" aria-hidden="true">
+                    <label for="gbxSuffixLabel">GBX - Suffix*</label>
+                    <select class="form-control" id="gbxSuffix">
+                        <option>Raw/Source (SRC)</option>
+                        <option>Processed (PRC)</option>
+                        <option>Designed (DSN)</option>
+                    </select>
                 </div>
             </div>
 
@@ -2117,6 +2127,11 @@
             if (localStorage.getItem("fx-format-setting")) {
                 $("#fxFormattingSetting").val(localStorage.getItem("fx-format-setting"));
             }
+
+            // GBX Mod
+            if (localStorage.getItem("gbx-mod")) {
+                GBXMod();
+            }
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
@@ -2495,6 +2510,16 @@
                 setProjExtState(ASWGinKey,  "ASWGinKey");
                 setProjExtState(ASWGbillingCode,  "ASWGbillingCode");       
             }
+
+            // GBX Mod
+            var gbxMod = localStorage.getItem("gbx-mod");
+            setProjExtState(gbxMod, "GBXMod")
+            if (gbxMod) {
+                var gbxSuffix =  $("#gbxSuffix").val();
+                gbxSuffix = gbxSuffix.match(/\((.*)\)/).pop();
+                setProjExtState(gbxSuffix, "GBXSuffix");
+            }
+
             //#endregion
 
             // Tell ReaScript that this is being run from a web interface
@@ -3617,6 +3642,7 @@
                 metaIntExt: $("#userInputMetaIntExt").val(),
                 userItems: $("#userInputItems").val(),
                 userArea: $("#userInputArea").val(),
+                gbxSuffix: $("#gbxSuffix").val(),
                 ASWGcontentType: $("#ASWGcontentType").val(),
                 ASWGproject: $("#ASWGproject").val(),
                 ASWGoriginatorStudio: $("#ASWGoriginatorStudio").val(),
@@ -3768,6 +3794,7 @@
             if (presetSettings.metaPersp && presetSettings.metaPersp !== "-") $("#userInputMetaPersp").val(presetSettings.metaPersp).trigger('change');
             if (presetSettings.metaIntExt && presetSettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(presetSettings.metaIntExt).trigger('change');
             if (presetSettings.userItems && presetSettings.userItems !== "") $("#userInputItems").val(presetSettings.userItems).trigger('change');
+            if (presetSettings.gbxSuffix && presetSettings.gbxSuffix !== "") $("#gbxSuffix").val(presetSettings.gbxSuffix).trigger('change');
             if (presetSettings.userArea && presetSettings.userArea !== "") $("#userInputArea").val(presetSettings.userArea).trigger('change');
             $("#userInputVarNumCheckbox").prop("checked",presetSettings.enumerate);
 
@@ -3914,6 +3941,7 @@
                 metaIntExt: $("#userInputMetaIntExt").val(),
                 userItems: $("#userInputItems").val(),
                 userArea: $("#userInputArea").val(),
+                gbxSuffix: $("#gbxSuffix").val(),
                 ASWGcontentType: $("#ASWGcontentType").val(),
                 ASWGproject: $("#ASWGproject").val(),
                 ASWGoriginatorStudio: $("#ASWGoriginatorStudio").val(),
@@ -4042,6 +4070,7 @@
             if (historySettings.metaIntExt && historySettings.metaIntExt !== "-") $("#userInputMetaIntExt").val(historySettings.metaIntExt).trigger('change');
             if (historySettings.userItems && historySettings.userItems !== "") $("#userInputItems").val(historySettings.userItems).trigger('change');
             if (historySettings.userArea && historySettings.userArea !== "") $("#userInputArea").val(historySettings.userArea).trigger('change');
+            if (historySettings.gbxSuffix && historySettings.gbxSuffix !== "") $("#gbxSuffix").val(historySettings.gbxSuffix).trigger('change');
             $("#userInputVarNumCheckbox").prop("checked",historySettings.enumerate);
 
             if (historySettings.ASWGcontentType && historySettings.ASWGcontentType !== "-") $("#ASWGcontentType").val(historySettings.ASWGcontentType).trigger('change');
@@ -4160,6 +4189,39 @@
                     }
                 }
             }
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // GBX Mod
+        // Format:  GBX [UCS Cat] [UCS Sub Cat] [Brief Description based on Meta Tag incl Source + Source Descriptor] [Mic] SRC
+        // Example: GBX FOLY CLOTH Canvas Large Snap Whoosh Cloth Fight Explo 416 SRC.wav
+        // ~~~~~~~~~~~~~~~~~~~~
+        function GBXMod() {
+            // Update Title
+            $("#navbarTitle").text("UCS Tool - GBX Mod");
+
+            // Brief Description = File Name
+            $("#fileNameLabelText").text("GBX - Brief Description*");
+            $("#userInputName").attr("placeholder", "Based on Meta Tag including source and source descriptor");
+            
+            // Hide variation numberin
+            $("#userInputVarNumCheckbox").prop("checked",false);
+            $("#varNumberingDiv").hide();
+
+            // GBX Microphone = User Data/Notes
+            $("#userInputDataLabel").text("GBX - Microphone*");
+            $("#userInputData").attr("placeholder", "Sanken CO100K");
+            $("#userInputDataHelp").text("");
+
+            // GBX Suffix (Show Hidden Dropdown)
+            $("#gbxSuffixGroup").show();
+            
+            // Hide & Remove: User Category, Creator ID, Source ID
+            $("#userInputInitials").removeAttr('required');
+            $("#userCategoryGroup").hide();
+            $("#initialsGroup").hide();
+            $("#showGroup").hide();
+
         }
 
         // ~~~~~~~~~~~~~~~~~~~~

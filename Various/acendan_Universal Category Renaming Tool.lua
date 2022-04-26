@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.3
+-- @version 6.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Added Manufacturer IXML field (Thanks @Arthur Sauer!)
+--   # GBX Mod
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -88,6 +88,10 @@ local retm_url,    meta_url    = reaper.GetProjExtState( 0, "UCS_WebInterface", 
 local retm_mftr,   meta_mftr   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMftr")
 local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
 local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
+
+-- GBX Mod
+local retg_mod,  gbx_mod  = reaper.GetProjExtState( 0, "UCS_WebInterface", "GBXMod")
+local retg_suff, gbx_suff = reaper.GetProjExtState( 0, "UCS_WebInterface", "GBXSuffix")
 
 -- ASWG
 local ret_aswg_contentType,  aswg_contentType  = reaper.GetProjExtState( 0, "UCS_WebInterface", "ASWGcontentType")
@@ -870,6 +874,11 @@ function setFullName()
   
   -- Build the final name!
   ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
+
+  -- GBX Mod
+  if gbx_mod then
+    ucs_full_name = "GBX " .. ucs_cat .. " " .. ucs_scat .. " " .. ucs_name .. " " .. ucs_data .. " " .. gbx_suff
+  end
 
   -- Prep line to copy for clipboard
   if copy_to_clipboard then

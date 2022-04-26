@@ -1,10 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 6.3
+@version 6.4
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-   # Added Manufacturer IXML field (Thanks @Arthur Sauer!)
+   # GBX Mod
