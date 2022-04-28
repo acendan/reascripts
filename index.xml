@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="c76071c3be462fb51d7291c2bcc93bd7def012eb" name="ACendan Scripts">
+<index version="1" commit="4ab467bc4d444d7d28ec1990dcb20cd29465955f" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2000,6 +2000,10 @@
         <changelog><![CDATA[# Fix duplication of items exactly at time selection edges (thanks mauro @kytdkut!)
 # Split up options for scrolling to duped items and moving edit cursor (thanks Jon @reaperblog!)]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/de6983374780f18f91ddef0b6611f75ac49464af/Utility/acendan_reaperblog_Duplicate%20items%20or%20tracks%20depending%20on%20focus%20and%20time%20selection.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-04-28T03:14:13Z">
+        <changelog><![CDATA[+ Added 'duplicate_items_partial_overlap' and 'duplicate_tracks_alternating' options (thanks @reaperblog!)]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/4ab467bc4d444d7d28ec1990dcb20cd29465955f/Utility/acendan_reaperblog_Duplicate%20items%20or%20tracks%20depending%20on%20focus%20and%20time%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
