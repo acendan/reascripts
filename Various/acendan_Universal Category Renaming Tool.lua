@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.4
+-- @version 6.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # GBX Mod
+--   # Fixed v6.4 naming scheme error (thanks @Corey B!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -876,7 +876,7 @@ function setFullName()
   ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
 
   -- GBX Mod
-  if gbx_mod then
+  if retg_mod and gbx_mod then
     ucs_full_name = "GBX " .. ucs_cat .. " " .. ucs_scat .. " " .. ucs_name .. " " .. ucs_data .. " " .. gbx_suff
   end
 
@@ -936,7 +936,7 @@ function getRegionManager()
 end
 
 function getRegionManagerList()
-	return reaper.JS_Window_FindEx(getRegionManager(), nil, "SysListView32", "") or nil
+  return reaper.JS_Window_FindEx(getRegionManager(), nil, "SysListView32", "") or nil
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1514,6 +1514,9 @@ function ucsRetsToBool()
   if retm_url    == 1 then retm_url    = true else retm_url    = false end
   if retm_persp  == 1 then retm_persp  = true else retm_persp  = false end
   if retm_config == 1 then retm_config = true else retm_config = false end
+  
+  -- GBX Mod
+  if retg_mod == 1 and gbx_mod ~= "false" then retg_mod = true else retg_mod = false end
 
   -- ASWG
   if ret_aswg_contentType == 1 then ret_aswg_contentType  = true else ret_aswg_contentType = false end

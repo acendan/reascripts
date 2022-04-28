@@ -2513,11 +2513,13 @@
 
             // GBX Mod
             var gbxMod = localStorage.getItem("gbx-mod");
-            setProjExtState(gbxMod, "GBXMod")
             if (gbxMod) {
                 var gbxSuffix =  $("#gbxSuffix").val();
                 gbxSuffix = gbxSuffix.match(/\((.*)\)/).pop();
+                setProjExtState(gbxMod, "GBXMod")
                 setProjExtState(gbxSuffix, "GBXSuffix");
+            } else {
+                setProjExtState("false", "GBXMod")
             }
 
             //#endregion

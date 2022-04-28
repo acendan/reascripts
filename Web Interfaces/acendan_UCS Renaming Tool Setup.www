@@ -1,10 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 6.4
+@version 6.5
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-   # GBX Mod
+   # Fixed v6.4 naming scheme error (thanks @Corey B!)
