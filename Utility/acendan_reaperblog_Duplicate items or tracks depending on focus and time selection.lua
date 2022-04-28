@@ -1,6 +1,6 @@
 -- @description Reaper Blog Smart Duplicate
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,18 +8,24 @@
 -- @about
 --   # Script request from Jon @ Reaper Blog
 -- @changelog
---   # Fix duplication of items exactly at time selection edges (thanks mauro @kytdkut!)
---   # Split up options for scrolling to duped items and moving edit cursor (thanks Jon @reaperblog!)
+--   + Added 'duplicate_items_partial_overlap' and 'duplicate_tracks_alternating' options (thanks @reaperblog!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- Horizontal scroll to duplicated items
+-- Horizontal scroll to duplicated items (default = true)
 scroll_to_duped_items = true
 
--- Move edit cursor to start of duplicated items
+-- Move edit cursor to start of duplicated items (default = false)
 move_edit_curs_start = false
+
+-- Duplicate area of items that partially overlap the time selection (default = false)
+duplicate_items_partial_overlap = false
+
+-- Duplicate tracks in alternating fashion (default = false)
+-- If tracks "A" and "B" are duplicated, then setting this to true = ABAB, setting false = AABB
+duplicate_tracks_alternating = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -43,8 +49,19 @@ function main()
   
   -- TRACKS
   if context == 0 then
-    reaper.Main_OnCommand(40062, 0) -- Track: Duplicate tracks
-  
+    if duplicate_tracks_alternating then
+			-- Script: me2beats_Duplicate tracks.lua
+			local m2b_duplicate_tracks  = reaper.NamedCommandLookup("_RS9ee40b5833c40aec3cf98ba2634e505dd15c5261")
+			if m2b_duplicate_tracks > 0 then
+				reaper.Main_OnCommand(m2b_duplicate_tracks, 0)
+			else
+				acendan.msg('This script requires: me2beats_Duplicate tracks.lua\n\nPlease install it via ReaPack or set "duplicate_tracks_alternating" to false in the User Config section at the top of this script.\n\n~~~\nacendan_reaperblog_Duplicate items or tracks depending on focus and time selection.lua',"ACendan Duplicate")
+			end
+			
+		else
+			reaper.Main_OnCommand(40062, 0) -- Track: Duplicate tracks
+		end
+		
   -- ITEMS
   elseif context == 1 then
     local s, e = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
@@ -55,7 +72,13 @@ function main()
     if num_sel_items > 0 then
       local items_start_pos = acendan.getStartPosSelItems()
       local items_end_pos = acendan.getEndPosSelItems()
-      if items_start_pos >= s and items_end_pos <= e then items_within_sel = true end
+      
+			if duplicate_items_partial_overlap then
+				if items_start_pos >= s and items_start_pos <= e then items_within_sel = true
+				elseif items_end_pos >= s and items_end_pos <= e then items_within_sel = true end
+			else
+				if items_start_pos >= s and items_end_pos <= e then items_within_sel = true end
+			end
     end
     
     -- Duplicate items
