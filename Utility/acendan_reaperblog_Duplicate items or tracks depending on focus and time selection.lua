@@ -1,6 +1,6 @@
 -- @description Reaper Blog Smart Duplicate
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Script request from Jon @ Reaper Blog
 -- @changelog
---   + Added 'duplicate_items_partial_overlap' and 'duplicate_tracks_alternating' options (thanks @reaperblog!)
+--   # Fixed 'duplicate_item_overlap' expected functionality (thanks @reaperblog!)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -20,8 +20,8 @@ scroll_to_duped_items = true
 -- Move edit cursor to start of duplicated items (default = false)
 move_edit_curs_start = false
 
--- Duplicate area of items that partially overlap the time selection (default = false)
-duplicate_items_partial_overlap = false
+-- Duplicate area of item that overlaps the time selection (default = false)
+duplicate_item_overlap = false
 
 -- Duplicate tracks in alternating fashion (default = false)
 -- If tracks "A" and "B" are duplicated, then setting this to true = ABAB, setting false = AABB
@@ -73,16 +73,18 @@ function main()
       local items_start_pos = acendan.getStartPosSelItems()
       local items_end_pos = acendan.getEndPosSelItems()
       
-			if duplicate_items_partial_overlap then
-				if items_start_pos >= s and items_start_pos <= e then items_within_sel = true
-				elseif items_end_pos >= s and items_end_pos <= e then items_within_sel = true end
+			if duplicate_item_overlap then
+				if (items_start_pos <= s) and (items_end_pos >= e) then items_within_sel = true           -- Items go over full TS
+        elseif (items_start_pos >= s) and (items_end_pos <= e) then items_within_sel = true       -- Items are surrounded by full TS
+        elseif (items_start_pos >= s) and (items_start_pos <= e) then items_within_sel = true     -- Partial overlap with start
+        elseif (items_end_pos >= s) and (items_end_pos <= e) then items_within_sel = true end     -- Partial overlap with end
 			else
-				if items_start_pos >= s and items_end_pos <= e then items_within_sel = true end
+				if (items_start_pos >= s) and (items_end_pos <= e) then items_within_sel = true end       -- Items are surrounded by full TS
 			end
     end
     
     -- Duplicate items
-    if s == e or not items_within_sel then
+    if (s == e) or not items_within_sel then
       reaper.Main_OnCommand(41295, 0) -- Item: Duplicate items
     else
       reaper.Main_OnCommand(41296, 0) -- Item: Duplicate selected area of items

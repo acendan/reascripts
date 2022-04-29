@@ -422,7 +422,7 @@
     <!--------------->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text); transition: background-color 1s, color 1s;" id="ucsNavbar">
         <a class="navbar-brand" href="#">
-            <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="" id="navbarLogo">
             <b id="navbarTitle">&nbsp;UCS Renaming Tool</b>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="white-space: normal;">
@@ -4201,29 +4201,29 @@
         function GBXMod() {
             // Update Title
             $("#navbarTitle").text("UCS Tool - GBX Mod");
+            $("#navbarLogo").attr("src","ucs_libraries/gbx_logo.png");
 
-            // Brief Description = File Name
-            $("#fileNameLabelText").text("GBX - Brief Description*");
-            $("#userInputName").attr("placeholder", "Based on Meta Tag including source and source descriptor");
+            // // Brief Description = File Name
+            // $("#fileNameLabelText").text("GBX - Brief Description*");
+            // $("#userInputName").attr("placeholder", "Based on Meta Tag including source and source descriptor");
             
-            // Hide variation numberin
-            $("#userInputVarNumCheckbox").prop("checked",false);
-            $("#varNumberingDiv").hide();
+            // // Hide variation numberin
+            // $("#userInputVarNumCheckbox").prop("checked",false);
+            // $("#varNumberingDiv").hide();
 
-            // GBX Microphone = User Data/Notes
-            $("#userInputDataLabel").text("GBX - Microphone*");
-            $("#userInputData").attr("placeholder", "Sanken CO100K");
-            $("#userInputDataHelp").text("");
+            // // GBX Microphone = User Data/Notes
+            // $("#userInputDataLabel").text("GBX - Microphone*");
+            // $("#userInputData").attr("placeholder", "Sanken CO100K");
+            // $("#userInputDataHelp").text("");
 
             // GBX Suffix (Show Hidden Dropdown)
             $("#gbxSuffixGroup").show();
             
-            // Hide & Remove: User Category, Creator ID, Source ID
-            $("#userInputInitials").removeAttr('required');
-            $("#userCategoryGroup").hide();
-            $("#initialsGroup").hide();
-            $("#showGroup").hide();
-
+            // // Hide & Remove: User Category, Creator ID, Source ID
+            // $("#userInputInitials").removeAttr('required');
+            // $("#userCategoryGroup").hide();
+            // $("#initialsGroup").hide();
+            // $("#showGroup").hide();
         }
 
         // ~~~~~~~~~~~~~~~~~~~~

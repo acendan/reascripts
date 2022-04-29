@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.5
+-- @version 6.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Fixed v6.4 naming scheme error (thanks @Corey B!)
+--   # Updated GBX
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -877,7 +877,7 @@ function setFullName()
 
   -- GBX Mod
   if retg_mod and gbx_mod then
-    ucs_full_name = "GBX " .. ucs_cat .. " " .. ucs_scat .. " " .. ucs_name .. " " .. ucs_data .. " " .. gbx_suff
+    ucs_full_name = "GBX_" .. ucs_full_name .. "_" .. gbx_suff
   end
 
   -- Prep line to copy for clipboard
