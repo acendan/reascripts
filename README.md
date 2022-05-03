@@ -12,6 +12,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 ### Included Scripts
  - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
+ - Envelopes\acendan_Copy selected items take envelope to selected automation envelope
  - Envelopes\acendan_Insert automation items on all selected tracks envelopes in time selection
  - Envelopes\acendan_Open envelope for selected tracks and create automation items for track items
  - Envelopes\acendan_Set closest envelope point shape at mouse cursor
@@ -35,6 +36,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Mousewheel to zoom items peaks view gain
  - Items Editing\acendan_mpl_Search items
  - Items Editing\acendan_Organize selected items by channel count on new tracks
+ - Items Editing\acendan_Organize selected items by similar names on new tracks
  - Items Editing\acendan_Prevent extending media items past source length
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
@@ -82,6 +84,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Regions\acendan_Change region color if region exceeds length
  - Regions\acendan_Create one region for all items on selected tracks
  - Regions\acendan_Create one region for selected items across tracks and link to parent in RRM
+ - Regions\acendan_Create separate regions around each set of X selected items
  - Regions\acendan_Create unique regions for overlapping items on selected track
  - Regions\acendan_Create unique regions for selected items and link to parent track in RRM
  - Regions\acendan_Create unique regions for selected items and link to track in RRM
@@ -125,6 +128,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Various\acendan_Insert random FX plugin on selected track
  - Various\acendan_Move unused projects MediaFiles in selected directory to separate folder
  - Various\acendan_Open file from path in project notes
+ - Various\acendan_Organize TeamTalk conference recording media items by timestamp and user number in name
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
  - Various\acendan_UCS Renaming Tool - Media Explorer Filter
  - Various\acendan_Universal Category Renaming Tool
