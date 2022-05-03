@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b56d7dde0a209d786d676beb732cf1837357d9e2" name="ACendan Scripts">
+<index version="1" commit="487074fd2828e343ab2e70ac6a468b6969507d6b" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2197,6 +2197,22 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-08-28T19:39:02Z">
         <source main="main">https://github.com/acendan/reascripts/raw/30f35a00672edb57c921b1bb2f98d100d32d97c0/Various/acendan_Open%20file%20from%20path%20in%20project%20notes.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Organize TeamTalk conference recording media items by timestamp and user number in name.lua" type="script" desc="Organize TeamTalk Conference Recordings">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 TeamTalk Conference Recordings\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2022-05-03T01:32:39Z">
+        <changelog><![CDATA[+ Initial release, script request from @SoapyMargherita!]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/487074fd2828e343ab2e70ac6a468b6969507d6b/Various/acendan_Organize%20TeamTalk%20conference%20recording%20media%20items%20by%20timestamp%20and%20user%20number%20in%20name.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour.lua" type="script" desc="NVK Game Audio Affirmations Once An Hour">
