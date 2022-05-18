@@ -55,6 +55,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Trim selected items at last zero crossing
  - Markers\acendan_Add marker to end of project regions prompt for name
  - Markers\acendan_Add marker to end of selected items prompt for name
+ - Markers\acendan_Create tempo markers from notes in selected MIDI items then restore project markers
  - Markers\acendan_Export markers and regions for Izotope RX relative to items with shared take source
  - Markers\acendan_Export markers and regions for Izotope RX relative to selected item
  - Markers\acendan_Find and Replace in Marker Region Names
@@ -130,6 +131,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Various\acendan_Open file from path in project notes
  - Various\acendan_Organize TeamTalk conference recording media items by timestamp and user number in name
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
+ - Various\acendan_StreamDeck x REAPER Monitor
  - Various\acendan_UCS Renaming Tool - Media Explorer Filter
  - Various\acendan_Universal Category Renaming Tool
  - Video\acendan_Create video processor text items for all project markers on new track

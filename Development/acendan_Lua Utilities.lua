@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.1
+-- @version 6.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -26,7 +26,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.2 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1179,6 +1179,37 @@ function acendan.saveProjectMarkersTable()
     return table
   else
     return nil
+  end
+end
+
+-- Save all project markers to table *WITH FULL MARKER ENUM DETAILS*
+function acendan.saveProjectMarkers(table)
+  -- Loop through all markers
+  local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+  local num_total = num_markers + num_regions
+  if num_markers > 0 then
+    local i = 0
+    while i < num_total do
+      local _, isrgn, pos, _, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+      if not isrgn then
+        table[#table+1] = { isrgn, pos, name, markrgnindexnumber, color }
+      end
+      i = i + 1
+    end
+  end
+end
+
+-- Wrapper for SWS action
+function acendan.deleteAllProjectMarkers()
+  reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWSMARKERLIST9"), 0) -- SWS: Delete all markers
+end
+
+-- Restore project markers from table saved by acendan.saveProjectMarkers(table)
+function acendan.restoreProjectMarkers(table)
+  for i = 1, acendan.tableLength(table) do
+    mkr = table[i]
+    --                 mkr = { isrgn,   pos,            name,   idx,    color }
+    reaper.AddProjectMarker2(0, mkr[1], mkr[2], mkr[2], mkr[3], mkr[4], mkr[5])
   end
 end
 
