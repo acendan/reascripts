@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6d8da7aac9250e9d8f7e249ea123702e69b4eb2c" name="ACendan Scripts">
+<index version="1" commit="20122b324c93d7e1f2badccd610a71fb098a2d76" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -150,6 +150,10 @@
       <version name="6.1" author="Aaron Cendan" time="2022-04-11T22:41:43Z">
         <changelog><![CDATA[+ Added acendan.removeLeadTrailWhitespace(), acendan.removeEnumeration()]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/1285917ce71aeebb0022024eb0b1c40cf94d4c5b/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="6.2" author="Aaron Cendan" time="2022-05-18T07:45:16Z">
+        <changelog><![CDATA[+ Added acendan.removeLeadTrailWhitespace(), acendan.removeEnumeration()]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/53461ac53d033fa617adcd80d5c417fc6592e2ba/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -934,6 +938,21 @@
       <version name="1.1" author="Aaron Cendan" time="2022-03-01T19:37:13Z">
         <changelog><![CDATA[# Added support for take markers for Jay]]></changelog>
         <source main="main" file="acendan_Add marker to end of selected items prompt for name.lua">https://github.com/acendan/reascripts/raw/ef52d8a34fb5508ff73003163eca30cd325d557c/Markers/acendan_Add%20marker%20to%20end%20of%20selected%20items%20prompt%20for%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Create tempo markers from notes in selected MIDI items then restore project markers.lua" type="script" desc="Create Tempo Markers From MIDI Notes">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Script request from @SoapyMargherita and @ryksounet!\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2022-05-18T07:46:32Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/20122b324c93d7e1f2badccd610a71fb098a2d76/Markers/acendan_Create%20tempo%20markers%20from%20notes%20in%20selected%20MIDI%20items%20then%20restore%20project%20markers.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Export markers and regions for Izotope RX relative to items with shared take source.lua" type="script" desc="Export Markers and Regions for RX">
