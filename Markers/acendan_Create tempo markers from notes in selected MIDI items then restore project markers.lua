@@ -6,7 +6,7 @@
 --   [main] .
 -- @link https://aaroncendan.me
 -- @about
--- * Script request from @SoapyMargherita and @ryksounet!
+--   # Script request from @SoapyMargherita and @ryksounet!
 
 --[[ HOW TO USE THIS SCRIPT
  
