@@ -7,6 +7,8 @@
 -- @link https://aaroncendan.me
 -- @about
 --   # Script request from @SoapyMargherita and @ryksounet!
+-- @screenshot
+--   https://gifyu.com/image/Sxbqe
 
 --[[ HOW TO USE THIS SCRIPT
  
