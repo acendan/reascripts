@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.6
+-- @version 6.7
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,8 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Updated GBX
+--   # Fixed bug with VendorCategory set to 'False' when not visible,
+--   which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Blind!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -1500,7 +1501,7 @@ function ucsRetsToBool()
   if ret_copy == 1 then ret_copy = true else ret_copy = false end
   
   -- Vendor category
-  if ret_vend == 1 and ucs_vend ~= "false" then ret_vend = true else ret_vend = false end
+  if ret_vend == 1 and ucs_vend ~= "false" then ret_vend = true else ret_vend = false; ucs_vend = "" end
   
   -- Extended metadata
   if retm_title  == 1 then retm_title  = true else retm_title  = false end
