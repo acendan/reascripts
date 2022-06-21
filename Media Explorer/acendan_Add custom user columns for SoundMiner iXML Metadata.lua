@@ -1,12 +1,12 @@
 -- @description SoundMiner iXML Metadata Columns
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main=mediaexplorer] .
 -- @link https://aaroncendan.me
 -- @changelog
---   #Fixed section issues for Mac, thanks LifePassFilter for the bug report!
+--   # Set newly added columns to custom, instead of Read-Only
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -98,8 +98,12 @@ function AddIXML()
   -- Loop through iXML metadata table  
   if tableLength(iXML) > 0 then 
     for k, v in pairs(iXML) do
+      -- Set metadata scheme/key
       local ret = reaper.BR_Win32_WritePrivateProfileString(ini_section,"user" .. tostring(i) .. "_key",k,ini_file)
+      -- Set column description
       local ret2 = reaper.BR_Win32_WritePrivateProfileString(ini_section,"user" .. tostring(i) .. "_desc",v,ini_file)
+      -- Set custom entry flag
+      local ret3 = reaper.BR_Win32_WritePrivateProfileString(ini_section,"user" .. tostring(i) .. "_flags","1",ini_file)
       if ret and ret2 then 
         if dbg then reaper.ShowConsoleMsg("Succesfully added entry: " .. k .. " - " .. v .. "\n") end
       else
