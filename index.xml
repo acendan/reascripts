@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="121d83673d7742cb8c5e1b62e5842b1e8f943fb4" name="ACendan Scripts">
+<index version="1" commit="600768067a0d3a3cb27e40a76b8aef93269fadb6" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1124,6 +1124,10 @@
       <version name="1.3" author="Aaron Cendan" time="2022-03-01T18:58:54Z">
         <changelog><![CDATA[#Fixed section issues for Mac, thanks LifePassFilter for the bug report!]]></changelog>
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/1d9e1c41cc541ea43aab6b043839a58c5044a195/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2022-06-21T14:04:54Z">
+        <changelog><![CDATA[# Set newly added columns to custom, instead of Read-Only]]></changelog>
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/600768067a0d3a3cb27e40a76b8aef93269fadb6/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Export current column arrangement setup to file.lua" type="script" desc="Export Media Explorer Columns">
