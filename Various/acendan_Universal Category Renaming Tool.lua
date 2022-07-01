@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.7
+-- @version 6.8
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,8 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Fixed bug with VendorCategory set to 'False' when not visible,
---   which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Blind!
+--   # Updated GBXMod
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -818,6 +817,8 @@ function setFullName()
   elseif ret_caps and ucs_caps == "Title Case" then ucs_init_final = "_" .. ucs_init:gsub("(%a)([%w_']*)", toTitleCase)
   elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_init_final = "_" .. ucs_init
   else ucs_init_final = "_" .. string.upper(ucs_init) end
+  -- GBX Mod
+  if retg_mod and gbx_mod then ucs_init_final = "" end
 
   -- FX Name Title Case
   if ret_frmt and ucs_frmt:find("Enable") then
@@ -852,6 +853,8 @@ function setFullName()
     elseif ret_caps and ucs_caps == "Title Case" then ucs_show_final = "_" .. ucs_show:gsub("(%a)([%w_']*)", toTitleCase)
     elseif ret_caps and ucs_caps == "Disable automatic capitalization" then ucs_show_final = "_" .. ucs_show
     else ucs_show_final = "_" .. string.upper(ucs_show) end
+  elseif retg_mod and gbx_mod then
+    ucs_show_final = ""
   else
     ucs_show_final = "_NONE"
   end
@@ -877,9 +880,7 @@ function setFullName()
   ucs_full_name = ucs_id .. ucs_usca_final .. ucs_name_num_final .. ucs_init_final .. ucs_show_final .. ucs_data_final
 
   -- GBX Mod
-  if retg_mod and gbx_mod then
-    ucs_full_name = "GBX_" .. ucs_full_name .. "_" .. gbx_suff
-  end
+  if retg_mod and gbx_mod then ucs_full_name = "GBX_" .. ucs_full_name .. "_" .. gbx_suff end
 
   -- Prep line to copy for clipboard
   if copy_to_clipboard then
