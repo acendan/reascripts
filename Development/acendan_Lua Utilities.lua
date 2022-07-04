@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.2
+-- @version 6.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   + Added acendan.removeLeadTrailWhitespace(), acendan.removeEnumeration()
+--   + Added ImGui template
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,6 +150,81 @@ end
 setup()
 reaper.atexit(Exit)
 main()
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~ IMGUI TEMPLATE  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- @description ImGui Script Template
+-- @author Aaron Cendan
+-- @version 1.0
+-- @metapackage
+-- @provides
+--   [main] .
+-- @link https://ko-fi.com/acendan_
+-- @about
+--   # 
+-- @changelog
+--   + 
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+local flt_min, flt_max = reaper.ImGui_NumericLimits_Float()
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Get this script's name and directory
+local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
+local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+
+-- Load lua utilities
+acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.2 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function init()
+  ctx = reaper.ImGui_CreateContext(script_name)
+  
+  window_flags = reaper.ImGui_WindowFlags_None()
+  window_flags = window_flags | reaper.ImGui_WindowFlags_NoCollapse()
+  window_size = { width = 400, height = 520 }
+  
+  main()
+end
+
+function main()
+  reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
+  local rv, open = reaper.ImGui_Begin(ctx, script_name, true, window_flags)
+  if not rv then return open end
+  
+  
+  
+  reaper.ImGui_End(ctx)
+  if open then reaper.defer(main) else reaper.ImGui_DestroyContext(ctx) end
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~ UTILITIES ~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+reaper.PreventUIRefresh(1)
+reaper.Undo_BeginBlock()
+init()
+reaper.Undo_EndBlock(script_name,-1)
+reaper.PreventUIRefresh(-1)
+reaper.UpdateArrange()
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
