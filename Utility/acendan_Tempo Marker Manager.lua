@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Wait until edit is finished before making changes
+--   # Call reaper.UpdateTimeline() on value change
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -310,6 +310,7 @@ function SetTempoMarker_Time(item)
   if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
     reaper.Undo_BeginBlock()
     reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, 0, 0, item.lin)
+    reaper.UpdateTimeline() 
     reaper.Undo_EndBlock(script_name,-1)
   end
 end
@@ -318,6 +319,7 @@ function SetTempoMarker_MeasBeat(item)
   if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
     reaper.Undo_BeginBlock()
     reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos, item.bpm, 0, 0, item.lin)
+    reaper.UpdateTimeline() 
     reaper.Undo_EndBlock(script_name,-1)
   end
 end
@@ -335,9 +337,4 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-reaper.PreventUIRefresh(1)
-reaper.Undo_BeginBlock()
 init()
-reaper.Undo_EndBlock(script_name,-1)
-reaper.PreventUIRefresh(-1)
-reaper.UpdateArrange()
