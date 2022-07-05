@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   + Initial release, idea courtesy of @pumodi!
+--   # Wait until edit is finished before making changes
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -176,7 +176,7 @@ function main()
         -- BPM
         if reaper.ImGui_TableSetColumnIndex(ctx, colID_BPM - 1) then
           reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
-          local retval, buf = reaper.ImGui_InputText( ctx, "###bpm" .. tostring(row_n), item.bpm )
+          local retval, buf = reaper.ImGui_InputText( ctx, "###bpm" .. tostring(row_n), item.bpm, reaper.ImGui_InputTextFlags_AllowTabInput() )
           if retval and tonumber(buf) then
             if tonumber(buf) > 0 then
               item.bpm = tonumber(buf)
@@ -191,7 +191,7 @@ function main()
             reaper.ImGui_Text(ctx, item.tpos)
           else
             reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
-            local retval, buf = reaper.ImGui_InputText( ctx, "###tpos" .. tostring(row_n), item.tpos )
+            local retval, buf = reaper.ImGui_InputText( ctx, "###tpos" .. tostring(row_n), item.tpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
             if retval then
               if reaper.parse_timestr(buf) > 0 then
                 item.tpos = buf
@@ -207,28 +207,26 @@ function main()
             reaper.ImGui_Text(ctx, item.mpos)
           else
             reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
-            local retval, buf = reaper.ImGui_InputText( ctx, "###mpos" .. tostring(row_n), item.mpos )
+            local retval, buf = reaper.ImGui_InputText( ctx, "###mpos" .. tostring(row_n), item.mpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
             if retval and tonumber(buf) then
-              if tonumber(buf) then
-                item.mpos = tonumber(buf)
-                SetTempoMarker_MeasBeat(item)
-              end
+              item.mpos = tonumber(buf)
+              SetTempoMarker_MeasBeat(item)
             end
           end
         end
 
         -- Beat
+        -- Must be clamped to time signature numerator
         if reaper.ImGui_TableSetColumnIndex(ctx, colID_Beat - 1) then
           if item.id == 1 then
             reaper.ImGui_Text(ctx, item.bpos)
           else
             reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
-            local retval, buf = reaper.ImGui_InputText( ctx, "###bpos" .. tostring(row_n), item.bpos )
+            local retval, buf = reaper.ImGui_InputText( ctx, "###bpos" .. tostring(row_n), item.bpos, reaper.ImGui_InputTextFlags_AllowTabInput())
             if retval and tonumber(buf) then
-              if tonumber(buf) then
-                item.bpos = tonumber(buf)
-                SetTempoMarker_MeasBeat(item)
-              end
+              local num, _ = reaper.TimeMap_GetTimeSigAtTime(0, reaper.parse_timestr(item.tpos))
+              item.bpos = clamp(tonumber(buf), 0.0, num - 0.01)
+              SetTempoMarker_MeasBeat(item)
             end
           end
         end
@@ -309,15 +307,29 @@ function CompareTableItems(a, b)
 end
 
 function SetTempoMarker_Time(item)
-  reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, 0, 0, item.lin)
+  if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
+    reaper.Undo_BeginBlock()
+    reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, 0, 0, item.lin)
+    reaper.Undo_EndBlock(script_name,-1)
+  end
 end
 
 function SetTempoMarker_MeasBeat(item)
-  reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos, item.bpm, 0, 0, item.lin)
+  if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
+    reaper.Undo_BeginBlock()
+    reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos, item.bpm, 0, 0, item.lin)
+    reaper.Undo_EndBlock(script_name,-1)
+  end
 end
 
 function round(n)
   return math.floor(n + .5)
+end
+
+function clamp(v, mn, mx)
+  if v < mn then return mn end
+  if v > mx then return mx end
+  return v
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
