@@ -2253,11 +2253,12 @@
             var cleanInitials = stringCleaning($("#userInputInitials").val());
             var cleanShow = stringCleaning($("#userInputShow").val());
             var cleanUserData = stringCleaning($("#userInputData").val());
+            var gbxMod = localStorage.getItem("gbx-mod");
 
             // Alert user of invalid entries and bypass triggering ReaScript
             if (selectedCatID == "CATID_INVALID") { return; }                           // Alert is included in getCatID above
             if (nameOnly == "") { $("#userInputNameError").show(); $("#userCategoryGroup")[0].scrollIntoView(); return; }
-            if (cleanInitials == "") { $("#userInitialsError").show(); $("#fileNameGroup")[0].scrollIntoView(); return; }
+            if (cleanInitials == "" && !gbxMod) { $("#userInitialsError").show(); $("#fileNameGroup")[0].scrollIntoView(); return; }
             if ($("#ASWGcontentType").val() !== "-" && $("#ASWGInfoForm").hasClass("was-validated") && $("#ASWGInfoForm")[0].checkValidity() === false) { $("#ASWGInfoModal").modal(); $("#ASWGInfoFormError").show(); return;}
             if ($("#ASWGcontentType").val() !== "-" && $("#ASWGDialogueForm").hasClass("was-validated") && $("#ASWGDialogueForm")[0].checkValidity() === false) { $("#ASWGDialogueModal").modal(); $("#ASWGDialogueFormError").show(); return;}
             if ($("#ASWGcontentType").val() !== "-" && $("#ASWGMusicForm").hasClass("was-validated") && $("#ASWGMusicForm")[0].checkValidity() === false) { $("#ASWGMusicModal").modal(); $("#ASWGMusicFormError").show(); return;}
@@ -2514,7 +2515,6 @@
             }
 
             // GBX Mod
-            var gbxMod = localStorage.getItem("gbx-mod");
             if (gbxMod) {
                 var gbxSuffix =  $("#gbxSuffix").val();
                 gbxSuffix = gbxSuffix.match(/\((.*)\)/).pop();
