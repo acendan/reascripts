@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b11824c3a7a8e1d25b847ad7802cd1a2718916e5" name="ACendan Scripts">
+<index version="1" commit="cd1b7551a4bfa1e3205803b9c32ad427e7773ad0" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -158,6 +158,10 @@
       <version name="6.3" author="Aaron Cendan" time="2022-07-04T23:44:03Z">
         <changelog><![CDATA[+ Added ImGui template]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/b662b75b9cf195af4f5c344d742bdf61b06e7bdb/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="6.4" author="Aaron Cendan" time="2022-07-06T06:39:38Z">
+        <changelog><![CDATA[# Slight modification of ImGui template]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/cd1b7551a4bfa1e3205803b9c32ad427e7773ad0/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -2060,6 +2064,12 @@
       <version name="1.2" author="Aaron Cendan" time="2022-07-05T16:58:17Z">
         <changelog><![CDATA[# Call reaper.UpdateTimeline() on value change]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/f6198933d1d6fd5e78414e1bad86c72b41c9ea72/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-07-06T06:39:38Z">
+        <changelog><![CDATA[# Resizable GUI/table
++ Add Tempo Marker section
+# Markers within time selection have light yellow colored IDs]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/cd1b7551a4bfa1e3205803b9c32ad427e7773ad0/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
