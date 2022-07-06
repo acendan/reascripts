@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,9 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Resizable GUI/table
---   + Add Tempo Marker section
---   # Markers within time selection have light yellow colored IDs
+--   # Cleaned up timestr handling a bit
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -52,7 +50,7 @@ function init()
   
   add_mkr = {
       bpm = 120.0,
-      tpos = acendan.dispTime(0.0), 
+      tpos = reaper.format_timestr(0.0,""), 
       mpos = 1,
       bpos = 1.0,
       lin = false
@@ -104,7 +102,7 @@ function main()
     local item = {
       id = n + 1,
       bpm = math.floor(bpm*100)/100,
-      tpos = acendan.dispTime(timepos), 
+      tpos = reaper.format_timestr(timepos,""), 
       mpos = round(measurepos) + 1,
       bpos = math.max(math.floor(beatpos*100)/100,0.0) + 1,
       lin = lineartempo,
@@ -300,7 +298,7 @@ function main()
         reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
         local retval, buf = reaper.ImGui_InputText( ctx, "###addtpos", add_mkr.tpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
         if retval then
-          if reaper.parse_timestr(buf) > 0 or buf == "0:00:00.00" then
+          if reaper.parse_timestr(buf) > 0 or buf:match("0+%:*0+%.*0+") then
             add_mkr.tpos = buf
           end
         end
