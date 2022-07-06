@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="cd1b7551a4bfa1e3205803b9c32ad427e7773ad0" name="ACendan Scripts">
+<index version="1" commit="fbfeb9f3e3fef6c488954f48735b074794710424" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2070,6 +2070,10 @@
 + Add Tempo Marker section
 # Markers within time selection have light yellow colored IDs]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/cd1b7551a4bfa1e3205803b9c32ad427e7773ad0/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2022-07-06T07:02:14Z">
+        <changelog><![CDATA[# Cleaned up timestr handling a bit]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/fbfeb9f3e3fef6c488954f48735b074794710424/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
