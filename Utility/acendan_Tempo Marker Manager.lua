@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,13 +8,13 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Call reaper.UpdateTimeline() on value change
+--   # Resizable GUI/table
+--   + Add Tempo Marker section
+--   # Markers within time selection have light yellow colored IDs
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-local flt_min, flt_max = reaper.ImGui_NumericLimits_Float()
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -33,24 +33,35 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function init()
-  ctx = reaper.ImGui_CreateContext(script_name)
+  -- Confirm user has ImGui installed
+  if not reaper.ImGui_Key_0() then acendan.msg("This script requires the ReaImGui API, which can be installed from:\n\nExtensions > ReaPack > Browse packages...") return end
+    
+  ctx = reaper.ImGui_CreateContext(script_name, reaper.ImGui_ConfigFlags_DockingEnable())
   
   window_flags = reaper.ImGui_WindowFlags_None()
   window_flags = window_flags | reaper.ImGui_WindowFlags_NoCollapse()
-  window_flags = window_flags | reaper.ImGui_WindowFlags_AlwaysAutoResize()
   window_size = { width = 450, height = 420 }
+  reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
    
   -- ReaImGui_Demo
   -- Using those as a base value to create width/height that are factor of the size of our font
   TEXT_BASE_WIDTH  = reaper.ImGui_CalcTextSize(ctx, 'A')
   TEXT_BASE_HEIGHT = reaper.ImGui_GetTextLineHeightWithSpacing(ctx)
+  FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
   tables  = {}
+  
+  add_mkr = {
+      bpm = 120.0,
+      tpos = acendan.dispTime(0.0), 
+      mpos = 1,
+      bpos = 1.0,
+      lin = false
+    }
   
   main()
 end
 
 function main()
-  reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
   local rv, open = reaper.ImGui_Begin(ctx, script_name, true, window_flags)
   if not rv then return open end
   
@@ -69,11 +80,9 @@ function main()
               reaper.ImGui_TableFlags_ScrollX()         |
               reaper.ImGui_TableFlags_ScrollY()         |
               reaper.ImGui_TableFlags_SizingFixedFit(),
-      contents_type           = 0, -- selectable span row
+
       freeze_cols             = 1,
       freeze_rows             = 1,
-      --items_count             = reaper.CountTempoTimeSigMarkers(0),
-      outer_size_value        = { 0.0, window_size.height * 0.9 }, --{ 0.0, TEXT_BASE_HEIGHT * 12 },
       row_min_height          = 0.0, -- Auto
       inner_width_with_scroll = 0.0, -- Auto-extend
       outer_size_enabled      = true,
@@ -83,7 +92,11 @@ function main()
     }
   end
   
+  -- Update table size every loop
+  tables.advanced.outer_size_value        = { 0.0, reaper.ImGui_GetWindowHeight(ctx) - 120 } --{ 0.0, TEXT_BASE_HEIGHT * 12 },
+  
   -- Update item list every loop
+  local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
   tables.advanced.items_count = reaper.CountTempoTimeSigMarkers(0)
   tables.advanced.items = {}
   for n = 0, tables.advanced.items_count - 1 do
@@ -93,8 +106,9 @@ function main()
       bpm = math.floor(bpm*100)/100,
       tpos = acendan.dispTime(timepos), 
       mpos = round(measurepos) + 1,
-      bpos = math.max(math.floor(beatpos*100)/100,0.0),
-      lin = lineartempo
+      bpos = math.max(math.floor(beatpos*100)/100,0.0) + 1,
+      lin = lineartempo,
+      tsel = start_time_sel < timepos and timepos < end_time_sel
     }
     table.insert(tables.advanced.items, item)
   end
@@ -148,34 +162,18 @@ function main()
         reaper.ImGui_PushID(ctx, item.id)
         reaper.ImGui_TableNextRow(ctx, reaper.ImGui_TableRowFlags_None(), tables.advanced.row_min_height)
 
-        -- For the demo purpose we can select among different type of items submitted in the first column
+        -- ID
         reaper.ImGui_TableSetColumnIndex(ctx, colID_ID - 1)
         local label = ('%03d'):format(item.id)
-        local contents_type = tables.advanced.contents_type
-        if contents_type == 0 then -- text
-            reaper.ImGui_Text(ctx, label)
-        elseif contents_type == 1 then -- button
-            reaper.ImGui_Button(ctx, label)
-        elseif contents_type == 2 then -- small button
-            reaper.ImGui_SmallButton(ctx, label)
-        elseif contents_type == 3 then -- fill button
-            reaper.ImGui_Button(ctx, label, -FLT_MIN, 0.0)
-        elseif contents_type == 4 or contents_type == 5 then -- selectable/selectable (span row)
-          local selectable_flags = contents_type == 5 and reaper.ImGui_SelectableFlags_SpanAllColumns() | reaper.ImGui_SelectableFlags_AllowItemOverlap() or reaper.ImGui_SelectableFlags_None()
-          if reaper.ImGui_Selectable(ctx, label, item.is_selected, selectable_flags, 0, tables.advanced.row_min_height) then
-            if reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Key_ModCtrl()) then
-              item.is_selected = not item.is_selected
-            else
-              for _,it in ipairs(tables.advanced.items) do
-                it.is_selected = it == item
-              end
-            end
-          end
+        if item.tsel then
+          reaper.ImGui_TextColored(ctx, 0xE8EC9BFF, label)
+        else
+          reaper.ImGui_Text(ctx, label)
         end
-
+        
         -- BPM
         if reaper.ImGui_TableSetColumnIndex(ctx, colID_BPM - 1) then
-          reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
+          reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
           local retval, buf = reaper.ImGui_InputText( ctx, "###bpm" .. tostring(row_n), item.bpm, reaper.ImGui_InputTextFlags_AllowTabInput() )
           if retval and tonumber(buf) then
             if tonumber(buf) > 0 then
@@ -190,7 +188,7 @@ function main()
           if item.id == 1 then
             reaper.ImGui_Text(ctx, item.tpos)
           else
-            reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
+            reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
             local retval, buf = reaper.ImGui_InputText( ctx, "###tpos" .. tostring(row_n), item.tpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
             if retval then
               if reaper.parse_timestr(buf) > 0 then
@@ -206,7 +204,7 @@ function main()
           if item.id == 1 then
             reaper.ImGui_Text(ctx, item.mpos)
           else
-            reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
+            reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
             local retval, buf = reaper.ImGui_InputText( ctx, "###mpos" .. tostring(row_n), item.mpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
             if retval and tonumber(buf) then
               item.mpos = tonumber(buf)
@@ -221,11 +219,11 @@ function main()
           if item.id == 1 then
             reaper.ImGui_Text(ctx, item.bpos)
           else
-            reaper.ImGui_SetNextItemWidth( ctx, -flt_min )
+            reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
             local retval, buf = reaper.ImGui_InputText( ctx, "###bpos" .. tostring(row_n), item.bpos, reaper.ImGui_InputTextFlags_AllowTabInput())
             if retval and tonumber(buf) then
               local num, _ = reaper.TimeMap_GetTimeSigAtTime(0, reaper.parse_timestr(item.tpos))
-              item.bpos = clamp(tonumber(buf), 0.0, num - 0.01)
+              item.bpos = clamp(tonumber(buf), 1.0, num + 0.99)
               SetTempoMarker_MeasBeat(item)
             end
           end
@@ -247,6 +245,103 @@ function main()
 
     reaper.ImGui_EndTable(ctx)
   end
+  
+  -- Add tempo marker section
+  reaper.ImGui_Dummy(ctx, w, 10)
+  reaper.ImGui_Text(ctx, "Add Tempo Marker")
+  HelpMarker("Set 'Time' OR 'Measure & Beat', then click the + button!")
+  if reaper.ImGui_BeginTable(ctx, 'add_marker_tbl', #colKeys, tables.advanced.flags & ~reaper.ImGui_TableFlags_Sortable(), w, 40, inner_width_to_use) then
+      -- Declare columns
+      -- We use the "user_id" parameter of TableSetupColumn() to specify a user id that will be stored in the sort specifications.
+      -- This is so our sort function can identify a column given our own identifiereaper. We could also identify them based on their index!
+      reaper.ImGui_TableSetupColumn(ctx, 'Add',      reaper.ImGui_TableColumnFlags_DefaultSort() | reaper.ImGui_TableColumnFlags_WidthFixed() | reaper.ImGui_TableColumnFlags_NoHide(), 0.0, colID_ID)
+      reaper.ImGui_TableSetupColumn(ctx, 'BPM',     reaper.ImGui_TableColumnFlags_WidthStretch(), 0.0, colID_BPM)
+      reaper.ImGui_TableSetupColumn(ctx, 'Time',    reaper.ImGui_TableColumnFlags_WidthStretch(), 0.0, colID_Time)
+      reaper.ImGui_TableSetupColumn(ctx, 'Measure', reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Measure)
+      reaper.ImGui_TableSetupColumn(ctx, 'Beat',    reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Beat)
+      reaper.ImGui_TableSetupColumn(ctx, 'Linear',  reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Linear)
+      reaper.ImGui_TableSetupScrollFreeze(ctx, tables.advanced.freeze_cols, tables.advanced.freeze_rows)
+  
+      -- Show headers
+      if tables.advanced.show_headers then
+        reaper.ImGui_TableHeadersRow(ctx)
+      end
+  
+      -- Show data
+      reaper.ImGui_PushButtonRepeat(ctx, true)
+
+      reaper.ImGui_PushID(ctx, 'add_marker_rows')
+      reaper.ImGui_TableNextRow(ctx, reaper.ImGui_TableRowFlags_None(), tables.advanced.row_min_height)
+
+      -- Add tempo marker button
+      reaper.ImGui_TableSetColumnIndex(ctx, colID_ID - 1)
+      if reaper.ImGui_Button(ctx, '+', -FLT_MIN, 0.0) then
+        local timepos =  reaper.parse_timestr(add_mkr.tpos)
+        if timepos > 0 then
+          reaper.SetTempoTimeSigMarker(0,-1, timepos, -1, -1, add_mkr.bpm, 0, 0, add_mkr.lin)
+        else
+          reaper.SetTempoTimeSigMarker(0,-1, -1, add_mkr.mpos - 1, add_mkr.bpos - 1, add_mkr.bpm, 0, 0, add_mkr.lin)
+        end
+      end
+
+      -- BPM
+      if reaper.ImGui_TableSetColumnIndex(ctx, colID_BPM - 1) then
+        reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
+        local retval, buf = reaper.ImGui_InputText( ctx, "###addbpm", add_mkr.bpm, reaper.ImGui_InputTextFlags_AllowTabInput() )
+        if retval and tonumber(buf) then
+          if tonumber(buf) > 0 then
+            add_mkr.bpm = tonumber(buf)
+          end
+        end
+      end
+      
+      -- Time
+      if reaper.ImGui_TableSetColumnIndex(ctx, colID_Time - 1) then
+        reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
+        local retval, buf = reaper.ImGui_InputText( ctx, "###addtpos", add_mkr.tpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
+        if retval then
+          if reaper.parse_timestr(buf) > 0 or buf == "0:00:00.00" then
+            add_mkr.tpos = buf
+          end
+        end
+      end
+      
+      -- Measure
+      if reaper.ImGui_TableSetColumnIndex(ctx, colID_Measure - 1) then
+        reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
+        local retval, buf = reaper.ImGui_InputText( ctx, "###addmpos", add_mkr.mpos, reaper.ImGui_InputTextFlags_AllowTabInput() )
+        if retval and tonumber(buf) then
+          add_mkr.mpos = tonumber(buf)
+        end
+      end
+
+      -- Beat
+      -- Must be clamped to time signature numerator
+      if reaper.ImGui_TableSetColumnIndex(ctx, colID_Beat - 1) then
+        reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
+        local retval, buf = reaper.ImGui_InputText( ctx, "###addbpos", add_mkr.bpos, reaper.ImGui_InputTextFlags_AllowTabInput())
+        if retval and tonumber(buf) then
+          local num, _ = reaper.TimeMap_GetTimeSigAtTime(0, reaper.parse_timestr(add_mkr.tpos))
+          add_mkr.bpos = clamp(tonumber(buf), 1.0, num + 0.99)
+        end
+      end
+      
+      -- Linear/Ramp
+      if reaper.ImGui_TableSetColumnIndex(ctx, colID_Linear - 1) then
+        local retval, v = reaper.ImGui_Checkbox( ctx, "###addlin", add_mkr.lin )
+        if retval then
+          add_mkr.lin = v
+        end
+      end
+
+      reaper.ImGui_PopID(ctx)
+
+      
+      reaper.ImGui_PopButtonRepeat(ctx)
+  
+      reaper.ImGui_EndTable(ctx)
+    end
+  
 
   reaper.ImGui_End(ctx)
   if open then reaper.defer(main) else reaper.ImGui_DestroyContext(ctx) end
@@ -318,7 +413,7 @@ end
 function SetTempoMarker_MeasBeat(item)
   if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
     reaper.Undo_BeginBlock()
-    reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos, item.bpm, 0, 0, item.lin)
+    reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos - 1, item.bpm, 0, 0, item.lin)
     reaper.UpdateTimeline() 
     reaper.Undo_EndBlock(script_name,-1)
   end
@@ -332,6 +427,18 @@ function clamp(v, mn, mx)
   if v < mn then return mn end
   if v > mx then return mx end
   return v
+end
+
+function HelpMarker(desc)
+  reaper.ImGui_SameLine(ctx)
+  reaper.ImGui_TextDisabled(ctx, '(?)')
+  if reaper.ImGui_IsItemHovered(ctx) then
+    reaper.ImGui_BeginTooltip(ctx)
+    reaper.ImGui_PushTextWrapPos(ctx, reaper.ImGui_GetFontSize(ctx) * 35.0)
+    reaper.ImGui_Text(ctx, desc)
+    reaper.ImGui_PopTextWrapPos(ctx)
+    reaper.ImGui_EndTooltip(ctx)
+  end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

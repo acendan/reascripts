@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.3
+-- @version 6.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   + Added ImGui template
+--   # Slight modification of ImGui template
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,7 +171,6 @@ main()
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-local flt_min, flt_max = reaper.ImGui_NumericLimits_Float()
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -191,17 +190,24 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function init()
-  ctx = reaper.ImGui_CreateContext(script_name)
+  -- Confirm user has ImGui installed
+  if not reaper.ImGui_Key_0() then acendan.msg("This script requires the ReaImGui API, which can be installed from:\n\nExtensions > ReaPack > Browse packages...") return end
+  
+	ctx = reaper.ImGui_CreateContext(script_name)
   
   window_flags = reaper.ImGui_WindowFlags_None()
   window_flags = window_flags | reaper.ImGui_WindowFlags_NoCollapse()
   window_size = { width = 400, height = 520 }
+	reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
   
+	TEXT_BASE_WIDTH  = reaper.ImGui_CalcTextSize(ctx, 'A')
+  TEXT_BASE_HEIGHT = reaper.ImGui_GetTextLineHeightWithSpacing(ctx)
+  FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
+	
   main()
 end
 
 function main()
-  reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
   local rv, open = reaper.ImGui_Begin(ctx, script_name, true, window_flags)
   if not rv then return open end
   
