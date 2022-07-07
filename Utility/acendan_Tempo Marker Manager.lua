@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Cleaned up timestr handling a bit
+--   + Added an option to get the time at edit cursor
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -248,6 +248,13 @@ function main()
   reaper.ImGui_Dummy(ctx, w, 10)
   reaper.ImGui_Text(ctx, "Add Tempo Marker")
   HelpMarker("Set 'Time' OR 'Measure & Beat', then click the + button!")
+  
+  -- Get edit cursor position button
+  reaper.ImGui_SameLine(ctx, reaper.ImGui_GetWindowWidth(ctx) - 140)
+  if reaper.ImGui_Button(ctx, 'Time @ Edit Cursor', -FLT_MIN, 0.0) then
+    add_mkr.tpos = reaper.format_timestr(reaper.GetCursorPosition(),"")
+  end
+  
   if reaper.ImGui_BeginTable(ctx, 'add_marker_tbl', #colKeys, tables.advanced.flags & ~reaper.ImGui_TableFlags_Sortable(), w, 40, inner_width_to_use) then
       -- Declare columns
       -- We use the "user_id" parameter of TableSetupColumn() to specify a user id that will be stored in the sort specifications.
