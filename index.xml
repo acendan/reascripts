@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="a9e94742342464e983080d7ec61075defec6b0aa" name="ACendan Scripts">
+<index version="1" commit="930548748f21583c20aa9e060888196f0eb24c78" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2078,6 +2078,10 @@
       <version name="1.5" author="Aaron Cendan" time="2022-07-07T06:37:24Z">
         <changelog><![CDATA[+ Added an option to get the time at edit cursor]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/a9e94742342464e983080d7ec61075defec6b0aa/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
+      </version>
+      <version name="1.6" author="Aaron Cendan" time="2022-07-08T17:00:02Z">
+        <changelog><![CDATA[# Update timeline when adding tempo markers]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/930548748f21583c20aa9e060888196f0eb24c78/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
