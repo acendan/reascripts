@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.8
+-- @version 1.9
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   + Added overlapping region column. UI is starting to get kind of cramped...
+--   # Added color selector to region column
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -112,23 +112,7 @@ function main()
       timesig_num, timesig_denom, _ = reaper.TimeMap_GetTimeSigAtTime(0, timepos)
     end
     
-    -- Get overlapping region
-    local rgn_overlap = 0
-    local rgn_overlap_name = ""
-    if num_regions > 0 then
-      -- Loop through all regions
-      local i = 0
-      while i < num_total do
-        local _, isrgn, pos, rgnend, name, markrgnindexnumber, _ = reaper.EnumProjectMarkers3( 0, i )
-        if isrgn and timepos >= pos and timepos <= rgnend then
-          rgn_overlap = markrgnindexnumber
-          rgn_overlap_name = name
-          break
-        end
-        i = i + 1
-      end
-    end
-    
+    -- Prep item to add
     local item = {
       id = n + 1,
       bpm = math.floor(bpm*100)/100,
@@ -137,10 +121,30 @@ function main()
       mpos = round(measurepos) + 1,
       bpos = math.max(math.floor(beatpos*100)/100,0.0) + 1,
       lin = lineartempo,
-      rgn = rgn_overlap,
-      rgn_name = tostring(rgn_overlap) .. ": " .. rgn_overlap_name,
+      rgn = 0,
+      rgn_name = "",
+      rgn_col = 0,
+      rgn_idx = 0,
       tsel = start_time_sel < timepos and timepos < end_time_sel
     }
+    
+    -- Get overlapping region
+    if num_regions > 0 then
+      -- Loop through all regions
+      local i = 0
+      while i < num_total do
+        local _, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+        if isrgn and timepos >= pos and timepos <= rgnend then
+          item.rgn_idx = i
+          item.rgn = markrgnindexnumber
+          item.rgn_name = name
+          item.rgn_col = reaper.ImGui_ColorConvertNative(color)
+          break
+        end
+        i = i + 1
+      end
+    end
+    
     table.insert(tables.advanced.items, item)
   end
 
@@ -279,7 +283,17 @@ function main()
         
         -- Region
         if reaper.ImGui_TableSetColumnIndex(ctx, colID_Region - 1) and item.rgn > 0 then
-          reaper.ImGui_Text(ctx, item.rgn_name)
+          -- Color picker
+          local retval, imgui_col = reaper.ImGui_ColorEdit4(ctx, '##color', item.rgn_col, reaper.ImGui_ColorEditFlags_NoInputs() | reaper.ImGui_ColorEditFlags_NoAlpha())
+          if retval and  reaper.ImGui_IsMouseDown(ctx, reaper.ImGui_MouseButton_Left()) then
+            local native_col = reaper.ImGui_ColorConvertNative(imgui_col)|0x1000000
+            local _, _, pos, rgnend, _, _, _ = reaper.EnumProjectMarkers3( 0, item.rgn_idx )
+            reaper.SetProjectMarker3(0, item.rgn, true, pos, rgnend, item.rgn_name, native_col)
+            reaper.UpdateTimeline()
+          end
+          
+          reaper.ImGui_SameLine(ctx)
+          reaper.ImGui_Text(ctx, tostring(item.rgn) .. ": " .. item.rgn_name)
         end
 
         reaper.ImGui_PopID(ctx)
