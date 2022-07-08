@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.5
+-- @version 1.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   + Added an option to get the time at edit cursor
+--   # Update timeline when adding tempo markers
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -49,6 +49,7 @@ function init()
   tables  = {}
   
   add_mkr = {
+      id = 0,
       bpm = 120.0,
       tpos = reaper.format_timestr(0.0,""), 
       mpos = 1,
@@ -283,9 +284,9 @@ function main()
       if reaper.ImGui_Button(ctx, '+', -FLT_MIN, 0.0) then
         local timepos =  reaper.parse_timestr(add_mkr.tpos)
         if timepos > 0 then
-          reaper.SetTempoTimeSigMarker(0,-1, timepos, -1, -1, add_mkr.bpm, 0, 0, add_mkr.lin)
+          SetTempoMarker_Time(add_mkr)
         else
-          reaper.SetTempoTimeSigMarker(0,-1, -1, add_mkr.mpos - 1, add_mkr.bpos - 1, add_mkr.bpm, 0, 0, add_mkr.lin)
+          SetTempoMarker_MeasBeat(add_mkr)
         end
       end
 
@@ -407,7 +408,7 @@ function CompareTableItems(a, b)
 end
 
 function SetTempoMarker_Time(item)
-  if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
+  if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) or item.id == 0 then
     reaper.Undo_BeginBlock()
     reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, 0, 0, item.lin)
     reaper.UpdateTimeline() 
@@ -416,7 +417,7 @@ function SetTempoMarker_Time(item)
 end
 
 function SetTempoMarker_MeasBeat(item)
-  if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) then
+  if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) or item.id == 0 then
     reaper.Undo_BeginBlock()
     reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos - 1, item.bpm, 0, 0, item.lin)
     reaper.UpdateTimeline() 
