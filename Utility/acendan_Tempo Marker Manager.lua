@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.7
+-- @version 1.8
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   + Added support for time signatures
+--   + Added overlapping region column. UI is starting to get kind of cramped...
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -38,7 +38,7 @@ function init()
   
   window_flags = reaper.ImGui_WindowFlags_None()
   window_flags = window_flags | reaper.ImGui_WindowFlags_NoCollapse()
-  window_size = { width = 500, height = 520 }
+  window_size = { width = 600, height = 520 }
   reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
    
   -- ReaImGui_Demo
@@ -96,15 +96,39 @@ function main()
   -- Update table size every loop
   tables.advanced.outer_size_value        = { 0.0, reaper.ImGui_GetWindowHeight(ctx) - 120 } --{ 0.0, TEXT_BASE_HEIGHT * 12 },
   
+  -- Update time sel and region info every loop
+  local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0)
+  local _, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+  local num_total = num_markers + num_regions
+  
   -- Update item list every loop
-  local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
   tables.advanced.items_count = reaper.CountTempoTimeSigMarkers(0)
   tables.advanced.items = {}
   for n = 0, tables.advanced.items_count - 1 do
     local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker( 0, n )
+    
+    -- Get time sig from position if not set
     if timesig_num < 0 and timesig_denom < 0 then
       timesig_num, timesig_denom, _ = reaper.TimeMap_GetTimeSigAtTime(0, timepos)
     end
+    
+    -- Get overlapping region
+    local rgn_overlap = 0
+    local rgn_overlap_name = ""
+    if num_regions > 0 then
+      -- Loop through all regions
+      local i = 0
+      while i < num_total do
+        local _, isrgn, pos, rgnend, name, markrgnindexnumber, _ = reaper.EnumProjectMarkers3( 0, i )
+        if isrgn and timepos >= pos and timepos <= rgnend then
+          rgn_overlap = markrgnindexnumber
+          rgn_overlap_name = name
+          break
+        end
+        i = i + 1
+      end
+    end
+    
     local item = {
       id = n + 1,
       bpm = math.floor(bpm*100)/100,
@@ -113,6 +137,8 @@ function main()
       mpos = round(measurepos) + 1,
       bpos = math.max(math.floor(beatpos*100)/100,0.0) + 1,
       lin = lineartempo,
+      rgn = rgn_overlap,
+      rgn_name = tostring(rgn_overlap) .. ": " .. rgn_overlap_name,
       tsel = start_time_sel < timepos and timepos < end_time_sel
     }
     table.insert(tables.advanced.items, item)
@@ -135,6 +161,7 @@ function main()
     reaper.ImGui_TableSetupColumn(ctx, 'Measure', reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Measure)
     reaper.ImGui_TableSetupColumn(ctx, 'Beat',    reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Beat)
     reaper.ImGui_TableSetupColumn(ctx, 'Linear',  reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Linear)
+    reaper.ImGui_TableSetupColumn(ctx, 'Region',  reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Region)
     reaper.ImGui_TableSetupScrollFreeze(ctx, tables.advanced.freeze_cols, tables.advanced.freeze_rows)
 
     -- Sort our data
@@ -248,6 +275,11 @@ function main()
             item.lin = v
             SetTempoMarker_Time(item)
           end
+        end
+        
+        -- Region
+        if reaper.ImGui_TableSetColumnIndex(ctx, colID_Region - 1) and item.rgn > 0 then
+          reaper.ImGui_Text(ctx, item.rgn_name)
         end
 
         reaper.ImGui_PopID(ctx)
@@ -393,8 +425,9 @@ colID_Time        = 4
 colID_Measure     = 5
 colID_Beat        = 6
 colID_Linear      = 7
+colID_Region      = 8
 
-colKeys = { 'id', 'bpm', 'tsig', 'tpos', 'mpos', 'bpos', 'lin'}
+colKeys = { 'id', 'bpm', 'tsig', 'tpos', 'mpos', 'bpos', 'lin', 'rgn'}
 
 function CompareTableItems(a, b)
   local next_id = 0
