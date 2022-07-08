@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.9
+-- @version 1.10
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Added color selector to region column
+--   # Minor: disable reordering columns
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -71,7 +71,7 @@ function main()
     tables.advanced = {
       items = {},
       flags = reaper.ImGui_TableFlags_Resizable()       |
-              reaper.ImGui_TableFlags_Reorderable()     |
+              --reaper.ImGui_TableFlags_Reorderable()     |
               reaper.ImGui_TableFlags_Hideable()        |
               reaper.ImGui_TableFlags_Sortable()        |
               reaper.ImGui_TableFlags_SortMulti()       |
