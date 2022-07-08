@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.6
+-- @version 1.7
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Update timeline when adding tempo markers
+--   + Added support for time signatures
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -24,7 +24,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.2 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.5 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -38,7 +38,7 @@ function init()
   
   window_flags = reaper.ImGui_WindowFlags_None()
   window_flags = window_flags | reaper.ImGui_WindowFlags_NoCollapse()
-  window_size = { width = 450, height = 420 }
+  window_size = { width = 500, height = 520 }
   reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
    
   -- ReaImGui_Demo
@@ -48,9 +48,11 @@ function init()
   FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
   tables  = {}
   
+  local timesig_num, timesig_denom, _ = reaper.TimeMap_GetTimeSigAtTime(0, 0)
   add_mkr = {
       id = 0,
       bpm = 120.0,
+      tsig = acendan.TimeSig_ToString(timesig_num, timesig_denom),
       tpos = reaper.format_timestr(0.0,""), 
       mpos = 1,
       bpos = 1.0,
@@ -100,9 +102,13 @@ function main()
   tables.advanced.items = {}
   for n = 0, tables.advanced.items_count - 1 do
     local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker( 0, n )
+    if timesig_num < 0 and timesig_denom < 0 then
+      timesig_num, timesig_denom, _ = reaper.TimeMap_GetTimeSigAtTime(0, timepos)
+    end
     local item = {
       id = n + 1,
       bpm = math.floor(bpm*100)/100,
+      tsig = acendan.TimeSig_ToString(timesig_num, timesig_denom),
       tpos = reaper.format_timestr(timepos,""), 
       mpos = round(measurepos) + 1,
       bpos = math.max(math.floor(beatpos*100)/100,0.0) + 1,
@@ -111,7 +117,6 @@ function main()
     }
     table.insert(tables.advanced.items, item)
   end
-
 
   -- Submit table
   local inner_width_to_use = (tables.advanced.flags & reaper.ImGui_TableFlags_ScrollX()) ~= 0 and tables.advanced.inner_width_with_scroll or 0.0
@@ -124,23 +129,16 @@ function main()
     -- We use the "user_id" parameter of TableSetupColumn() to specify a user id that will be stored in the sort specifications.
     -- This is so our sort function can identify a column given our own identifiereaper. We could also identify them based on their index!
     reaper.ImGui_TableSetupColumn(ctx, 'ID',      reaper.ImGui_TableColumnFlags_DefaultSort() | reaper.ImGui_TableColumnFlags_WidthFixed() | reaper.ImGui_TableColumnFlags_NoHide(), 0.0, colID_ID)
-    reaper.ImGui_TableSetupColumn(ctx, 'BPM',     reaper.ImGui_TableColumnFlags_WidthStretch(), 0.0, colID_BPM)
+    reaper.ImGui_TableSetupColumn(ctx, 'BPM',     reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_BPM)
+    reaper.ImGui_TableSetupColumn(ctx, 'Sig.',    reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_TSig)
     reaper.ImGui_TableSetupColumn(ctx, 'Time',    reaper.ImGui_TableColumnFlags_WidthStretch(), 0.0, colID_Time)
     reaper.ImGui_TableSetupColumn(ctx, 'Measure', reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Measure)
     reaper.ImGui_TableSetupColumn(ctx, 'Beat',    reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Beat)
     reaper.ImGui_TableSetupColumn(ctx, 'Linear',  reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Linear)
     reaper.ImGui_TableSetupScrollFreeze(ctx, tables.advanced.freeze_cols, tables.advanced.freeze_rows)
 
-    -- Sort our data if sort specs have been changed!
-    local specs_dirty, has_specs = reaper.ImGui_TableNeedSort(ctx)
-    if has_specs and (specs_dirty or tables.advanced.items_need_sort) then
-      table.sort(tables.advanced.items, CompareTableItems)
-      tables.advanced.items_need_sort = false
-    end
-
-    -- Take note of whether we are currently sorting based on the Quantity field,
-    -- we will use this to trigger sorting when we know the data of this column has been modified.
-    local sorts_specs_using_quantity = (reaper.ImGui_TableGetColumnFlags(ctx, 3) & reaper.ImGui_TableColumnFlags_IsSorted()) ~= 0
+    -- Sort our data
+    table.sort(tables.advanced.items, CompareTableItems)
 
     -- Show headers
     if tables.advanced.show_headers then
@@ -178,6 +176,21 @@ function main()
             if tonumber(buf) > 0 then
               item.bpm = tonumber(buf)
               SetTempoMarker_Time(item)
+            end
+          end
+        end
+        
+        -- Time Signature
+        if reaper.ImGui_TableSetColumnIndex(ctx, colID_TSig - 1) then
+          if item.id == 1 then
+            reaper.ImGui_Text(ctx, item.tsig)
+          else
+            reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
+            local retval, buf = reaper.ImGui_InputText( ctx, "###tsig" .. tostring(row_n), item.tsig, reaper.ImGui_InputTextFlags_AllowTabInput() )
+            local num, denom = acendan.TimeSig_FromString(buf)
+            if retval and num and denom then
+              item.tsig = buf
+              SetTempoMarker_MeasBeat(item)
             end
           end
         end
@@ -261,7 +274,8 @@ function main()
       -- We use the "user_id" parameter of TableSetupColumn() to specify a user id that will be stored in the sort specifications.
       -- This is so our sort function can identify a column given our own identifiereaper. We could also identify them based on their index!
       reaper.ImGui_TableSetupColumn(ctx, 'Add',      reaper.ImGui_TableColumnFlags_DefaultSort() | reaper.ImGui_TableColumnFlags_WidthFixed() | reaper.ImGui_TableColumnFlags_NoHide(), 0.0, colID_ID)
-      reaper.ImGui_TableSetupColumn(ctx, 'BPM',     reaper.ImGui_TableColumnFlags_WidthStretch(), 0.0, colID_BPM)
+      reaper.ImGui_TableSetupColumn(ctx, 'BPM',     reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_BPM)
+      reaper.ImGui_TableSetupColumn(ctx, 'Sig.',    reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_TSig)
       reaper.ImGui_TableSetupColumn(ctx, 'Time',    reaper.ImGui_TableColumnFlags_WidthStretch(), 0.0, colID_Time)
       reaper.ImGui_TableSetupColumn(ctx, 'Measure', reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Measure)
       reaper.ImGui_TableSetupColumn(ctx, 'Beat',    reaper.ImGui_TableColumnFlags_WidthFixed(), 0.0, colID_Beat)
@@ -297,6 +311,21 @@ function main()
         if retval and tonumber(buf) then
           if tonumber(buf) > 0 then
             add_mkr.bpm = tonumber(buf)
+          end
+        end
+      end
+      
+      -- Time Signature
+      if reaper.ImGui_TableSetColumnIndex(ctx, colID_TSig - 1) then
+        reaper.ImGui_SetNextItemWidth( ctx, -FLT_MIN )
+        local retval, buf = reaper.ImGui_InputText( ctx, "###addtsig" .. tostring(row_n), add_mkr.tsig, reaper.ImGui_InputTextFlags_AllowTabInput() )
+        if retval then
+          local num, denom = acendan.TimeSig_FromString(buf)
+          if num and denom then
+            add_mkr.tsig = buf
+          else
+            num, denom , _ = reaper.TimeMap_GetTimeSigAtTime(0, reaper.parse_timestr(add_mkr.tpos))
+            add_mkr.tsig = acendan.TimeSig_ToString(num,denom)
           end
         end
       end
@@ -359,12 +388,13 @@ end
 
 colID_ID          = 1
 colID_BPM         = 2
-colID_Time        = 3
-colID_Measure     = 4
-colID_Beat        = 5
-colID_Linear      = 6
+colID_TSig        = 3
+colID_Time        = 4
+colID_Measure     = 5
+colID_Beat        = 6
+colID_Linear      = 7
 
-colKeys = { 'id', 'bpm', 'tpos', 'mpos', 'bpos', 'lin'}
+colKeys = { 'id', 'bpm', 'tsig', 'tpos', 'mpos', 'bpos', 'lin'}
 
 function CompareTableItems(a, b)
   local next_id = 0
@@ -387,6 +417,9 @@ function CompareTableItems(a, b)
     elseif key == 'lin' then
       aval = a[key] and 0 or 1
       bval = b[key] and 0 or 1
+    elseif key == 'tsig' then
+      aval = acendan.TimeSig_ToArbitraryNumber(a[key])
+      bval = acendan.TimeSig_ToArbitraryNumber(b[key])
     else
       aval = a[key]
       bval = b[key]
@@ -410,7 +443,12 @@ end
 function SetTempoMarker_Time(item)
   if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) or item.id == 0 then
     reaper.Undo_BeginBlock()
-    reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, 0, 0, item.lin)
+    local num, denom = acendan.TimeSig_FromString(item.tsig)
+    if num and denom then
+      reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, num, denom, item.lin)
+    else
+      reaper.SetTempoTimeSigMarker( 0, item.id - 1, reaper.parse_timestr(item.tpos), -1, -1, item.bpm, 0, 0, item.lin)
+    end
     reaper.UpdateTimeline() 
     reaper.Undo_EndBlock(script_name,-1)
   end
@@ -419,7 +457,12 @@ end
 function SetTempoMarker_MeasBeat(item)
   if reaper.ImGui_IsItemDeactivatedAfterEdit(ctx) or item.id == 0 then
     reaper.Undo_BeginBlock()
-    reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos - 1, item.bpm, 0, 0, item.lin)
+    local num, denom = acendan.TimeSig_FromString(item.tsig)
+        if num and denom then
+          reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos - 1, item.bpm, num, denom, item.lin)
+        else
+          reaper.SetTempoTimeSigMarker( 0, item.id - 1, -1, item.mpos - 1, item.bpos - 1, item.bpm, 0, 0, item.lin)
+        end
     reaper.UpdateTimeline() 
     reaper.Undo_EndBlock(script_name,-1)
   end

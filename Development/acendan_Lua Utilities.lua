@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.4
+-- @version 6.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Slight modification of ImGui template
+--   + Add time signature string manipulation functions
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -708,6 +708,37 @@ function acendan.VAL2DB(x, reduce)
      else 
       return v 
     end
+  end
+end
+
+-- Convert a time signature string to a pair of numbers
+-- local num, denom = acendan.TimeSig_FromString("4/4")
+function acendan.TimeSig_FromString(tsig)
+  local pos = tsig:find("/")
+  if tsig and pos then
+    return tonumber(tsig:sub(0,pos-1)), tonumber(tsig:sub(pos+1,-1))
+  else
+    return nil, nil
+  end
+end
+
+-- Convert a time signature number pair to a string
+-- local tsig = acendan.TimeSig_ToString(4, 4)
+function acendan.TimeSig_ToString(num,denom)
+  if num >= 0 and denom >= 0 then
+    return tostring(num) .. "/" .. tostring(denom)
+  else
+    return ""
+  end
+end
+
+-- Convert a time signature string to a rather arbitrary number used for sorting 
+function acendan.TimeSig_ToArbitraryNumber(tsig)
+  local num, denom = acendan.TimeSig_FromString(tsig)
+  if num and denom then
+    return (num + (denom * 10))
+  else
+    return 0
   end
 end
 
