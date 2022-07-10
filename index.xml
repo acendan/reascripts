@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="68954145f9724b684a5d72d44fadddb1271c3dba" name="ACendan Scripts">
+<index version="1" commit="9640cd5cc62c38395e5c33f3ea46a72634cfe6f9" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -166,6 +166,10 @@
       <version name="6.5" author="Aaron Cendan" time="2022-07-08T19:19:28Z">
         <changelog><![CDATA[+ Add time signature string manipulation functions]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/002863dcca6882404d6b127fc79643a45aa8ac64/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="6.6" author="Aaron Cendan" time="2022-07-10T04:44:26Z">
+        <changelog><![CDATA[+ Add acendan.stringSplit()]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/9640cd5cc62c38395e5c33f3ea46a72634cfe6f9/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -2102,6 +2106,10 @@
       <version name="1.10" author="Aaron Cendan" time="2022-07-08T22:21:03Z">
         <changelog><![CDATA[# Minor: disable reordering columns]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/68954145f9724b684a5d72d44fadddb1271c3dba/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
+      </version>
+      <version name="2.0" author="Aaron Cendan" time="2022-07-10T04:44:26Z">
+        <changelog><![CDATA[# Added options menu, with the ability to save/load/delete a project's tempo marker maps]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/9640cd5cc62c38395e5c33f3ea46a72634cfe6f9/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
