@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.10
+-- @version 2.0
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Minor: disable reordering columns
+--   # Added options menu, with the ability to save/load/delete a project's tempo marker maps
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -24,7 +24,23 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.5 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.6 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+
+-- Prefix for saved tempo map extstates
+local tempo_map_prefix = "acendan_TempoMap"
+
+-- Count num of saved tempo maps
+local function CountTempoMaps()
+  local i = 0
+  while reaper.EnumProjExtState(0, tempo_map_prefix .. i, 0) do
+    i = i + 1
+  end
+  return i
+end
+local tempo_map_count = CountTempoMaps()
+
+-- Separator for tempo map serialization
+local sep = "||"
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -38,6 +54,7 @@ function init()
   
   window_flags = reaper.ImGui_WindowFlags_None()
   window_flags = window_flags | reaper.ImGui_WindowFlags_NoCollapse()
+  window_flags = window_flags | reaper.ImGui_WindowFlags_MenuBar() 
   window_size = { width = 600, height = 520 }
   reaper.ImGui_SetNextWindowSize(ctx, window_size.width, window_size.height)
    
@@ -94,7 +111,7 @@ function main()
   end
   
   -- Update table size every loop
-  tables.advanced.outer_size_value        = { 0.0, reaper.ImGui_GetWindowHeight(ctx) - 120 } --{ 0.0, TEXT_BASE_HEIGHT * 12 },
+  tables.advanced.outer_size_value        = { 0.0, reaper.ImGui_GetWindowHeight(ctx) - 140 } --{ 0.0, TEXT_BASE_HEIGHT * 12 },
   
   -- Update time sel and region info every loop
   local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0)
@@ -146,6 +163,49 @@ function main()
     end
     
     table.insert(tables.advanced.items, item)
+  end
+  
+  -- Menu bar
+  reaper.ImGui_PushItemWidth(ctx, reaper.ImGui_GetFontSize(ctx) * -12)
+  if reaper.ImGui_BeginMenuBar(ctx) then
+    if reaper.ImGui_BeginMenu(ctx, 'Options') then
+      tempo_map_count = CountTempoMaps()
+      
+      -- Save tempo map
+      if reaper.ImGui_MenuItem(ctx, 'Save Project Tempo Map') then
+        SaveTempoMap(tables.advanced.items)
+      end
+      reaper.ImGui_Separator(ctx)
+
+      if tempo_map_count > 0 then
+        -- Load tempo map
+        if reaper.ImGui_BeginMenu(ctx, 'Load Project Tempo Map') then
+          for i = 1, tempo_map_count do
+            if reaper.ImGui_MenuItem(ctx, 'Load #' .. i) then
+              LoadTempoMap(i - 1)
+            end
+          end
+          reaper.ImGui_EndMenu(ctx)
+        end
+        
+        -- Delete tempo map
+        if reaper.ImGui_BeginMenu(ctx, 'Delete Project Tempo Map') then
+          for i = 1, tempo_map_count do
+            if reaper.ImGui_MenuItem(ctx, 'Delete #' .. i) then
+              DeleteTempoMap(i - 1)
+            end
+          end
+          reaper.ImGui_EndMenu(ctx)
+        end
+      else
+        -- Greyed out options
+        reaper.ImGui_MenuItem(ctx, 'Load Tempo Map', nil, false, false)
+        reaper.ImGui_MenuItem(ctx, 'Delete Tempo Map', nil, false, false)
+      end
+
+      reaper.ImGui_EndMenu(ctx)
+    end
+    reaper.ImGui_EndMenuBar(ctx)
   end
 
   -- Submit table
@@ -513,6 +573,100 @@ function SetTempoMarker_MeasBeat(item)
     reaper.UpdateTimeline() 
     reaper.Undo_EndBlock(script_name,-1)
   end
+end
+
+-- Save all of the current tempo markers to projextstate
+function SaveTempoMap(items)
+  local extstate = tempo_map_prefix .. tempo_map_count
+  for _, item in pairs(items) do
+    reaper.SetProjExtState(0, extstate, tostring(item.id), SerializeItem(item))
+  end
+  reaper.Main_SaveProject(0,false)
+  
+  tempo_map_count = CountTempoMaps()
+end
+
+-- Save all of the current tempo markers to projextstate
+function LoadTempoMap(index)
+  reaper.PreventUIRefresh(1)
+  
+  -- Delete all current markers
+  DeleteAllTempoMarkers()
+
+  -- Load markers from ProjExtState
+  local extstate = tempo_map_prefix .. index
+  local i = 0
+  while reaper.EnumProjExtState(0, extstate, i) do
+    i = i + 1
+    
+    local ret, extitem = reaper.GetProjExtState(0, extstate, i)
+    if ret and extitem then
+      local item = {}
+      item.id = 0 -- Add new marker at end
+      item.bpm, item.tsig, item.tpos, item.lin = DeserializeItem(extitem)
+      item.lin = item.lin == "true" and true or false
+      SetTempoMarker_Time(item)
+    end
+  end
+  
+  reaper.PreventUIRefresh(-1)
+end
+
+-- Delete one of the saved tempo maps
+function DeleteTempoMap(index)
+  -- Delete the target ext state
+  local extstate = tempo_map_prefix .. index
+  reaper.SetProjExtState(0, extstate, "", "")
+
+  -- Move all of the ext states after it that are empty
+  for i = 0, tempo_map_count - 1 do
+    if not reaper.EnumProjExtState(0, tempo_map_prefix .. i, 0) then
+      MoveTempoMapExtState(i + 1, i)
+    end
+    i = i + 1
+  end
+
+  reaper.Main_SaveProject(0,false)
+end
+
+-- Move tempo map ext state from one index to another
+function MoveTempoMapExtState(start_idx, end_idx)
+  local start_extstate = tempo_map_prefix .. start_idx
+  local end_extstate = tempo_map_prefix .. end_idx
+  
+  -- Copy from start_idx to end_idx
+  local i = 0
+  while reaper.EnumProjExtState(0, start_extstate, i) do
+    i = i + 1
+    
+    local ret, extitem = reaper.GetProjExtState(0, start_extstate, i)
+    if ret and extitem then
+      reaper.SetProjExtState(0, end_extstate, tostring(i), extitem)
+    end
+  end
+  
+  -- Delete start_idx
+  reaper.SetProjExtState(0, start_extstate, "", "")
+  
+  reaper.Main_SaveProject(0,false)
+end
+
+function DeleteAllTempoMarkers()
+  local num_markers = reaper.CountTempoTimeSigMarkers(0)
+  for i = 0, num_markers do
+    reaper.DeleteTempoTimeSigMarker(0, num_markers - i)
+    i = i + 1
+  end
+end
+
+-- returns bpm || tsig || tpos || lin
+function SerializeItem(item)
+  return tostring(item.bpm) .. sep .. tostring(item.tsig) .. sep .. tostring(item.tpos) .. sep .. tostring(item.lin)
+end
+
+-- returns bpm, tsig, tpos, lin
+function DeserializeItem(item)
+  return acendan.stringSplit(item, sep, 4)
 end
 
 function round(n)

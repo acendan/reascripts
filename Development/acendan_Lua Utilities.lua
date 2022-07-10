@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.5
+-- @version 6.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   + Add time signature string manipulation functions
+--   + Add acendan.stringSplit()
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -639,6 +639,14 @@ function acendan.stringReplace(str, what, with)
   what = string.gsub(what, "[%(%)%.%+%-%*%?%[%]%^%$%%]", "%%%1") -- escape pattern
   with = string.gsub(with, "[%%]", "%%%%") -- escape replacement
   return string.gsub(str, what, with)
+end
+
+-- Split a string into multiple return values by a separator
+-- local part1, part2, part3 = acendan.stringSplit("blah|blah|blah", "%|", 3)
+function acendan.stringSplit(str, sep, reps)
+	sep = sep and sep or ","
+	if not acendan.stringEnds(str, sep) then str = str .. sep end
+	return str:match(("([^" .. sep .. "]*)" .. sep):rep(reps))
 end
 
 -- Clamp a value to given range // returns Number
