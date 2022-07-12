@@ -4215,8 +4215,8 @@
 
             // // GBX Microphone = User Data/Notes
             $("#userInputDataLabel").text("GBX - Microphone*");
-            $("#userInputData").attr("placeholder", "Sanken CO100K");
-            $("#userInputDataHelp").text("");
+            $("#userInputData").attr("placeholder", "416, 8040, CO100K, synth");
+            $("#userInputDataHelp").text("If source was synthesis, use 'synth'.");
             // Sync Microphone field with metadata mic
             $("#userInputData").on("input", function() { $("#userInputMetaMic").val(this.value); });
             $("#userInputMetaMic").on("input", function() { $("#userInputData").val(this.value); });
