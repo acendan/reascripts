@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="199b6dabadb62acd8ca635c6bb5b63c3dea8cd08" name="ACendan Scripts">
+<index version="1" commit="ede76f60da5bd438f70081f39c5570d97e8f8286" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -171,6 +171,10 @@
         <changelog><![CDATA[+ Add acendan.stringSplit()]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/9640cd5cc62c38395e5c33f3ea46a72634cfe6f9/Development/acendan_Lua%20Utilities.lua</source>
       </version>
+      <version name="6.7" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
     </reapack>
   </category>
   <category name="Envelopes">
@@ -194,6 +198,13 @@
         <source main="main" file="acendan_Copy selected items take (Mute) envelope to selected automation envelope.lua">https://github.com/acendan/reascripts/raw/c399add6d63f678c54f57c85a34819b6d752b2bf/Envelopes/acendan_Copy%20selected%20items%20take%20envelope%20to%20selected%20automation%20envelope.lua</source>
         <source main="main" file="acendan_Copy selected items take (Pitch) envelope to selected automation envelope.lua">https://github.com/acendan/reascripts/raw/c399add6d63f678c54f57c85a34819b6d752b2bf/Envelopes/acendan_Copy%20selected%20items%20take%20envelope%20to%20selected%20automation%20envelope.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan, Claudiohbsantos" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Copy selected items take (Volume) envelope to selected automation envelope.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Copy%20selected%20items%20take%20envelope%20to%20selected%20automation%20envelope.lua</source>
+        <source main="main" file="acendan_Copy selected items take (Pan) envelope to selected automation envelope.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Copy%20selected%20items%20take%20envelope%20to%20selected%20automation%20envelope.lua</source>
+        <source main="main" file="acendan_Copy selected items take (Mute) envelope to selected automation envelope.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Copy%20selected%20items%20take%20envelope%20to%20selected%20automation%20envelope.lua</source>
+        <source main="main" file="acendan_Copy selected items take (Pitch) envelope to selected automation envelope.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Copy%20selected%20items%20take%20envelope%20to%20selected%20automation%20envelope.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Insert automation items on all selected tracks envelopes in time selection.lua" type="script" desc="Insert Automation Items Time Selection">
       <metadata>
@@ -208,6 +219,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-04-07T04:19:51Z">
         <source main="main" file="acendan_Insert automation items on all selected tracks envelopes in time selection.lua">https://github.com/acendan/reascripts/raw/dc2f6cabfa12ed6537ce56a167f48b6955d0d570/Envelopes/acendan_Insert%20automation%20items%20on%20all%20selected%20tracks%20envelopes%20in%20time%20selection.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Insert%20automation%20items%20on%20all%20selected%20tracks%20envelopes%20in%20time%20selection.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Open envelope for selected tracks and create automation items for track items.lua" type="script" desc="Open Envelope w Automation Items">
@@ -239,6 +254,15 @@
         <source main="main" file="acendan_Open (pan) envelope for selected tracks and create (unpooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/0c31fa7993c21cb9bb20604b0ea2a8841f69f81a/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
         <source main="main" file="acendan_Open (last touched FX parameter) envelope for respective track and create (pooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/0c31fa7993c21cb9bb20604b0ea2a8841f69f81a/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
         <source main="main" file="acendan_Open (last touched FX parameter) envelope for respective track and create (unpooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/0c31fa7993c21cb9bb20604b0ea2a8841f69f81a/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan, ausbaxter" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Open (volume) envelope for selected tracks and create (pooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
+        <source main="main" file="acendan_Open (volume) envelope for selected tracks and create (unpooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
+        <source main="main" file="acendan_Open (pan) envelope for selected tracks and create (pooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
+        <source main="main" file="acendan_Open (pan) envelope for selected tracks and create (unpooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
+        <source main="main" file="acendan_Open (last touched FX parameter) envelope for respective track and create (pooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
+        <source main="main" file="acendan_Open (last touched FX parameter) envelope for respective track and create (unpooled) automation items for track items.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Envelopes/acendan_Open%20envelope%20for%20selected%20tracks%20and%20create%20automation%20items%20for%20track%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Set closest envelope point shape at mouse cursor.lua" type="script" desc="Set Env Shape at Cursor">
@@ -390,6 +414,10 @@
         <changelog><![CDATA[# Moved hWnd functions to Lua Utils]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/be40c74e86126d27b695f26523f649fe419cd6d0/Items%20Editing/acendan_Count%20number%20of%20selected%20items%20in%20media%20explorer.lua</source>
       </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Count%20number%20of%20selected%20items%20in%20media%20explorer.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Count number of unique samples in selected items.lua" type="script" desc="Count Num Unique Samples in Items">
       <metadata>
@@ -409,6 +437,10 @@
       <version name="1.1" author="Aaron Cendan" time="2022-02-18T08:02:31Z">
         <source main="main">https://github.com/acendan/reascripts/raw/03ed149f53c0b986a3f3dabfde4fb1d8b143fc93/Items%20Editing/acendan_Count%20number%20of%20unique%20samples%20in%20selected%20items.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Count%20number%20of%20unique%20samples%20in%20selected%20items.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Glue each item in selected track separately.lua" type="script" desc="Separately Glue Items in Track">
       <metadata>
@@ -425,6 +457,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-08-09T22:28:30Z">
         <source main="main">https://github.com/acendan/reascripts/raw/cc4280421701f896e840de92b15a2deefdc02bce/Items%20Editing/acendan_Glue%20each%20item%20in%20selected%20track%20separately.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Glue%20each%20item%20in%20selected%20track%20separately.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Horizontal reorder selected items by color.lua" type="script" desc="Horizontal Reorder Color">
@@ -447,6 +483,10 @@
         <changelog><![CDATA[# Why isn't ReaPack cooperating today...]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/490988d7627b0d754cc1a9bcbd49be4928d3c76d/Items%20Editing/acendan_Horizontal%20reorder%20selected%20items%20by%20color.lua</source>
       </version>
+      <version name="1.4" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Horizontal%20reorder%20selected%20items%20by%20color.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Import selected item names from text file.lua" type="script" desc="Import Selected Item Names Text File">
       <metadata>
@@ -462,6 +502,10 @@
       <version name="1.0" author="Aaron Cendan" time="2022-03-01T18:58:54Z">
         <changelog><![CDATA[+ Initial release]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/1d9e1c41cc541ea43aab6b043839a58c5044a195/Items%20Editing/acendan_Import%20selected%20item%20names%20from%20text%20file.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Import%20selected%20item%20names%20from%20text%20file.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_MixPre split items by channel to new tracks and name with metadata.lua" type="script" desc="Sound Devices MixPre Metadata Tools - Split Channels">
@@ -489,6 +533,10 @@
       <version name="1.3" author="Aaron Cendan" time="2022-04-06T07:24:27Z">
         <changelog><![CDATA[# Minor optimization]]></changelog>
         <source main="main" file="acendan_MixPre split selected item by channel to new tracks and name with metadata.lua">https://github.com/acendan/reascripts/raw/74ee965f42614dbfd6b171d11de3ae61897c6e78/Items%20Editing/acendan_MixPre%20split%20items%20by%20channel%20to%20new%20tracks%20and%20name%20with%20metadata.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_MixPre split selected item by channel to new tracks and name with metadata.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_MixPre%20split%20items%20by%20channel%20to%20new%20tracks%20and%20name%20with%20metadata.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Mousewheel adjust pitch of item under cursor.lua" type="script" desc="Mousewheel Items Pitch">
@@ -532,6 +580,10 @@
         <changelog><![CDATA[# Added optional reverse direction toggle]]></changelog>
         <source main="main" file="acendan_Mousewheel adjust source volume of item active take under cursor.lua">https://github.com/acendan/reascripts/raw/ee8020bd3d57591a68f8b1d9a3dd3fa60578e0c7/Items%20Editing/acendan_Mousewheel%20adjust%20source%20volume%20of%20item%20active%20take%20under%20cursor.lua</source>
       </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Mousewheel%20adjust%20source%20volume%20of%20item%20active%20take%20under%20cursor.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Mousewheel adjust volume of item under cursor.lua" type="script" desc="Mousewheel Items Volume">
       <metadata>
@@ -563,6 +615,10 @@
         <changelog><![CDATA[# Added reverse direction toggle]]></changelog>
         <source main="main" file="acendan_Mousewheel adjust volume of item under cursor.lua">https://github.com/acendan/reascripts/raw/ee8020bd3d57591a68f8b1d9a3dd3fa60578e0c7/Items%20Editing/acendan_Mousewheel%20adjust%20volume%20of%20item%20under%20cursor.lua</source>
       </version>
+      <version name="1.6" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Mousewheel%20adjust%20volume%20of%20item%20under%20cursor.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Mousewheel to change volume for all selected items.lua" type="script" desc="Mousewheel Sel Item Vol">
       <metadata>
@@ -584,6 +640,10 @@
       <version name="1.2" author="Aaron Cendan" time="2021-07-07T05:54:04Z">
         <changelog><![CDATA[# Converted to db increment]]></changelog>
         <source main="main" file="acendan_Mousewheel to change volume for all selected items.lua">https://github.com/acendan/reascripts/raw/20733c0d84e5871a56c3f12e62af1f65a6c1b1fc/Items%20Editing/acendan_Mousewheel%20to%20change%20volume%20for%20all%20selected%20items.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Mousewheel%20to%20change%20volume%20for%20all%20selected%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Mousewheel to move selected items up down tracks.lua" type="script" desc="Mousewheel Move Items Tracks">
@@ -648,6 +708,10 @@
         <changelog><![CDATA[# Initial release (Thanks for the idea @svijayrathinam!)]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/74ee965f42614dbfd6b171d11de3ae61897c6e78/Items%20Editing/acendan_Organize%20selected%20items%20by%20channel%20count%20on%20new%20tracks.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Organize%20selected%20items%20by%20channel%20count%20on%20new%20tracks.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Organize selected items by similar names on new tracks.lua" type="script" desc="Organize Items by Similar Names">
       <metadata>
@@ -667,6 +731,10 @@
       <version name="1.1" author="Aaron Cendan" time="2022-04-11T23:55:41Z">
         <changelog><![CDATA[# Initial release (script request from the lovely folks over at GBX!)]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/ad22c2d83b17599b685c364f2170b45f5455d73c/Items%20Editing/acendan_Organize%20selected%20items%20by%20similar%20names%20on%20new%20tracks.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Organize%20selected%20items%20by%20similar%20names%20on%20new%20tracks.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
@@ -712,6 +780,10 @@
       <version name="1.0" author="Aaron Cendan" time="2021-04-02T17:14:11Z">
         <source main="main" file="acendan_Restore stretch markers in selected items from named project markers.lua">https://github.com/acendan/reascripts/raw/bfd24151b260ec9bb648accf06cf9438f367303a/Items%20Editing/acendan_Restore%20stretch%20markers%20in%20selected%20items%20from%20named%20project%20markers.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Restore%20stretch%20markers%20in%20selected%20items%20from%20named%20project%20markers.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Save stretch markers in selected items as named project markers.lua" type="script" desc="Save Stretch Markers">
       <metadata>
@@ -727,6 +799,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-04-02T17:14:11Z">
         <source main="main" file="acendan_Save stretch markers in selected items as named project markers.lua">https://github.com/acendan/reascripts/raw/bfd24151b260ec9bb648accf06cf9438f367303a/Items%20Editing/acendan_Save%20stretch%20markers%20in%20selected%20items%20as%20named%20project%20markers.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Save%20stretch%20markers%20in%20selected%20items%20as%20named%20project%20markers.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Select next item in track keep current selection.lua" type="script" desc="Select Next Item Track Keep Current Selection">
@@ -832,6 +908,10 @@
       <version name="1.0" author="Aaron Cendan" time="2021-05-27T19:51:51Z">
         <source main="main" file="acendan_Shuffle Mode_Move all items left continuously background.lua">https://github.com/acendan/reascripts/raw/c6bcc0ae897030571836a2f84a2c3c706cb1fad5/Items%20Editing/acendan_Shuffle%20Mode_Move%20all%20items%20left%20continuously%20background.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Shuffle%20Mode_Move%20all%20items%20left%20continuously%20background.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Sort selected items order by item names alphabetically ignoring capitalization.lua" type="script" desc="Sort Items Alphabetically Ignore Caps">
       <metadata>
@@ -862,6 +942,10 @@
       <version name="1.2" author="Aaron Cendan" time="2022-04-04T05:13:49Z">
         <changelog><![CDATA[# Added support for custom channel orders]]></changelog>
         <source main="main" file="acendan_Split selected items by channel to new tracks without render.lua">https://github.com/acendan/reascripts/raw/522462bb89afe00c2accbb8f62fc2082923a3586/Items%20Editing/acendan_Split%20selected%20item%20by%20channel%20to%20new%20tracks.lua</source>
+      </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Split selected items by channel to new tracks without render.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Split%20selected%20item%20by%20channel%20to%20new%20tracks.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Stretch selected items to fit between nearest markers.lua" type="script" desc="Stretch selected items to fit between nearest markers">
@@ -943,6 +1027,10 @@
       <version name="1.0" author="Aaron Cendan" time="2022-03-01T20:33:37Z">
         <source main="main" file="acendan_Add marker to end of project regions prompt for name.lua">https://github.com/acendan/reascripts/raw/a65d79f15f3f0c9c1f66d1c2d1e7777d6a5f8a89/Markers/acendan_Add%20marker%20to%20end%20of%20project%20regions%20prompt%20for%20name.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Markers/acendan_Add%20marker%20to%20end%20of%20project%20regions%20prompt%20for%20name.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Add marker to end of selected items prompt for name.lua" type="script" desc="Add Marker End Items">
       <metadata>
@@ -954,6 +1042,10 @@
       <version name="1.1" author="Aaron Cendan" time="2022-03-01T19:37:13Z">
         <changelog><![CDATA[# Added support for take markers for Jay]]></changelog>
         <source main="main" file="acendan_Add marker to end of selected items prompt for name.lua">https://github.com/acendan/reascripts/raw/ef52d8a34fb5508ff73003163eca30cd325d557c/Markers/acendan_Add%20marker%20to%20end%20of%20selected%20items%20prompt%20for%20name.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Markers/acendan_Add%20marker%20to%20end%20of%20selected%20items%20prompt%20for%20name.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create tempo markers from notes in selected MIDI items then restore project markers.lua" type="script" desc="Create Tempo Markers From MIDI Notes">
@@ -970,6 +1062,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2022-05-18T07:46:32Z">
         <source main="main">https://github.com/acendan/reascripts/raw/20122b324c93d7e1f2badccd610a71fb098a2d76/Markers/acendan_Create%20tempo%20markers%20from%20notes%20in%20selected%20MIDI%20items%20then%20restore%20project%20markers.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Markers/acendan_Create%20tempo%20markers%20from%20notes%20in%20selected%20MIDI%20items%20then%20restore%20project%20markers.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Export markers and regions for Izotope RX relative to items with shared take source.lua" type="script" desc="Export Markers and Regions for RX">
@@ -1069,6 +1165,10 @@
         <changelog><![CDATA[# Settings recall]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/4eddcb407899b125207509835cc410b4b6c86012/Markers/acendan_Move%20markers%20in%20project%20by%20time.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Markers/acendan_Move%20markers%20in%20project%20by%20time.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Remove CHAP prefix from project markers for FLAC cues.lua" type="script" desc="Rename Cue Markers">
       <metadata>
@@ -1120,6 +1220,10 @@
       <version name="1.0" author="Aaron Cendan" time="2021-09-23T16:16:35Z">
         <source main="main">https://github.com/acendan/reascripts/raw/d554b7fa3df6de8b4b831b02eb248b33a0a3d64a/Markers/acendan_Snap%20cursor%20to%20nearest%20marker%20and%20scroll%20to%20associated%20@TRACK.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Markers/acendan_Snap%20cursor%20to%20nearest%20marker%20and%20scroll%20to%20associated%20@TRACK.lua</source>
+      </version>
     </reapack>
   </category>
   <category name="Media Explorer">
@@ -1145,6 +1249,10 @@
         <changelog><![CDATA[# Set newly added columns to custom, instead of Read-Only]]></changelog>
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/600768067a0d3a3cb27e40a76b8aef93269fadb6/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
       </version>
+      <version name="1.5" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Media%20Explorer/acendan_Add%20custom%20user%20columns%20for%20SoundMiner%20iXML%20Metadata.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Export current column arrangement setup to file.lua" type="script" desc="Export Media Explorer Columns">
       <metadata>
@@ -1152,6 +1260,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Media%20Explorer/acendan_Export%20current%20column%20arrangement%20setup%20to%20file.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Media%20Explorer/acendan_Export%20current%20column%20arrangement%20setup%20to%20file.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Filter media explorer for selected media item names.lua" type="script" desc="Filter Media Explorer">
@@ -1173,6 +1285,10 @@
         <changelog><![CDATA[# Migrated filterMediaExplorer function to Lua Utils]]></changelog>
         <source main="mediaexplorer" file="acendan_Filter media explorer for selected media items names.lua">https://github.com/acendan/reascripts/raw/be40c74e86126d27b695f26523f649fe419cd6d0/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20item%20names.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="mediaexplorer" file="acendan_Filter media explorer for selected media items names.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20item%20names.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Filter media explorer for selected media items source files.lua" type="script" desc="Filter Media Explorer">
       <metadata>
@@ -1193,6 +1309,10 @@
         <changelog><![CDATA[# Migrated filterMediaExplorer function to Lua Utils]]></changelog>
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/be40c74e86126d27b695f26523f649fe419cd6d0/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20items%20source%20files.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Media%20Explorer/acendan_Filter%20media%20explorer%20for%20selected%20media%20items%20source%20files.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Import column arrangement setup from file.lua" type="script" desc="Export Media Explorer Columns">
       <metadata>
@@ -1200,6 +1320,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-08-26T22:40:48Z">
         <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/446ca000087293a6105d532f1df7e3080926229a/Media%20Explorer/acendan_Import%20column%20arrangement%20setup%20from%20file.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="mediaexplorer">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Media%20Explorer/acendan_Import%20column%20arrangement%20setup%20from%20file.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Remove all custom user metadata columns.lua" type="script" desc="Remove User Metadata Columns">
@@ -1223,6 +1347,10 @@
         <changelog><![CDATA[Added support for custom delimiters. Thanks Simon!]]></changelog>
         <source main="main" file="acendan_Export project render metadata settings to file.lua">https://github.com/acendan/reascripts/raw/81d6ac9f937df2e70beb9ef290fdbbadcd3b7acc/Metadata/acendan_Export%20project%20render%20metadata%20settings%20to%20file.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Metadata/acendan_Export%20project%20render%20metadata%20settings%20to%20file.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Import project render metadata settings from file.lua" type="script" desc="Import Export Metadata">
       <metadata>
@@ -1234,6 +1362,10 @@
       <version name="1.1" author="Aaron Cendan" time="2021-07-09T02:35:32Z">
         <changelog><![CDATA[Added support for custom delimiters. Thanks Simon!]]></changelog>
         <source main="main" file="acendan_Import project render metadata settings from file.lua">https://github.com/acendan/reascripts/raw/81d6ac9f937df2e70beb9ef290fdbbadcd3b7acc/Metadata/acendan_Import%20project%20render%20metadata%20settings%20from%20file.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Metadata/acendan_Import%20project%20render%20metadata%20settings%20from%20file.lua</source>
       </version>
     </reapack>
   </category>
@@ -1345,6 +1477,10 @@
         <changelog><![CDATA[# Assign region to shared parent in RRM]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/7ae9bf97a2c16ec93ef8c594f1c98cbfce20a6e5/Regions/acendan_Create%20separate%20regions%20around%20each%20set%20of%20X%20selected%20items.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Create%20separate%20regions%20around%20each%20set%20of%20X%20selected%20items.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Create unique regions for overlapping items on selected track.lua" type="script" desc="Create Unique Regions Overlapping Items">
       <metadata>
@@ -1377,6 +1513,10 @@
         <changelog><![CDATA[# Added user config settings for processing selected items (regardless of tracks)
 # Added user config settings for overlapping item buffer (window on either side of item being processed)]]></changelog>
         <source main="main" file="acendan_Create unique regions for overlapping items on selected tracks.lua">https://github.com/acendan/reascripts/raw/de2e29363fca983709f1f71a589e9df3db9c8f2d/Regions/acendan_Create%20unique%20regions%20for%20overlapping%20items%20on%20selected%20track.lua</source>
+      </version>
+      <version name="1.5" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Create unique regions for overlapping items on selected tracks.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Create%20unique%20regions%20for%20overlapping%20items%20on%20selected%20track.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create unique regions for selected items and link to parent track in RRM.lua" type="script" desc="acendan_Create unique regions for selected items and link to parent track in RRM">
@@ -1435,6 +1575,10 @@
       <version name="1.3" author="Aaron Cendan" time="2022-02-10T08:10:06Z">
         <changelog><![CDATA[Added support for enumerating duplicates]]></changelog>
         <source main="main" file="acendan_Enumerate regions in project.lua">https://github.com/acendan/reascripts/raw/1c784d03718d33b8c8238ff9c3bc606d78077425/Regions/acendan_Enumerate%20selected%20regions%20in%20manager.lua</source>
+      </version>
+      <version name="1.4" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Enumerate regions in project.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Enumerate%20selected%20regions%20in%20manager.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Extend all regions by length.lua" type="script" desc="Extend All Regions by Length">
@@ -1519,6 +1663,10 @@
         <changelog><![CDATA[+ Initial release]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/1d9e1c41cc541ea43aab6b043839a58c5044a195/Regions/acendan_Import%20region%20names%20from%20text%20file.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Import%20region%20names%20from%20text%20file.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Rename regions from nearest markers.lua" type="script" desc="Rename Regions Nearest Markers">
       <metadata>
@@ -1529,6 +1677,10 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2022-02-14T22:37:42Z">
         <source main="main">https://github.com/acendan/reascripts/raw/d3bfa7f15ae31b3550e8c312debc561153e93afc/Regions/acendan_Rename%20regions%20from%20nearest%20markers.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Rename%20regions%20from%20nearest%20markers.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Set nearest regions edges to selected media items.lua" type="script" desc="Nearest Regions Edges To Items">
@@ -1588,6 +1740,25 @@
         <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 14.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
         <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 15.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
         <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 16.lua">https://github.com/acendan/reascripts/raw/607996588d2677a36cad6b69869b89fe7266834a/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 1.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 2.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 3.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 4.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 5.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 6.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 7.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 8.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 9.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 10.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 11.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 12.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 13.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 14.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 15.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
+        <source main="main" file="acendan_Set region color near edit cursor to SWS custom color 16.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Set%20region%20color%20near%20edit%20cursor%20to%20SWS%20custom%20color.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Shrink overlapping regions edges to time selection.lua" type="script" desc="Shrink overlapping regions edges to time selection">
@@ -1649,6 +1820,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-03-25T03:13:29Z">
         <source main="main" file="acendan_Create multichannel render from selected tracks with mono items.lua">https://github.com/acendan/reascripts/raw/e8d57ce1902130f546206ee976ed01198194b9be/Rendering/acendan_Create%20multichannel%20render%20from%20selected%20tracks%20with%20mono%20items.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Rendering/acendan_Create%20multichannel%20render%20from%20selected%20tracks%20with%20mono%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Load render directory from slot.lua" type="script" desc="Load Render Directory from Slot">
@@ -1712,6 +1887,10 @@
       </metadata>
       <version name="1.0" author="Aaron Cendan" time="2021-01-26T17:56:36Z">
         <source main="main" file="acendan_Continuously select all items in time selection background.lua">https://github.com/acendan/reascripts/raw/76b5b7499051662ddeec9db849d6a21e24a152e2/Time%20Selection/acendan_Continuously%20select%20all%20items%20in%20time%20selection%20background.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Time%20Selection/acendan_Continuously%20select%20all%20items%20in%20time%20selection%20background.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create time selection from edit cursor to mouse cursor.lua" type="script" desc="Time Selection Cursors">
@@ -2049,6 +2228,10 @@
         <changelog><![CDATA[# Fixed 'duplicate_item_overlap' expected functionality (thanks @reaperblog!)]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/b56d7dde0a209d786d676beb732cf1837357d9e2/Utility/acendan_reaperblog_Duplicate%20items%20or%20tracks%20depending%20on%20focus%20and%20time%20selection.lua</source>
       </version>
+      <version name="1.4" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Utility/acendan_reaperblog_Duplicate%20items%20or%20tracks%20depending%20on%20focus%20and%20time%20selection.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Tempo Marker Manager.lua" type="script" desc="Tempo Marker Manager (ImGui)">
       <metadata>
@@ -2110,6 +2293,10 @@
       <version name="2.0" author="Aaron Cendan" time="2022-07-10T04:44:26Z">
         <changelog><![CDATA[# Added options menu, with the ability to save/load/delete a project's tempo marker maps]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/9640cd5cc62c38395e5c33f3ea46a72634cfe6f9/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
+      </version>
+      <version name="2.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Utility/acendan_Tempo%20Marker%20Manager.lua</source>
       </version>
     </reapack>
     <reapack name="Parallel Joiner (Linear).jsfx" type="effect" desc="acendan_Parallel Joiner (Linear)">
@@ -2219,6 +2406,10 @@
       <version name="1.0" author="Aaron Cendan" time="2021-12-16T04:27:52Z">
         <source main="main">https://github.com/acendan/reascripts/raw/88ad9d536d85a059c81b79d49da34f89e74472ba/Various/acendan_Game%20recommendation%20engine.lua</source>
       </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Various/acendan_Game%20recommendation%20engine.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_GUI_Display first selected item properties.lua" type="script" desc="Item Properties GUI">
       <metadata>
@@ -2265,6 +2456,10 @@
       <version name="1.1" author="Aaron Cendan" time="2021-08-31T21:11:22Z">
         <changelog><![CDATA[+ Added JSFX support]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/4091d6e032e342f05755109592d4af4e7cd78437/Various/acendan_Insert%20random%20FX%20plugin%20on%20selected%20track.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Various/acendan_Insert%20random%20FX%20plugin%20on%20selected%20track.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Move unused projects MediaFiles in selected directory to separate folder.lua" type="script" desc="RPP Cleanup">
@@ -2315,6 +2510,10 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       <version name="1.0" author="Aaron Cendan" time="2022-05-03T01:32:39Z">
         <changelog><![CDATA[+ Initial release, script request from @SoapyMargherita!]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/487074fd2828e343ab2e70ac6a468b6969507d6b/Various/acendan_Organize%20TeamTalk%20conference%20recording%20media%20items%20by%20timestamp%20and%20user%20number%20in%20name.lua</source>
+      </version>
+      <version name="1.1" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Various/acendan_Organize%20TeamTalk%20conference%20recording%20media%20items%20by%20timestamp%20and%20user%20number%20in%20name.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour.lua" type="script" desc="NVK Game Audio Affirmations Once An Hour">
@@ -2696,6 +2895,10 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
 # Cleaned up some prompts and feedback for dirty/unsaved projects ]]></changelog>
         <source main="main" file="acendan_Prompt to match project frame rate with first video item import.lua">https://github.com/acendan/reascripts/raw/006c0cc753680182d1624cd1cba3aaa89ccf6249/Video/acendan_Prompt%20to%20match%20project%20frame%20rate%20with%20first%20video%20item%20import%20-%20background.lua</source>
       </version>
+      <version name="1.3" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Prompt to match project frame rate with first video item import.lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Prompt%20to%20match%20project%20frame%20rate%20with%20first%20video%20item%20import%20-%20background.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Set project video frame rate keeping session timecode start.lua" type="script" desc="Set Project Frame Rate">
       <metadata>
@@ -2734,6 +2937,19 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
         <source main="main" file="acendan_Set project video frame rate keeping session timecode start (50).lua">https://github.com/acendan/reascripts/raw/9761081e602e7cece25dbf9b608d0785bada349b/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
         <source main="main" file="acendan_Set project video frame rate keeping session timecode start (60).lua">https://github.com/acendan/reascripts/raw/9761081e602e7cece25dbf9b608d0785bada349b/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
         <source main="main" file="acendan_Set project video frame rate keeping session timecode start (75).lua">https://github.com/acendan/reascripts/raw/9761081e602e7cece25dbf9b608d0785bada349b/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
+        <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (23.976).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (24).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (25).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (29.97ND).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (29.97DF).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (30).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (48).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (50).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (60).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
+        <source main="main" file="acendan_Set project video frame rate keeping session timecode start (75).lua">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Video/acendan_Set%20project%20video%20frame%20rate%20keeping%20session%20timecode%20start.lua</source>
       </version>
     </reapack>
   </category>
