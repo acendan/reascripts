@@ -1,6 +1,6 @@
 -- @description Sound Devices MixPre Metadata Tools - Split Channels
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_MixPre split selected item by channel to new tracks and name with metadata.lua
@@ -8,7 +8,7 @@
 -- @about
 --   Splits items onto new tracks, renames with BWF sub-field after hyphen (-) in script name to track name.
 -- @changelog
---   # Minor optimization
+--   # Update LuaUtils path with case sensitivity for Linux
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -22,7 +22,7 @@ local new_items = {}
 local new_tracks = {}
 
 -- Load lua utilities
-acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.7 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 dbg = false
 

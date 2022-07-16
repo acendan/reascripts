@@ -1,6 +1,6 @@
 -- @description Create Unique Regions Overlapping Items
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for overlapping items on selected tracks.lua
@@ -8,8 +8,7 @@
 -- @about
 --   # Creates unique regions for each bundle of overlapping items on the selected track
 -- @changelog
---   # Added user config settings for processing selected items (regardless of tracks)
---   # Added user config settings for overlapping item buffer (window on either side of item being processed)
+--   # Update LuaUtils path with case sensitivity for Linux
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -50,7 +49,7 @@ local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 
 -- Load lua utilities
-acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 

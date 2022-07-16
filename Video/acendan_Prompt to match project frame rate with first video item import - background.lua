@@ -1,6 +1,6 @@
 -- @description Match Proj Framerate
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Prompt to match project frame rate with first video item import.lua
@@ -10,8 +10,7 @@
 --   It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning.
 --   It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed
 -- @changelog
---   # Fixed media item take source bug (Thanks @Thommaz Kauffmann!)
---   # Cleaned up some prompts and feedback for dirty/unsaved projects 
+--   # Update LuaUtils path with case sensitivity for Linux
  
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -35,7 +34,7 @@ local windows = string.find(reaper.GetOS(), "Win") ~= nil
 local separator = windows and '\\' or '/'
 
 -- Load lua utilities
-acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 3.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- Load Ultraschall API

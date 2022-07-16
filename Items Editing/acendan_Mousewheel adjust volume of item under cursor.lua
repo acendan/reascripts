@@ -1,6 +1,6 @@
 -- @description Mousewheel Items Volume
 -- @author Aaron Cendan
--- @version 1.5
+-- @version 1.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Mousewheel adjust volume of item under cursor.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Thanks NVK for the mousewheel script formatting <3
 -- @changelog
---   # Added reverse direction toggle
+--   # Update LuaUtils path with case sensitivity for Linux
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,7 +30,7 @@ reverse_dir = false   -- If set to true, this will reverse the direction of the 
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Load lua utilities
-acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.8 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 local function no_undo()reaper.defer(function()end)end

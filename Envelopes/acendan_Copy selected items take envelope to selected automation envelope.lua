@@ -1,6 +1,6 @@
 -- @description Copy Selected Items Take Envelope
 -- @author Aaron Cendan, Claudiohbsantos
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Copy selected items take (Volume) envelope to selected automation envelope.lua
@@ -13,7 +13,7 @@
 --   * Copies the selected items' take envelope to the selected automation envelope
 --   * Modified from Claudiohbsantos' script: CS_Copy Take Volume Envelope to Track Volume Envelope.lua
 -- @changelog
---   # Initial release (Thanks for the idea, @iBuyPowder!)
+--   # Update LuaUtils path with case sensitivity for Linux
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -24,7 +24,7 @@ local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 
 -- Load lua utilities
-acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- Take envelope to copy

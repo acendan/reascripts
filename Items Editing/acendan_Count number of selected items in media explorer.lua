@@ -1,6 +1,6 @@
 -- @description Count Selection in Media Explorer
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Count number of selected items in media explorer.lua
@@ -12,7 +12,7 @@
 --   * Requires the JS_ReascriptAPI extension.
 --   * Script adapted from: http://forum.cockos.com/showthread.php?p=2071080#post2071080
 -- @changelog
---   # Moved hWnd functions to Lua Utils
+--   # Update LuaUtils path with case sensitivity for Linux
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -22,7 +22,7 @@
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 
 -- Load lua utilities
-acendan_LuaUtils = reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
+acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 5.7 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

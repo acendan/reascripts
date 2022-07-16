@@ -1,6 +1,6 @@
 -- @description Enumerate Regions
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Enumerate regions in project.lua
@@ -11,7 +11,7 @@
 --   * "Only Repeated Regions" will restart enumeration for repeated names and SKIP enumerating one-off/single occurrences
 --   * Also set up recall using extstates. Didn't do it very efficiently but whatever I'm tired.
 -- @changelog
---   Added support for enumerating duplicates
+--   # Update LuaUtils path with case sensitivity for Linux
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -23,7 +23,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 local function loadUtilities(file); local E,A=pcall(dofile,file); if not(E)then return end; return A; end
-local acendan = loadUtilities((reaper.GetResourcePath()..'/scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
+local acendan = loadUtilities((reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'):gsub('\\','/'))
 if not acendan then reaper.MB("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'","ACendan Lua Utilities",0); return end
 if acendan.version() < 3.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end
 
