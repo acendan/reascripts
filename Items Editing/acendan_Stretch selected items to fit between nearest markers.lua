@@ -1,15 +1,19 @@
 -- @description Stretch selected items to fit between nearest markers
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Stretch selected items to fit between nearest markers.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   # Added setting for stretching inside nearest regions, thanks @kytdkut!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
+-- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- Toggle to 'true' to stretch inside nearest regions instead of markers
+stretch_inside_regions = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -31,10 +35,26 @@ function StretchItems()
       item_len = reaper.GetMediaItemInfo_Value( tb[i], "D_LENGTH" )
       item_mid = item_start + ( item_len / 2 )
       
-      local m_start_i = reaper.GetLastMarkerAndCurRegion(0, item_mid)
-      if m_start_i == -1 then return end
-      local _,_, m_start = reaper.EnumProjectMarkers(m_start_i)
-      local _,_, m_end = reaper.EnumProjectMarkers(m_start_i+1)
+      local m_start_i, m_start, m_end
+      if stretch_inside_regions then
+        local _, l_start_i = reaper.GetLastMarkerAndCurRegion(0, item_mid)
+        if l_start_i == -1 then return end
+        m_start_i = l_start_i
+
+        local _,_, l_start, l_end = reaper.EnumProjectMarkers(m_start_i)
+        m_start = l_start
+        m_end = l_end
+      else
+        local l_start_i = reaper.GetLastMarkerAndCurRegion(0, item_mid)
+        if l_start_i == -1 then return end
+        m_start_i = l_start_i
+
+        local _,_, l_start = reaper.EnumProjectMarkers(m_start_i)
+        local _,_, l_end = reaper.EnumProjectMarkers(m_start_i+1)
+        m_start = l_start
+        m_end = l_end
+      end
+
       if m_end and (m_end<m_start or m_end==m_start) then return end
       reaper.GetSet_LoopTimeRange(1, 0, m_start, m_end, 0)
       
