@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.7
+-- @version 6.8
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   + acendan.addActionMarker, acendan.deleteActionMarker
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1330,6 +1330,37 @@ function acendan.restoreProjectMarkers(table)
     mkr = table[i]
     --                 mkr = { isrgn,   pos,            name,   idx,    color }
     reaper.AddProjectMarker2(0, mkr[1], mkr[2], mkr[2], mkr[3], mkr[4], mkr[5])
+  end
+end
+
+-- Add action marker by command and preview text
+function acendan.addActionMarker(mkr_cmd, mkr_text, mkr_col, pos)
+  reaper.AddProjectMarker2(0, false, pos, pos, mkr_cmd, -1, mkr_col)
+  reaper.AddProjectMarker2(0, false, pos, pos + 0.01, mkr_text, -1, mkr_col)
+end
+
+-- Delete action marker by command and preview text
+function acendan.deleteActionMarker(mkr_cmd, mkr_text)
+  local reset = true
+  while reset do
+    reset = false
+    local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+    local num_total = num_markers + num_regions
+    if num_markers > 0 then
+      local i = 0
+      while i < num_total do
+        if not reset then
+          local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+          if not isrgn then
+            if name == mkr_text or name == mkr_cmd then
+              reaper.DeleteProjectMarkerByIndex(0, i)
+              reset = true
+            end
+          end
+        end
+        i = i + 1
+      end
+    end
   end
 end
 
