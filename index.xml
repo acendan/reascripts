@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="1f7f1ebbbf1d154c669c9f5304173a9a805a325b" name="ACendan Scripts">
+<index version="1" commit="a99551ce4b5295d7cbb4d7e2e283eebe966aba2f" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -174,6 +174,10 @@
       <version name="6.7" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
         <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="6.8" author="Aaron Cendan" time="2022-09-01T03:42:21Z">
+        <changelog><![CDATA[+ acendan.addActionMarker, acendan.deleteActionMarker]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/a99551ce4b5295d7cbb4d7e2e283eebe966aba2f/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -1024,6 +1028,24 @@
     </reapack>
   </category>
   <category name="Markers">
+    <reapack name="acendan_Action Marker_Move play cursor to left edge start of random selected item.lua" type="script">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Action Marker - Move Play Cursor to Random Sel Item\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To use this script, run it once while playback is stopped to place an action marker on the timeline.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab After placement on the timeline, the action marker will trigger this script whenever the playhead crosses the marker.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Simply select the items that you would like to jump between, then press space (play/stop) repeately to jump randomly between the selected items!\sa180\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" time="2022-09-01T03:42:21Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/a99551ce4b5295d7cbb4d7e2e283eebe966aba2f/Markers/acendan_Action%20Marker_Move%20play%20cursor%20to%20left%20edge%20start%20of%20random%20selected%20item.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Add marker to end of project regions prompt for name.lua" type="script" desc="Add Marker End Regions">
       <metadata>
         <link rel="website">https://aaroncendan.me</link>
