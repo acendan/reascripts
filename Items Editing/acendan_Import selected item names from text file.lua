@@ -1,6 +1,6 @@
 -- @description Import Selected Item Names Text File
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,12 +8,15 @@
 -- @about
 --   # Imports selected item names from a text file where each new line is a new item name
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   # Added user config option for 'use_timeline_order'
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- use_timeline_order = false -> default. this will rename items one-by-one from the top track, down
+-- use_timeline_order = true  -> this will order items by project timeline position (irrespective of track)
+use_timeline_order = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -25,7 +28,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 4.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.9 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,6 +39,13 @@ function main()
 
   local num_sel_items = reaper.CountSelectedMediaItems(0)
   if num_sel_items > 0 then
+  
+    local items_table = {}
+    acendan.saveSelectedItems(items_table)
+    
+    if use_timeline_order then
+      acendan.sortItemTableByPos(items_table)
+    end
           
     -- File picker dialog
     retval, file = reaper.JS_Dialog_BrowseForOpenFiles( "Import Names From File", acendan.getProjDir(), "", "", false )
@@ -45,7 +55,7 @@ function main()
       
       -- Create and loop through names table from each line in file
       local names_table = acendan.fileToTable(file)
-      for _, name in pairs(names_table) do
+      for _, name in ipairs(names_table) do
         if name ~= "" then
           -- Break out of while loop if an item is found and named
           local itm_named = false
@@ -53,7 +63,7 @@ function main()
           -- Loop through remaining items
           while i < num_sel_items and not itm_named do
             -- Rename
-            local item = reaper.GetSelectedMediaItem( 0, i )
+            local item = items_table[i+1]
             local take = reaper.GetActiveTake( item )
             if take ~= nil then 
               reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", name, true)

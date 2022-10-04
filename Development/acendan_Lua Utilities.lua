@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.8
+-- @version 6.9
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   + acendan.addActionMarker, acendan.deleteActionMarker
+--   + acendan.sortItemTableByPos(items_table)
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -881,18 +881,26 @@ end
 ]]--
 
 -- Save initially selected items to table
-function acendan.saveSelectedItems (table)
+function acendan.saveSelectedItems(items_table)
   for i = 1, reaper.CountSelectedMediaItems(0) do
-    table[i] = reaper.GetSelectedMediaItem(0, i-1)
+    items_table[i] = reaper.GetSelectedMediaItem(0, i-1)
   end
 end
 
 -- Restore selected items from table. Requires tableLength() above
-function acendan.restoreSelectedItems(table)
+function acendan.restoreSelectedItems(items_table)
   reaper.Main_OnCommand(40289, 0) -- Unselect all media items
-  for i = 1, acendan.tableLength(table) do
-    reaper.SetMediaItemSelected( table[i], true )
+  for i = 1, acendan.tableLength(items_table) do
+    reaper.SetMediaItemSelected( items_table[i], true )
   end
+end
+
+-- Sorts a table of media items by their position in timeline order
+function acendan.sortItemTableByPos(items_table)
+  local sortByPos = function(item1, item2)
+    return reaper.GetMediaItemInfo_Value( item1, "D_POSITION" ) < reaper.GetMediaItemInfo_Value( item2, "D_POSITION" )
+  end
+  table.sort(items_table, sortByPos)
 end
 
 -- Set only item selected
