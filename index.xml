@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="9933a5c01d2a8c94ff1a0d7f2720c11c1fe84a70" name="ACendan Scripts">
+<index version="1" commit="42f79fe0197c531915e71e54c610d86583eb281e" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2168,6 +2168,12 @@
       <version name="1.7" author="Aaron Cendan" time="2021-04-07T04:19:51Z">
         <changelog><![CDATA[Fixed MIDI tracks rendering to mono]]></changelog>
         <source main="main" file="acendan_Bounce In Place.lua">https://github.com/acendan/reascripts/raw/dc2f6cabfa12ed6537ce56a167f48b6955d0d570/Utility/acendan_Bounce%20In%20Place.lua</source>
+      </version>
+      <version name="1.8" author="Aaron Cendan" time="2022-10-23T21:56:42Z">
+        <changelog><![CDATA[* Render parent folders based on child tracks' item channel counts 
+* Support muting original items instead of track after render
+* Maintain original track folder depth instead of nesting under new track]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/42f79fe0197c531915e71e54c610d86583eb281e/Utility/acendan_Bounce%20In%20Place.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Center Control.jsfx" type="effect" desc="acendan_Center Control">
