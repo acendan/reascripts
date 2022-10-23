@@ -1,6 +1,6 @@
 -- @description Create Unique Regions Overlapping Items
 -- @author Aaron Cendan
--- @version 1.5
+-- @version 1.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for overlapping items on selected tracks.lua
@@ -8,7 +8,7 @@
 -- @about
 --   # Creates unique regions for each bundle of overlapping items on the selected track
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   * Default to REAPER internal rgn indexing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -154,7 +154,7 @@ function main()
             if not use_first_item_color then item_color = 0 end
             
             -- Create region
-            local new_region_idx = reaper.AddProjectMarker2(0, true, item_start_pos, item_end_pos, item_name, 0, item_color) 
+            local new_region_idx = reaper.AddProjectMarker2(0, true, item_start_pos, item_end_pos, item_name, -1, item_color) 
             
             -- Assign track in RRM
             if set_region_render_matrix_to_tracks and shared_parent_track then reaper.SetRegionRenderMatrix(0, new_region_idx, shared_parent_track, 1) end

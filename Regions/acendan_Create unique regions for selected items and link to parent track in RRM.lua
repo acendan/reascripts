@@ -1,12 +1,12 @@
 -- @description acendan_Create unique regions for selected items and link to parent track in RRM
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for selected items and link to parent track in RRM.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   # Fixed naming w folder tracks extra underscore
+--   * Default to REAPER internal rgn indexing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -67,13 +67,13 @@ function addToRRM()
 			    end
 			  end
 			  
-			  regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, name_incl_folders, 0, take_color)
+			  regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, name_incl_folders, -1, take_color)
 			  reaper.SetRegionRenderMatrix(0, regionID, item_parent_track, 1)
 			  
 			else
 				if not retval or trackName == "" then trackName = take_name end
 				
-				regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, trackName, 0, take_color)
+				regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, trackName, -1, take_color)
 				reaper.SetRegionRenderMatrix(0, regionID, item_parent_track, 1)
 			end
 		end

@@ -1,6 +1,6 @@
 -- @description Create Region for Selected Items Across Tracks
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create one region for selected items across tracks and link to parent in RRM.lua
@@ -13,7 +13,7 @@
 --   * Select some items in a folder then run the script. 
 --   * A region will be created and linked to the parent track of the folder.
 -- @changelog
---   # Fixed naming w folder tracks extra underscore
+--   * Default to REAPER internal rgn indexing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -122,18 +122,18 @@ function main()
 
             --msg(name_incl_folders)
             
-            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, name_incl_folders, 0, parent_track_color)
+            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, name_incl_folders, -1, parent_track_color)
             reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
           
           elseif all_same_track and first_named_track ~= "" then
-            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, first_named_track, 0, parent_track_color)
+            regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, first_named_track, -1, parent_track_color)
             reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
           else
             if ret_prnt then
-              regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, parent_track_name, 0, parent_track_color)
+              regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, parent_track_name, -1, parent_track_color)
               reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
             else
-              regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, parent_track_color)
+              regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", -1, parent_track_color)
               reaper.SetRegionRenderMatrix(0, regionID, parent_track, 1)
             end
           end
@@ -141,14 +141,14 @@ function main()
         
       -- Parent track is master track
       else
-        regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, 0)
+        regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", -1, 0)
         reaper.SetRegionRenderMatrix(0, regionID, reaper.GetMasterTrack( 0 ), 1)
       end
     else
       local response = reaper.MB("The selected items don't share the same parent folder.\n\nWould you still like to create a region?", "Region from Selected Items", 4)
       -- If yes, create a region
       if response == 6 then
-        regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", 0, 0)
+        regionID = reaper.AddProjectMarker2(0, true, sel_items_start, sel_items_end + additional_space, "", -1, 0)
       end
     end
   else

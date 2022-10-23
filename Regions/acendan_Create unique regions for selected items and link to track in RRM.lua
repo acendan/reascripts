@@ -1,12 +1,12 @@
 -- @description Add regions for selected items to render matrix name from active take
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create unique regions for selected items and link to track in RRM.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   Renaming to align with other region scripts
+--   * Default to REAPER internal rgn indexing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -36,7 +36,7 @@ function addToRRM()
 			track =  reaper.GetMediaItemTrack( item )
 			retval, trackName = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "test", false)
 
-			regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, take_name, 0, take_color)
+			regionID = reaper.AddProjectMarker2(0, true, startPos, endPos, take_name, -1, take_color)
 
 			reaper.SetRegionRenderMatrix(0, regionID, track, 1)
 		end

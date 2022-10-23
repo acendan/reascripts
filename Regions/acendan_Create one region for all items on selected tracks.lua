@@ -1,10 +1,12 @@
 -- @description Create one region for all items on selected tracks
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create one region for all items on selected tracks.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   * Default to REAPER internal rgn indexing
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -47,10 +49,10 @@ function addToRRM()
 
       if track_items_start < math.huge then
         if retval then
-          regionID = reaper.AddProjectMarker2(0, true, track_items_start, track_items_end + additional_space, track_name, 0, track_color)
+          regionID = reaper.AddProjectMarker2(0, true, track_items_start, track_items_end + additional_space, track_name, -1, track_color)
           reaper.SetRegionRenderMatrix(0, regionID, track, 1)
         else
-          regionID = reaper.AddProjectMarker2(0, true, track_items_start, track_items_end + additional_space, "", 0, track_color)
+          regionID = reaper.AddProjectMarker2(0, true, track_items_start, track_items_end + additional_space, "", -1, track_color)
           reaper.SetRegionRenderMatrix(0, regionID, track, 1)
         end
       end
