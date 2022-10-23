@@ -1,6 +1,6 @@
 -- @description Open Envelope w Automation Items
 -- @author Aaron Cendan, ausbaxter
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Open (volume) envelope for selected tracks and create (pooled) automation items for track items.lua
@@ -14,13 +14,14 @@
 --   # Open Envelope w Automation Items
 --   * Opens the appropriate envelope in script name and creates automation items based on track item positions.
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   # Reduce number of annoying pop-ups, try to infer intention
+--   # Select newly added automation items
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- Only process selected items 
+-- Only process selected items (default = false)
 only_selected_items = false
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,19 +47,25 @@ function main()
   -- Check pooled or unpooled; default pooled
   local pooled = true
   if script_name:find("(unpooled)") then pooled = false end
-  
-  -- Check if items are selected
-  if only_selected_items and reaper.CountSelectedMediaItems(0) == 0 then
-    acendan.msg("No media items selected! Please select an item or disable 'only_selected_items' in this script's user config section.\n\n~~~\n" .. script_name)
-    return
-  end
-  
+
   -- Process envelope by script name
   if script_name:find("(volume)") or script_name:find("(pan)") or test_vol_pan then
+    -- Select tracks of sel items
+    if only_selected_items then
+      reaper.Main_OnCommand(40297, 0) -- Track: Unselect (clear selection of) all tracks
+      local num_sel_items = reaper.CountSelectedMediaItems(0)
+      if num_sel_items > 0 then
+        for i=0, num_sel_items - 1 do
+          local it = reaper.GetSelectedMediaItem( 0, i )
+          local tr = reaper.GetMediaItem_Track(it)
+          reaper.SetTrackSelected(tr, true)
+        end
+      end
+    end
+    
     -- Check num tracks selected
     local num_sel_tracks = reaper.CountSelectedTracks( 0 )
     if not (num_sel_tracks > 0) then 
-      acendan.msg("No tracks selected!\n\n~~~\n" .. script_name) 
       return 
     end
     
@@ -67,7 +74,7 @@ function main()
     acendan.saveSelectedTracks(sel_tracks)
     
     -- Select all items on selected tracks
-    if not only_selected_items then SelectAllItemsOnSelectedTracks() end
+    if not only_selected_items or (only_selected_items and reaper.CountSelectedMediaItems(0) == 0) then SelectAllItemsOnSelectedTracks() end
     
     -- Open and select track envelopes by command ID accordingly
     local sel_env_cmd = script_name:find("(volume)") and 41866 or 41868       -- Track: Select volume envelope   OR   Track: Select pan envelope
@@ -91,7 +98,7 @@ function main()
     local track = reaper.GetTrack(0, tracknumber-1)
     if not track then acendan.msg("Unable to fetch the track for last touched FX parameter. Please try again!\n\n~~~\n" .. script_name); return end
     reaper.SetOnlyTrackSelected(track)
-    if not only_selected_items then SelectAllItemsOnSelectedTracks() end
+    if not only_selected_items or (only_selected_items and reaper.CountSelectedMediaItems(0) == 0) then SelectAllItemsOnSelectedTracks() end
     
     -- Select envelope
     local envelope =  reaper.GetFXEnvelope(track, fxnumber, paramnumber, true)
@@ -226,6 +233,10 @@ function GetEnvelope(track)
     end
 end
 
+function FloatCompare(x, y)
+  return math.abs(x - y) < 0.001
+end
+
 function InsertAutomationItems(item_tracks, pooled)
     local is_first = true
     local base_length = 0
@@ -234,27 +245,56 @@ function InsertAutomationItems(item_tracks, pooled)
         for _, item in ipairs(t.items) do
             if dest_envelope then
                 local start, length = GetItemSize(item)
-                local ai_index = pooled and reaper.InsertAutomationItem(dest_envelope, pool_id, start, length) or reaper.InsertAutomationItem(dest_envelope, -1, start, length)
-                if is_first then 
-                    is_first = false
-                    base_length = length
-                else
-                    reaper.GetSetAutomationItemInfo(dest_envelope, ai_index, "D_PLAYRATE", base_length / length, true)
+                
+                -- Check if already an automation item in this spot; if so, select it and skip adding
+                local exists = false
+                for ai_idx = 0, reaper.CountAutomationItems(dest_envelope) - 1 do
+                  local ai_start = reaper.GetSetAutomationItemInfo(dest_envelope, ai_idx, "D_POSITION", -1, false)
+                  local ai_length = reaper.GetSetAutomationItemInfo(dest_envelope, ai_idx, "D_LENGTH", -1, false)
+                  if FloatCompare(start, ai_start) and FloatCompare(length, ai_length) then exists = true end
+                end
+                
+                -- Insert
+                if not exists then
+                  local ai_index =  reaper.InsertAutomationItem(dest_envelope, pooled and pool_id or -1, start, length)
+                  if is_first then 
+                      is_first = false
+                      base_length = length
+                  else
+                      reaper.GetSetAutomationItemInfo(dest_envelope, ai_index, "D_PLAYRATE", base_length / length, true)
+                  end
                 end
             end
         end
     end
+    
+    -- Select automation items
+    for i, t in pairs(item_tracks) do
+      local dest_envelope = GetEnvelope(t.track)
+      for _, item in ipairs(t.items) do
+          if dest_envelope then
+              local start, length = GetItemSize(item)
+              for ai_idx = 0, reaper.CountAutomationItems(dest_envelope) - 1 do
+                local ai_start = reaper.GetSetAutomationItemInfo(dest_envelope, ai_idx, "D_POSITION", -1, false)
+                local ai_length = reaper.GetSetAutomationItemInfo(dest_envelope, ai_idx, "D_LENGTH", -1, false)
+                if FloatCompare(start, ai_start) and FloatCompare(length, ai_length) then 
+                  reaper.GetSetAutomationItemInfo(dest_envelope, ai_idx, "D_UISEL", 1, true)
+                end
+              end
+          end
+      end
+  end
 end
 
 function ausbaxter_InsertAutomationItems(pooled)
     local envelope = reaper.GetSelectedEnvelope(0)
     if not envelope then
-        reaper.ShowMessageBox("No Envelope Selected", "Error: No Selected Envelope", 0)
+        --reaper.ShowMessageBox("No Envelope Selected", "Error: No Selected Envelope", 0)
         return
     end
     local env_track = reaper.Envelope_GetParentTrack(envelope)
     if not IsGoodTrackEnvelope(envelope) then 
-        reaper.ShowMessageBox("No media items found on selected track!\n\n~~~\n" .. script_name, "Create Automation Items", 0) 
+        --reaper.ShowMessageBox("No media items found on selected track!\n\n~~~\n" .. script_name, "Create Automation Items", 0) 
         return 
     end
     local item_tracks = GetSelectedItemsTracks()
