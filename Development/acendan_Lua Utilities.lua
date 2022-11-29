@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 6.9
+-- @version 7.0
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   + acendan.sortItemTableByPos(items_table)
+--   # Append platform specific separator from acendan.promptForFolder()
 
 --[[
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -46,15 +46,10 @@ end
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 reaper.PreventUIRefresh(1)
-
 reaper.Undo_BeginBlock()
-
 main()
-
 reaper.Undo_EndBlock(script_name,-1)
-
 reaper.PreventUIRefresh(-1)
-
 reaper.UpdateArrange()
 
 
@@ -1735,6 +1730,8 @@ function acendan.promptForFolder(message)
   local ret, folder = reaper.JS_Dialog_BrowseForFolder( message, "" )
   if ret == 1 then
     -- Folder found
+    local win, sep = acendan.getOS()
+    if not acendan.stringEnds(folder, sep) then folder = folder .. sep end
     return folder
   elseif ret == 0 then
     -- Folder selection cancelled
