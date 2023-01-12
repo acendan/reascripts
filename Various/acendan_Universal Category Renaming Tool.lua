@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.8
+-- @version 6.9
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Updated GBXMod
+--   # Added separate Notes field with large resizable textbox for 'IXML:USER:Notes'
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -46,8 +46,6 @@ local julibrary_mode = false      -- SET THIS TO 'true' IN ORDER TO COPY AFTER S
 local julibrary_headers = false   -- SET THIS TO 'true' TO INCLUDE ROW HEADERS WHILE COPYING
 
 local julibrary_metadata = ""
-local tab = "\t"
-
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ FETCH EXT STATES ~~~~~~~~~~
@@ -86,6 +84,7 @@ local retm_lib,    meta_lib    = reaper.GetProjExtState( 0, "UCS_WebInterface", 
 local retm_loc,    meta_loc    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLoc")
 local retm_url,    meta_url    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaURL")
 local retm_mftr,   meta_mftr   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMftr")
+local retm_notes,  meta_notes  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaNotes")
 local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
 local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
 
@@ -167,7 +166,7 @@ iXML["IXML:USER:Category"]       = "Category"        -- CATEGORY
 iXML["IXML:USER:SubCategory"]    = "SubCategory"     -- SUBCATEGORY                    
 iXML["IXML:USER:CategoryFull"]   = "CategoryFull"    -- CATEGORY-SUBCATEGORY             
 iXML["IXML:USER:FXName"]         = "FXName"          -- File name field               
-iXML["IXML:USER:Notes"]          = "Notes"           -- User Data/Notes (Optional)     
+iXML["IXML:USER:Notes"]          = "MetaNotes"       -- Metadata Notes     
 iXML["IXML:USER:Show"]           = "Show"            -- Source ID                        
 iXML["IXML:USER:UserCategory"]   = "UserCategory"    -- User Category                   
 iXML["IXML:USER:VendorCategory"] = "VendorCategory"  -- Vendor Category
@@ -1126,6 +1125,7 @@ function iXMLMarkers(position,relname)
       mega_marker = mega_marker .. ";" .. "Location=" .. meta_loc
       mega_marker = mega_marker .. ";" .. "URL=" .. meta_url
       mega_marker = mega_marker .. ";" .. "Manufacturer=" .. meta_mftr
+      mega_marker = mega_marker .. ";" .. "MetaNotes=" .. meta_notes
       mega_marker = mega_marker .. ";" .. "MicPerspective=" .. meta_persp
       mega_marker = mega_marker .. ";" .. "RecType=" .. meta_config
       
@@ -1231,6 +1231,7 @@ function iXMLMarkers(position,relname)
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Location=" .. meta_loc, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "URL=" .. meta_url, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Manufacturer=" .. meta_mftr, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MetaNotes=" .. meta_notes, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "MicPerspective=" .. meta_persp, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "RecType=" .. meta_config, ucs_num}
       
@@ -1318,6 +1319,7 @@ function iXMLMarkers(position,relname)
       if retm_lib    and v == "Library"      and meta_lib:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_lib, true )    end      
       if retm_url    and v == "URL"          and meta_url:sub(1,1) == "$"    then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_url, true )    end
       if retm_mftr   and v == "Manufacturer" and meta_mftr:sub(1,1) == "$"   then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_mftr, true )   end
+      if retm_notes  and v == "MetaNotes"    and meta_notes:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_notes, true )  end
       if retm_recmed and v == "RecMedium"    and meta_recmed:sub(1,1) == "$" then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_recmed, true ) end
       if retm_dsgnr  and v == "Designer"     and meta_dsgnr:sub(1,1) == "$"  then reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", k .. "|" .. meta_dsgnr, true )  end
     end
@@ -1327,39 +1329,39 @@ function iXMLMarkers(position,relname)
   if julibrary_mode then
     if julibrary_headers then
       julibrary_metadata = julibrary_metadata ..
-        "Filename" .. tab .. 
-        "CatID" .. tab ..
-        "Title" .. tab .. 
-        "Description" .. tab ..
-        "Keywords" .. tab ..
-        "Notes" .. tab ..
+        "Filename" .. "\t" .. 
+        "CatID" .. "\t" ..
+        "Title" .. "\t" .. 
+        "Description" .. "\t" ..
+        "Keywords" .. "\t" ..
+        "Notes" .. "\t" ..
         
-        "Configuration" .. tab ..
-        "Perspective" .. tab ..
-        "Microphone" .. tab ..
-        "Recorder" .. tab ..
+        "Configuration" .. "\t" ..
+        "Perspective" .. "\t" ..
+        "Microphone" .. "\t" ..
+        "Recorder" .. "\t" ..
         
-        "Designer" .. tab ..
-        "Library" .. tab ..
+        "Designer" .. "\t" ..
+        "Library" .. "\t" ..
         "Location" .. "\n"
     end
     
     
     julibrary_metadata = julibrary_metadata .. 
-      ucs_full_name .. ".wav" .. tab .. 
-      ucs_id .. tab ..
-      meta_title .. tab ..
-      meta_desc .. tab .. 
-      meta_keys .. tab ..
-      ucs_data .. tab ..
+      ucs_full_name .. ".wav" .. "\t" .. 
+      ucs_id .. "\t" ..
+      meta_title .. "\t" ..
+      meta_desc .. "\t" .. 
+      meta_keys .. "\t" ..
+      ucs_data .. "\t" ..
       
-      meta_config .. tab ..
-      meta_persp .. tab ..
-      meta_mic .. tab .. 
-      meta_recmed .. tab ..
+      meta_config .. "\t" ..
+      meta_persp .. "\t" ..
+      meta_mic .. "\t" .. 
+      meta_recmed .. "\t" ..
       
-      meta_dsgnr .. tab ..
-      meta_lib .. tab ..
+      meta_dsgnr .. "\t" ..
+      meta_lib .. "\t" ..
       meta_loc .. "\n"
   end
 end
@@ -1514,6 +1516,8 @@ function ucsRetsToBool()
   if retm_lib    == 1 then retm_lib    = true else retm_lib    = false end
   if retm_loc    == 1 then retm_loc    = true else retm_loc    = false end
   if retm_url    == 1 then retm_url    = true else retm_url    = false end
+  if retm_mftr   == 1 then retm_mftr   = true else retm_mftr   = false end
+  if retm_notes  == 1 then retm_notes  = true else retm_notes  = false end
   if retm_persp  == 1 then retm_persp  = true else retm_persp  = false end
   if retm_config == 1 then retm_config = true else retm_config = false end
   
@@ -1619,6 +1623,7 @@ function debugUCSInput()
   reaper.ShowConsoleMsg("Location: ".. meta_loc .. " (" .. tostring(retm_loc) .. ")" .. "\n")
   reaper.ShowConsoleMsg("URL: " .. meta_url .. " (" .. tostring(retm_url) .. ")" .. "\n")
   reaper.ShowConsoleMsg("Manufacturer: " .. meta_mftr .. " (" .. tostring(retm_mftr) .. ")" .. "\n")
+  reaper.ShowConsoleMsg("Meta Notes: " .. meta_notes .. " (" .. tostring(retm_notes) .. ")" .. "\n")
   reaper.ShowConsoleMsg("Perspective: " .. meta_persp .. " (" .. tostring(retm_persp) .. ")" .. "\n")
   reaper.ShowConsoleMsg("Mic Config: ".. meta_config .. " (" .. tostring(retm_config) .. ")" .. "\n")
 

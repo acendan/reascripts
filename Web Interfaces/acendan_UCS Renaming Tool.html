@@ -599,8 +599,8 @@
                     <h7 id="ASWGMetaDesc">Show additional fields for ASWG General, SFX, Dialogue, and Music metadata?<br>Requires "Render Additional Fields" above.</h7>
                 </div>
                 <!-- Location Input -->
-                <p style="margin-bottom:0px;">Location Input:</p>
-                <div class="form-check" style="margin-left:30px">
+                <p style="margin-bottom:0px;" id="locInputHeader">Location Input:</p>
+                <div class="form-check" style="margin-left:30px" id="locInputDiv">
                     <input class="form-check-input" type="checkbox" id="locationInputSettings">
                     <h7 id="locationInputDesc"><b>Unchecked</b>: Country, State, City - Separate dropdowns (Default; requires online connection for location API)<br><b>Checked</b>: Textbox - User input</h7>
                 </div>
@@ -1827,6 +1827,14 @@
                     </div>
                 </div>
 
+                <!-- Notes -->
+                <div class="form-group col-md-8 custom-control-inline" style="margin-left: 0px; margin-top: 0px; margin-bottom: 0px;" id="metaUserNotesDiv">
+                    <div class="form-group col-md-8" style="margin-left: 15px; margin-right: 15px;">
+                        <label for="metaNotesLabel">Notes</label>
+                        <textarea class="form-control" id="metaNotes" rows="3"></textarea>
+                    </div>
+                </div>
+
                 <!-- Album Art -- DISABLED UNTIL MEDIA EXPLORER CAN SHOW ALBUM ART 
                 <div class="form-group col-md-6">
                     <label class="form-label" for="customFile">Embed Artwork</label>
@@ -2026,6 +2034,27 @@
             loadUserHistory();
         });
 
+        // ~~~~~~~~~~~~~~~~~~~~
+        // CATCH ERROR IN LOADING COUNTRY STATE CITY API
+        // ~~~~~~~~~~~~~~~~~~~~
+        $.ajax({
+            type: "POST",
+            url: "http://geodata.solutions/api/api.php",
+            success: function(msg){
+                // Success
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("Error: Failed to load CountryStateCity API!");
+
+                // Force manual input
+                $("#locationInputSettings").prop('checked',true);
+                $("#locInputHeader").hide();
+                $("#locInputDiv").hide();
+                $("#metaLocDiv").hide();
+                $("#metaUserLocDiv").show();    
+            }
+        });
+        
         // ~~~~~~~~~~~~~~~~~~~~
         // RECALL STORAGE SETTINGS
         // ~~~~~~~~~~~~~~~~~~~~
@@ -2315,6 +2344,7 @@
                 var metaLib    = stringCleaning($("#userInputMetaLib").val());                
                 var metaURL    = $("#userInputMetaURL").val();
                 var metaMftr   = $("#userInputMetaManufacturer").val();
+                var metaNotes  = $("#metaNotes").val();
 
                 // Extended metadata - location
                 var metaCoun   = $("#countryId").val();
@@ -2363,6 +2393,7 @@
                 setProjExtState(metaLoc, "MetaLoc");
                 setProjExtState(metaURL, "MetaURL");
                 setProjExtState(metaMftr, "MetaMftr");
+                setProjExtState(metaNotes, "MetaNotes");
                 setProjExtState(metaConfig, "MetaConfig");
                 setProjExtState(metaPersp, "MetaPersp");
             }
@@ -2581,8 +2612,9 @@
         $(document).keydown(function (event) {
             if (event.which === 13) {
                 var categoryFocused = $('#userInputCategory').is(':focus');
+                var metaNotesFocused = $('#metaNotes').is(':focus');
                 var modalFocused = $('body').find('.modal.show').length > 0;
-                if (!categoryFocused && !modalFocused) {
+                if (!categoryFocused && !modalFocused && !metaNotesFocused) {
                     $("#formSubmitButton").click();
                 } else if ($('#presetsModal').hasClass('show')) {
                     saveThisAsPreset();
@@ -3637,6 +3669,7 @@
                 metaLib: $("#userInputMetaLib").val(),        
                 metaURL: $("#userInputMetaURL").val(),
                 metaMftr: $("#userInputMetaManufacturer").val(),
+                metaNotes: $("#metaNotes").val(),
                 metaCoun: $("#countryId").val(),
                 metaState: $("#stateId").val(),
                 metaCity: $("#cityId").val(),
@@ -3791,6 +3824,7 @@
             if (presetSettings.metaLib && presetSettings.metaLib !== "") $("#userInputMetaLib").val(presetSettings.metaLib).trigger('change');
             if (presetSettings.metaURL && presetSettings.metaURL !== "") $("#userInputMetaURL").val(presetSettings.metaURL).trigger('change');
             if (presetSettings.metaMftr && presetSettings.metaMftr !== "") $("#userInputMetaManufacturer").val(presetSettings.metaMftr).trigger('change');
+            if (presetSettings.metaNotes && presetSettings.metaNotes !== "") $("#metaNotes").val(presetSettings.metaNotes).trigger('change');
             if (presetSettings.metaCoun && presetSettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(presetSettings.metaCoun).trigger('change'); }, 500);
             if (presetSettings.metaState && presetSettings.metaState !== "") setTimeout(() => { $("#stateId").val(presetSettings.metaState).trigger('change'); }, 1000);
             if (presetSettings.metaCity && presetSettings.metaCity !== "") setTimeout(() => { $("#cityId").val(presetSettings.metaCity).trigger('change'); }, 1500);            
@@ -3936,6 +3970,7 @@
                 metaLib: $("#userInputMetaLib").val(),        
                 metaURL: $("#userInputMetaURL").val(),
                 metaMftr: $("#userInputMetaManufacturer").val(),
+                metaNotes: $("#metaNotes").val(),
                 metaCoun: $("#countryId").val(),
                 metaState: $("#stateId").val(),
                 metaCity: $("#cityId").val(),
@@ -4065,7 +4100,8 @@
             if (historySettings.metaDsgnr && historySettings.metaDsgnr !== "") $("#userInputMetaDsgnr").val(historySettings.metaDsgnr).trigger('change');
             if (historySettings.metaLib && historySettings.metaLib !== "") $("#userInputMetaLib").val(historySettings.metaLib).trigger('change');
             if (historySettings.metaURL && historySettings.metaURL !== "") $("#userInputMetaURL").val(historySettings.metaURL).trigger('change');
-            if (historySettings.metaMftr && historySettings.metaMftr !== "") $("#userInputMetaManufacturer").val(historySettings.metaMftr).trigger('change');            
+            if (historySettings.metaMftr && historySettings.metaMftr !== "") $("#userInputMetaManufacturer").val(historySettings.metaMftr).trigger('change');    
+            if (historySettings.metaNotes && historySettings.metaNotes !== "") $("#metaNotes").val(historySettings.metaNotes).trigger('change');        
             if (historySettings.metaCoun && historySettings.metaCoun !== "") setTimeout(() => { $("#countryId").val(historySettings.metaCoun).trigger('change'); }, 500);
             if (historySettings.metaState && historySettings.metaState !== "") setTimeout(() => { $("#stateId").val(historySettings.metaState).trigger('change'); }, 1000);
             if (historySettings.metaCity && historySettings.metaCity !== "") setTimeout(() => { $("#cityId").val(historySettings.metaCity).trigger('change'); }, 1500);            
