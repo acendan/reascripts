@@ -1,10 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 6.9
+@version 6.9.1
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-   # Added separate Notes field with large resizable textbox for 'IXML:USER:Notes'
+   # Added quadraphonic (QUAD) to mic configuration metadata dropdown (thanks Manu!)
