@@ -484,6 +484,7 @@
                         <a class="dropdown-item" href="#" id="langZH" style="display: flex; align-items: center;"><i class="flag cn"></i>&nbsp;&nbsp;Chinese</a>
                         <a class="dropdown-item" href="#" id="langJA" style="display: flex; align-items: center;"><i class="flag jp"></i>&nbsp;&nbsp;Japanese</a>
                         <a class="dropdown-item" href="#" id="langTW" style="display: flex; align-items: center;"><i class="flag tw"></i>&nbsp;&nbsp;Taiwanese</a>
+                        <a class="dropdown-item" href="#" id="langKR" style="display: flex; align-items: center;"><i class="flag kr"></i>&nbsp;&nbsp;Korean</a>
                         <a class="dropdown-item" href="#" id="langRU" style="display: flex; align-items: center;"><i class="flag ru"></i>&nbsp;&nbsp;Russian</a>
                         <a class="dropdown-item" href="#" id="langUA" style="display: flex; align-items: center;"><i class="flag ua"></i>&nbsp;&nbsp;Ukrainian</a>
                         <a class="dropdown-item" href="#" id="langTR" style="display: flex; align-items: center;"><i class="flag tr"></i>&nbsp;&nbsp;Turkish</a>
@@ -1892,7 +1893,7 @@
         <!--------------->
         <div>
             <h3 id="dataTable">Universal Category System Table</h3>
-            <h6 id="UCSTableSubHeading">Google Sheets Data/Online Mode ~ UCS v8.1</h6>
+            <h6 id="UCSTableSubHeading">Google Sheets Data/Online Mode ~ UCS v8.2</h6>
             <!-- OFFLINE/ONLINE INFO - Displayed on load -->
             <h6 id="downloadUCSButtonText" style="display: none">Click here to download for offline use!</h6>
             <h6 id="reenableOnlineUCSButtonText" style="display: none">If you would like to re-enter 'Online Mode' using Google Sheets data, click here.</h6>
@@ -1980,6 +1981,7 @@
         var ucs_gsheet_ru = ucs_gsheet_header + "17" + ucs_gsheet_footer;
         var ucs_gsheet_ua = ucs_gsheet_header + "18" + ucs_gsheet_footer;
         var ucs_gsheet_tr = ucs_gsheet_header + "19" + ucs_gsheet_footer;
+        var ucs_gsheet_kr = ucs_gsheet_header + "20" + ucs_gsheet_footer;
  
         // Arrays populated by Google Sheet public JSON
         // Cleaned up arrays for auto-filter
@@ -3323,6 +3325,15 @@
         });
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // SET LANGUAGE - Korean
+        // ~~~~~~~~~~~~~~~~~~~~
+        $("#langKR").click(function (e) {
+            localStorage.setItem("ucs_language", ucs_gsheet_kr);
+            localStorage.setItem("ucs_language_country", "kr");
+            location.reload();
+        });
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // SET LANGUAGE - Norway
         // ~~~~~~~~~~~~~~~~~~~~
         $("#langNO").click(function (e) {
@@ -3412,6 +3423,7 @@
                     $("#langZH").html('<i class="flag cn"></i>&nbsp;&nbsp;简体中文');
                     $("#langJA").html('<i class="flag jp"></i>&nbsp;&nbsp;日语');
                     $("#langTW").html('<i class="flag tw"></i>&nbsp;&nbsp;繁体中文');
+                    $("#langKR").html('<i class="flag kr"></i>&nbsp;&nbsp;韩国人');
                     $("#langRU").html('<i class="flag ru"></i>&nbsp;&nbsp;俄语');
                     $("#langUA").html('<i class="flag ua"></i>&nbsp;&nbsp;乌克兰语');
                     $("#langTR").html('<i class="flag tr"></i>&nbsp;&nbsp;土耳其');
@@ -3470,7 +3482,7 @@
 
                     // Table
                     $("#dataTable").text('UCS音效系统分类表');
-                    $("#UCSTableSubHeading").text('谷歌在线数据库~ UCS v8.1（如无法使用请检查代理）');
+                    $("#UCSTableSubHeading").text('谷歌在线数据库~ UCS v8.2（如无法使用请检查代理）');
                     $("#downloadUCSButtonText").text('点击这里下载离线使用！');
                     $("#reenableOnlineUCSButtonText").text('如果您想使用谷歌表数据重新进入“在线模式”，请点击这里.');
                     $("#downloadUCSButton").html('<img class="icons filter-green" src="ucs_libraries/data-transfer-download.svg" alt="download_icon">&nbsp;&nbsp;<b>下载列表</b>');
@@ -4273,7 +4285,7 @@
         // ~~~~~~~~~~~~~~~~~~~~
         function useOfflineUSCData(offlineTableData) {
             // Display appropriate HTML elements
-            $("#UCSTableSubHeading").text("UCS Data Offline Mode ~ UCS v8.1");
+            $("#UCSTableSubHeading").text("UCS Data Offline Mode ~ UCS v8.2");
             //$("#reenableOnlineUCSButtonText").show();
             //$("#onlineUCSButton").show();
 

@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 6.9
+-- @version 8.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,8 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Added separate Notes field with large resizable textbox for 'IXML:USER:Notes'
+--   * UCS v8.2 Release - Congrats to Tim Nielsen, Justin Drury, Kai Paquin, and the rest of the UCS organizers!
+--   * Added support for Korean translation
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
