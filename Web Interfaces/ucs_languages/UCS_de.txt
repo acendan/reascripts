@@ -3,7 +3,7 @@
 ["LUFT","ZISCHEN","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","Luft ablassen, ausblasen, ausstoßen, lecken"],
 ["LUFT","DIV","AIRMisc","AIR","Air sounds not fitting another category in this list.","Verschiedenes"],
 ["LUFT","SOG","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","Vakuum, saugen, saugen"],
-["LUFTFAHRZEUG","TÜR","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","Cockpittür, Flugzeugtür, Luke, Notausgang"],
+["LUFTFAHRZEUG","TÜR","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","Cockpittür, Flugzeugtür, Luke, Notausgang"],
 ["LUFTFAHRZEUG","HUBSCHRAUBER","AEROHeli","AERO","For all manner of helicopters, gycopters.","Gyrocopter, Whirlybird, Hubschrauber, Ghetto Bird, Bellcopter, Polizeihubschrauber, Huey, Helikopter, Blackhawk"],
 ["LUFTFAHRZEUG","INNEN","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","Jet, Flugzeug, Flugzeug, Passagierflugzeug, Segelflugzeug, Zeppelin, Verkehrsflugzeug, Jetliner, Jumbo Jet, Learjet, Airbus, Boeing, Bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380, Kampfjet"],
 ["LUFTFAHRZEUG","JET","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","Verkehrsflugzeug, Düsenflugzeug, Jumbojet, Learjet, Airbus, Boeing, Bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380"],

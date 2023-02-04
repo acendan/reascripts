@@ -3,7 +3,7 @@
 ["LUCHT","SISSEN","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","lucht afblazen, uitlaten, verdrijven, lek"],
 ["LUCHT","DIVERSEN","AIRMisc","AIR","Air sounds not fitting another category in this list.","diverse"],
 ["LUCHT","ZUIGING","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","vacuüm, zuigen, zuigen"],
-["LUCHTVAART","DEUR","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","cockpitdeur, vliegtuigdeur, luik, nooduitgang"],
+["LUCHTVAART","DEUR","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","cockpitdeur, vliegtuigdeur, luik, nooduitgang"],
 ["LUCHTVAART","HELIKOPTER","AEROHeli","AERO","For all manner of helicopters, gycopters.","gyrocopter, whirlybird, chopper, ghetto bird, bellcopter, politiechopper, huey, chopper, blackhawk"],
 ["LUCHTVAART","INTERIEUR","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","jet, vliegtuig, vliegtuig, passagiersjet, zweefvliegtuig, zeppelin, airliner, jetliner, jumbojet, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380, gevechtsvliegtuig"],
 ["LUCHTVAART","STRAALJAGER","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","airliner, jetliner, jumbojet, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380"],

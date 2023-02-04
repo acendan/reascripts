@@ -3,7 +3,7 @@
 ["LUFT","PYS","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","luftutsläpp, utlopp, utlopp, läckage"],
 ["LUFT","DIVERSE","AIRMisc","AIR","Air sounds not fitting another category in this list.","diverse"],
 ["LUFT","SUG","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","vakuum, suga, suga"],
-["LUFTFARKOSTER","DÖRR","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","Cockpitdörr, flygplansdörr, lucka, nödutgång"],
+["LUFTFARKOSTER","DÖRR","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","Cockpitdörr, flygplansdörr, lucka, nödutgång"],
 ["LUFTFARKOSTER","HELIKOPTER","AEROHeli","AERO","For all manner of helicopters, gycopters.","gyrokopter, whirlybird, chopper, ghettofågel, bellcopter, polishelikopter, huey, chopper, blackhawk"],
 ["LUFTFARKOSTER","INTERIÖR","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","jet, flygplan, flygplan, passagerarjet, segelflygplan, zeppelin, passagerarplan, jumbojet, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A310, A330, A350, A380, stridsflygplan."],
 ["LUFTFARKOSTER","JET","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","flygplan, jetliner, jumbojet, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A310, A330, A350, A380"],

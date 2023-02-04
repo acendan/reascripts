@@ -3,7 +3,7 @@
 ["ILMA","SIHINÄ","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","ilmaa vapauttaa, pakottaa, karkottaa, vuotaa"],
 ["ILMA","SEKALAISET","AIRMisc","AIR","Air sounds not fitting another category in this list.","sekalaiset"],
 ["ILMA","IMU","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","tyhjiö, imu, imu"],
-["ILMA-ALUS","OVI","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","ohjaamon ovi, lentokoneen ovi, luukku, hätäuloskäynti"],
+["ILMA-ALUS","OVI","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","ohjaamon ovi, lentokoneen ovi, luukku, hätäuloskäynti"],
 ["ILMA-ALUS","HELIKOPTERI","AEROHeli","AERO","For all manner of helicopters, gycopters.","gyrocopter, whirlybird, chopper, ghetto bird, bellcopter, police chopper, huey, chopper, blackhawk"],
 ["ILMA-ALUS","INTERIÖÖRI","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","suihkukone, lentokone, lentokone, matkustajakone, purjelentokone, zeppeliini, matkustajakone, suihkukone, jumbojetti, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A310, A330, A350, A380, hävittäjäkone."],
 ["ILMA-ALUS","LENTOKONE","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","matkustajakone, suihkukone, jumbojetti, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380, A310, A330, A350, A380."],

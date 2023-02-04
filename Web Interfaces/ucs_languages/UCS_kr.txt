@@ -3,7 +3,7 @@
 ["공기","쉬익","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","공기 배출, 배출, 방출, 누출"],
 ["공기","기타","AIRMisc","AIR","Air sounds not fitting another category in this list.","여러 가지 잡다한"],
 ["공기","흡입","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","진공, 빨다, 흡입"],
-["항공기","문","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","조종석 도어, 항공기 도어, 해치, 비상구"],
+["항공기","문","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","조종석 도어, 항공기 도어, 해치, 비상구"],
 ["항공기","헬리콥터","AEROHeli","AERO","For all manner of helicopters, gycopters.","자이로콥터, 월리버드, 헬기, 게토 버드, 벨콥터, 경찰 헬기, 휴이, 헬기, 블랙호크"],
 ["항공기","내부","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","제트기, 비행기, 항공기, 여객기, 글라이더, 제플린, 여객기, 제트 여객기, 점보 제트기, 리어 제트기, 에어 버스, 보잉, 폭격 수, 737, 747, 777, A310, DC-10, A310, A330, A350, A380, 전투기"],
 ["항공기","제트기","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","여객기, 제트 여객기, 점보 제트기, 리어젯, 에어버스, 보잉, 폭격수, 737, 747, 777, A310, DC-10, A310, A330, A350, A380"],

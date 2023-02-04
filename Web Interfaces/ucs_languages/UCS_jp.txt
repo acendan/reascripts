@@ -3,7 +3,7 @@
 ["空気","シュー、シッ、漏れる","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","エアリリース、排気、排出、リーク"],
 ["空気","その他","AIRMisc","AIR","Air sounds not fitting another category in this list.","雑多な"],
 ["空気","吸う、吸引","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","真空、吸引、吸引"],
-["航空機、飛行機","ドア","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","コックピットドア、航空機のドア、ハッチ、非常口"],
+["航空機、飛行機","ドア","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","コックピットドア、航空機のドア、ハッチ、非常口"],
 ["航空機、飛行機","ヘリコプター","AEROHeli","AERO","For all manner of helicopters, gycopters.","ジャイロコプター、ホーリーバード、チョッパー、ゲットーバード、ベルコプター、ポリスチョッパー、ヒューイ、チョッパー、ブラックホーク"],
 ["航空機、飛行機","内部","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","ジェット機、飛行機、航空機、旅客機、グライダー、ツェッペリン、旅客機、ジェットライナー、ジャンボジェット、ラージェット、エアバス、ボーイング、ボンバルディア、737、747、777、A310、DC-10、A310、A330、A350、A380、ファイタージェット"],
 ["航空機、飛行機","ジェット","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","旅客機、ジェット旅客機、ジャンボジェット、ラージェット、エアバス、ボーイング、ボンバルディア、737、747、777、A310、DC-10、A310、A330、A350、A380"],

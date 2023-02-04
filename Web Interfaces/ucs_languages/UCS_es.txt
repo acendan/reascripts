@@ -3,7 +3,7 @@
 ["AIRE","SILBIDO","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","escape de aire, escape, expulsión, fuga"],
 ["AIRE","MISCELÁNEA","AIRMisc","AIR","Air sounds not fitting another category in this list.","varios"],
 ["AIRE","SUCCIÓN","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","vacío, chupar, succionar"],
-["AVIÓN","PUERTA","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","puerta de cabina, puerta de avión, escotilla, salida de emergencia"],
+["AVIÓN","PUERTA","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","puerta de cabina, puerta de avión, escotilla, salida de emergencia"],
 ["AVIÓN","HELICÓPTERO","AEROHeli","AERO","For all manner of helicopters, gycopters.","girocóptero, whirlybird, helicóptero, ghetto bird, bellcopter, police chopper, huey, chopper, blackhawk"],
 ["AVIÓN","INTERIOR","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","jet, avión, aeronave, avión de pasajeros, planeador, zepelín, avión de pasajeros, avión de línea, avión jumbo, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380, avión de combate"],
 ["AVIÓN","CAZA","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","avión de pasajeros, avión de línea, avión jumbo, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A330, A350, A380"],

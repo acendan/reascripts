@@ -3,7 +3,7 @@
 ["ПОВІТРЯ","ШИПІННЯ","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","випускати повітря, випускати, виганяти, витікати"],
 ["ПОВІТРЯ","РІЗНЕ","AIRMisc","AIR","Air sounds not fitting another category in this list.","різне"],
 ["ПОВІТРЯ","ВСМОКТУВАННЯ","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","вакуумувати, всмоктувати, відсмоктувати"],
-["АВІАТРАНСПОРТ","ДВЕРІ","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","двері кабіни, двері літака, люк, аварійний вихід"],
+["АВІАТРАНСПОРТ","ДВЕРІ","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","двері кабіни, двері літака, люк, аварійний вихід"],
 ["АВІАТРАНСПОРТ","ГВИНТОКРИЛ","AEROHeli","AERO","For all manner of helicopters, gycopters.","гірокоптер, вертушка, вертоліт, гвинтокрил, посильний, поліцейський вертоліт, гвинтокрил, гвинтокрил, чоппер, блекхоук"],
 ["АВІАТРАНСПОРТ","ІНТЕР'ЄР","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","реактивний літак, літак, літак, пасажирський літак, планер, дирижабль, авіалайнер, джетлайнер, джамбо джет, леарджет, аеробус, боїнг, бомбардувальник, 737, 747, 777, А310, DC-10, А310, А330, А350, А380, винищувач"],
 ["АВІАТРАНСПОРТ","ЛІТАК РЕАКТИВНИЙ","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","авіалайнер, реактивний лайнер, джамбоджет, літак, аеробус, боїнг, бомбардувальник, 737, 747, 777, А310, DC-10, А310, А330, А350, А380"],

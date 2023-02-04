@@ -3,7 +3,7 @@
 ["LUFT","HVÆSEN","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","luftudledning, udstødning, udstødning, uddrive, lækage"],
 ["LUFT","DIVERSE","AIRMisc","AIR","Air sounds not fitting another category in this list.","diverse"],
 ["LUFT","SUGE","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","vakuum, suge, suge, suge"],
-["FLYVER","DØR","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","cockpitdør, flydør, luge, nødudgang"],
+["FLYVER","DØR","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","cockpitdør, flydør, luge, nødudgang"],
 ["FLYVER","HELIKOPTER","AEROHeli","AERO","For all manner of helicopters, gycopters.","gyrokopter, whirlybird, chopper, ghettofugl, bellcopter, politihelikopter, huey, chopper, blackhawk"],
 ["FLYVER","INTERIØR","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","jetfly, fly, fly, passagerfly, svævefly, zeppelin, passagerfly, jetliner, jumbojet, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A310, A330, A350, A380, jagerfly"],
 ["FLYVER","JET","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","passagerfly, jetliner, jumbojet, learjet, airbus, boeing, bombardier, 737, 747, 777, A310, DC-10, A310, A310, A330, A350, A380"],

@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 8.2
+-- @version 8.2.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,8 +24,8 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   * UCS v8.2 Release - Congrats to Tim Nielsen, Justin Drury, Kai Paquin, and the rest of the UCS organizers!
---   * Added support for Korean translation
+--   # UCS v8.2 correction - CatShort for AIRCRAFT-DOOR = AERO
+--   # Added LCR and LRC to mic config dropdown
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~

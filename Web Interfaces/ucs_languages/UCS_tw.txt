@@ -3,7 +3,7 @@
 ["氣體","嘶嘶聲","AIRHiss","AIR","Slow air releases, a flat tire, leak in an air pipe.","放氣、排氣、 漏氣、排出"],
 ["氣體","雜項","AIRMisc","AIR","Air sounds not fitting another category in this list.","各種各樣的、 其他空氣聲音"],
 ["氣體","抽吸","AIRSuck","AIR","Air being sucked in, a vacuum sucking in air, the rush of air in a shopvac.","吸氣、 吸入、吸塵器"],
-["飛機","門","AERODoor","AIR","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","駕駛艙門、飛機門、艙門、緊急出口"],
+["飛機","門","AERODoor","AERO","Aircraft doors, some possible overlap with other DOOR categories, or VEHICLES-DOOR.","駕駛艙門、飛機門、艙門、緊急出口"],
 ["飛機","直升機","AEROHeli","AERO","For all manner of helicopters, gycopters.","旋翼機、 直升機、"],
 ["飛機","航空艙","AEROInt","AERO","Interior recordings (mainly complex ambiences) of aircraft, from cockpit interiors, to passenger jet interiors.","飛機、飛機內部錄音、複雜環境音、 客機、駕駛艙內部、 滑翔機、 齊柏林飛艇、 噴氣客機、 大型噴氣式飛機、 里爾噴氣機、 空中客車、 波音、 龐巴迪 737、 747、 777、 A310、 DC-10、 A330、 A350、 A380、 戰鬥機"],
 ["飛機","噴氣式飛機","AEROJet","AERO","All commercial and private jet powered aircraft, military jets would go under AIRCRAFT-MILITARY.","客機、 噴氣客機、 大型噴氣式飛機、 里爾噴氣機、 空中客車公司、 波音、 龐巴迪、 737、 747、 777、 A310、 DC-10、 A330、 A350、 A380"],
