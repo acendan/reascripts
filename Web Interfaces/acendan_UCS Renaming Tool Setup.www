@@ -1,10 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 8.2.4
+@version 8.2.5
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-   # Added Reacall to send current Processing target back to web interface
+   # Improved UCS Reacall RegEx

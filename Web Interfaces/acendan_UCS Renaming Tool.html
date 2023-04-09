@@ -2669,15 +2669,16 @@
         }
 
         function reacallName(ucsName) {
-            const pattern = /(?<CatID>[^-]*)-?(?<UserCategory>[^_]*)?_(?<VendorCategory>[^-]*(?=-))?-?(?<FXName>[^_]*)_(?<CreatorID>[^_]*)_(?<SourceID>[^_.]*)_?(?<UserData>[^_.]*)?\.?(?<Extension>[[:alnum:]]+)?/;
+            const pattern = /(?<CatID>[^-_]*)-?(?<UserCategory>[^_]*)?_(?<VendorCategory>[^-]*(?=-))?-?(?<FXName>[^_]*)_(?<CreatorID>[^_]*)_(?<SourceID>[^_.]*)_?(?<UserData>[^_.]*)?\.?(?<Extension>[[:alnum:]]+)?/;
             const match = pattern.exec(ucsName);
             if (match) {
-                document.getElementById("userInputCategory").setCustomValidity("");
-                document.getElementById("userSelectSubCategory").setCustomValidity("");
-
-                let catSubcat = jsonCatIDArr[match.groups.CatID].split(", ");
-                if (catSubcat[0] !== "") $("#userInputCategory").val(catSubcat[0]).trigger('change');
-                if (catSubcat[1] !== "") $("#userSelectSubCategory").val(catSubcat[1]).trigger('change');
+                if (jsonCatIDArr.hasOwnProperty(match.groups.CatID)) {
+                    document.getElementById("userInputCategory").setCustomValidity("");
+                    document.getElementById("userSelectSubCategory").setCustomValidity("");
+                    let catSubcat = jsonCatIDArr[match.groups.CatID].split(", ");
+                    if (catSubcat[0] !== "") $("#userInputCategory").val(catSubcat[0]).trigger('change');
+                    if (catSubcat[1] !== "") $("#userSelectSubCategory").val(catSubcat[1]).trigger('change');
+                }
 
                 if (match.groups.FXName && match.groups.FXName !== "") $("#userInputName").val(match.groups.FXName);            
                 if (match.groups.UserCategory && match.groups.UserCategory !== "") $("#userInputUserCat").val(match.groups.UserCategory);

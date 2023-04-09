@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool - Send To Interface
 -- @author Aaron Cendan
--- @version 8.2.4
+-- @version 8.2.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool - Send To Interface.lua
