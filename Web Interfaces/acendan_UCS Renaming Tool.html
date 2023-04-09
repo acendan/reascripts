@@ -492,6 +492,10 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center; justify-content: center;">
+                <!-- FETCH FROM REAPER -->
+                <a id="reacallBtnDark" onClick="reacall()" type="button" class="btn btn-outline-dark dark--hidden" style="margin-left: 15px; margin-right: 15px;"><img class="icons filter-dark" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
+                <a id="reacallBtnLight" onClick="reacall()" type="button" class="btn btn-outline-light light--hidden" style="margin-left: 15px; margin-right: 15px;"><img class="icons filter-light" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
+
                 <!-- SETTINGS MENU -->
                 <a id="settingsBtnDark" type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-dark" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
                 <a id="settingsBtnLight" type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-light" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
@@ -1538,6 +1542,8 @@
     <div class="alert alert-success notification float-right copy-alert" style="position: fixed; z-index:100;" role="alert" id="copiedRowAlert">
         Copied data to form!
     </div>
+    <div class="alert alert-danger notification float-right copy-alert" style="position: fixed; z-index:100;" role="alert" id="dangerAlert">
+    </div>
 
     <div class="main_wrap">
         <!------------------------>
@@ -1954,13 +1960,10 @@
         // GLOBAL VAR DECLARATION
         // ~~~~~~~~~~~~~~~~~~~~
         // Reaper-side Lua Script
-        // var UCSRTLua = "_RS2edfa4e08051e6b3d0d57c6e447310a7f1523549"; //ReaTeams/Various
-        // var UCSRTLua = "_RS7c2f7ff876416263bd4e85ce292adfea0b19f95a"; //ACendan Scripts/Various/Universal Category Renaming Tool.lua
         var UCSRTLua = "_RS0d2de1418a084e66229cb513cdb6e8cc99fc7593"; //ACendan Scripts/Various/UCS Renaming Tool.lua
         var UCSMediaFilter = "_RS15f4b156ba3f21ef8806a3c4c1f04ff621d48c9a"; //ACendan Scripts/Various/acendan_UCS Renaming Tool - Media Explorer Filter.lua
-
-        // Open Reaper resource path
-        var REApath = "40027";
+        var UCSSendToInterface = "_RS6500fc52057a6aeabf8f4ecabc5c2d3f91cc6062"; //ACendan Scripts/Various/acendan_UCS Renaming Tool - Send To Interface.lua
+        var REApath = "40027"; // Open REAPER resource path
 
         // UCS Google Sheet Languages
         var ucs_gsheet_header = "https://spreadsheets.google.com/feeds/cells/10-IAYKOEpTMoDsv7m_oPZazPVY3HhhUS_hQeEjmK93c/";
@@ -2000,6 +2003,9 @@
         // Instructions toggle bool
         var onlineModeInstructionsToggle = true;
 
+        // Reacall handler
+        var reacallHandled = false;
+        
         // Platform specific bools
         var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
         var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -2613,6 +2619,144 @@
         }
 
         // ~~~~~~~~~~~~~~~~~~~~
+        // REACALL
+        // ~~~~~~~~~~~~~~~~~~~~
+        function reacall() {
+            // 0. Warn if not processing regions or media items
+            var search_field = $("#userInputItems").val();
+            switch (search_field) {
+                case "Regions":
+                case "Media Items":
+                    break;
+
+                case "Markers":
+                case "Tracks":
+                default:
+                    $("#dangerAlert").html("Reacall only supports Regions and Media Items processing targets (for now)!");
+                    $(".copy-alert").fadeTo(4000, 500).slideUp(750);
+                    return;
+            }
+
+            // 1. Set current target ext states, warn if not regions or items
+            setProjExtState("userInputItems");
+            setProjExtState("userInputArea");
+
+            // 2. Run ReaScript
+            wwr_req(encodeURIComponent(UCSSendToInterface));
+
+            // 3. Wait a sec, fill form if succesful and warn if failed
+            reacallHandled = false;
+            wwr_req("GET/PROJEXTSTATE/UCS_WebInterface/ReacallName");
+            wwr_req("GET/PROJEXTSTATE/UCS_WebInterface/ReacallMeta");
+            
+            let counter = 0;
+            let timeout = 1000;
+            let intervalTime = 50;
+            let interval = setInterval(function() {
+              // Check if response has been received
+              if (reacallHandled) {
+                clearInterval(interval);
+            } else {
+                counter++;
+                // Check if timeout has been reached
+                if (counter >= timeout) {
+                  clearInterval(interval);
+                  $("#dangerAlert").html("Reacall timed out while waiting for response from REAPER!");
+                  $(".copy-alert").fadeTo(4000, 500).slideUp(750);
+                }
+              }
+            }, intervalTime);        
+        }
+
+        function reacallName(ucsName) {
+            const pattern = /(?<CatID>[^-]*)-?(?<UserCategory>[^_]*)?_(?<VendorCategory>[^-]*(?=-))?-?(?<FXName>[^_]*)_(?<CreatorID>[^_]*)_(?<SourceID>[^_.]*)_?(?<UserData>[^_.]*)?\.?(?<Extension>[[:alnum:]]+)?/;
+            const match = pattern.exec(ucsName);
+            if (match) {
+                document.getElementById("userInputCategory").setCustomValidity("");
+                document.getElementById("userSelectSubCategory").setCustomValidity("");
+
+                let catSubcat = jsonCatIDArr[match.groups.CatID].split(", ");
+                if (catSubcat[0] !== "") $("#userInputCategory").val(catSubcat[0]).trigger('change');
+                if (catSubcat[1] !== "") $("#userSelectSubCategory").val(catSubcat[1]).trigger('change');
+
+                if (match.groups.FXName && match.groups.FXName !== "") $("#userInputName").val(match.groups.FXName);            
+                if (match.groups.UserCategory && match.groups.UserCategory !== "") $("#userInputUserCat").val(match.groups.UserCategory);
+                if (match.groups.CreatorID && match.groups.CreatorID !== "") $("#userInputInitials").val(match.groups.CreatorID);
+                if (match.groups.SourceID && match.groups.SourceID !== "") $("#userInputShow").val(match.groups.SourceID);
+                if (match.groups.UserData && match.groups.UserData !== "") $("#userInputData").val(match.groups.UserData);
+                if (match.groups.VendorCategory && match.groups.VendorCategory !== "") $("#userInputVendCat").val(match.groups.VendorCategory);
+            }
+        }
+
+        function reacallMeta(ucsMeta) {
+            const pattern = /(?<Field>[^;=]+)=(?<Value>[^;]+);?/g;
+            const matches = [...ucsMeta.matchAll(pattern)];
+            
+            for (const match of matches) {
+                // console.log(`Key: ${match.groups.Field}, Value: ${match.groups.Value}`);
+
+                switch (match.groups.Field) {
+                    case "TrackTitle"    : $("#userInputMetaTitle").val(match.groups.Value).trigger('change'); break;
+                    case "Description"   : $("#userInputMetaDesc").val(match.groups.Value).trigger('change'); break;
+                    case "Keywords"      : $("#userInputMetaKeys").val(match.groups.Value).trigger('change'); break;
+                    case "Microphone"    : $("#userInputMetaMic").val(match.groups.Value).trigger('change'); break;
+                    case "RecMedium"     : $("#userInputMetaRecMed").val(match.groups.Value).trigger('change'); break;
+                    case "Designer"      : $("#userInputMetaDsgnr").val(match.groups.Value).trigger('change'); break;
+                    case "Library"       : $("#userInputMetaLib").val(match.groups.Value).trigger('change'); break;
+                    case "URL"           : $("#userInputMetaURL").val(match.groups.Value).trigger('change'); break;
+                    case "Manufacturer"  : $("#userInputMetaManufacturer").val(match.groups.Value).trigger('change'); break;
+                    case "Notes"         : $("#metaNotes").val(match.groups.Value).trigger('change'); break;
+                    case "RecType"       : selectDropdownOptionContaining("#userInputMetaConfig", match.groups.Value); break;
+                    case "Location"      : {
+                        // Force visibility of manual location box
+                        locationChecked = true;
+                        localStorage.setItem("location-input-setting",locationChecked); // Set value in local storage
+                        $("#metaLocDiv").hide();
+                        $("#metaUserLocDiv").show();
+                        $("#userLocId").val(match.groups.Value).trigger('change'); 
+                        break;
+                    }
+                    case "MicPerspective": {
+                        let micPerspIntExt = match.groups.Value.split(" | ");
+                        selectDropdownOptionContaining("#userInputMetaPersp", micPerspIntExt[0]);
+                        selectDropdownOptionContaining("#userInputMetaIntExt", micPerspIntExt[1]);
+                        break;
+                    }
+                    // TODO: Add ASWG fields, if anyone cares...
+                    default: break;
+                }
+            }
+        }
+
+        function selectDropdownOptionContaining(dropdown, contains) {
+            $(dropdown).find('option').each(function() {
+              if ($(this).text().indexOf(contains) !== -1) {
+                $(this).prop('selected', true);
+                return false; // stop the loop once the desired option is found
+              }
+            });
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
+        // WEB INTERFACE REQUEST HANDLER
+        // ~~~~~~~~~~~~~~~~~~~~
+        function wwr_onreply(results) {
+          var ar = results.split("\n");
+          var x;
+          for (x=0;x<ar.length;x++)
+          {
+            var tok = ar[x].split("\t");
+            if (tok[2] == "ReacallName") {
+                reacallHandled = true;
+                reacallName(tok[3]);                
+            } else if (tok[2] == "ReacallMeta") {
+                reacallHandled = true;                
+                reacallMeta(tok[3]);                
+            }
+          }
+        }
+
+        // ~~~~~~~~~~~~~~~~~~~~
         // TRIGGER SUBMIT ON ENTER KEY
         // ~~~~~~~~~~~~~~~~~~~~
         $(document).keydown(function (event) {
@@ -2926,7 +3070,7 @@
         $("input[type='text']").change(function () {
             // Delayed form check to allow for default preset load
             var loadedSeconds = (new Date().valueOf() - startTime) / 1000;            
-            if (loadedSeconds > 1) {
+            if (loadedSeconds > 1 && event) {
                 // validateCategory();
                 // Fetch form to apply custom Bootstrap validation
                 var form = $("#ucsForm");

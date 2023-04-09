@@ -1,10 +1,10 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 8.2.2
+@version 8.2.3
 @provides
   acendan_UCS Renaming Tool.html
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-   # Added Geophone to microphone configuration (thanks Emmanuel!)
+   # Added Reacall to send current Processing target back to web interface
