@@ -2652,7 +2652,7 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <link rel="website">https://aaroncendan.me</link>
       </metadata>
       <version name="8.2.3" author="Aaron Cendan" time="2023-04-09T03:12:34Z">
-        <source main="main">https://github.com/acendan/reascripts/raw/8ed6ea1bdc524104374e642461c14cf04e3c297f/Various/acendan_UCS%20Renaming%20Tool%20-%20Send%20To%20Interface.lua</source>
+        <source main="main">https://raw.githubusercontent.com/acendan/reascripts/180d1371937daf522f0b97356d6a0b2061b1567f/Various/acendan_UCS%20Renaming%20Tool%20-%20Send%20To%20Interface.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="UCS Renaming Tool">
@@ -2938,7 +2938,7 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
       </version>
       <version name="8.2.3" author="Aaron Cendan" time="2023-04-09T03:12:34Z">
         <changelog><![CDATA[# Added Reacall to send current Processing target back to web interface]]></changelog>
-        <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/8ed6ea1bdc524104374e642461c14cf04e3c297f/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+        <source main="main" file="acendan_UCS Renaming Tool.lua">https://raw.githubusercontent.com/acendan/reascripts/180d1371937daf522f0b97356d6a0b2061b1567f/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
@@ -5600,7 +5600,7 @@ Includes copy to clipboard options and creator/source ID capitalization options]
       </version>
       <version name="8.2.3" author="Aaron Cendan" time="2023-04-09T03:12:34Z">
         <changelog><![CDATA[# Added Reacall to send current Processing target back to web interface]]></changelog>
-        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/8ed6ea1bdc524104374e642461c14cf04e3c297f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="acendan_UCS Renaming Tool.html">https://raw.githubusercontent.com/acendan/reascripts/180d1371937daf522f0b97356d6a0b2061b1567f/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
         <source file="ucs_libraries/UCS_Presets.txt">https://github.com/acendan/reascripts/raw/8ed6ea1bdc524104374e642461c14cf04e3c297f/Web%20Interfaces/ucs_libraries/UCS_Presets.txt</source>
         <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/8ed6ea1bdc524104374e642461c14cf04e3c297f/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
         <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/8ed6ea1bdc524104374e642461c14cf04e3c297f/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
