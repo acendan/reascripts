@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="8bca4cff43c7294b52a4b05d94a7c46f190e0053" name="ACendan Scripts">
+<index version="1" commit="b5078b9e7b4ac0d4ef7cf31a2bf2ab66fea805dd" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -364,6 +364,21 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2020-07-01T19:56:27Z">
         <source main="main" file="acendan_Clear glitchy stutter generator stored values.lua">https://github.com/acendan/reascripts/raw/89841685ab4af6034596c8b781bccc2a6bd62cf8/Items%20Editing/acendan_Clear%20glitchy%20stutter%20generator%20stored%20values.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Copy first selected item active take pitch shift mode.lua" type="script" desc="Copy Pitch Shift Mode">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Thanks for the idea, Nikolaj!\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2023-04-23T16:51:47Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b5078b9e7b4ac0d4ef7cf31a2bf2ab66fea805dd/Items%20Editing/acendan_Copy%20first%20selected%20item%20active%20take%20pitch%20shift%20mode.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Copy selected items to selected track.lua" type="script" desc="Copy Selected Items to Selected Track">
@@ -761,6 +776,21 @@
       <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
         <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Items%20Editing/acendan_Organize%20selected%20items%20by%20similar%20names%20on%20new%20tracks.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Paste selected items active take pitch shift mode.lua" type="script" desc="Paste Pitch Shift Mode">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Thanks for the idea, Nikolaj!\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2023-04-23T16:51:47Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/b5078b9e7b4ac0d4ef7cf31a2bf2ab66fea805dd/Items%20Editing/acendan_Paste%20selected%20items%20active%20take%20pitch%20shift%20mode.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Random glitchy stutter generator.lua" type="script" desc="Random glitchy stutter generator">
