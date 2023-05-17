@@ -1,12 +1,12 @@
 -- @description Insert marker at start of selected items with number
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert marker at start of selected items with sel item number.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   Skip position if already used
+--   # Enumerate w 1-based mkr index
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'

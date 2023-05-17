@@ -1,12 +1,12 @@
 -- @description Add Marker End Items
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Add marker to end of selected items prompt for name.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   # Enumerate w 1-based mkr index
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -55,7 +55,7 @@ function main()
         
       else
         -- Add as project marker
-        reaper.AddProjectMarker( 0, 0, item_end + pos_off, item_end + pos_off, mkr_name, i )
+        reaper.AddProjectMarker( 0, 0, item_end + pos_off, item_end + pos_off, mkr_name, i + 1 )
       end
     end
   else

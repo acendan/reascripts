@@ -348,7 +348,13 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# DEV
 acendan_reascripts.txt
 Various/Open Source Reaper Project/
 Development/acendan_Lua Utilities Reference Test.lua
 Development/acendan_Lua utilities test.lua
+
+# WIP
+Various/acendan_Display selected item embedded cover image.lua
+Various/acendan_StreamDeck Context Monitor.lua

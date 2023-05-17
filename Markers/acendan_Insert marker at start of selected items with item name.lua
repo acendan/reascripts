@@ -1,10 +1,12 @@
 -- @description Insert marker at start of selected items with item name
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert marker at start of selected items with item name.lua
 -- @link https://aaroncendan.me
+-- @changelog
+--   # Enumerate w 1-based mkr index
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -26,9 +28,9 @@ function insertMarkers()
       local ret, name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
       
       if ret then 
-        reaper.AddProjectMarker( 0, 0, item_start, item_start, name, i )
+        reaper.AddProjectMarker( 0, 0, item_start, item_start, name, i + 1 )
       else
-        reaper.AddProjectMarker( 0, 0, item_start, item_start, "", i )
+        reaper.AddProjectMarker( 0, 0, item_start, item_start, "", i + 1 )
       end
     end
   else
