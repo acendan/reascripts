@@ -10,7 +10,6 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
 > https://acendan.github.io/reascripts/index.xml
 
 ### Included Scripts
- - Development\acendan_Lua utilities test
  - Development\acendan_Lua Utilities
  - Envelopes\acendan_Copy selected items take envelope to selected automation envelope
  - Envelopes\acendan_Insert automation items on all selected tracks envelopes in time selection
@@ -19,6 +18,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Append selected items BWF metadata subfield to item name
  - Items Editing\acendan_Append selected items BWF metadata subfield to item notes
  - Items Editing\acendan_Clear glitchy stutter generator stored values
+ - Items Editing\acendan_Copy first selected item active take pitch shift mode
  - Items Editing\acendan_Copy selected items to selected track
  - Items Editing\acendan_Copy selected items to track - prompt for track
  - Items Editing\acendan_Count number of selected items in media explorer
@@ -26,6 +26,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Glue each item in selected track separately
  - Items Editing\acendan_Horizontal reorder selected items by color
  - Items Editing\acendan_Import selected item names from text file
+ - Items Editing\acendan_Item Curve Settings Manager
  - Items Editing\acendan_Lock item horizontal movement while shortcut held (background)
  - Items Editing\acendan_MixPre split items by channel to new tracks and name with metadata
  - Items Editing\acendan_Mousewheel adjust pitch of item under cursor
@@ -37,6 +38,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_mpl_Search items
  - Items Editing\acendan_Organize selected items by channel count on new tracks
  - Items Editing\acendan_Organize selected items by similar names on new tracks
+ - Items Editing\acendan_Paste selected items active take pitch shift mode
  - Items Editing\acendan_Prevent extending media items past source length
  - Items Editing\acendan_Random glitchy stutter generator
  - Items Editing\acendan_Reset item properties pitch adjustment and playback rate to default
@@ -53,6 +55,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Trim left edge of selected items by amount...
  - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
+ - Markers\acendan_Action Marker_Move play cursor to left edge start of random selected item
  - Markers\acendan_Add marker to end of project regions prompt for name
  - Markers\acendan_Add marker to end of selected items prompt for name
  - Markers\acendan_Create tempo markers from notes in selected MIDI items then restore project markers
@@ -74,7 +77,6 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Media Explorer\acendan_Export current column arrangement setup to file
  - Media Explorer\acendan_Filter media explorer for selected media item names
  - Media Explorer\acendan_Filter media explorer for selected media items source files
- - Media Explorer\acendan_GUI_Display selected media explorer item embedded cover image
  - Media Explorer\acendan_Import column arrangement setup from file
  - Media Explorer\acendan_Remove all custom user metadata columns
  - Metadata\acendan_Export project render metadata settings to file
@@ -123,7 +125,9 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Utility\acendan_Playrate - Jump to target playrate
  - Utility\acendan_Playrate - Set target playrate value
  - Utility\acendan_reaperblog_Duplicate items or tracks depending on focus and time selection
+ - Utility\acendan_Tempo Marker Manager
  - Various\acendan_Auto generate scripts to open web interfaces
+ - Various\acendan_Display selected item embedded cover image
  - Various\acendan_Game recommendation engine
  - Various\acendan_GUI_Display first selected item properties
  - Various\acendan_Insert random FX plugin on selected track
@@ -131,8 +135,9 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Various\acendan_Open file from path in project notes
  - Various\acendan_Organize TeamTalk conference recording media items by timestamp and user number in name
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
- - Various\acendan_StreamDeck x REAPER Monitor
+ - Various\acendan_StreamDeck Context Monitor
  - Various\acendan_UCS Renaming Tool - Media Explorer Filter
+ - Various\acendan_UCS Renaming Tool - Send To Interface
  - Various\acendan_Universal Category Renaming Tool
  - Video\acendan_Create video processor text items for all project markers on new track
  - Video\acendan_Create video processor text items for all project regions on new track
