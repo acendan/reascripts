@@ -91,6 +91,8 @@ end
 function UpdateItem(item)
   reaper.SetMediaItemInfo_Value( item, "D_FADEINDIR", wgt.fade_in)
   reaper.SetMediaItemInfo_Value( item, "D_FADEOUTDIR", wgt.fade_out)
+  reaper.UpdateItemInProject(item)
+  reaper.UpdateArrange()
 end
 
 function UpdateSelItems()
