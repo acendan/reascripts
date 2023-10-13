@@ -1,12 +1,12 @@
 -- @description Find and Replace in Marker Region Names
 -- @author Aaron Cendan
--- @version 2.0
+-- @version 2.0.1
 -- @changelog
 --   Complete rewrite using ImGui!
 -- @metapackage
 -- @provides
---   [main] . > acendan_Find and Replace in Region Names.lua
---   [main] . > acendan_Find and Replace in Marker Names.lua
+--   [main] . > acendan_Find and Replace in Region Names v2.lua
+--   [main] . > acendan_Find and Replace in Marker Names v2.lua
 -- @link https://aaroncendan.me
 -- @about
 --   # Find and Replace in Marker/Region Names
