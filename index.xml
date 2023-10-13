@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="97b084bc18dda9a3ad6cbf7c3a04c19be0fc78a2" name="ACendan Scripts">
+<index version="1" commit="1d4a4ee1c1349a3528d8de547756db1762a25166" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1214,6 +1214,11 @@
         <changelog><![CDATA[Complete rewrite using ImGui!]]></changelog>
         <source main="main" file="acendan_Find and Replace in Region Names.lua">https://github.com/acendan/reascripts/raw/97b084bc18dda9a3ad6cbf7c3a04c19be0fc78a2/Markers/acendan_Find%20and%20Replace%20in%20Marker%20Region%20Names.lua</source>
         <source main="main" file="acendan_Find and Replace in Marker Names.lua">https://github.com/acendan/reascripts/raw/97b084bc18dda9a3ad6cbf7c3a04c19be0fc78a2/Markers/acendan_Find%20and%20Replace%20in%20Marker%20Region%20Names.lua</source>
+      </version>
+      <version name="2.0.1" author="Aaron Cendan" time="2023-10-13T17:52:53Z">
+        <changelog><![CDATA[Complete rewrite using ImGui!]]></changelog>
+        <source main="main" file="acendan_Find and Replace in Region Names v2.lua">https://github.com/acendan/reascripts/raw/1d4a4ee1c1349a3528d8de547756db1762a25166/Markers/acendan_Find%20and%20Replace%20in%20Marker%20Region%20Names.lua</source>
+        <source main="main" file="acendan_Find and Replace in Marker Names v2.lua">https://github.com/acendan/reascripts/raw/1d4a4ee1c1349a3528d8de547756db1762a25166/Markers/acendan_Find%20and%20Replace%20in%20Marker%20Region%20Names.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Insert marker at start of selected items with item name.lua" type="script" desc="Insert marker at start of selected items with item name">
