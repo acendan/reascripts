@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="1d4a4ee1c1349a3528d8de547756db1762a25166" name="ACendan Scripts">
+<index version="1" commit="fec8516a225a272798039e089e8cdaa7bd36140f" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -190,6 +190,10 @@
       <version name="7.1" author="Aaron Cendan" time="2023-09-22T15:51:35Z">
         <changelog><![CDATA[# Update script templates]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/71c650c685d343dc28c5aba206a6bcd34e9fe820/Development/acendan_Lua%20Utilities.lua</source>
+      </version>
+      <version name="7.2" author="Aaron Cendan" time="2023-10-14T00:26:34Z">
+        <changelog><![CDATA[# Render settings tables (thanks Ultraschall API!)]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/fec8516a225a272798039e089e8cdaa7bd36140f/Development/acendan_Lua%20Utilities.lua</source>
       </version>
     </reapack>
   </category>
@@ -1846,6 +1850,21 @@
       <version name="1.2" author="Aaron Cendan" time="2022-07-16T18:34:52Z">
         <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Regions/acendan_Rename%20regions%20from%20nearest%20markers.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Render regions ignoring overlapped items using the most recent render settings.lua" type="script" desc="Render Regions Ignoring Overlaps">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Idea courtesy of the inimitable Juan Pablo Uribe\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2023-10-14T00:26:34Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/fec8516a225a272798039e089e8cdaa7bd36140f/Regions/acendan_Render%20regions%20ignoring%20overlapped%20items%20using%20the%20most%20recent%20render%20settings.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Set nearest regions edges to selected media items.lua" type="script" desc="Nearest Regions Edges To Items">
