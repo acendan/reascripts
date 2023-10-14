@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 7.1
+-- @version 7.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,8 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Update script templates
---	 # ImGui section, HelpMarker()
+--   # Render settings tables (thanks Ultraschall API!)
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -1391,6 +1390,37 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ RENDERING ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Render settings are bitwise. For example:
+-- if input & acendan.RENDER_SETTINGS.USE_RENDER_MATRIX == acendan.RENDER_SETTINGS.USE_RENDER_MATRIX then
+acendan.RENDER_SETTINGS = {
+  MASTER_MIX = 0,
+  STEMS_MASTER_MIX = 1,
+  STEMS_ONLY = 2,
+  MULTICHANNEL_TRACKS = 4,
+  USE_RENDER_MATRIX = 8,
+  MONO_MEDIA_TO_MONO_FILES = 16,
+  SELECTED_MEDIA_ITEMS = 32,
+  SELECTED_MEDIA_ITEMS_MASTER = 64,
+  SELECTED_TRACKS_MASTER = 128,
+  STRETCH_MARKERS = 256,
+  EMBED_METADATA = 512,
+  TAKE_MARKERS = 1024,
+  SECOND_PASS_RENDER = 2048
+}
+
+-- Render bounds are just regular numbers, no need for bitwise comparison
+acendan.RENDER_BOUNDSFLAG = {
+  CUSTOM_TIME_BOUNDS = 0,
+  ENTIRE_PROJECT = 1,
+  TIME_SELECTION = 2,
+  ALL_PROJECT_REGIONS = 3,
+  SELECTED_MEDIA_ITEMS = 4,
+  SELECTED_PROJECT_REGIONS = 5,
+  ALL_PROJECT_MARKERS = 6,
+  SELECTED_PROJECT_MARKERS = 7
+}
+
 -- Get/Set render settings to/from table
 function acendan.getRenderSettings()
   local t = {}
