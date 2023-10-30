@@ -1,12 +1,12 @@
 -- @description Insert marker at start of selected items with number
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Insert marker at start of selected items with sel item number.lua
 -- @link https://aaroncendan.me
 -- @changelog
---   # Enumerate w 1-based mkr index
+--   # Ignore first position if already an item prefixed with #
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -25,7 +25,18 @@ function insertMarkers()
       local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
       local take = reaper.GetActiveTake( item )
       if not acendan.tableContainsVal(mkr_pos_tbl, item_start) then
-        reaper.AddProjectMarker( 0, 0, item_start, item_start, "#" .. tostring(i), i )
+      
+        local has_hash_mkr = false
+        local mkr_idx, _ = reaper.GetLastMarkerAndCurRegion(0, item_start)
+        local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, mkr_idx )
+        if retval and not isrgn and pos == item_start and name:find("#") ~= nil then 
+          has_hash_mkr = true
+        end
+        
+        if not has_hash_mkr then
+          reaper.AddProjectMarker( 0, 0, item_start, item_start, "#" .. tostring(i), i )
+        end
+        
         mkr_pos_tbl[#mkr_pos_tbl+1] = item_start
       end
     end
