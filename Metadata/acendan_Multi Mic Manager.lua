@@ -1,14 +1,14 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.1
+-- @version 0.2
 -- @metapackage
 -- @provides
 --   [main] .
 -- @link https://ko-fi.com/acendan_
 -- @about
---   # Allows for managing tracks interleaved with multiple mics on different channels
+--   # Simplifies management of tracks with multiple mics on different channels
 -- @changelog
---   # Render settings tables (thanks Ultraschall API!)
+--   # Automatically pan mics ending in L/R when pan env enabled
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.3 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -39,9 +39,9 @@ function init()
   
   wgt = {
     warning = "",
-    enable_grouping = acendan.ImGui_GetSettingBool("mmm_grouping", true),
+    enable_grouping = acendan.ImGui_GetSettingBool("mmm_grouping", false),
     enable_pan_env = acendan.ImGui_GetSettingBool("mmm_panning", false),
-    single_lane = acendan.ImGui_GetSettingBool("mmm_single_lane", false)
+    single_lane = acendan.ImGui_GetSettingBool("mmm_single_lane", false),
   }
 end
 
@@ -49,31 +49,34 @@ function main()
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
   
-  acendan.ImGui_Button("Create Mic Lanes", createMicLanes, 0.42)
+  acendan.ImGui_Button("Create Mic Lanes", createMicLanes, 0.42)  -- Green
   acendan.ImGui_HelpMarker("Creates fixed item lanes for each mic in items on selected track.")
   
-  acendan.ImGui_Button("Restore Multi Mic", restoreMultiMic, 0)
+  acendan.ImGui_Button("Restore Multi Mic", restoreMultiMic, 0)   -- Red
   acendan.ImGui_HelpMarker("Reverts changes, restoring original Multi Mic items on selected track.")
   
-  acendan.ImGui_Button("Write Mic Metadata", writeMetadata, 0.71)
+  acendan.ImGui_Button("Write Mic Metadata", writeMetadata, 0.71) -- Purple
   acendan.ImGui_HelpMarker("EXPERIMENTAL\nUses BWF MetaEdit to write mic lane names to item metadata.")
   
   reaper.ImGui_TextColored(ctx, 0xFFFF00FF, wgt.warning)
   
   -- Options
   --   TODO: Explode onto tracks (V6 support) rather than lanes
-  --   TODO: Route to original channels
+  --   TODO: Route to original channels (channel mapper presets?)
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Options")
   
   rv, wgt.enable_grouping = reaper.ImGui_Checkbox(ctx, "Enable Grouping", wgt.enable_grouping)
+  acendan.ImGui_HelpMarker("Groups items on all mic lanes, including original multi mic.")
   if rv then acendan.ImGui_SetSettingBool("mmm_grouping", wgt.enable_grouping) end
   
   rv, wgt.enable_pan_env = reaper.ImGui_Checkbox(ctx, "Enable Pan Envelope", wgt.enable_pan_env)
+  acendan.ImGui_HelpMarker("Shows pan envelope and automatically pans consecutive tracks ending in L/R.")
   if rv then acendan.ImGui_SetSettingBool("mmm_panning", wgt.enable_pan_env) end
   
   rv, wgt.single_lane = reaper.ImGui_Checkbox(ctx, "Single Mic Lane", wgt.single_lane)
+  acendan.ImGui_HelpMarker("Collapses visible mics to a single lane, with arrows for switching mics next to name.")
   if rv then acendan.ImGui_SetSettingBool("mmm_single_lane", wgt.single_lane) end
   
   reaper.ImGui_End(ctx)
@@ -127,6 +130,7 @@ function createMicLanes()
         end
         
         local lane_name_chunk = "LANENAME MultiMic"
+        local chnl_l = 0
         for chnl = 1, src_chans do
           -- Copy item to lane for channel
           acendan.setOnlyItemSelected(item)
@@ -141,14 +145,41 @@ function createMicLanes()
           reaper.SetMediaItemInfo_Value(new_item, "I_FIXEDLANE", chnl)
           reaper.SetMediaItemTakeInfo_Value(reaper.GetActiveTake( new_item ) , "I_CHANMODE", 2 + chnl)
           
-          if wgt.enable_pan_env then
-            reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENVSHOW2"), 0) -- SWS/S&M: Show take pan envelope
-          end 
+          -- Set first mic lane selected
+          if chnl == 1 then
+            reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:1", 1) -- 1 = Select lane, exclusive
+          end
           
           -- Rename lane from metadata
           local track_name_meta = chnl == 1 and "IXML:TRACK_LIST:TRACK:NAME" or "IXML:TRACK_LIST:TRACK:NAME:" .. tostring(chnl)
           local ret, lane_name = reaper.GetMediaFileMetadata(src, track_name_meta)
           lane_name_chunk = ret ~= 0 and (lane_name_chunk .. " " .. acendan.encapsulate(lane_name)) or (lane_name_chunk .. " Ch." .. tostring(chnl))
+          
+          -- Show pan envelope and auto pan L/R
+          if wgt.enable_pan_env then
+            reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENVSHOW2"), 0) -- SWS/S&M: Show take pan envelope
+          
+            -- Check right channel if previous channel ends in L
+            if chnl_l > 0 and lane_name:sub(-1):lower() == "r" then
+              reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENV_100R"),0) -- SWS/S&M: Set active take pan envelope to 100% right
+              acendan.setOnlyItemSelected(items[#items - 1])
+              reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENV_100L"),0) -- SWS/S&M: Set active take pan envelope to 100% left
+              acendan.setOnlyItemSelected(new_item)
+              
+              -- Set lane selected if first lane was left, this is right
+              if chnl == 2 then
+                reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:2", 2) -- 2 = Select lane, keeping others selected
+              end
+            end
+            
+            -- Set left channel if ends in L
+            if lane_name:sub(-1):lower() == "l" then
+              chnl_l = chnl
+            end
+            if chnl > chnl_l then
+              chnl_l = 0
+            end
+          end
         end
         
         -- Set track lane names and height
@@ -157,7 +188,6 @@ function createMicLanes()
         reaper.SetMediaTrackInfo_Value(track, "I_TCPH", ini_track_height / src_chans + 1)
         
         -- Set first mic track as selected lane
-        reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:1", 1)
         if wgt.single_lane then
           reaper.Main_OnCommand(42638, 0) -- Track properties: Show/play only one fixed item lane
         end
