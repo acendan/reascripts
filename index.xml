@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="50d3a37c68934fa3aefb7bc99767a11012e668e8" name="ACendan Scripts">
+<index version="1" commit="280cf446fdcf99ff3de0f8b1f65c5f0eb02ce149" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1019,6 +1019,21 @@
         <source main="main" file="acendan_Sort selected items order by active take names alphabetically ignoring capitalization.lua">https://github.com/acendan/reascripts/raw/cac80f68091f90c772d1ec413817973861cfbc09/Items%20Editing/acendan_Sort%20selected%20items%20order%20by%20item%20names%20alphabetically%20ignoring%20capitalization.lua</source>
       </version>
     </reapack>
+    <reapack name="acendan_Sort selected items order by peak.lua" type="script" desc="Sort Items by Peak">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 This is copied, almost entirely, from X-Raym's script: X-Raym_Sort selected items order by takes names alphabetically keeping snap offset positions per tracks.lua\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.0" author="Aaron Cendan" time="2023-11-01T23:57:14Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/280cf446fdcf99ff3de0f8b1f65c5f0eb02ce149/Items%20Editing/acendan_Sort%20selected%20items%20order%20by%20peak.lua</source>
+      </version>
+    </reapack>
     <reapack name="acendan_Split selected item by channel to new tracks.lua" type="script" desc="Split Channels">
       <metadata>
         <link rel="website">https://aaroncendan.me</link>
@@ -1531,7 +1546,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Allows for managing tracks interleaved with multiple mics on different channels\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Simplifies management of tracks with multiple mics on different channels\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1539,6 +1554,10 @@
       <version name="0.1" author="Aaron Cendan" time="2023-11-01T05:34:38Z">
         <changelog><![CDATA[# Render settings tables (thanks Ultraschall API!)]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/50d3a37c68934fa3aefb7bc99767a11012e668e8/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
+      </version>
+      <version name="0.2" author="Aaron Cendan" time="2023-11-01T23:57:14Z">
+        <changelog><![CDATA[# Automatically pan mics ending in L/R when pan env enabled]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/280cf446fdcf99ff3de0f8b1f65c5f0eb02ce149/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
       </version>
     </reapack>
   </category>
