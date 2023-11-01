@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 7.2
+-- @version 7.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Render settings tables (thanks Ultraschall API!)
+--   # acendan.encapsulate, acendan.ImGui_GetSetting, acendan.ImGui_SetSetting, acendan.ImGui_HSV
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -146,8 +146,8 @@ function main()
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
   
-	
-	
+  
+  
   reaper.ImGui_End(ctx)
   if open then reaper.defer(main) else reaper.ImGui_DestroyContext(ctx) end
 end
@@ -201,8 +201,17 @@ local something = (reaper_version >= 6.33) and true or false
 -- ~~~~~~~~ DEBUG & MESSAGES ~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Deliver messages and add new line in console
-function acendan.dbg(dbg)
-  reaper.ShowConsoleMsg(tostring(dbg) .. "\n")
+function acendan.dbg(...)
+  local args = {...}
+  local str = ""
+  for i = 1, #args do
+    if type(args[i]) == "table" then
+      str = str .. table.tostring(args[i]) .. "\n"
+    else
+      str = str .. tostring(args[i]) .. "\t"
+    end
+  end
+  reaper.ShowConsoleMsg(str .. "\n")
 end
 
 -- Deliver messages using message box
@@ -238,7 +247,7 @@ local input_1, input_2 = user_input:match("([^,]+),([^,]+)")
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function acendan.ImGui_HelpMarker(desc, wrap_pos)
   wrap_pos = wrap_pos or 18.0
-	reaper.ImGui_SameLine(ctx)
+  reaper.ImGui_SameLine(ctx)
   reaper.ImGui_TextDisabled(ctx, '(?)')
   if reaper.ImGui_IsItemHovered(ctx) then
     reaper.ImGui_BeginTooltip(ctx)
@@ -249,6 +258,44 @@ function acendan.ImGui_HelpMarker(desc, wrap_pos)
   end
 end
 
+function acendan.ImGui_GetSetting(key, default)
+  return reaper.HasExtState("acendan_imgui", key) and reaper.GetExtState("acendan_imgui", key) or default
+end
+
+function acendan.ImGui_GetSettingBool(key, default)
+  return acendan.ImGui_GetSetting(key, default and "true" or "false") == "true"
+end
+
+function acendan.ImGui_SetSetting(key, value)
+  return reaper.SetExtState("acendan_imgui", key, value, 0)
+end
+
+function acendan.ImGui_SetSettingBool(key, value)
+  return acendan.ImGui_SetSetting(key, tostring(value))
+end
+
+-- Ripped from ReaImGui_Demo demo.HSV
+function acendan.ImGui_HSV(h, s, v, a)
+  local r, g, b = reaper.ImGui_ColorConvertHSVtoRGB(h, s, v)
+  return reaper.ImGui_ColorConvertDouble4ToU32(r, g, b, a or 1.0)
+end
+
+function acendan.ImGui_Button(label, callback, color_h)
+  reaper.ImGui_PushID(ctx, 0)
+  reaper.ImGui_PushStyleColor(ctx, reaper.ImGui_Col_Button(),        acendan.ImGui_HSV(color_h, 0.5, 0.5, 1.0))
+  reaper.ImGui_PushStyleColor(ctx, reaper.ImGui_Col_ButtonHovered(), acendan.ImGui_HSV(color_h, 0.7, 0.7, 1.0))
+  reaper.ImGui_PushStyleColor(ctx, reaper.ImGui_Col_ButtonActive(),  acendan.ImGui_HSV(color_h, 0.8, 0.8, 1.0))
+  if reaper.ImGui_Button(ctx, label) then
+    reaper.PreventUIRefresh(1)
+    reaper.Undo_BeginBlock()
+    callback()
+    reaper.Undo_EndBlock(label, -1)
+    reaper.PreventUIRefresh(-1)
+    reaper.UpdateArrange()
+  end
+  reaper.ImGui_PopStyleColor(ctx, 3)
+  reaper.ImGui_PopID(ctx)
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~ VALUE MANIPULATION ~~~~~~~
@@ -274,9 +321,14 @@ end
 -- Split a string into multiple return values by a separator
 -- local part1, part2, part3 = acendan.stringSplit("blah|blah|blah", "%|", 3)
 function acendan.stringSplit(str, sep, reps)
-	sep = sep and sep or ","
-	if not acendan.stringEnds(str, sep) then str = str .. sep end
-	return str:match(("([^" .. sep .. "]*)" .. sep):rep(reps))
+  sep = sep and sep or ","
+  if not acendan.stringEnds(str, sep) then str = str .. sep end
+  return str:match(("([^" .. sep .. "]*)" .. sep):rep(reps))
+end
+
+-- Encapsulates strings in quotes if they contain spaces
+function acendan.encapsulate(str)
+  return str:gsub("(%w+%s+%w+)", "\"%1\"")
 end
 
 -- Clamp a value to given range // returns Number
@@ -315,8 +367,8 @@ end
 
 -- attempts to remove _01 style enumeration from the end of strings
 function acendan.removeEnumeration(s)
-	local pattern = '^(.-)%_%d+'
-	return s:find(pattern) and s:match(pattern) or s
+  local pattern = '^(.-)%_%d+'
+  return s:find(pattern) and s:match(pattern) or s
 end
 
 -- Convert seconds (w decimal) into h:mm:ss:ms
@@ -482,11 +534,9 @@ local num_items = reaper.CountMediaItems( 0 )
 if num_items > 0 then
   for i=0, num_items - 1 do
     local item =  reaper.GetMediaItem( 0, i )
-    -- Process item
-    
     local take = reaper.GetActiveTake( item )
     if take ~= nil then 
-      -- Process active take
+      
     end
   end
 else
@@ -498,11 +548,9 @@ local num_sel_items = reaper.CountSelectedMediaItems(0)
 if num_sel_items > 0 then
   for i=0, num_sel_items - 1 do
     local item = reaper.GetSelectedMediaItem( 0, i )
-    -- Process item
-    
     local take = reaper.GetActiveTake( item )
     if take ~= nil then 
-      -- Process active take
+      
     end
   end
 else
@@ -581,7 +629,7 @@ function acendan.getEndPosSelItems()
     for i=0, num_sel_items - 1 do
       local item = reaper.GetSelectedMediaItem( 0, i )
       local item_start_pos = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
-			local item_end_pos = item_start_pos + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
+      local item_end_pos = item_start_pos + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
       if item_end_pos > position then
         position = item_end_pos
       end
@@ -691,31 +739,31 @@ end
 -- Gets the shared parent track (or master track) of the selected tracks // returns MediaTrack
 function acendan.getSelectedTracksSharedParent()
   local shared_parent_track = nil
-	
-	-- Loop through selected tracks
+  
+  -- Loop through selected tracks
   local num_sel_tracks = reaper.CountSelectedTracks( 0 )
   if num_sel_tracks > 0 then
     local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0);
-	  if num_sel_tracks == 1 then
-			shared_parent_track = reaper.GetSelectedTrack(0,0)
-	  else
-			for k = 0, num_sel_tracks-1 do
-				local track = reaper.GetSelectedTrack(0,k)
-				local parent_track = reaper.GetParentTrack(track)
-				if not parent_track then parent_track = reaper.GetMasterTrack( 0 ) end
-				if k == 0 then 
-					shared_parent_track = parent_track
-				else
-					if reaper.GetTrackGUID(parent_track) ~= reaper.GetTrackGUID(shared_parent_track) then 
-						shared_parent_track = reaper.GetMasterTrack( 0 ) 
-						break
-					end
-				end
-			end
-	  end
+    if num_sel_tracks == 1 then
+      shared_parent_track = reaper.GetSelectedTrack(0,0)
+    else
+      for k = 0, num_sel_tracks-1 do
+        local track = reaper.GetSelectedTrack(0,k)
+        local parent_track = reaper.GetParentTrack(track)
+        if not parent_track then parent_track = reaper.GetMasterTrack( 0 ) end
+        if k == 0 then 
+          shared_parent_track = parent_track
+        else
+          if reaper.GetTrackGUID(parent_track) ~= reaper.GetTrackGUID(shared_parent_track) then 
+            shared_parent_track = reaper.GetMasterTrack( 0 ) 
+            break
+          end
+        end
+      end
+    end
   end
-	
-	return shared_parent_track or reaper.GetMasterTrack( 0 )
+  
+  return shared_parent_track or reaper.GetMasterTrack( 0 )
 end
 
 
@@ -762,19 +810,19 @@ end
 local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
 local num_total = num_markers + num_regions
 if num_regions > 0 then
-	local edit_cur_pos = reaper.GetCursorPosition()
-	local i = 0
-	while i < num_total do
-		local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
-		if isrgn and pos <= edit_cur_pos and rgnend >= edit_cur_pos then
-			-- Process regions
-		end
-		i = i + 1
-	end
+  local edit_cur_pos = reaper.GetCursorPosition()
+  local i = 0
+  while i < num_total do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+    if isrgn and pos <= edit_cur_pos and rgnend >= edit_cur_pos then
+      -- Process regions
+    end
+    i = i + 1
+  end
 else
-	acendan.msg("Project has no regions!")
+  acendan.msg("Project has no regions!")
 end
-	
+  
 ]]--
 
 -- Get selected regions in Rgn Mrkr Manager using JS_Reaper API, requires getRegionManager
@@ -810,7 +858,7 @@ function acendan.getRegionManager()
 end
 
 function acendan.getRegionManagerList()
-	return reaper.JS_Window_FindEx(acendan.getRegionManager(), nil, "SysListView32", "") or nil
+  return reaper.JS_Window_FindEx(acendan.getRegionManager(), nil, "SysListView32", "") or nil
 end
 
 function acendan.getSelectedRegions()
@@ -1451,7 +1499,7 @@ end
 
 -- Returns list view hWnd for media explorer's file list
 function acendan.getMediaExplorerList()
-	return reaper.JS_Window_FindEx(acendan.getMediaExplorer(), nil, "SysListView32", "") or nil
+  return reaper.JS_Window_FindEx(acendan.getMediaExplorer(), nil, "SysListView32", "") or nil
 end
 
 -- Count selected items media explorer // returns Number
