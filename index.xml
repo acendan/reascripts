@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6690a69b3ed2e63124729a76bd9d8c542a31333b" name="ACendan Scripts">
+<index version="1" commit="0fc15d1509519167894989eca2d12b7b759747d2" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1547,6 +1547,7 @@
 \widowctrl\hyphauto
 
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Simplifies management of tracks with multiple mics on different channels\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1562,6 +1563,15 @@
       <version name="0.3" author="Aaron Cendan" time="2023-11-02T00:17:35Z">
         <changelog><![CDATA[# Improve behavior of track height when creating/restoring lanes]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/6690a69b3ed2e63124729a76bd9d8c542a31333b/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
+      </version>
+      <version name="0.4" author="Aaron Cendan" time="2023-11-02T17:33:06Z">
+        <changelog><![CDATA[# Validating BWFMetaEdit include]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/0fc15d1509519167894989eca2d12b7b759747d2/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
+        <source file="BWFMetaEdit/History.txt">https://github.com/acendan/reascripts/raw/0fc15d1509519167894989eca2d12b7b759747d2/Metadata/BWFMetaEdit/History.txt</source>
+        <source file="BWFMetaEdit/License.html">https://github.com/acendan/reascripts/raw/0fc15d1509519167894989eca2d12b7b759747d2/Metadata/BWFMetaEdit/License.html</source>
+        <source file="BWFMetaEdit/ReadMe.txt">https://github.com/acendan/reascripts/raw/0fc15d1509519167894989eca2d12b7b759747d2/Metadata/BWFMetaEdit/ReadMe.txt</source>
+        <source file="BWFMetaEdit/bwfmetaedit.exe">https://github.com/acendan/reascripts/raw/0fc15d1509519167894989eca2d12b7b759747d2/Metadata/BWFMetaEdit/bwfmetaedit.exe</source>
+        <source file="BWFMetaEdit/conformance_point_document.xsd">https://github.com/acendan/reascripts/raw/0fc15d1509519167894989eca2d12b7b759747d2/Metadata/BWFMetaEdit/conformance_point_document.xsd</source>
       </version>
     </reapack>
   </category>
