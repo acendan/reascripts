@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.2
+-- @version 0.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Simplifies management of tracks with multiple mics on different channels
 -- @changelog
---   # Automatically pan mics ending in L/R when pan env enabled
+--   # Improve behavior of track height when creating/restoring lanes
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.3 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -49,6 +49,8 @@ function main()
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
   
+  -- Buttons
+  --  TODO: Delete unused mic lanes?
   acendan.ImGui_Button("Create Mic Lanes", createMicLanes, 0.42)  -- Green
   acendan.ImGui_HelpMarker("Creates fixed item lanes for each mic in items on selected track.")
   
@@ -61,8 +63,8 @@ function main()
   reaper.ImGui_TextColored(ctx, 0xFFFF00FF, wgt.warning)
   
   -- Options
-  --   TODO: Explode onto tracks (V6 support) rather than lanes
-  --   TODO: Route to original channels (channel mapper presets?)
+  --  TODO: Explode onto tracks (V6 support) rather than lanes
+  --  TODO: Route to original channels (channel mapper presets?)
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Options")
@@ -102,7 +104,8 @@ function createMicLanes()
   local start_time, end_time = reaper.GetSet_ArrangeView2(0, false, 0, 0, 0, 0)
   
   for _, track in ipairs(ini_sel_tracks) do
-    local ini_track_height = reaper.GetMediaTrackInfo_Value(track, "I_TCPH")
+    reaper.Main_OnCommand(41327, 0) -- View: Increase selected track heights a little bit
+    local ini_track_height = reaper.GetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE")
     reaper.SetOnlyTrackSelected(track)
     reaper.Main_OnCommand(42431, 0) -- Track properties: Set fixed item lanes
     reaper.Main_OnCommand(40289, 0) -- Unselect all media items
@@ -185,7 +188,7 @@ function createMicLanes()
         -- Set track lane names and height
         local _, track_chunk = reaper.GetTrackStateChunk(track, "", false)
         reaper.SetTrackStateChunk(track, track_chunk:gsub("(LANENAME.-)\n", lane_name_chunk .. "\n"), false)
-        reaper.SetMediaTrackInfo_Value(track, "I_TCPH", ini_track_height / src_chans + 1)
+        reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height / src_chans + 1)
         
         -- Set first mic track as selected lane
         if wgt.single_lane then
@@ -222,6 +225,11 @@ function restoreMultiMic()
   
   for _, track in ipairs(ini_sel_tracks) do
     reaper.SetOnlyTrackSelected(track)
+    
+    reaper.Main_OnCommand(41328, 0) -- View: Decrease selected track heights a little bit
+    local num_track_lanes =  reaper.GetMediaTrackInfo_Value(track, "I_NUMFIXEDLANES")
+    local ini_track_height = reaper.GetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE") * num_track_lanes
+    
     reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:0", 1)
     reaper.Main_OnCommand(42662, 0) -- Track properties: Unset free item positioning/fixed item lanes (convert fixed lanes to takes)
     reaper.Main_OnCommand(40289, 0) -- Unselect all media items
@@ -230,6 +238,8 @@ function restoreMultiMic()
     reaper.Main_OnCommand(40720, 0) -- Item properties: Unmute
     reaper.Main_OnCommand(40033, 0) -- Item grouping: Remove items from group
     reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_DELEMPTYTAKE"), 0) -- SWS/S&M: Takes - Remove empty takes/items among selected items
+    
+    reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height)
   end
 end
 
