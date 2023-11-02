@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.4
+-- @version 0.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,10 +10,10 @@
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Validating BWFMetaEdit include
+--   # Embed lane name metadata support (Windows, .wav only)
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.3 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ CONSTANTS ~~~~~~~~~~~
@@ -21,9 +21,14 @@ if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if no
 
 local SCRIPT_NAME = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local SCRIPT_DIR = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+local WIN, SEP = acendan.getOS()
 
 local WINDOW_SIZE = { width = 210, height = 220 }
 local WINDOW_FLAGS = reaper.ImGui_WindowFlags_NoCollapse()
+
+local IXML_EMPTY_TEMPLATE = '<?xml version="1.0" encoding="UTF-8"?><BWFXML></BWFXML>'
+local ARG_OUTPUT_IXML = " --out-iXML-xml "
+local ARG_INSERT_IXML = " --in-iXML-xml "
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,6 +49,9 @@ function init()
     enable_grouping = acendan.ImGui_GetSettingBool("mmm_grouping", false),
     enable_pan_env = acendan.ImGui_GetSettingBool("mmm_panning", false),
     single_lane = acendan.ImGui_GetSettingBool("mmm_single_lane", false),
+    unique_srcs = {},
+    num_srcs = 0,
+    curr_src = 0,
   }
 end
 
@@ -59,14 +67,49 @@ function main()
   acendan.ImGui_Button("Restore Multi Mic", restoreMultiMic, 0)   -- Red
   acendan.ImGui_HelpMarker("Reverts changes, restoring original Multi Mic items on selected track.")
   
-  acendan.ImGui_Button("Write Mic Metadata", writeMetadata, 0.71) -- Purple
-  acendan.ImGui_HelpMarker("EXPERIMENTAL\nUses BWF MetaEdit to write mic lane names to item metadata.")
+  acendan.ImGui_Button("Write Mic Metadata", fetchUniqueSources, 0.71) -- Purple
+  acendan.ImGui_HelpMarker("Uses BWF MetaEdit to write mic lane names to item metadata.\n\n* Only supports .wav files\n* Windows only, unless a Mac user wants to help me test :)")
   
+  -- Metadata progress bar
+  if wgt.curr_src > 0 then
+    for src_path, lane_names in pairs(wgt.unique_srcs) do
+      writeMetadata(src_path, lane_names)
+      wgt.unique_srcs[src_path] = nil
+      break
+    end
+  end
+  -- Update progress
+  if wgt.num_srcs > 0 then
+    wgt.curr_src = wgt.curr_src + 1
+    if wgt.curr_src == 1 then
+      -- Start progress
+      reaper.Main_OnCommand(40100, 0) -- Set all media offline
+    end
+    if wgt.curr_src <= wgt.num_srcs then
+      -- Mid progress
+      reaper.ImGui_ProgressBar(ctx, (wgt.curr_src / wgt.num_srcs) - 0.01, 135)
+      for src_path, _ in pairs(wgt.unique_srcs) do
+        reaper.ImGui_Text(ctx, acendan.getFileName(src_path))
+        break
+      end
+    else
+      -- End progress
+      reaper.ImGui_ProgressBar(ctx, 1.0, 135)
+      reaper.Main_OnCommand(40101, 0) -- Set all media online
+      reaper.Main_OnCommand(40048, 0) -- Peaks: Rebuild all peaks
+      wgt.curr_src = 0
+      wgt.num_srcs = 0
+    end
+  end
+  
+  -- Warning message
   reaper.ImGui_TextColored(ctx, 0xFFFF00FF, wgt.warning)
   
   -- Options
   --  TODO: Explode onto tracks (V6 support) rather than lanes
   --  TODO: Route to original channels (channel mapper presets?)
+  --if wgt.curr_src > 0 then reaper.ImGui_BeginDisabled(ctx) end
+  
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Options")
@@ -93,12 +136,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function createMicLanes()
   local num_sel_tracks = reaper.CountSelectedTracks(0)
-  if num_sel_tracks == 0 then
-    wgt.warning = "No track selected!"
-    return
-  else
-    wgt.warning = ""
-  end
+  if num_sel_tracks == 0 then wgt.warning = "No track selected!" return else wgt.warning = "" end
   local ini_sel_tracks = {}
   acendan.saveSelectedTracks(ini_sel_tracks)
 
@@ -126,14 +164,9 @@ function createMicLanes()
         
         local src = reaper.GetMediaItemTake_Source(take)
         local src_parent = reaper.GetMediaSourceParent(src)
-        
-        -- Get source num channels
-        if src_parent ~= nil then
-          src_chans = reaper.GetMediaSourceNumChannels( src_parent )
-        else
-          src_chans = reaper.GetMediaSourceNumChannels( src )
-        end
-        
+        if src_parent ~= nil then src = src_parent end
+        local src_chans = reaper.GetMediaSourceNumChannels(src)
+
         local lane_name_chunk = "LANENAME MultiMic"
         local chnl_l = 0
         for chnl = 1, src_chans do
@@ -216,12 +249,7 @@ function createMicLanes()
 end
 
 function restoreMultiMic()
-  if reaper.CountSelectedTracks(0) == 0 then
-    wgt.warning = "No track selected!"
-    return
-  else
-    wgt.warning = ""
-  end
+  if reaper.CountSelectedTracks(0) == 0 then wgt.warning = "No track selected!"; return else wgt.warning = "" end
   local ini_sel_tracks = {}
   acendan.saveSelectedTracks(ini_sel_tracks)
   
@@ -245,17 +273,137 @@ function restoreMultiMic()
   end
 end
 
-function writeMetadata()
-  wgt.warning = "Work in progress..."
+function fetchUniqueSources()
+  if not WIN then wgt.warning = "Windows only, for now..."; return else wgt.warning = "" end
+
+  bwfmetaedit = SCRIPT_DIR .. "BWFMetaEdit" .. SEP .. "bwfmetaedit.exe"
+  if not reaper.file_exists(bwfmetaedit) then wgt.warning = "Missing BWFMetaEdit executable!"; return else wgt.warning = "" end
   
-  -- Get multi mic source
-  -- Get num channels/lanes
-  -- Get lane names from track chunk 
-  -- Get iXML metadata from source 
-  -- If none exists, make new chunk from scratch
-  -- If exists, add track_list object above <USER> if exists, at end otherwise
-  -- Run BWF MetaEdit
-  -- ImGui progress bar. Refer to ReaImGui Demo > Widgets > Plotting > Progress Bar
+  local num_sel_tracks = reaper.CountSelectedTracks(0)
+  if num_sel_tracks == 0 then wgt.warning = "No track selected!"; return else wgt.warning = "" end
+  local ini_sel_tracks = {}
+  acendan.saveSelectedTracks(ini_sel_tracks)
+  
+  for _, track in ipairs(ini_sel_tracks) do
+    reaper.SetOnlyTrackSelected(track)
+    reaper.Main_OnCommand(40289, 0) -- Unselect all media items
+    reaper.Main_OnCommand(40421, 0) -- Item: Select all items in track
+    
+    local num_track_lanes =  math.floor(reaper.GetMediaTrackInfo_Value(track, "I_NUMFIXEDLANES"))
+    if num_track_lanes == 1 then wgt.warning = "Track has no lanes!"; return else wgt.warning = "" end
+    local track_lane_names = acendan.getTrackLaneNames(track)
+    if not track_lane_names then wgt.warning = "Failed to get lane names!"; return else wgt.warning = "" end
+    
+    local multimic_lane_idx = acendan.tableContainsVal(track_lane_names, "MultiMic")
+    if multimic_lane_idx then table.remove(track_lane_names, multimic_lane_idx) end
+    
+    local ini_sel_items = {}
+    acendan.saveSelectedItems(ini_sel_items)
+    
+    for _, item in ipairs(ini_sel_items) do
+      local take = reaper.GetActiveTake( item )
+      if take ~= nil then 
+        local src = reaper.GetMediaItemTake_Source(take)
+        local src_parent = reaper.GetMediaSourceParent(src)
+        
+        local src_type = reaper.GetMediaSourceType(src)   
+        if not src_type == "WAVE" then wgt.warning = "Only supports .wav files!"; return else wgt.warning = "" end
+        
+        if src_parent ~= nil then src = src_parent end
+        local src_chans = reaper.GetMediaSourceNumChannels(src)
+        if src_chans ~= #track_lane_names then wgt.warning = "Channel count != num lanes"; return else wgt.warning = "" end
+        
+        local src_path = reaper.GetMediaSourceFileName(src)
+        if not acendan.tableContainsKey(wgt.unique_srcs, src_path) then
+          wgt.unique_srcs[src_path] = track_lane_names
+          wgt.num_srcs = wgt.num_srcs + 1
+        end
+      end
+    end -- iterate items
+  end -- iterate tracks
+end
+
+function writeMetadata(src_path, lane_names)
+  -- Check for existing iXML metadata
+  local src_ixml = ""
+  os.execute(bwfmetaedit .. ARG_OUTPUT_IXML .. acendan.encapsulate(src_path))
+  local src_ixml_path = src_path .. ".iXML.xml"
+
+  if reaper.file_exists(src_ixml_path) then 
+    -- File contains iXML metadata already
+    local file = io.open(src_ixml_path, "r")
+    io.input(file)
+    src_ixml = file:read("*all")
+    io.close(file)
+    
+    src_ixml = removeTrackListNodes(src_ixml)
+  else
+    -- File doesn't contain any iXML metadata
+    src_ixml = IXML_EMPTY_TEMPLATE
+  end
+  
+  -- Generate track list and create final iXML
+  local track_list_ixml = generateTrackListIXML(lane_names)
+  src_ixml = src_ixml:gsub("</BWFXML>", track_list_ixml .. "</BWFXML>")
+  
+  -- Write iXML to file
+  file = io.open(src_ixml_path, "w")
+  io.input(file)
+  file:write(src_ixml)
+  io.close(file)
+  
+  -- Embed metadata with BWFMetaEdit
+  os.execute(bwfmetaedit .. ARG_INSERT_IXML .. acendan.encapsulate(src_path))
+end
+
+--[[ Example TRACK_LIST:
+  <TRACK_LIST:TRACK:CHANNEL_INDEX>1</TRACK_LIST:TRACK:CHANNEL_INDEX>
+  <TRACK_LIST:TRACK:CHANNEL_INDEX:2>2</TRACK_LIST:TRACK:CHANNEL_INDEX:2>
+  <TRACK_LIST:TRACK:CHANNEL_INDEX:3>3</TRACK_LIST:TRACK:CHANNEL_INDEX:3>
+  <TRACK_LIST:TRACK:CHANNEL_INDEX:4>4</TRACK_LIST:TRACK:CHANNEL_INDEX:4>
+  <TRACK_LIST:TRACK:INTERLEAVE_INDEX>1</TRACK_LIST:TRACK:INTERLEAVE_INDEX>
+  <TRACK_LIST:TRACK:INTERLEAVE_INDEX:2>2</TRACK_LIST:TRACK:INTERLEAVE_INDEX:2>
+  <TRACK_LIST:TRACK:INTERLEAVE_INDEX:3>3</TRACK_LIST:TRACK:INTERLEAVE_INDEX:3>
+  <TRACK_LIST:TRACK:INTERLEAVE_INDEX:4>4</TRACK_LIST:TRACK:INTERLEAVE_INDEX:4>
+  <TRACK_LIST:TRACK:NAME>NEU-RSM191-L</TRACK_LIST:TRACK:NAME>
+  <TRACK_LIST:TRACK:NAME:2>NEU-RSM191-R</TRACK_LIST:TRACK:NAME:2>
+  <TRACK_LIST:TRACK:NAME:3>SANK-CO100K</TRACK_LIST:TRACK:NAME:3>
+  <TRACK_LIST:TRACK:NAME:4>CTRYMAN-B3</TRACK_LIST:TRACK:NAME:4>
+  <TRACK_LIST:TRACK_COUNT>4</TRACK_LIST:TRACK_COUNT>
+]]--
+function generateTrackListIXML(lane_names)
+  local track_list = ""
+  -- Channel
+  for idx, lane in ipairs(lane_names) do
+    if idx == 1 then
+      track_list = track_list .. "<TRACK_LIST:TRACK:CHANNEL_INDEX>" .. idx .. "</TRACK_LIST:TRACK:CHANNEL_INDEX>"
+    else
+      track_list = track_list .. "<TRACK_LIST:TRACK:CHANNEL_INDEX:" .. idx .. ">" .. idx .. "</TRACK_LIST:TRACK:CHANNEL_INDEX:" .. idx .. ">"
+    end
+  end
+  -- Interleave
+  for idx, lane in ipairs(lane_names) do
+    if idx == 1 then
+      track_list = track_list .. "<TRACK_LIST:TRACK:INTERLEAVE_INDEX>" .. idx .. "</TRACK_LIST:TRACK:INTERLEAVE_INDEX>"
+    else
+      track_list = track_list .. "<TRACK_LIST:TRACK:INTERLEAVE_INDEX:" .. idx .. ">" .. idx .. "</TRACK_LIST:TRACK:INTERLEAVE_INDEX:" .. idx .. ">"
+    end
+  end
+  -- Name
+  for idx, lane in ipairs(lane_names) do
+    if idx == 1 then
+      track_list = track_list .. "<TRACK_LIST:TRACK:NAME>" .. lane .. "</TRACK_LIST:TRACK:NAME>"
+    else
+      track_list = track_list .. "<TRACK_LIST:TRACK:NAME:" .. idx .. ">" .. lane .. "</TRACK_LIST:TRACK:NAME:" .. idx .. ">"
+    end
+  end
+  track_list = track_list .. "<TRACK_LIST:TRACK_COUNT>" .. #lane_names .. "</TRACK_LIST:TRACK_COUNT>"
+  return track_list
+end
+
+-- Remove all nodes that contain TRACK_LIST 
+function removeTrackListNodes(xml)
+    return xml:gsub("<TRACK_LIST.->.-</TRACK_LIST.->", "")
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

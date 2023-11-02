@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 7.3
+-- @version 7.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # acendan.encapsulate, acendan.ImGui_GetSetting, acendan.ImGui_SetSetting, acendan.ImGui_HSV
+--   # acendan.getTrackLaneNames(track)
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -206,7 +206,7 @@ function acendan.dbg(...)
   local str = ""
   for i = 1, #args do
     if type(args[i]) == "table" then
-      str = str .. table.tostring(args[i]) .. "\n"
+      str = str .. "[" .. table.concat(args[i], ", ") .. "]" .. "\n"
     else
       str = str .. tostring(args[i]) .. "\t"
     end
@@ -328,7 +328,10 @@ end
 
 -- Encapsulates strings in quotes if they contain spaces
 function acendan.encapsulate(str)
-  return str:gsub("(%w+%s+%w+)", "\"%1\"")
+  if str:find("%s") then
+    str = '"' .. str .. '"'
+  end
+  return str
 end
 
 -- Clamp a value to given range // returns Number
@@ -764,6 +767,46 @@ function acendan.getSelectedTracksSharedParent()
   end
   
   return shared_parent_track or reaper.GetMasterTrack( 0 )
+end
+
+-- Parses full track chunk RPPXML, returning table with lane names; nil if no lanes
+function acendan.getTrackLaneNames(track)
+  local ret, track_chunk = reaper.GetTrackStateChunk(track, "",false)
+  if not ret then return end
+  
+  local lane_name_line = ""
+  for line in track_chunk:gmatch("[^\r\n]+") do
+    if line:sub(1, 8) == "LANENAME" then
+      lane_name_line = line
+      break
+    end
+  end
+  if lane_name_line == "" then return end
+  
+  local lane_names = {}
+  local quote = false
+  local capture = ""
+  for i=1, #lane_name_line do
+    local c = lane_name_line:sub(i,i)
+    if c == '"' then
+      quote = not quote
+    elseif c == ' ' and not quote then
+      if #capture > 0 then
+        table.insert(lane_names, capture)
+        capture = ""
+      end
+    else
+      capture = capture .. c
+    end
+  end
+  if #capture > 0 then
+    table.insert(lane_names, capture)
+  end
+
+  -- Remove the first element ("LANENAME")
+  table.remove(lane_names, 1)
+
+  return lane_names
 end
 
 
@@ -1279,8 +1322,10 @@ function acendan.fileExtension(filename)
 end
 
 -- More legit ways to get file info
+-- TODO: Confirm that this didn't break other scripts after using .getOS() for separator
 function acendan.getFileName(filename)
-  return filename:match("^.+/(.+)$")
+  local _, sep = acendan.getOS()
+  return filename:match("^.+" .. sep .. "(.+)$")
 end
 
 function acendan.getFileExtension(filename)
