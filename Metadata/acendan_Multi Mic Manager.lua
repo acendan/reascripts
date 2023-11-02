@@ -1,14 +1,16 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.3
+-- @version 0.4
 -- @metapackage
 -- @provides
 --   [main] .
+--   BWFMetaEdit/*
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # Simplifies management of tracks with multiple mics on different channels
+--   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Improve behavior of track height when creating/restoring lanes
+--   # Validating BWFMetaEdit include
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.3 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -245,6 +247,15 @@ end
 
 function writeMetadata()
   wgt.warning = "Work in progress..."
+  
+  -- Get multi mic source
+  -- Get num channels/lanes
+  -- Get lane names from track chunk 
+  -- Get iXML metadata from source 
+  -- If none exists, make new chunk from scratch
+  -- If exists, add track_list object above <USER> if exists, at end otherwise
+  -- Run BWF MetaEdit
+  -- ImGui progress bar. Refer to ReaImGui Demo > Widgets > Plotting > Progress Bar
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
