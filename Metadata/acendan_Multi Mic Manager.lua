@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -12,7 +12,7 @@
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Fixed TRACK_LIST format to work with Soundminer
+--   # Match track name metadata from recorders
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -31,6 +31,8 @@ local WINDOW_FLAGS = reaper.ImGui_WindowFlags_NoCollapse()
 local IXML_EMPTY_TEMPLATE = '<?xml version="1.0" encoding="UTF-8"?><BWFXML></BWFXML>'
 local ARG_OUTPUT_IXML = " --out-iXML-xml "
 local ARG_INSERT_IXML = " --in-iXML-xml "
+
+local RECORDER_TRK_PATTERN = ".[tT][rR][kK]%d-=(.-)\n"
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,10 +113,7 @@ function main()
   reaper.ImGui_TextColored(ctx, 0xFFFF00FF, wgt.warning)
   
   -- Options
-  --  TODO: Explode onto tracks (V6 support) rather than lanes
   --  TODO: Route to original channels (channel mapper presets?)
-  --if wgt.curr_src > 0 then reaper.ImGui_BeginDisabled(ctx) end
-  
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Options")
@@ -185,6 +184,7 @@ function createMicLanes()
         local src_chans = reaper.GetMediaSourceNumChannels(src)
 
         local lane_name_chunk = "LANENAME MultiMic"
+        local recorder_meta = nil
         local chnl_l = 0
         for chnl = 1, src_chans do
           -- Copy item to lane for channel
@@ -208,7 +208,30 @@ function createMicLanes()
           -- Rename lane from metadata
           local track_name_meta = chnl == 1 and "IXML:TRACK_LIST:TRACK:NAME" or "IXML:TRACK_LIST:TRACK:NAME:" .. tostring(chnl)
           local ret, lane_name = reaper.GetMediaFileMetadata(src, track_name_meta)
-          lane_name_chunk = ret ~= 0 and (lane_name_chunk .. " " .. acendan.encapsulate(lane_name)) or (lane_name_chunk .. " Ch." .. tostring(chnl))
+          if ret ~= 0 then
+            lane_name_chunk = lane_name_chunk .. " " .. acendan.encapsulate(lane_name)
+          else
+            -- Try get recorder trk metadata
+            if recorder_meta == nil then
+              recorder_meta = {}
+              local ret, bwf_desc = reaper.CF_GetMediaSourceMetadata(src, "DESC", "")
+              if ret then
+                for bwf_trk in string.gmatch(bwf_desc, RECORDER_TRK_PATTERN) do
+                  recorder_meta[#recorder_meta+1] = bwf_trk
+                end
+              end
+            end
+             
+            -- Succesfully got recorder metadata on earlier pass, name with meta
+            if #recorder_meta > 0 then
+              lane_name_chunk = lane_name_chunk .. " " .. acendan.encapsulate(recorder_meta[chnl])
+              
+            -- Failed to get recorder metadata on earlier pass
+            else
+              lane_name_chunk = lane_name_chunk .. " Ch." .. tostring(chnl)
+              
+            end
+          end
           
           -- Show pan envelope and auto pan L/R
           if wgt.enable_pan_env then
