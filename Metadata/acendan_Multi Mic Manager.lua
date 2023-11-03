@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -12,7 +12,7 @@
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Match track name metadata from recorders
+--   # Replace copy-paste item actions with duplicate. Huge stability boost for tracks with many items.
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -163,6 +163,7 @@ function createMicLanes()
     reaper.Main_OnCommand(41327, 0) -- View: Increase selected track heights a little bit
     local ini_track_height = reaper.GetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE")
     reaper.SetOnlyTrackSelected(track)
+    reaper.Main_OnCommand(40914, 0) -- Set selected track as last touched
     reaper.Main_OnCommand(42431, 0) -- Track properties: Set fixed item lanes
     reaper.Main_OnCommand(40289, 0) -- Unselect all media items
     reaper.Main_OnCommand(40421, 0) -- Item: Select all items in track
@@ -171,6 +172,12 @@ function createMicLanes()
     acendan.saveSelectedItems(ini_sel_items)
     
     for _, item in ipairs(ini_sel_items) do
+      
+      -- Store item position and disable auto fades
+      local item_start_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+      reaper.SetMediaItemInfo_Value(item, "D_FADEINLEN_AUTO", -1)
+      reaper.SetMediaItemInfo_Value(item, "D_FADEOUTLEN_AUTO", -1)
+      
       -- Save this batch of items for grouping later
       local items = {}
       items[#items + 1] = item
@@ -189,15 +196,15 @@ function createMicLanes()
         for chnl = 1, src_chans do
           -- Copy item to lane for channel
           acendan.setOnlyItemSelected(item)
-          reaper.Main_OnCommand(41173, 0) -- Move cursor at item start
-          reaper.Main_OnCommand(40698, 0) -- Copy the item
-          reaper.Main_OnCommand(40914, 0) -- Set selected track as last touched
-          reaper.Main_OnCommand(40058, 0) -- Paste item
+          reaper.Main_OnCommand(41295, 0) -- Item: Duplicate items
           
           -- Set item lane and channel
           local new_item = reaper.GetSelectedMediaItem(0, 0)
           items[#items + 1] = new_item
+          reaper.SetMediaItemInfo_Value(new_item, "D_POSITION", item_start_pos)
           reaper.SetMediaItemInfo_Value(new_item, "I_FIXEDLANE", chnl)
+          reaper.SetMediaItemInfo_Value(new_item, "D_FADEINLEN_AUTO", -1)
+          reaper.SetMediaItemInfo_Value(new_item, "D_FADEOUTLEN_AUTO", -1)
           reaper.SetMediaItemTakeInfo_Value(reaper.GetActiveTake( new_item ) , "I_CHANMODE", 2 + chnl)
           
           -- Set first mic lane selected
