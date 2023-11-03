@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.7
+-- @version 1.0
 -- @metapackage
 -- @provides
 --   [main] .
@@ -12,7 +12,7 @@
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Wrap headless actions in undo/UI refresh blocks
+--   # Fixed TRACK_LIST format to work with Soundminer
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -374,47 +374,42 @@ function writeMetadata(src_path, lane_names)
 end
 
 --[[ Example TRACK_LIST:
-  <TRACK_LIST:TRACK:CHANNEL_INDEX>1</TRACK_LIST:TRACK:CHANNEL_INDEX>
-  <TRACK_LIST:TRACK:CHANNEL_INDEX:2>2</TRACK_LIST:TRACK:CHANNEL_INDEX:2>
-  <TRACK_LIST:TRACK:CHANNEL_INDEX:3>3</TRACK_LIST:TRACK:CHANNEL_INDEX:3>
-  <TRACK_LIST:TRACK:CHANNEL_INDEX:4>4</TRACK_LIST:TRACK:CHANNEL_INDEX:4>
-  <TRACK_LIST:TRACK:INTERLEAVE_INDEX>1</TRACK_LIST:TRACK:INTERLEAVE_INDEX>
-  <TRACK_LIST:TRACK:INTERLEAVE_INDEX:2>2</TRACK_LIST:TRACK:INTERLEAVE_INDEX:2>
-  <TRACK_LIST:TRACK:INTERLEAVE_INDEX:3>3</TRACK_LIST:TRACK:INTERLEAVE_INDEX:3>
-  <TRACK_LIST:TRACK:INTERLEAVE_INDEX:4>4</TRACK_LIST:TRACK:INTERLEAVE_INDEX:4>
-  <TRACK_LIST:TRACK:NAME>NEU-RSM191-L</TRACK_LIST:TRACK:NAME>
-  <TRACK_LIST:TRACK:NAME:2>NEU-RSM191-R</TRACK_LIST:TRACK:NAME:2>
-  <TRACK_LIST:TRACK:NAME:3>SANK-CO100K</TRACK_LIST:TRACK:NAME:3>
-  <TRACK_LIST:TRACK:NAME:4>CTRYMAN-B3</TRACK_LIST:TRACK:NAME:4>
-  <TRACK_LIST:TRACK_COUNT>4</TRACK_LIST:TRACK_COUNT>
+  <TRACK_LIST>
+    <TRACK>
+      <INTERLEAVE_INDEX>1</INTERLEAVE_INDEX>
+      <NAME>Mic1</NAME>
+      <CHANNEL_INDEX>1</CHANNEL_INDEX>
+    </TRACK>
+    <TRACK>
+      <INTERLEAVE_INDEX>2</INTERLEAVE_INDEX>
+      <NAME>Mic2</NAME>
+      <CHANNEL_INDEX>2</CHANNEL_INDEX>
+    </TRACK>
+    <TRACK>
+      <INTERLEAVE_INDEX>3</INTERLEAVE_INDEX>
+      <NAME>Mic3</NAME>
+      <CHANNEL_INDEX>3</CHANNEL_INDEX>
+    </TRACK>
+    <TRACK>
+      <INTERLEAVE_INDEX>4</INTERLEAVE_INDEX>
+      <NAME>Mic4</NAME>
+      <CHANNEL_INDEX>4</CHANNEL_INDEX>
+    </TRACK>
+    <TRACK_COUNT>4</TRACK_COUNT>
+  </TRACK_LIST>
 ]]--
 function generateTrackListIXML(lane_names)
-  local track_list = ""
+  local track_list = "<TRACK_LIST>"
   -- Channel
   for idx, lane in ipairs(lane_names) do
-    if idx == 1 then
-      track_list = track_list .. "<TRACK_LIST:TRACK:CHANNEL_INDEX>" .. idx .. "</TRACK_LIST:TRACK:CHANNEL_INDEX>"
-    else
-      track_list = track_list .. "<TRACK_LIST:TRACK:CHANNEL_INDEX:" .. idx .. ">" .. idx .. "</TRACK_LIST:TRACK:CHANNEL_INDEX:" .. idx .. ">"
-    end
+    track_list = track_list .. "<TRACK>" 
+                            .. "<INTERLEAVE_INDEX>" .. idx .. "</INTERLEAVE_INDEX>"
+                            .. "<NAME>" .. lane .. "</NAME>"
+                            .. "<CHANNEL_INDEX>" .. idx .. "</CHANNEL_INDEX>"
+                            .. "</TRACK>"
   end
-  -- Interleave
-  for idx, lane in ipairs(lane_names) do
-    if idx == 1 then
-      track_list = track_list .. "<TRACK_LIST:TRACK:INTERLEAVE_INDEX>" .. idx .. "</TRACK_LIST:TRACK:INTERLEAVE_INDEX>"
-    else
-      track_list = track_list .. "<TRACK_LIST:TRACK:INTERLEAVE_INDEX:" .. idx .. ">" .. idx .. "</TRACK_LIST:TRACK:INTERLEAVE_INDEX:" .. idx .. ">"
-    end
-  end
-  -- Name
-  for idx, lane in ipairs(lane_names) do
-    if idx == 1 then
-      track_list = track_list .. "<TRACK_LIST:TRACK:NAME>" .. lane .. "</TRACK_LIST:TRACK:NAME>"
-    else
-      track_list = track_list .. "<TRACK_LIST:TRACK:NAME:" .. idx .. ">" .. lane .. "</TRACK_LIST:TRACK:NAME:" .. idx .. ">"
-    end
-  end
-  track_list = track_list .. "<TRACK_LIST:TRACK_COUNT>" .. #lane_names .. "</TRACK_LIST:TRACK_COUNT>"
+  track_list = track_list .. "<TRACK_COUNT>" .. #lane_names .. "</TRACK_COUNT>"
+  track_list = track_list .. "</TRACK_LIST>"
   return track_list
 end
 
