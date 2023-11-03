@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.6
+-- @version 0.7
 -- @metapackage
 -- @provides
 --   [main] .
@@ -12,7 +12,7 @@
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Add separate actions for Create Mic Lanes and Restore Multi Mic to Actions List
+--   # Wrap headless actions in undo/UI refresh blocks
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -431,12 +431,22 @@ end
 if SCRIPT_NAME:find("Create Mic Lanes") then
   headless = true
   init()
+  reaper.PreventUIRefresh(1)
+  reaper.Undo_BeginBlock()
   createMicLanes()
+  reaper.Undo_EndBlock(SCRIPT_NAME, -1)
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
   
 elseif SCRIPT_NAME:find("Restore Multi Mic") then
   headless = true
   init()
+  reaper.PreventUIRefresh(1)
+  reaper.Undo_BeginBlock()
   restoreMultiMic()
+  reaper.Undo_EndBlock(SCRIPT_NAME, -1)
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
   
 else
   headless = false
