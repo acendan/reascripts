@@ -1,16 +1,18 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 0.5
+-- @version 0.6
 -- @metapackage
 -- @provides
 --   [main] .
+--   [main] . > acendan_Multi Mic Manager - Create Mic Lanes.lua
+--   [main] . > acendan_Multi Mic Manager - Restore Multi Mic.lua
 --   BWFMetaEdit/*
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Embed lane name metadata support (Windows, .wav only)
+--   # Add separate actions for Create Mic Lanes and Restore Multi Mic to Actions List
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -39,10 +41,13 @@ function init()
   -- Ensure REAPER v7+
   if tonumber(string.match(reaper.GetAppVersion(), "(%d+).")) < 7 then
     acendan.msg("This script requires REAPER v7!", SCRIPT_NAME)
+    return
   end
   
-  ctx = reaper.ImGui_CreateContext(SCRIPT_NAME, reaper.ImGui_ConfigFlags_DockingEnable())
-  reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
+  if not headless then
+    ctx = reaper.ImGui_CreateContext(SCRIPT_NAME, reaper.ImGui_ConfigFlags_DockingEnable())
+    reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
+  end
   
   wgt = {
     warning = "",
@@ -134,9 +139,21 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ UTILITIES ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function postWarning(msg)
+  if headless then
+    acendan.msg(msg, "Multi Mic Manager")
+  else
+    wgt.warning = msg
+  end
+end
+
+function clearWarning()
+  wgt.warning = ""
+end
+
 function createMicLanes()
   local num_sel_tracks = reaper.CountSelectedTracks(0)
-  if num_sel_tracks == 0 then wgt.warning = "No track selected!" return else wgt.warning = "" end
+  if num_sel_tracks == 0 then postWarning("No track selected!"); return else clearWarning() end
   local ini_sel_tracks = {}
   acendan.saveSelectedTracks(ini_sel_tracks)
 
@@ -249,7 +266,7 @@ function createMicLanes()
 end
 
 function restoreMultiMic()
-  if reaper.CountSelectedTracks(0) == 0 then wgt.warning = "No track selected!"; return else wgt.warning = "" end
+  if reaper.CountSelectedTracks(0) == 0 then postWarning("No track selected!"); return else clearWarning() end
   local ini_sel_tracks = {}
   acendan.saveSelectedTracks(ini_sel_tracks)
   
@@ -274,13 +291,13 @@ function restoreMultiMic()
 end
 
 function fetchUniqueSources()
-  if not WIN then wgt.warning = "Windows only, for now..."; return else wgt.warning = "" end
+  if not WIN then postWarning("Windows only, for now..."); return else clearWarning() end
 
   bwfmetaedit = SCRIPT_DIR .. "BWFMetaEdit" .. SEP .. "bwfmetaedit.exe"
-  if not reaper.file_exists(bwfmetaedit) then wgt.warning = "Missing BWFMetaEdit executable!"; return else wgt.warning = "" end
+  if not reaper.file_exists(bwfmetaedit) then postWarning("Missing BWFMetaEdit executable!"); return else clearWarning() end
   
   local num_sel_tracks = reaper.CountSelectedTracks(0)
-  if num_sel_tracks == 0 then wgt.warning = "No track selected!"; return else wgt.warning = "" end
+  if num_sel_tracks == 0 then postWarning("No track selected!"); return else clearWarning() end
   local ini_sel_tracks = {}
   acendan.saveSelectedTracks(ini_sel_tracks)
   
@@ -290,9 +307,9 @@ function fetchUniqueSources()
     reaper.Main_OnCommand(40421, 0) -- Item: Select all items in track
     
     local num_track_lanes =  math.floor(reaper.GetMediaTrackInfo_Value(track, "I_NUMFIXEDLANES"))
-    if num_track_lanes == 1 then wgt.warning = "Track has no lanes!"; return else wgt.warning = "" end
+    if num_track_lanes == 1 then postWarning("Track has no lanes!"); return else clearWarning() end
     local track_lane_names = acendan.getTrackLaneNames(track)
-    if not track_lane_names then wgt.warning = "Failed to get lane names!"; return else wgt.warning = "" end
+    if not track_lane_names then postWarning("Failed to get lane names!"); return else clearWarning() end
     
     local multimic_lane_idx = acendan.tableContainsVal(track_lane_names, "MultiMic")
     if multimic_lane_idx then table.remove(track_lane_names, multimic_lane_idx) end
@@ -307,11 +324,11 @@ function fetchUniqueSources()
         local src_parent = reaper.GetMediaSourceParent(src)
         
         local src_type = reaper.GetMediaSourceType(src)   
-        if not src_type == "WAVE" then wgt.warning = "Only supports .wav files!"; return else wgt.warning = "" end
+        if not src_type == "WAVE" then postWarning("Only supports .wav files!"); return else clearWarning() end
         
         if src_parent ~= nil then src = src_parent end
         local src_chans = reaper.GetMediaSourceNumChannels(src)
-        if src_chans ~= #track_lane_names then wgt.warning = "Channel count != num lanes"; return else wgt.warning = "" end
+        if src_chans ~= #track_lane_names then postWarning("Channel count != num lanes"); return else clearWarning() end
         
         local src_path = reaper.GetMediaSourceFileName(src)
         if not acendan.tableContainsKey(wgt.unique_srcs, src_path) then
@@ -409,8 +426,24 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-init()
-main()
+
+-- Headless
+if SCRIPT_NAME:find("Create Mic Lanes") then
+  headless = true
+  init()
+  createMicLanes()
+  
+elseif SCRIPT_NAME:find("Restore Multi Mic") then
+  headless = true
+  init()
+  restoreMultiMic()
+  
+else
+  headless = false
+  init()
+  main()
+end
+
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~~~
