@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -12,7 +12,7 @@
 --   # Simplifies management of tracks with multiple mics on different channels
 --   # TODO: Expose actions for buttons in actions list (make sure to call init in order to get settings, then destroy ImGui context at end)
 -- @changelog
---   # Replace copy-paste item actions with duplicate. Huge stability boost for tracks with many items.
+--   # Fixed occasional bug in restore multi mic using lane deletion rather than take cropping
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -270,11 +270,13 @@ function createMicLanes()
         -- Set track lane names and height
         local _, track_chunk = reaper.GetTrackStateChunk(track, "", false)
         reaper.SetTrackStateChunk(track, track_chunk:gsub("(LANENAME.-)\n", lane_name_chunk .. "\n"), false)
-        reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height / src_chans + 1)
         
-        -- Set first mic track as selected lane
+        -- Set first mic track as selected lane, set track height
         if wgt.single_lane then
           reaper.Main_OnCommand(42638, 0) -- Track properties: Show/play only one fixed item lane
+          reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height)
+        else
+          reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height / src_chans + 1)
         end
         
         -- Mute original item
@@ -301,22 +303,28 @@ function restoreMultiMic()
   acendan.saveSelectedTracks(ini_sel_tracks)
   
   for _, track in ipairs(ini_sel_tracks) do
+    reaper.Main_OnCommand(40289, 0) -- Unselect all media items
     reaper.SetOnlyTrackSelected(track)
     
     reaper.Main_OnCommand(41328, 0) -- View: Decrease selected track heights a little bit
     local num_track_lanes =  reaper.GetMediaTrackInfo_Value(track, "I_NUMFIXEDLANES")
     local ini_track_height = reaper.GetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE") * num_track_lanes
-    
-    reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:0", 1)
+
+    reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:0", 1) -- First (MultiMic) lane plays exclusively
+    reaper.Main_OnCommand(42691, 0) -- Track lanes: Delete all lanes (including media items) that are not playing
     reaper.Main_OnCommand(42662, 0) -- Track properties: Unset free item positioning/fixed item lanes (convert fixed lanes to takes)
-    reaper.Main_OnCommand(40289, 0) -- Unselect all media items
-    reaper.Main_OnCommand(40421, 0) -- Item: Select all items in track
-    reaper.Main_OnCommand(40131, 0) -- Take: Crop to active take in items
-    reaper.Main_OnCommand(40720, 0) -- Item properties: Unmute
-    reaper.Main_OnCommand(40033, 0) -- Item grouping: Remove items from group
-    reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_DELEMPTYTAKE"), 0) -- SWS/S&M: Takes - Remove empty takes/items among selected items
     
-    reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height)
+    for i = 0, reaper.GetTrackNumMediaItems(track) - 1 do
+      local item = reaper.GetTrackMediaItem(track, i)
+      reaper.SetMediaItemInfo_Value(item, "B_MUTE", 0)
+      reaper.SetMediaItemInfo_Value(item, "I_GROUPID", 0)
+    end
+
+    if wgt.single_lane then
+      reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height / (num_track_lanes + 1))
+    else
+      reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height)
+    end
   end
 end
 
