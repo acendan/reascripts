@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="f703edb30bf06995b11e99012c6a3a5d4f2bfb7d" name="ACendan Scripts">
+<index version="1" commit="4fc3aef29480b0815f256d59439ade56e31d2c8a" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1663,6 +1663,17 @@
         <source file="BWFMetaEdit/ReadMe.txt">https://github.com/acendan/reascripts/raw/f703edb30bf06995b11e99012c6a3a5d4f2bfb7d/Metadata/BWFMetaEdit/ReadMe.txt</source>
         <source file="BWFMetaEdit/bwfmetaedit.exe">https://github.com/acendan/reascripts/raw/f703edb30bf06995b11e99012c6a3a5d4f2bfb7d/Metadata/BWFMetaEdit/bwfmetaedit.exe</source>
         <source file="BWFMetaEdit/conformance_point_document.xsd">https://github.com/acendan/reascripts/raw/f703edb30bf06995b11e99012c6a3a5d4f2bfb7d/Metadata/BWFMetaEdit/conformance_point_document.xsd</source>
+      </version>
+      <version name="1.5" author="Aaron Cendan" time="2023-11-06T21:51:04Z">
+        <changelog><![CDATA[# Fix encapsulation of bwfmetaedit path - Thanks again Carson!!! <3]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
+        <source main="main" file="acendan_Multi Mic Manager - Create Mic Lanes.lua">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
+        <source main="main" file="acendan_Multi Mic Manager - Restore Multi Mic.lua">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/acendan_Multi%20Mic%20Manager.lua</source>
+        <source file="BWFMetaEdit/History.txt">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/BWFMetaEdit/History.txt</source>
+        <source file="BWFMetaEdit/License.html">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/BWFMetaEdit/License.html</source>
+        <source file="BWFMetaEdit/ReadMe.txt">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/BWFMetaEdit/ReadMe.txt</source>
+        <source file="BWFMetaEdit/bwfmetaedit.exe">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/BWFMetaEdit/bwfmetaedit.exe</source>
+        <source file="BWFMetaEdit/conformance_point_document.xsd">https://github.com/acendan/reascripts/raw/4fc3aef29480b0815f256d59439ade56e31d2c8a/Metadata/BWFMetaEdit/conformance_point_document.xsd</source>
       </version>
     </reapack>
   </category>
