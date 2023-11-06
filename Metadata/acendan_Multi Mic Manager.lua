@@ -1,6 +1,6 @@
 -- @description Multi Mic Manager
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -13,7 +13,7 @@
 --   # Tutorial: https://youtu.be/V-9kShMDOAQ
 --   # TODO: Copy-Paste named lanes
 -- @changelog
---   # Encapsulate bwfmetaedit path - Thanks Carson!!! <3
+--   # Fix encapsulation of bwfmetaedit path - Thanks again Carson!!! <3
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.4 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -29,7 +29,7 @@ local WIN, SEP = acendan.getOS()
 local WINDOW_SIZE = { width = 210, height = 220 }
 local WINDOW_FLAGS = reaper.ImGui_WindowFlags_NoCollapse()
 
-local BWFMETAEDIT = acendan.encapsulate(SCRIPT_DIR .. "BWFMetaEdit" .. SEP .. "bwfmetaedit.exe")
+local BWFMETAEDIT = SCRIPT_DIR .. "BWFMetaEdit" .. SEP .. "bwfmetaedit.exe"
 local IXML_EMPTY_TEMPLATE = '<?xml version="1.0" encoding="UTF-8"?><BWFXML></BWFXML>'
 local ARG_OUTPUT_IXML = " --out-iXML-xml "
 local ARG_INSERT_IXML = " --in-iXML-xml "
@@ -381,7 +381,7 @@ end
 function writeMetadata(src_path, lane_names)
   -- Check for existing iXML metadata
   local src_ixml = ""
-  os.execute(BWFMETAEDIT .. ARG_OUTPUT_IXML .. acendan.encapsulate(src_path))
+  reaper.ExecProcess(acendan.encapsulate(BWFMETAEDIT) .. ARG_OUTPUT_IXML .. acendan.encapsulate(src_path), 0)
   local src_ixml_path = src_path .. ".iXML.xml"
 
   if reaper.file_exists(src_ixml_path) then 
@@ -408,7 +408,7 @@ function writeMetadata(src_path, lane_names)
   io.close(file)
   
   -- Embed metadata with BWFMetaEdit
-  os.execute(BWFMETAEDIT .. ARG_INSERT_IXML .. acendan.encapsulate(src_path))
+  local stdout = reaper.ExecProcess(acendan.encapsulate(BWFMETAEDIT) .. ARG_INSERT_IXML .. acendan.encapsulate(src_path), 0)
 end
 
 --[[ Example TRACK_LIST:
@@ -491,3 +491,4 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ TESTING ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
