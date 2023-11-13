@@ -3,5 +3,8 @@
         "reaper",
         "main",
         "acendan"
+    ],
+    "Lua.workspace.library": [
+        "c:\\Users\\Aaron\\.vscode\\extensions\\antoinebalaine.reascript-docs-0.1.1/resources/reaper-types.lua"
     ]
 }

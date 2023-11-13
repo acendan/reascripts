@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 8.2.5
+-- @version 8.2.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   # Improved UCS Reacall RegEx
+--   * WIP - Support for NVK Folder Items
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -77,7 +77,6 @@ local ret_copy, ucs_copy = reaper.GetProjExtState( 0, "UCS_WebInterface", "copyR
 local retm_title,  meta_title  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaTitle")
 local retm_desc,   meta_desc   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaDesc")
 local retm_keys,   meta_keys   = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaKeys")
-local retm_mic,    meta_mic    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMic")
 local retm_recmed, meta_recmed = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaRecMed")
 local retm_dsgnr,  meta_dsgnr  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaDsgnr")
 local retm_lib,    meta_lib    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaLib")
@@ -87,6 +86,7 @@ local retm_mftr,   meta_mftr   = reaper.GetProjExtState( 0, "UCS_WebInterface", 
 local retm_notes,  meta_notes  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaNotes")
 local retm_persp,  meta_persp  = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaPersp")
 local retm_config, meta_config = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaConfig")
+local retm_mic,    meta_mic    = reaper.GetProjExtState( 0, "UCS_WebInterface", "MetaMic")
 
 -- GBX Mod
 local retg_mod,  gbx_mod  = reaper.GetProjExtState( 0, "UCS_WebInterface", "GBXMod")
@@ -334,9 +334,6 @@ function parseUCSWebInterfaceInput()
   -- Show message box with form inputs and respective ret bools. Toggle at top of script.
   if debug_mode then debugUCSInput() end
   
-  -- If iXML metadata enabled, then ensure project settings are set up correctly
-  if ret_ixml and ucs_ixml == "true" then iXMLSetup() end
-  
   -- Evaluate copy to clipboard settings
   if ret_copy and ucs_copy == "Copy after processing" then copy_to_clipboard = true
   elseif ret_copy and ucs_copy == "Copy WITHOUT processing" then copy_without_processing = true end
@@ -370,6 +367,22 @@ function parseUCSWebInterfaceInput()
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
+
+    elseif ucs_type == "NVK Folder Items" then
+      -- Check for NVK API Extension
+      if not reaper.NVK_IsFolderItem then
+        --reaper.MB("Support for renaming NVK Folder Items depends on the NVK API, available in ReaPack, under the nvk-ReaScripts repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'nvk-ReaScripts'. Right click to install.","UCS Renaming Tool", 0)
+        reaper.MB("Support for NVK Folder Items is not yet available! Stay tuned for updates in the not-so-distant future...","UCS Renaming Tool", 0)
+        return
+      end
+      
+      local num_items = reaper.NVK_CountFolderItems(0)
+      if num_items > 0 then
+        if num_items == 1 then ucs_enum = "false" end
+        renameNVKFolderItems(num_items)
+      else
+        reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
+      end
         
     elseif ucs_type == "Tracks" then
       local num_tracks =  reaper.CountTracks( 0 )
@@ -391,8 +404,11 @@ function parseUCSWebInterfaceInput()
     -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -- ~~~~~ POST PROCESSING ~~~~~
     -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    -- Set up iXML markers
-    if ret_ixml and ucs_ixml == "true" and #iXMLMarkerTbl > 0 then iXMLMarkersEngage() end
+    -- If iXML metadata enabled, then ensure project settings are set up correctly and set up iXML markers
+    if ret_ixml and ucs_ixml == "true" and #iXMLMarkerTbl > 0 then 
+      iXMLSetup() 
+      iXMLMarkersEngage()
+    end
     
     -- Copy to clipboard AFTER processing
     if copy_to_clipboard and line_to_copy then reaper.CF_SetClipboard( line_to_copy ) end
@@ -687,6 +703,90 @@ function renameMediaItems(num_items)
   elseif ucs_area == "All Items" then
     for i=0, num_items - 1 do
       local item =  reaper.GetMediaItem( 0, i )
+      local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+      local item_end = item_start + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
+      local take = reaper.GetActiveTake( item )
+      local item_num = tostring(math.floor( reaper.GetMediaItemInfo_Value( item, "IP_ITEMNUMBER" ) + 1))
+      if string.len(item_num) == 1 then item_num = "0" .. item_num end
+      if take ~= nil then 
+        leadingZeroUCSNumStr()
+        setFullName()
+        local relname = ucs_name
+        if ucs_full_name:ifind("$Itemnumber") then ucs_full_name = ucs_full_name:gisub("$Itemnumber", item_num); relname = relname:gisub("$Itemnumber", item_num) end
+        if ucs_full_name:ifind("$Item") then 
+          local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
+          if ret_name then 
+            ucs_full_name = ucs_full_name:gisub("$Item",item_name)
+            relname = relname:gisub("$Item",item_name)
+          else 
+            ucs_full_name = ucs_full_name:gisub("$Item","") 
+            relname = relname:gisub("$Item","")
+          end
+        end
+        reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", ucs_full_name, true )
+        if ret_ixml and ucs_ixml == "true" then 
+          if ret_mpos and ucs_mpos == "true" then
+            iXMLMarkers(item_end + 0.0005,relname)
+          else
+            iXMLMarkers(item_start,relname) 
+          end
+        end
+        incrementUCSNumStr()
+      end
+    end
+  else
+    if ret_area then
+      reaper.MB("Invalid search area type. Did you tweak the 'userInputArea' options in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
+    else
+      reaper.MB("Invalid search area type. Did you remove or rename 'userInputArea' in UCS Renaming Tool Interface.html?", "UCS Renaming Tool", 0)
+    end
+  end
+end
+
+function renameNVKFolderItems(num_items)
+  if ucs_area == "Selected Items" then
+    local num_sel_items = reaper.NVK_CountSelectedFolderItems(0)
+    if num_sel_items > 0 then
+      for i=0, num_sel_items - 1 do
+        local item = reaper.reaper.NVK_GetSelectedFolderItem(0, i)
+        local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+        local item_end = item_start + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
+        local take = reaper.GetActiveTake( item )
+        local item_num = tostring(math.floor( reaper.GetMediaItemInfo_Value( item, "IP_ITEMNUMBER" ) + 1))
+        if string.len(item_num) == 1 then item_num = "0" .. item_num end
+        if take ~= nil then 
+          leadingZeroUCSNumStr()
+          setFullName()
+          local relname = ucs_name
+          if ucs_full_name:ifind("$Itemnumber") then ucs_full_name = ucs_full_name:gisub("$Itemnumber", item_num); relname = relname:gisub("$Itemnumber", item_num) end
+          if ucs_full_name:ifind("$Item") then 
+            local ret_name, item_name = reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", "", false )
+            if ret_name then 
+              ucs_full_name = ucs_full_name:gisub("$Item",item_name)
+              relname = relname:gisub("$Item",item_name)
+            else 
+              ucs_full_name = ucs_full_name:gisub("$Item","") 
+              relname = relname:gisub("$Item","")
+            end
+          end
+          reaper.GetSetMediaItemTakeInfo_String( take, "P_NAME", ucs_full_name, true )
+          if ret_ixml and ucs_ixml == "true" then 
+            if ret_mpos and ucs_mpos == "true" then
+              iXMLMarkers(item_end + 0.0005,relname)
+            else
+              iXMLMarkers(item_start,relname) 
+            end
+          end
+          incrementUCSNumStr()
+        end
+      end
+    else
+      reaper.MB("No NVK Folder Items selected!","UCS Renaming Tool", 0)
+    end
+    
+  elseif ucs_area == "All Items" then
+    for i=0, num_items - 1 do
+      local item =  reaper.NVK_GetFolderItem( 0, i )
       local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
       local item_end = item_start + reaper.GetMediaItemInfo_Value( item, "D_LENGTH" )
       local take = reaper.GetActiveTake( item )
@@ -1038,6 +1138,11 @@ end
 -- Builds table of markers to setup at location with appropriate iXML info
 function iXMLMarkers(position,relname)
 
+  local multi_mics = {} 
+  if retm_mic then
+    for mic in meta_mic:gmatch("([^,]+)") do table.insert(multi_mics, mic:match("^%s*(.-)%s*$")) end
+  end
+
   -- Set ASWG blanks for Content Type fields other than selection
   if ret_aswg_contentType and aswg_contentType ~= "" and aswg_contentType ~= "Mixed" then
     -- Set Dialogue specific fields blank
@@ -1119,7 +1224,6 @@ function iXMLMarkers(position,relname)
       mega_marker = mega_marker .. ";" .. "TrackTitle=" .. meta_title
       mega_marker = mega_marker .. ";" .. "Description=" .. meta_desc
       mega_marker = mega_marker .. ";" .. "Keywords=" .. meta_keys
-      mega_marker = mega_marker .. ";" .. "Microphone=" .. meta_mic
       mega_marker = mega_marker .. ";" .. "RecMedium=" .. meta_recmed
       mega_marker = mega_marker .. ";" .. "Library=" .. meta_lib
       mega_marker = mega_marker .. ";" .. "Location=" .. meta_loc
@@ -1128,6 +1232,24 @@ function iXMLMarkers(position,relname)
       mega_marker = mega_marker .. ";" .. "MetaNotes=" .. meta_notes
       mega_marker = mega_marker .. ";" .. "MicPerspective=" .. meta_persp
       mega_marker = mega_marker .. ";" .. "RecType=" .. meta_config
+      
+      -- Microphone
+      mega_marker = mega_marker .. ";" .. "Microphone=" .. meta_mic
+      if #multi_mics > 1 then
+        for idx, mic in ipairs(multi_mics) do
+          local mic_key = "Mic" .. tostring(idx)
+          local mic_idx = "MicIdx" .. tostring(idx)
+          mega_marker = mega_marker .. ";" .. mic_key .. "=" .. mic
+          mega_marker = mega_marker .. ";" .. mic_idx .. "=" .. tostring(idx)
+
+          local suffix = idx == 1 and "" or ":" .. tostring(idx)
+          iXML["IXML:TRACK_LIST:TRACK:NAME" .. suffix]              = mic_key
+          iXML["IXML:TRACK_LIST:TRACK:INTERLEAVE_INDEX" .. suffix]  = mic_idx
+          iXML["IXML:TRACK_LIST:TRACK:CHANNEL_INDEX" .. suffix]     = mic_idx
+        end
+
+        iXML["IXML:TRACK_LIST:TRACK_COUNT"]                         =  tostring(#multi_mics)
+      end
       
       -- Designer and Short ID
       mega_marker = mega_marker .. ";" .. "Designer=" .. meta_dsgnr
@@ -1449,7 +1571,7 @@ function setRenderDirectory()
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$region", true)
       elseif ucs_type == "Markers" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$marker", true)
-      elseif ucs_type == "Media Items" then
+      elseif ucs_type == "Media Items" or ucs_type == "NVK Folder Items" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$item", true)
       elseif ucs_type == "Tracks" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)[;]/$marker(Subcategory)[;]/$track", true)
@@ -1459,7 +1581,7 @@ function setRenderDirectory()
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$region", true)
       elseif ucs_type == "Markers" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$marker", true)
-      elseif ucs_type == "Media Items" then
+      elseif ucs_type == "Media Items" or ucs_type == "NVK Folder Items" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$item", true)
       elseif ucs_type == "Tracks" then
         reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker(Category)/$marker(Subcategory)/$track", true)
@@ -1470,7 +1592,7 @@ function setRenderDirectory()
       reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$region", true)
     elseif ucs_type == "Markers" then
       reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$marker", true)
-    elseif ucs_type == "Media Items" then
+    elseif ucs_type == "Media Items" or ucs_type == "NVK Folder Items" then
       reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$item", true)
     elseif ucs_type == "Tracks" then
       reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "$track", true)
@@ -1793,32 +1915,24 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~  
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-reaper.PreventUIRefresh(1)
 
 -- Check for JS_ReaScript Extension
-if reaper.JS_Dialog_BrowseForSaveFile then
-  
-  if reaper.HasExtState( "UCS_WebInterface", "runFromWeb" ) then
-
-    if reaper.GetExtState( "UCS_WebInterface", "runFromWeb" ) == "true" then
-      -- RUN FROM WEB INTERFACE, EXECUTE SCRIPT
-      reaper.SetExtState( "UCS_WebInterface", "runFromWeb", "false", true )
-      parseUCSWebInterfaceInput()
-
-    else
-      -- RUN FROM REAPER, OPEN INTERFACE
-      if not debug_mode then openUCSWebInterface() end
-    end
-
-  else
-    -- NO EXTSTATE FOUND, OPEN INTERFACE
-    if not debug_mode then openUCSWebInterface() end
-  end
-
-else
+if not reaper.JS_Dialog_BrowseForSaveFile then
   reaper.MB("Please install the JS_ReaScriptAPI REAPER extension, available in ReaPack, under the ReaTeam Extensions repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'JS_ReascriptAPI'. Right click to install.","UCS Renaming Tool", 0)
+  return
 end
 
-reaper.PreventUIRefresh(-1)
+-- Run from web interface, execute script
+if reaper.HasExtState( "UCS_WebInterface", "runFromWeb" ) then
+  if reaper.GetExtState( "UCS_WebInterface", "runFromWeb" ) == "true" then
+    reaper.SetExtState( "UCS_WebInterface", "runFromWeb", "false", true )
+    reaper.PreventUIRefresh(1)
+    parseUCSWebInterfaceInput()
+    reaper.PreventUIRefresh(-1)
+    reaper.UpdateArrange()
+    return
+  end
+end
 
-reaper.UpdateArrange()
+-- Open web interface - No extstate found or run from Actions List
+if not debug_mode then openUCSWebInterface() end

@@ -1640,6 +1640,7 @@
                         <option>Regions</option>
                         <option>Markers</option>
                         <option>Media Items</option>
+                        <option>NVK Folder Items</option>
                         <option>Tracks</option>
                     </select>
                     <small id="userInputCategoryHelp" class="form-text text-muted">What would you like to rename?</small>
@@ -1694,6 +1695,7 @@
                     <div class="form-group col-md-3" style="margin-left: 0px">
                         <label for="userDataLabel">Microphone</label>
                         <input type="text" class="form-control" id="userInputMetaMic" placeholder="Mini MS">
+                        <!-- <small class="form-text text-muted">Supports multi mics, ex: SM57, 8040, Usi</small> -->
                     </div>
                     
                     <div class="form-group col-md-3" style="margin-left: 0px">
@@ -2627,12 +2629,13 @@
             switch (search_field) {
                 case "Regions":
                 case "Media Items":
+                case "NVK Folder Items":
                     break;
 
                 case "Markers":
                 case "Tracks":
                 default:
-                    $("#dangerAlert").html("Reacall only supports Regions and Media Items processing targets (for now)!");
+                    $("#dangerAlert").html("Reacall only supports Regions, Media Items, and NVK Folder Items processing targets!");
                     $(".copy-alert").fadeTo(4000, 500).slideUp(750);
                     return;
             }
@@ -2927,6 +2930,7 @@
                     break;
 
                 case "Media Items":
+                case "NVK Folder Items":
                     vals = ["Selected Items", "All Items"];
                     break;
 
@@ -3031,6 +3035,7 @@
                     break;
 
                 case "Media Items":
+                case "NVK Folder Items":
                     var wildcard_info = "$item, $itemnumber";
                     $("#userInputNameHelp").html(number_info + wildcard_info + closer_info);
 

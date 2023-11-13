@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool - Send To Interface
 -- @author Aaron Cendan
--- @version 8.2.5
+-- @version 8.2.6
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool - Send To Interface.lua
@@ -13,6 +13,8 @@
 --
 --   ### Notes
 --   * This is just a helper script for the UCS Renaming Tool! It doesn't really do anything on it's own :)
+-- @changelog
+--   * Add support for NVK Folder Items!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS FROM WEB INTERFACE ~~~~~~~~~~
@@ -132,6 +134,30 @@ function getUCSNameAndMeta()
       end
       position = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
     end
+
+  elseif ucs_type == "NVK Folder Items" and reaper.NVK_CountFolderItems(0) > 0 then
+    -- Check for NVK API Extension
+    if not reaper.NVK_IsFolderItem then
+      --reaper.MB("Support for renaming NVK Folder Items depends on the NVK API, available in ReaPack, under the nvk-ReaScripts repository.\n\nExtensions > ReaPack > Browse Packages\n\nFilter for 'nvk-ReaScripts'. Right click to install.","UCS Renaming Tool", 0)
+      reaper.MB("Support for NVK Folder Items is not yet available! Stay tuned for updates in the not-so-distant future...","UCS Renaming Tool", 0)
+      return
+    end
+    
+    local item = nil
+    if ucs_area == "Selected Items" then
+      item = reaper.NVK_GetSelectedFolderItem(0, 0)
+    elseif ucs_area == "All Items" then
+      item = reaper.NVK_GetFolderItem(0, 0)
+    end
+    if item then
+      local take = reaper.GetActiveTake( item )
+      if take then
+        local ret, item_name = reaper.GetSetMediaItemTakeInfo_String( take , "P_NAME", "", false )
+        if ret and item_name ~= "" then ucs_name = item_name end
+      end
+      position = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+    end
+
   end
 
   -- Find closest marker name
