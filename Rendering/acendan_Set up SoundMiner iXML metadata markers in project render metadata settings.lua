@@ -43,6 +43,14 @@ iXML["IXML:USER:RATING"]         = "Rating"
 iXML["IXML:USER:URL"]            = "URL"
 iXML["IXML:USER:RELEASEDATE"]    = "ReleaseDate"
 iXML["IXML:USER:OPENTIER"]       = "OpenTier"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME"]    = "Ch1"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:2"]  = "Ch2"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:3"]  = "Ch3"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:4"]  = "Ch4"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:5"]  = "Ch5"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:6"]  = "Ch6"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:7"]  = "Ch7"
+-- iXML["IXML:TRACK_LIST:TRACK:NAME:8"]  = "Ch8"
 
 -- Other globals
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")

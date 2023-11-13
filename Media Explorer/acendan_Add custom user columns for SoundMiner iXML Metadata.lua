@@ -6,7 +6,7 @@
 --   [main=mediaexplorer] .
 -- @link https://aaroncendan.me
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   # Add channel names (iXML TRACK_LIST)
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -42,6 +42,7 @@ iXML["IXML:USER:Artist"]         = "Artist"
 iXML["IXML:USER:LongID"]         = "LongID"
 iXML["IXML:USER:Volume"]         = "Volume"
 iXML["IXML:USER:Track"]          = "Track"
+--[[
 iXML["IXML:USER:Manufacturer"]   = "Manufacturer"
 iXML["IXML:USER:RecMedium"]      = "RecMedium"
 iXML["IXML:USER:CDTitle"]        = "CDTitle"
@@ -51,6 +52,15 @@ iXML["IXML:USER:ReleaseDate"]    = "ReleaseDate"
 iXML["IXML:USER:OpenTier"]       = "OpenTier"
 iXML["IXML:USER:UserCategory"]   = "UserCategory"
 iXML["IXML:USER:VendorCategory"] = "VendorCategory"
+iXML["IXML:TRACK_LIST:TRACK:NAME"]    = "Ch 1"
+iXML["IXML:TRACK_LIST:TRACK:NAME:2"]  = "Ch 2"
+iXML["IXML:TRACK_LIST:TRACK:NAME:3"]  = "Ch 3"
+iXML["IXML:TRACK_LIST:TRACK:NAME:4"]  = "Ch 4"
+iXML["IXML:TRACK_LIST:TRACK:NAME:5"]  = "Ch 5"
+iXML["IXML:TRACK_LIST:TRACK:NAME:6"]  = "Ch 6"
+iXML["IXML:TRACK_LIST:TRACK:NAME:7"]  = "Ch 7"
+iXML["IXML:TRACK_LIST:TRACK:NAME:8"]  = "Ch 8"
+]]--
 
 -- Other globals
 local script_name = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
