@@ -1,6 +1,6 @@
 -- @description Create Multichannel Render
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Create multichannel render from selected tracks with mono items.lua
@@ -10,7 +10,15 @@
 --   a single multichannel file. Gif here: https://twitter.com/acendan_/status/1374921578765557762?s=20
 ---  Also follow me on Twitter while you're there :)
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   # Add option to only render within time selection
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Only render within time selection (true)
+-- Otherwise renders entire track (false)
+local only_render_within_time_selection = true
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARS ~~~~~~~~~~
@@ -65,7 +73,12 @@ function main()
     reaper.SetOnlyTrackSelected(parent_track)
     
     -- Render parent track to multichannel
-    reaper.Main_OnCommand(40893, 0) -- Track: Render tracks to multichannel stem tracks (and mute originals)
+    if only_render_within_time_selection then
+      reaper.Main_OnCommand(41720, 0) -- Track: Render selected area of tracks to multichannel stem tracks (and mute originals)
+    else
+      reaper.Main_OnCommand(40893, 0) -- Track: Render tracks to multichannel stem tracks (and mute originals)
+    end
+
   else
     acendan.msg("No tracks selected!")
   end
