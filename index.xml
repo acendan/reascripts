@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="4fc3aef29480b0815f256d59439ade56e31d2c8a" name="ACendan Scripts">
+<index version="1" commit="e4a5ff86d83606c76750b6f668507ecebcc91835" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2168,6 +2168,10 @@
         <changelog><![CDATA[# Update LuaUtils path with case sensitivity for Linux]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/ede76f60da5bd438f70081f39c5570d97e8f8286/Rendering/acendan_Create%20multichannel%20render%20from%20selected%20tracks%20with%20mono%20items.lua</source>
       </version>
+      <version name="1.2" author="Aaron Cendan" time="2024-01-29T18:51:31Z">
+        <changelog><![CDATA[# Add option to only render within time selection]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/e4a5ff86d83606c76750b6f668507ecebcc91835/Rendering/acendan_Create%20multichannel%20render%20from%20selected%20tracks%20with%20mono%20items.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Load render directory from slot.lua" type="script" desc="Load Render Directory from Slot">
       <metadata>
@@ -2935,6 +2939,10 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       <version name="8.2.5" author="Aaron Cendan" time="2023-04-09T03:58:10Z">
         <source main="main">https://github.com/acendan/reascripts/raw/8bca4cff43c7294b52a4b05d94a7c46f190e0053/Various/acendan_UCS%20Renaming%20Tool%20-%20Send%20To%20Interface.lua</source>
       </version>
+      <version name="8.2.6" author="Aaron Cendan" time="2023-11-13T23:38:10Z">
+        <changelog><![CDATA[* Add support for NVK Folder Items!]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Various/acendan_UCS%20Renaming%20Tool%20-%20Send%20To%20Interface.lua</source>
+      </version>
     </reapack>
     <reapack name="acendan_Universal Category Renaming Tool.lua" type="script" desc="UCS Renaming Tool">
       <metadata>
@@ -3228,6 +3236,10 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
       <version name="8.2.5" author="Aaron Cendan" time="2023-04-09T03:58:10Z">
         <changelog><![CDATA[# Improved UCS Reacall RegEx]]></changelog>
         <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/8bca4cff43c7294b52a4b05d94a7c46f190e0053/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
+      </version>
+      <version name="8.2.6" author="Aaron Cendan" time="2023-11-13T23:38:10Z">
+        <changelog><![CDATA[* WIP - Support for NVK Folder Items]]></changelog>
+        <source main="main" file="acendan_UCS Renaming Tool.lua">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Various/acendan_Universal%20Category%20Renaming%20Tool.lua</source>
       </version>
     </reapack>
   </category>
@@ -6072,6 +6084,68 @@ Includes copy to clipboard options and creator/source ID capitalization options]
         <source file="ucs_languages/UCS_tw.txt">https://github.com/acendan/reascripts/raw/8bca4cff43c7294b52a4b05d94a7c46f190e0053/Web%20Interfaces/ucs_languages/UCS_tw.txt</source>
         <source file="ucs_languages/UCS_ua.txt">https://github.com/acendan/reascripts/raw/8bca4cff43c7294b52a4b05d94a7c46f190e0053/Web%20Interfaces/ucs_languages/UCS_ua.txt</source>
         <source file="ucs_languages/UCS_us.txt">https://github.com/acendan/reascripts/raw/8bca4cff43c7294b52a4b05d94a7c46f190e0053/Web%20Interfaces/ucs_languages/UCS_us.txt</source>
+      </version>
+      <version name="8.2.6" author="Aaron Cendan" time="2023-11-13T23:38:10Z">
+        <changelog><![CDATA[# WIP - Support for NVK Folder Items]]></changelog>
+        <source file="acendan_UCS Renaming Tool.html">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/acendan_UCS%20Renaming%20Tool.html</source>
+        <source file="ucs_libraries/UCS_Presets.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/UCS_Presets.txt</source>
+        <source file="ucs_libraries/bloodhound.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/bloodhound.js</source>
+        <source file="ucs_libraries/bootstrap.min.css">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/bootstrap.min.css</source>
+        <source file="ucs_libraries/bootstrap.min.css.map">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/bootstrap.min.css.map</source>
+        <source file="ucs_libraries/bootstrap.min.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/bootstrap.min.js</source>
+        <source file="ucs_libraries/bootstrap.min.js.map">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/bootstrap.min.js.map</source>
+        <source file="ucs_libraries/countrystatecity.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/countrystatecity.js</source>
+        <source file="ucs_libraries/dark-feedback-icon.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/dark-feedback-icon.png</source>
+        <source file="ucs_libraries/dark-mode-icon.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/dark-mode-icon.png</source>
+        <source file="ucs_libraries/data-transfer-download.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/data-transfer-download.svg</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.css">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.css</source>
+        <source file="ucs_libraries/dataTables.bootstrap4.min.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/dataTables.bootstrap4.min.js</source>
+        <source file="ucs_libraries/dialogue.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/dialogue.svg</source>
+        <source file="ucs_libraries/export-data-2.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/export-data-2.svg</source>
+        <source file="ucs_libraries/flags32.css">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/flags32.css</source>
+        <source file="ucs_libraries/flags32.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/flags32.png</source>
+        <source file="ucs_libraries/gbx_logo.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/gbx_logo.png</source>
+        <source file="ucs_libraries/import-data.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/import-data.svg</source>
+        <source file="ucs_libraries/info.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/info.svg</source>
+        <source file="ucs_libraries/jquery-3.5.1.min.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/jquery-3.5.1.min.js</source>
+        <source file="ucs_libraries/jquery.dataTables.min.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/jquery.dataTables.min.js</source>
+        <source file="ucs_libraries/light-feedback-icon.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/light-feedback-icon.png</source>
+        <source file="ucs_libraries/light-mode-icon.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/light-mode-icon.png</source>
+        <source file="ucs_libraries/music2.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/music2.svg</source>
+        <source file="ucs_libraries/popper.min.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/popper.min.js</source>
+        <source file="ucs_libraries/popper.min.js.map">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/popper.min.js.map</source>
+        <source file="ucs_libraries/reacall.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/reacall.svg</source>
+        <source file="ucs_libraries/settings-icon-dark.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/settings-icon-dark.png</source>
+        <source file="ucs_libraries/settings-icon-light.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/settings-icon-light.png</source>
+        <source file="ucs_libraries/settings.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/settings.svg</source>
+        <source file="ucs_libraries/sfx.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/sfx.svg</source>
+        <source file="ucs_libraries/share.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/share.svg</source>
+        <source file="ucs_libraries/typeahead.bundle.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/typeahead.bundle.js</source>
+        <source file="ucs_libraries/typeahead.jquery.js">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/typeahead.jquery.js</source>
+        <source file="ucs_libraries/ucs_logo_black_on_white.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/ucs_logo_black_on_white.png</source>
+        <source file="ucs_libraries/ucs_logo_white_on_black.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/ucs_logo_white_on_black.png</source>
+        <source file="ucs_libraries/ucs_toolbar_icon_black.png">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/ucs_toolbar_icon_black.png</source>
+        <source file="ucs_libraries/wifi.svg">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_libraries/wifi.svg</source>
+        <source file="ucs_languages/UCS_br.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_br.txt</source>
+        <source file="ucs_languages/UCS_cn.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_cn.txt</source>
+        <source file="ucs_languages/UCS_de.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_de.txt</source>
+        <source file="ucs_languages/UCS_dk.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_dk.txt</source>
+        <source file="ucs_languages/UCS_es.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_es.txt</source>
+        <source file="ucs_languages/UCS_fi.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_fi.txt</source>
+        <source file="ucs_languages/UCS_fr.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_fr.txt</source>
+        <source file="ucs_languages/UCS_it.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_it.txt</source>
+        <source file="ucs_languages/UCS_jp.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_jp.txt</source>
+        <source file="ucs_languages/UCS_kr.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_kr.txt</source>
+        <source file="ucs_languages/UCS_nl.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_nl.txt</source>
+        <source file="ucs_languages/UCS_no.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_no.txt</source>
+        <source file="ucs_languages/UCS_pl.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_pl.txt</source>
+        <source file="ucs_languages/UCS_pt.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_pt.txt</source>
+        <source file="ucs_languages/UCS_ru.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_ru.txt</source>
+        <source file="ucs_languages/UCS_se.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_se.txt</source>
+        <source file="ucs_languages/UCS_tr.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_tr.txt</source>
+        <source file="ucs_languages/UCS_tw.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_tw.txt</source>
+        <source file="ucs_languages/UCS_ua.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_ua.txt</source>
+        <source file="ucs_languages/UCS_us.txt">https://github.com/acendan/reascripts/raw/66411bd6dd5d867b647a55fec3b1480d9d1e7238/Web%20Interfaces/ucs_languages/UCS_us.txt</source>
       </version>
     </reapack>
   </category>
