@@ -5,6 +5,9 @@
         "acendan"
     ],
     "Lua.workspace.library": [
-        "c:\\Users\\Aaron\\.vscode\\extensions\\antoinebalaine.reascript-docs-0.1.1/resources/reaper-types.lua"
-    ]
+        "c:\\Users\\Aaron\\.vscode\\extensions\\antoinebalaine.reascript-docs-0.1.5/resources/Sexan_reaper_defs.lua",
+        "c:\\Users\\Aaron\\.vscode\\extensions\\antoinebalaine.reascript-docs-0.1.5/resources/imgui_defs_0.9.lua"
+    ],
+    "Lua.workspace.preloadFileSize": 1024,
+    "lua_analyzer.codeLinting.enable": false
 }
