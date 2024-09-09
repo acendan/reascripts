@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 2.1
+-- @version 2.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Update LuaUtils path with case sensitivity for Linux
+--   # Removed ImGui_DestroyContext
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -485,7 +485,7 @@ function main()
   
 
   reaper.ImGui_End(ctx)
-  if open then reaper.defer(main) else reaper.ImGui_DestroyContext(ctx) end
+  if open then reaper.defer(main) else return end
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

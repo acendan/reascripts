@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 7.5
+-- @version 7.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # acendan.getTrackLaneNames(track)
+--   # Removed ImGui_DestroyContext
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -149,7 +149,7 @@ function main()
   
   
   reaper.ImGui_End(ctx)
-  if open then reaper.defer(main) else reaper.ImGui_DestroyContext(ctx) end
+  if open then reaper.defer(main) else return end
 end
 
 

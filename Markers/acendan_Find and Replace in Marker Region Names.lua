@@ -1,8 +1,8 @@
 -- @description Find and Replace in Marker Region Names
 -- @author Aaron Cendan
--- @version 2.0.1
+-- @version 2.1
 -- @changelog
---   Complete rewrite using ImGui!
+--   # Removed ImGui_DestroyContext
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Find and Replace in Region Names v2.lua
@@ -81,7 +81,7 @@ function main()
   if reaper.ImGui_Button(ctx, "Submit") then FindReplace() end
 	
   reaper.ImGui_End(ctx)
-  if open then reaper.defer(main) else reaper.ImGui_DestroyContext(ctx) end
+  if open then reaper.defer(main) else return end
 end
 
 function FindReplace()
@@ -188,9 +188,3 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 init()
 main()
-
-
-
-
-
-
