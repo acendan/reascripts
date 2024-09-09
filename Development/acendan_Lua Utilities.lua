@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 7.6
+-- @version 7.7
 -- @metapackage
 -- @provides
 --   [main] .
