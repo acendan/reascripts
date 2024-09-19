@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 8.3
+-- @version 8.3.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -317,6 +317,7 @@ iXML["ASWG:session"] = "ASWGsession"
 -- ~~~~~ Parse UCS Input ~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function parseUCSWebInterfaceInput()
+  local RgnMgn_isOpen = reaper.GetToggleCommandState(40326) == 1 -- Show region/marker manager window
 
   reaper.Undo_BeginBlock()
 
@@ -430,6 +431,7 @@ function parseUCSWebInterfaceInput()
     end
   end
 
+  if not RgnMgn_isOpen then reaper.Main_OnCommand(40326,0) end -- Show region/marker manager window
   reaper.Undo_EndBlock("UCS Renaming Tool", -1)
 end
 
@@ -991,16 +993,17 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~ GET SELECTED REGIONS ~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- edited by joshnt (27/06/2024)
+-- edited by joshnt (08/09/2024)
 -- adapted from edgemeal: Select next region in region manager window.lua
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 function getSelectedRegions()
+  
     local rgn_list, item_count = getRegionManagerListAndItemCount()
     if not rgn_list then return end
     local regionOrderInManager, _ = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
     if item_count == 0 then return end
-
+    
     local indexSelRgn = {}
 
     -- get pos in rgn manager as keyvalues (instead of keys) to sort them numerically
@@ -1023,12 +1026,13 @@ function getSelectedRegions()
 end
 
 function getSelectedMarkers()
+    
     local rgn_list, item_count = getRegionManagerListAndItemCount()
     if not rgn_list then return end
     local _, markerOrderInManager = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
     if item_count == 0 then return end
-
+    
     local indexSelMrk = {}
 
     -- get pos in rgn manager as keyvalues (instead of keys) to sort them numerically
@@ -1045,7 +1049,7 @@ function getSelectedMarkers()
     for _, posInRgnMgn in ipairs(keys) do
       indexSelMrk[#indexSelMrk+1] = markerOrderInManager[posInRgnMgn]
     end
-
+  
     -- Return table of selected regions
     return indexSelMrk
 end
@@ -1608,7 +1612,7 @@ end
 -- ~~~~~~ Set Render Dir~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function setRenderDirectory()
-  reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_WNMAIN_HIDE_OTHERS"), 0)
+  --reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_WNMAIN_HIDE_OTHERS"), 0)
   if ret_dir and ucs_dir == "true" then
     if v633_mkrs then
       if ucs_type == "Regions" then

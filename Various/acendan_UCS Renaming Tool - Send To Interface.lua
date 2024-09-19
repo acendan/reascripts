@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool - Send To Interface
 -- @author Aaron Cendan
--- @version 8.2.6
+-- @version 8.3.1
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool - Send To Interface.lua
@@ -201,53 +201,98 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~ GET SELECTED REGIONS ~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- edited by joshnt (08/09/2024)
+-- adapted from edgemeal: Select next region in region manager window.lua
 -- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 function getSelectedRegions()
-  local rgn_list = getRegionManagerList()
+  
+  local rgn_list, item_count = getRegionManagerListAndItemCount()
+  if not rgn_list then return end
+  local regionOrderInManager, _ = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
-  if sel_count == 0 then return end 
+  if item_count == 0 then return end
+  
+  local indexSelRgn = {}
 
-  names = {}
-  i = 0
-  for index in string.gmatch(sel_indexes, '[^,]+') do 
-    i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
-    if sel_item:find("R") ~= nil then
-      names[i] = tonumber(sel_item:sub(2))
+  -- get pos in rgn manager as keyvalues (instead of keys) to sort them numerically
+  local keys = {}
+
+  for posInRgnMgn, markerNum in pairs(regionOrderInManager) do
+    local sel = reaper.JS_ListView_GetItemState(rgn_list, posInRgnMgn)
+    if sel > 1 then
+      table.insert(keys, posInRgnMgn)
     end
   end
-  
+  table.sort(keys)
+
+  for _, posInRgnMgn in ipairs(keys) do
+    indexSelRgn[#indexSelRgn+1] = regionOrderInManager[posInRgnMgn]
+  end
+
   -- Return table of selected regions
-  return names
+  return indexSelRgn
 end
 
 function getSelectedMarkers()
-  local rgn_list = getRegionManagerList()
+  
+  local rgn_list, item_count = getRegionManagerListAndItemCount()
+  if not rgn_list then return end
+  local _, markerOrderInManager = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
-  if sel_count == 0 then return end 
+  if item_count == 0 then return end
+  
+  local indexSelMrk = {}
 
-  names = {}
-  i = 0
-  for index in string.gmatch(sel_indexes, '[^,]+') do 
-    i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
-    if sel_item:find("M") ~= nil then
-      names[i] = tonumber(sel_item:sub(2))
+  -- get pos in rgn manager as keyvalues (instead of keys) to sort them numerically
+  local keys = {}
+
+  for posInRgnMgn, markerNum in pairs(markerOrderInManager) do
+    local sel = reaper.JS_ListView_GetItemState(rgn_list, posInRgnMgn)
+    if sel > 1 then
+      table.insert(keys, posInRgnMgn)
     end
   end
-  
+  table.sort(keys)
+
+  for _, posInRgnMgn in ipairs(keys) do
+    indexSelMrk[#indexSelMrk+1] = markerOrderInManager[posInRgnMgn]
+  end
+
   -- Return table of selected regions
-  return names
+  return indexSelMrk
 end
 
-function getRegionManager()
-  return reaper.JS_Window_Find(reaper.JS_Localize("Region/Marker Manager","common"), true) or nil
+function getRegionManagerListAndItemCount()
+  -- Open region/marker manager window if not found (as regions can be selected without the region manager being opened)
+  local title = reaper.JS_Localize('Region/Marker Manager', 'common')
+  local manager = reaper.JS_Window_Find(title, true)
+  if not manager then
+    reaper.Main_OnCommand(40326, 0) -- View: Show region/marker manager window
+    manager = reaper.JS_Window_Find(title, true)
+  end
+  if manager then
+    reaper.DockWindowActivate(manager)      -- OPTIONAL: Select/show manager if docked
+    local lv = reaper.JS_Window_FindChildByID(manager, 1071)
+    local item_cnt = reaper.JS_ListView_GetItemCount(lv)
+    return lv, item_cnt;
+
+  else reaper.MB("Unable to get Region/Marker Manager!","Error",0) return end
 end
 
-function getRegionManagerList()
-  return reaper.JS_Window_FindEx(getRegionManager(), nil, "SysListView32", "") or nil
+function GetRegionsAndMarkerInManagerOrder(lv, cnt)
+  local regions = {} -- table with position in list as key and region index as value
+  local marker = {} -- table with position in list as key and marker index as value
+  for i = 0, cnt-1 do
+    local rgnMrkString_TEMP = reaper.JS_ListView_GetItemText(lv, i, 1)
+    if rgnMrkString_TEMP:match("R%d") then
+      local RGN_Index = string.gsub(rgnMrkString_TEMP, "R","")
+      regions[i]= tonumber(RGN_Index)
+    elseif rgnMrkString_TEMP:match("M%d") then
+      local MRK_Index = string.gsub(rgnMrkString_TEMP, "M","")
+      marker[i]= tonumber(MRK_Index)
+    end
+  end
+  return regions, marker
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
