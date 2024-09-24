@@ -1,18 +1,20 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 7.7
+-- @version 8.0
 -- @metapackage
 -- @provides
 --   [main] .
+--   Lib/*.{lua}
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Removed ImGui_DestroyContext
+--   # Added yaml-lua
+--   # Added ImGui style
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.1 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists(acendan_LuaUtils) then dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 local VSDEBUG = os.getenv("VSCODE_DBG_UUID") == "df3e118e-8874-49f7-ab62-ceb166401fb9" and dofile('C:/Users/Aaron/.vscode/extensions/antoinebalaine.reascript-docs-0.1.7/debugger/LoadDebug.lua') or nil
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,12 +145,14 @@ function init()
 end
 
 function main()
+  acendan.ImGui_PushStyles()
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
   
   
   
   reaper.ImGui_End(ctx)
+  acendan.ImGui_PopStyles()
   if open then reaper.defer(main) else return end
 end
 
@@ -245,6 +249,99 @@ local input_1, input_2 = user_input:match("([^,]+),([^,]+)")
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~ IMGUI ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+acendan.ImGui_Styles = {}
+acendan.ImGui_Styles.colors = {
+  { reaper.ImGui_Col_DragDropTarget, 0xCDA4DEFF },
+  { reaper.ImGui_Col_FrameBg, 0x72727224 },
+  { reaper.ImGui_Col_FrameBgHovered, 0x80808064 },
+  { reaper.ImGui_Col_FrameBgActive, 0x80808080 },
+  { reaper.ImGui_Col_CheckMark, 0xCDA4DEFF },
+  { reaper.ImGui_Col_TitleBg, 0xB19CD932 },
+  { reaper.ImGui_Col_TitleBgCollapsed, 0xB19CD932 },
+  { reaper.ImGui_Col_TitleBgActive, 0x5A3F78CC },
+  { reaper.ImGui_Col_Button, 0x60606066 },
+  { reaper.ImGui_Col_ButtonHovered, 0x606060FF },
+  { reaper.ImGui_Col_ButtonActive, 0x808080FF },
+  { reaper.ImGui_Col_Text, 0xFFFFFFDE }, -- Google material recommended text color
+  { reaper.ImGui_Col_TextDisabled, 0xFFFFFF61 }, -- Google material recommended text color
+  { reaper.ImGui_Col_TextSelectedBg, 0xD8BFD864 },
+  { reaper.ImGui_Col_ResizeGrip, 0x80808000 },
+  { reaper.ImGui_Col_ResizeGripHovered, 0x80808000 },
+  { reaper.ImGui_Col_ResizeGripActive, 0x80808000 },
+  { reaper.ImGui_Col_Separator, 0x80808080 },
+  { reaper.ImGui_Col_SeparatorHovered, 0x808080C7 },
+  { reaper.ImGui_Col_SeparatorActive, 0x808080FF },
+  { reaper.ImGui_Col_Tab, 0x60606066 },
+  { reaper.ImGui_Col_TabHovered, 0x606060FF },
+  { reaper.ImGui_Col_TabSelected, 0x6C6C6CFF },
+  { reaper.ImGui_Col_WindowBg, 0x181818FF },
+  { reaper.ImGui_Col_PopupBg, 0x181818F0 },
+  { reaper.ImGui_Col_ScrollbarBg, 0x18181887 },
+  { reaper.ImGui_Col_Header, 0x60606066 },
+  { reaper.ImGui_Col_HeaderHovered, 0x606060FF },
+  { reaper.ImGui_Col_HeaderActive, 0x808080FF },
+  { reaper.ImGui_Col_NavHighlight, 0xCDA4DEC8 },
+  { reaper.ImGui_Col_TableRowBg, 0xFFFFFF00 },
+  { reaper.ImGui_Col_TableRowBgAlt, 0xFFFFFF04 },
+  { reaper.ImGui_Col_SliderGrab, 0xCDA4DEC8 },
+  { reaper.ImGui_Col_SliderGrabActive, 0xD8BFD4DD },
+  { reaper.ImGui_Col_PlotLines, 0xB19CD9FF },
+  { reaper.ImGui_Col_PlotLinesHovered, 0xB19CD9FF },
+  { reaper.ImGui_Col_PlotHistogram, 0xB19CD932 },
+  { reaper.ImGui_Col_PlotHistogramHovered, 0xB19CD932 },
+  { reaper.ImGui_Col_DockingPreview, 1123734963 },
+  { reaper.ImGui_Col_TabDimmed, 640034552 },
+  { reaper.ImGui_Col_TabDimmedSelected, 1819045119 },
+  { reaper.ImGui_Col_Border, -2139062144 },
+  { reaper.ImGui_Col_TableBorderLight, 993737727 },
+  { reaper.ImGui_Col_TableBorderStrong, 1330597887 },
+  { reaper.ImGui_Col_TableHeaderBg, 858993663 },
+}
+acendan.ImGui_Styles.vars = {
+  { reaper.ImGui_StyleVar_Alpha, 1.0 },
+  { reaper.ImGui_StyleVar_DisabledAlpha, 0.6 },
+  { reaper.ImGui_StyleVar_WindowPadding, { 8, 4 } },
+  { reaper.ImGui_StyleVar_FramePadding, { 4, 3 } },
+  { reaper.ImGui_StyleVar_CellPadding, { 4, 4 } },
+  { reaper.ImGui_StyleVar_ItemSpacing, { 4, 4 } },
+  { reaper.ImGui_StyleVar_ItemInnerSpacing, { 4, 4 } },
+  { reaper.ImGui_StyleVar_IndentSpacing, 21 },
+  { reaper.ImGui_StyleVar_ScrollbarSize, 14 },
+  { reaper.ImGui_StyleVar_GrabMinSize, 12 },
+  { reaper.ImGui_StyleVar_WindowBorderSize, 1 },
+  { reaper.ImGui_StyleVar_ChildBorderSize, 1 },
+  { reaper.ImGui_StyleVar_PopupBorderSize, 1 },
+  { reaper.ImGui_StyleVar_FrameBorderSize, 0 },
+  { reaper.ImGui_StyleVar_WindowRounding, 8 },
+  { reaper.ImGui_StyleVar_ChildRounding, 0 },
+  { reaper.ImGui_StyleVar_FrameRounding, 2 },
+  { reaper.ImGui_StyleVar_PopupRounding, 4 },
+  { reaper.ImGui_StyleVar_ScrollbarRounding, 4 },
+  { reaper.ImGui_StyleVar_GrabRounding, 2 },
+  { reaper.ImGui_StyleVar_TabRounding, 2 },
+  { reaper.ImGui_StyleVar_WindowTitleAlign, { 0.5, 0.5 } },
+  { reaper.ImGui_StyleVar_ButtonTextAlign, { 0.5, 0.5 } },
+  { reaper.ImGui_StyleVar_SelectableTextAlign, { 0, 0.5 } },
+}
+
+function acendan.ImGui_PushStyles()
+  for _, value in ipairs(acendan.ImGui_Styles.colors) do
+    reaper.ImGui_PushStyleColor(ctx, value[1](), value[2])
+  end
+  for _, value in ipairs(acendan.ImGui_Styles.vars) do
+    if type(value[2]) == "table" then
+      reaper.ImGui_PushStyleVar(ctx, value[1](), value[2][1], value[2][2])
+    else
+      reaper.ImGui_PushStyleVar(ctx, value[1](), value[2])
+    end
+  end
+end
+
+function acendan.ImGui_PopStyles()
+  reaper.ImGui_PopStyleColor(ctx, #acendan.ImGui_Styles.colors)  
+  reaper.ImGui_PopStyleVar(ctx, #acendan.ImGui_Styles.vars)
+end
+
 function acendan.ImGui_HelpMarker(desc, wrap_pos)
   wrap_pos = wrap_pos or 18.0
   reaper.ImGui_SameLine(ctx)
@@ -1656,6 +1753,34 @@ function acendan.checkForJSFX(jsfx_name)
   else
     return false
   end
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~ YAML ~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function acendan.loadYaml(filename)
+  local yamllib = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/Lib/yaml.lua'
+  if not yaml then if reaper.file_exists(yamllib) then dofile(yamllib) end else return nil end
+
+  if not reaper.file_exists(filename) then return nil end
+
+  local function readAll(file)
+    local f = io.open(file, "rb")
+    local content = f:read("*all")
+    f:close()
+    return content
+  end
+
+  local content = readAll(filename)
+  -- DEBUG
+  -- local tokens = yaml.tokenize(content)
+  -- local i = 1
+  -- while tokens[i] do
+  --   acendan.dbg(i .. ' ' .. tokens[i][1] .. ' ' .. "'" .. (tokens[i].raw or '') .. "'")
+  --   i = i + 1
+  -- end
+  return yaml.eval(content)
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

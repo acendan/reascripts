@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 2.2
+-- @version 2.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # Removed ImGui_DestroyContext
+--   # ImGui Style
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -24,7 +24,7 @@ local script_directory = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_a
 
 -- Load lua utilities
 acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 6.6 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 8.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- Prefix for saved tempo map extstates
 local tempo_map_prefix = "acendan_TempoMap"
@@ -76,10 +76,13 @@ function init()
       lin = false
     }
   
+  clipper = reaper.ImGui_CreateListClipper(ctx)
+
   main()
 end
 
 function main()
+  acendan.ImGui_PushStyles()
   local rv, open = reaper.ImGui_Begin(ctx, script_name, true, window_flags)
   if not rv then return open end
   
@@ -240,7 +243,6 @@ function main()
     reaper.ImGui_PushButtonRepeat(ctx, true)
 
     -- Demonstrate using clipper for large vertical lists
-    local clipper = reaper.ImGui_CreateListClipper(ctx)
     reaper.ImGui_ListClipper_Begin(clipper, #tables.advanced.items)
     while reaper.ImGui_ListClipper_Step(clipper) do
       local display_start, display_end = reaper.ImGui_ListClipper_GetDisplayRange(clipper)
@@ -375,7 +377,7 @@ function main()
     add_mkr.tpos = reaper.format_timestr(reaper.GetCursorPosition(),"")
   end
   
-  if reaper.ImGui_BeginTable(ctx, 'add_marker_tbl', #colKeys, tables.advanced.flags & ~reaper.ImGui_TableFlags_Sortable(), w, 40, inner_width_to_use) then
+  if reaper.ImGui_BeginTable(ctx, 'add_marker_tbl', #colKeys, tables.advanced.flags & ~reaper.ImGui_TableFlags_Sortable(), w, 50, inner_width_to_use) then
       -- Declare columns
       -- We use the "user_id" parameter of TableSetupColumn() to specify a user id that will be stored in the sort specifications.
       -- This is so our sort function can identify a column given our own identifiereaper. We could also identify them based on their index!
@@ -485,6 +487,7 @@ function main()
   
 
   reaper.ImGui_End(ctx)
+  acendan.ImGui_PopStyles()
   if open then reaper.defer(main) else return end
 end
 

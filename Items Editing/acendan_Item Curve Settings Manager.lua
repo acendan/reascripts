@@ -1,6 +1,6 @@
 -- @description Item Curve Settings Manager (ImGui)
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,10 +8,10 @@
 -- @about
 --   # Item curve settings manager
 -- @changelog
---   # Removed ImGui_DestroyContext
+--   # ImGui Style
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.1 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 8.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 if not reaper.ImGui_Key_0() then acendan.msg("This script requires the ReaImGui API, which can be installed from:\n\nExtensions > ReaPack > Browse packages...") return end
   
   
@@ -44,6 +44,7 @@ function init()
 end
 
 function main()
+  acendan.ImGui_PushStyles()
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
   
@@ -61,6 +62,7 @@ function main()
   acendan.ImGui_HelpMarker("Updates items constantly with most recently clicked button.")
 
   reaper.ImGui_End(ctx)
+  acendan.ImGui_PopStyles()
   if open then reaper.defer(main) else return end
 end
 

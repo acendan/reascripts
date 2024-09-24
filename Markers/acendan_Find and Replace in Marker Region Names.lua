@@ -1,8 +1,8 @@
 -- @description Find and Replace in Marker Region Names
 -- @author Aaron Cendan
--- @version 2.1
+-- @version 2.2
 -- @changelog
---   # Removed ImGui_DestroyContext
+--   # ImGui Style
 -- @metapackage
 -- @provides
 --   [main] . > acendan_Find and Replace in Region Names v2.lua
@@ -14,7 +14,7 @@
 --   * Prompts user to replace part of a marker or region's name with new text if that marker/region name contains search criteria.
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
-if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 7.1 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
+if reaper.file_exists( acendan_LuaUtils ) then dofile( acendan_LuaUtils ); if not acendan or acendan.version() < 8.0 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ CONSTANTS ~~~~~~~~~~~
@@ -61,6 +61,7 @@ function init()
 end
 
 function main()
+  acendan.ImGui_PushStyles()
   local rv, open = reaper.ImGui_Begin(ctx, "Find & Replace - " .. MODE .. " Names", true, WINDOW_FLAGS)
   if not rv then return open end
   
@@ -81,6 +82,7 @@ function main()
   if reaper.ImGui_Button(ctx, "Submit") then FindReplace() end
 	
   reaper.ImGui_End(ctx)
+  acendan.ImGui_PopStyles()
   if open then reaper.defer(main) else return end
 end
 
