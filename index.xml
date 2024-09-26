@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6ac89459766d15ab918660e457a11ee5f3ec393c" name="ACendan Scripts">
+<index version="1" commit="2de9f352feacad3dfddf948ee6719cff6bcbc4bf" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -220,6 +220,12 @@
 # Added ImGui style]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/6608214a0625c9eaf36fea5788f0e9e4c7863df7/Development/acendan_Lua%20Utilities.lua</source>
         <source file="Lib/yaml.lua">https://github.com/acendan/reascripts/raw/6608214a0625c9eaf36fea5788f0e9e4c7863df7/Development/Lib/yaml.lua</source>
+      </version>
+      <version name="8.1" author="Aaron Cendan" time="2024-09-26T17:16:31Z">
+        <changelog><![CDATA[# Fixed bug in yaml loader
+# Added joshnt's remix of getSelectedRegions]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/2de9f352feacad3dfddf948ee6719cff6bcbc4bf/Development/acendan_Lua%20Utilities.lua</source>
+        <source file="Lib/yaml.lua">https://github.com/acendan/reascripts/raw/2de9f352feacad3dfddf948ee6719cff6bcbc4bf/Development/Lib/yaml.lua</source>
       </version>
     </reapack>
   </category>
@@ -2971,6 +2977,24 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       </version>
       <version name="1.3" author="Aaron Cendan" time="2020-10-03T14:42:48Z">
         <source main="main" file="acendan_Randomly deliver nvk_Game Audio Affirmations once an hour.lua">https://github.com/acendan/reascripts/raw/b72f604318e244530080965293dfbbdcefec4318/Various/acendan_Randomly%20deliver%20affirmations%20nvk_Game%20Audio%20Affirmations%20once%20an%20hour.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_The Last Renamer.lua" type="script" desc="The Last Renamer">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 The Last Renamer\par}
+}
+]]></description>
+        <link rel="website">https://ko-fi.com/acendan_</link>
+      </metadata>
+      <version name="0.1" author="Aaron Cendan" time="2024-09-26T17:16:31Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/2de9f352feacad3dfddf948ee6719cff6bcbc4bf/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/2de9f352feacad3dfddf948ee6719cff6bcbc4bf/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/2de9f352feacad3dfddf948ee6719cff6bcbc4bf/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/2de9f352feacad3dfddf948ee6719cff6bcbc4bf/Various/Schemes/UCS.yaml</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
