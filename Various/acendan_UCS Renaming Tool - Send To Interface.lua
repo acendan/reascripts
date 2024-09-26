@@ -208,7 +208,7 @@ function getSelectedRegions()
   
   local rgn_list, item_count = getRegionManagerListAndItemCount()
   if not rgn_list then return end
-  local regionOrderInManager, _ = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
+  local regionOrderInManager, _ = getRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
   if item_count == 0 then return end
   
@@ -237,7 +237,7 @@ function getSelectedMarkers()
   
   local rgn_list, item_count = getRegionManagerListAndItemCount()
   if not rgn_list then return end
-  local _, markerOrderInManager = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
+  local _, markerOrderInManager = getRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
   if item_count == 0 then return end
   
@@ -279,7 +279,7 @@ function getRegionManagerListAndItemCount()
   else reaper.MB("Unable to get Region/Marker Manager!","Error",0) return end
 end
 
-function GetRegionsAndMarkerInManagerOrder(lv, cnt)
+function getRegionsAndMarkerInManagerOrder(lv, cnt)
   local regions = {} -- table with position in list as key and region index as value
   local marker = {} -- table with position in list as key and marker index as value
   for i = 0, cnt-1 do

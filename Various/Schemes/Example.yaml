@@ -1,0 +1,59 @@
+title: Example Naming Convention
+separator: "_"
+illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
+fields:
+  - field: A Useful Prefix
+    value: placeholder
+    help: The thing at the front!
+    capitalization: UPPER
+  - field: A Questionable Category
+    value: [Dogs, Cats, Rats]
+    help: This is a simple dropdown!
+  - field: Body
+    required: true
+    value: I Am A Good Filename
+    help: The most important part.
+    capitalization: Title
+  - field: Loop
+    value: false
+    btrue: "lp"
+    bfalse: ""
+  - field: Country
+    value: [USA, Germany, Japan]
+    skip: true
+    fields:
+      - id: USA
+        field: Manufacturer
+        value: [Ford, Chevy, Tesla]
+        short: [USFrd, USChv, USTes]
+      - id: Germany
+        field: Manufacturer
+        value: [BMW, Audi, Mercedes]
+        short: [DEBmw, DEAud, DEMerc]
+      - id: Japan
+        field: Manufacturer
+        value: [Toyota, Honda, Nissan]
+        short: [JPToy, JPHon, JPNis]
+  - field: Type
+    value: [SFX, DX, MUS]
+    fields:
+      - id: SFX
+        field: Category
+        value: [Lvl, Wpn, Env]
+        fields:
+          - field: Asset
+            value: My Cool Asset
+          - field: Variation
+            value: A
+            separator: " "
+      - id: DX
+        field: Dialogue
+        value: My Dialogue Asset
+      - id: MUS
+        field: Music
+        value: My Music Asset
+  - field: Enumeration
+    value: 1
+    zeroes: 1
+    singles: false
+    help: an enumeration

@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.0
+-- @version 8.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,8 +9,8 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Added yaml-lua
---   # Added ImGui style
+--   # Fixed bug in yaml loader
+--   # Added joshnt's remix of getSelectedRegions
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -993,32 +993,99 @@ end
   end
   
 ]]--
-function acendan.getRegionManager()
-  return reaper.JS_Window_Find(reaper.JS_Localize("Region/Marker Manager","common"), true) or nil
-end
 
-function acendan.getRegionManagerList()
-  return reaper.JS_Window_FindEx(acendan.getRegionManager(), nil, "SysListView32", "") or nil
-end
-
+-- edited by joshnt (08/09/2024)
+-- adapted from edgemeal: Select next region in region manager window.lua
+-- https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Regions-and-Markers/X-Raym_Get%20selected%20regions%20in%20region%20and%20marker%20manager.lua
 function acendan.getSelectedRegions()
-  local rgn_list = acendan.getRegionManagerList()
+  
+  local rgn_list, item_count = acendan.getRegionManagerListAndItemCount()
+  if not rgn_list then return end
+  local regionOrderInManager, _ = acendan.getRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
-  if sel_count == 0 then return end 
+  if item_count == 0 then return end
+  
+  local indexSelRgn = {}
 
-  names = {}
-  i = 0
-  for index in string.gmatch(sel_indexes, '[^,]+') do 
-    i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
-    if sel_item:find("R") ~= nil then
-      names[i] = tonumber(sel_item:sub(2))
+  -- get pos in rgn manager as keyvalues (instead of keys) to sort them numerically
+  local keys = {}
+
+  for posInRgnMgn, markerNum in pairs(regionOrderInManager) do
+    local sel = reaper.JS_ListView_GetItemState(rgn_list, posInRgnMgn)
+    if sel > 1 then
+      table.insert(keys, posInRgnMgn)
     end
   end
-  
+  table.sort(keys)
+
+  for _, posInRgnMgn in ipairs(keys) do
+    indexSelRgn[#indexSelRgn+1] = regionOrderInManager[posInRgnMgn]
+  end
+
   -- Return table of selected regions
-  return names
+  return indexSelRgn
+end
+
+function acendan.getSelectedMarkers()
+  
+  local rgn_list, item_count = acendan.getRegionManagerListAndItemCount()
+  if not rgn_list then return end
+  local _, markerOrderInManager = acendan.getRegionsAndMarkerInManagerOrder(rgn_list, item_count)
+
+  if item_count == 0 then return end
+  
+  local indexSelMrk = {}
+
+  -- get pos in rgn manager as keyvalues (instead of keys) to sort them numerically
+  local keys = {}
+
+  for posInRgnMgn, markerNum in pairs(markerOrderInManager) do
+    local sel = reaper.JS_ListView_GetItemState(rgn_list, posInRgnMgn)
+    if sel > 1 then
+      table.insert(keys, posInRgnMgn)
+    end
+  end
+  table.sort(keys)
+
+  for _, posInRgnMgn in ipairs(keys) do
+    indexSelMrk[#indexSelMrk+1] = markerOrderInManager[posInRgnMgn]
+  end
+
+  -- Return table of selected regions
+  return indexSelMrk
+end
+
+function acendan.getRegionManagerListAndItemCount()
+  -- Open region/marker manager window if not found (as regions can be selected without the region manager being opened)
+  local title = reaper.JS_Localize('Region/Marker Manager', 'common')
+  local manager = reaper.JS_Window_Find(title, true)
+  if not manager then
+    reaper.Main_OnCommand(40326, 0) -- View: Show region/marker manager window
+    manager = reaper.JS_Window_Find(title, true)
+  end
+  if manager then
+    reaper.DockWindowActivate(manager)      -- OPTIONAL: Select/show manager if docked
+    local lv = reaper.JS_Window_FindChildByID(manager, 1071)
+    local item_cnt = reaper.JS_ListView_GetItemCount(lv)
+    return lv, item_cnt;
+
+  else reaper.MB("Unable to get Region/Marker Manager!","Error",0) return end
+end
+
+function acendan.getRegionsAndMarkerInManagerOrder(lv, cnt)
+  local regions = {} -- table with position in list as key and region index as value
+  local marker = {} -- table with position in list as key and marker index as value
+  for i = 0, cnt-1 do
+    local rgnMrkString_TEMP = reaper.JS_ListView_GetItemText(lv, i, 1)
+    if rgnMrkString_TEMP:match("R%d") then
+      local RGN_Index = string.gsub(rgnMrkString_TEMP, "R","")
+      regions[i]= tonumber(RGN_Index)
+    elseif rgnMrkString_TEMP:match("M%d") then
+      local MRK_Index = string.gsub(rgnMrkString_TEMP, "M","")
+      marker[i]= tonumber(MRK_Index)
+    end
+  end
+  return regions, marker
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1074,39 +1141,6 @@ end
   end
   
 ]]--
-function acendan.getSelectedMarkers()
-  local rgn_list = acendan.getRegionManagerList()
-
-  sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(rgn_list)
-  if sel_count == 0 then return end 
-
-  names = {}
-  i = 0
-  for index in string.gmatch(sel_indexes, '[^,]+') do 
-    i = i+1
-    local sel_item = reaper.JS_ListView_GetItemText(rgn_list, tonumber(index), 1)
-    if sel_item:find("M") ~= nil then
-      names[i] = tonumber(sel_item:sub(2))
-    end
-  end
-  
-  -- Return table of selected regions
-  return names
-end
-
-function acendan.getRegionManager()
-  local title = reaper.JS_Localize("Region/Marker Manager", "common")
-  local arr = reaper.new_array({}, 1024)
-  reaper.JS_Window_ArrayFind(title, true, arr)
-  local adr = arr.table()
-  for j = 1, #adr do
-    local hwnd = reaper.JS_Window_HandleFromAddress(adr[j])
-    -- verify window by checking if it also has a specific child.
-    if reaper.JS_Window_FindChildByID(hwnd, 1056) then -- 1045:ID of clear button
-      return hwnd
-    end 
-  end
-end
 
 -- Save current project markers to table of marker indexes // Returns table
 function acendan.saveProjectMarkersTable()
@@ -1760,9 +1794,9 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function acendan.loadYaml(filename)
-  local yamllib = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/Lib/yaml.lua'
-  if not yaml then if reaper.file_exists(yamllib) then dofile(yamllib) end else return nil end
-
+  local yamllib = reaper.GetResourcePath()..'\\Scripts\\ACendan Scripts\\Development\\Lib\\yaml.lua'
+  if not yaml and reaper.file_exists(yamllib) then dofile(yamllib) end
+  if not yaml then acendan.msg("Failed to load YAML library!"); return nil end
   if not reaper.file_exists(filename) then return nil end
 
   local function readAll(file)

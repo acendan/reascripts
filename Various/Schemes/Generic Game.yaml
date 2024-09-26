@@ -1,0 +1,23 @@
+title: Generic Game
+separator: "_"
+illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
+fields:
+  - field: Type
+    value: [Ambience, Interactable, Environmental, Cinematic, 'Non-Player Character', 'User Interface', Player]
+    short: [AMB, INT, ENV, CIN, NPC, UI, PLR]
+  - field: Level
+    value: ''
+  - field: Sub Level
+    value: ''
+  - field: Description
+    value: ''
+  - field: Variation
+    value: A
+    separator: " "
+  - field: Loop
+    value: false
+    btrue: "lp"
+    bfalse: ""
+  - field: Enumeration
+    value: 1
+    zeroes: 1

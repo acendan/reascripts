@@ -346,7 +346,7 @@ function parseUCSWebInterfaceInput()
       local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
       if num_regions > 0 then
         if num_regions == 1 then ucs_enum = "false" end
-        renameRegions(num_markers,num_regions)
+        RenameRegions(num_markers,num_regions)
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
@@ -364,7 +364,7 @@ function parseUCSWebInterfaceInput()
       local num_items = reaper.CountMediaItems( 0 )
       if num_items > 0 then
         if num_items == 1 then ucs_enum = "false" end
-        renameMediaItems(num_items)
+        RenameItems(num_items)
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
@@ -389,7 +389,7 @@ function parseUCSWebInterfaceInput()
       local num_tracks =  reaper.CountTracks( 0 )
       if num_tracks > 0 then
         if num_tracks == 1 then ucs_enum = "false" end
-        renameTracks(num_tracks)
+        RenameTracks(num_tracks)
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
@@ -438,7 +438,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~ REGIONS ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function renameRegions(num_markers,num_regions)
+function RenameRegions(num_markers,num_regions)
   local num_total = num_markers + num_regions
 
   if ucs_area == "Time Selection" then
@@ -661,7 +661,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~ ITEMS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function renameMediaItems(num_items)
+function RenameItems(num_items)
   if ucs_area == "Selected Items" then
     local num_sel_items = reaper.CountSelectedMediaItems(0)
     if num_sel_items > 0 then
@@ -832,7 +832,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~ TRACKS ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function renameTracks(num_tracks)
+function RenameTracks(num_tracks)
   if ucs_area == "Selected Tracks" then
     num_sel_tracks = reaper.CountSelectedTracks( 0 )
     if num_sel_tracks > 0 then
@@ -1000,7 +1000,7 @@ function getSelectedRegions()
   
     local rgn_list, item_count = getRegionManagerListAndItemCount()
     if not rgn_list then return end
-    local regionOrderInManager, _ = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
+    local regionOrderInManager, _ = getRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
     if item_count == 0 then return end
     
@@ -1029,7 +1029,7 @@ function getSelectedMarkers()
     
     local rgn_list, item_count = getRegionManagerListAndItemCount()
     if not rgn_list then return end
-    local _, markerOrderInManager = GetRegionsAndMarkerInManagerOrder(rgn_list, item_count)
+    local _, markerOrderInManager = getRegionsAndMarkerInManagerOrder(rgn_list, item_count)
 
     if item_count == 0 then return end
     
@@ -1071,7 +1071,7 @@ function getRegionManagerListAndItemCount()
     else reaper.MB("Unable to get Region/Marker Manager!","Error",0) return end
   end
 
-  function GetRegionsAndMarkerInManagerOrder(lv, cnt)
+  function getRegionsAndMarkerInManagerOrder(lv, cnt)
     local regions = {} -- table with position in list as key and region index as value
     local marker = {} -- table with position in list as key and marker index as value
     for i = 0, cnt-1 do

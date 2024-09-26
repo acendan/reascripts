@@ -1,0 +1,442 @@
+title: Universal Category System v8.2
+separator: "_"
+illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
+fields:
+  - field: Category
+    required: true
+    skip: true
+    value: ['Air', 'Aircraft', 'Alarms', 'Ambience', 'Animals', 'Archived', 'Beeps', 'Bells', 'Birds', 'Boats', 'Bullets', 'Cartoon', 'Ceramics', 'Chains', 'Chemicals', 'Clocks', 'Cloth', 'Communications', 'Computers', 'Creatures', 'Crowds', 'Designed', 'Destruction', 'Dirt & Sand', 'Doors', 'Drawers', 'Electricity', 'Equipment', 'Explosions', 'Farts', 'Fight', 'Fire', 'Fireworks', 'Foley', 'Food & Drink', 'Footsteps', 'Games', 'Geothermal', 'Glass', 'Gore', 'Guns', 'Horns', 'Human', 'Ice', 'Lasers', 'Leather', 'Liquid & Mud', 'Machines', 'Magic', 'Mechanical', 'Metal', 'Motors', 'Movement', 'Musical', 'Natural Disaster', 'Objects', 'Paper', 'Plastic', 'Rain', 'Robots', 'Rocks', 'Rope', 'Rubber', 'Scifi', 'Snow', 'Sports', 'Swooshes', 'Tools', 'Toys', 'Trains', 'User Interface', 'Vegetation', 'Vehicles', 'Voices', 'Water', 'Weapons', 'Weather', 'Whistles', 'Wind', 'Windows', 'Wings', 'Wood']
+    fields:
+      - id: 'Air'
+        field: Subcategory
+        required: true
+        value: ['Blow', 'Burst', 'Hiss', 'Misc', 'Suction']
+        short: ['AIRBlow', 'AIRBrst', 'AIRHiss', 'AIRMisc', 'AIRSuck']
+      - id: 'Aircraft'
+        field: Subcategory
+        required: true
+        value: ['Door', 'Helicopter', 'Interior', 'Jet', 'Mechanism', 'Military', 'Misc', 'Prop', 'Radio Controlled', 'Rocket']
+        short: ['AERODoor', 'AEROHeli', 'AEROInt', 'AEROJet', 'AEROMech', 'AEROMil', 'AEROMisc', 'AEROProp', 'AERORadio', 'AERORckt']
+      - id: 'Alarms'
+        field: Subcategory
+        required: true
+        value: ['Bell', 'Buzzer', 'Clock', 'Electronic', 'Misc', 'Siren']
+        short: ['ALRMBell', 'ALRMBuzr', 'ALRMClok', 'ALRMElec', 'ALRMMisc', 'ALRMSirn']
+      - id: 'Ambience'
+        field: Subcategory
+        required: true
+        value: ['Air', 'Alpine', 'Amusement', 'Birdsong', 'Celebration', 'Construction', 'Desert', 'Designed', 'Emergency', 'Fantasy', 'Farm', 'Forest', 'Grassland', 'Historical', 'Hitech', 'Hospital', 'Industrial', 'Insect', 'Lakeside', 'Market', 'Misc', 'Nautical', 'Office', 'Park', 'Prison', 'Protest', 'Public Place', 'Religious', 'Residential', 'Restaurant & Bar', 'Room Tone', 'Rural', 'School', 'Scifi', 'Seaside', 'Sport', 'Suburban', 'Swamp', 'Town', 'Traffic', 'Transportation', 'Tropical', 'Tundra', 'Underground', 'Underwater', 'Urban', 'Warfare']
+        short: ['AMBAir', 'AMBAlpn', 'AMBAmus', 'AMBBird', 'AMBCele', 'AMBCnst', 'AMBDsrt', 'AMBDsgn', 'AMBEmrg', 'AMBFant', 'AMBFarm', 'AMBForst', 'AMBGras', 'AMBHist', 'AMBTech', 'AMBHosp', 'AMBInd', 'AMBInsc', 'AMBLake', 'AMBMrkt', 'AMBMisc', 'AMBNaut', 'AMBOffc', 'AMBPark', 'AMBPrisn', 'AMBPrtst', 'AMBPubl', 'AMBRlgn', 'AMBHome', 'AMBRest', 'AMBRoom', 'AMBRurl', 'AMBSchl', 'AMBSci', 'AMBSea', 'AMBSprt', 'AMBSubn', 'AMBSwmp', 'AMBTown', 'AMBTraf', 'AMBTran', 'AMBTrop', 'AMBTndra', 'AMBUndr', 'AMBUndwtr', 'AMBUrbn', 'AMBWar']
+      - id: 'Animals'
+        field: Subcategory
+        required: true
+        value: ['Amphibian', 'Aquatic', 'Bat', 'Cat Domestic', 'Cat Wild', 'Dog', 'Dog Wild', 'Farm', 'Horse', 'Insect', 'Misc', 'Primate', 'Reptile', 'Rodent', 'Wild']
+        short: ['ANMLAmph', 'ANMLAqua', 'ANMLBat', 'ANMLCat', 'ANMLWcat', 'ANMLDog', 'ANMLWdog', 'ANMLFarm', 'ANMLHors', 'ANMLInsc', 'ANMLMisc', 'ANMLPrim', 'ANMLRept', 'ANMLRdnt', 'ANMLWild']
+      - id: 'Archived'
+        field: Subcategory
+        required: true
+        value: ['Adr', 'Asset', 'Bounce', 'Impulse Response', 'Loop Group', 'Mix', 'Pfx', 'Production', 'Raw', 'Reference', 'Scene', 'Test Tone', 'Trademarked', 'Work In Progress', 'Wtf']
+        short: ['ADR', 'ASSET', 'BNCE', 'IR', 'LPGRP', 'MIX', 'PFX', 'PROD', 'RAW', 'REF', 'SCNE', 'TEST', 'TMARK', 'WIP', 'WTF']
+      - id: 'Beeps'
+        field: Subcategory
+        required: true
+        value: ['Appliance', 'General', 'Lofi', 'Medical', 'Timer', 'Vehicle']
+        short: ['BEEPAppl', 'BEEP', 'BEEPLofi', 'BEEPMed', 'BEEPTimer', 'BEEPVeh']
+      - id: 'Bells'
+        field: Subcategory
+        required: true
+        value: ['Animal', 'Doorbell', 'Gong', 'Handbell', 'Large', 'Misc']
+        short: ['BELLAnml', 'BELLDoor', 'BELLGong', 'BELLHand', 'BELLLrg', 'BELLMisc']
+      - id: 'Birds'
+        field: Subcategory
+        required: true
+        value: ['Bird Of Prey', 'Crow', 'Fowl', 'Misc', 'Sea', 'Songbird', 'Tropical', 'Wading']
+        short: ['BIRDPrey', 'BIRDCrow', 'BIRDFowl', 'BIRDMisc', 'BIRDSea', 'BIRDSong', 'BIRDTrop', 'BIRDWade']
+      - id: 'Boats'
+        field: Subcategory
+        required: true
+        value: ['Air Boat', 'Bow Wash', 'Door', 'Electric', 'Fishing', 'Horn', 'Interior', 'Mechanism', 'Military', 'Misc', 'Motorboat', 'Racing', 'Rowboat', 'Sailboat', 'Ship', 'Steam', 'Submarine', 'Underwater']
+        short: ['BOATAir', 'BOATWash', 'BOATDoor', 'BOATElec', 'BOATFish', 'BOATHorn', 'BOATInt', 'BOATMech', 'BOATMil', 'BOATMisc', 'BOATMotr', 'BOATRace', 'BOATRow', 'BOATSail', 'BOATShip', 'BOATStm', 'BOATSub', 'BOATUndwtr']
+      - id: 'Bullets'
+        field: Subcategory
+        required: true
+        value: ['By', 'Impact', 'Misc', 'Ricochet', 'Shell']
+        short: ['BLLTBy', 'BLLTImpt', 'BLLTMisc', 'BLLTRico', 'BLLTShel']
+      - id: 'Cartoon'
+        field: Subcategory
+        required: true
+        value: ['Animal', 'Boing', 'Clang', 'Creak', 'Horn', 'Impact', 'Machine', 'Misc', 'Musical', 'Pluck', 'Pop', 'Shake', 'Splat', 'Squeak', 'Stretch', 'Swish', 'Twang', 'Vehicle', 'Vocal', 'Warble', 'Whistle', 'Zip']
+        short: ['TOONAnml', 'TOONBoing', 'TOONClang', 'TOONCreak', 'TOONHorn', 'TOONImpt', 'TOONMach', 'TOONMisc', 'TOONMx', 'TOONPluk', 'TOONPop', 'TOONShake', 'TOONSplt', 'TOONSqk', 'TOONStrch', 'TOONSwsh', 'TOONTwang', 'TOONVeh', 'TOONVox', 'TOONWarb', 'TOONWhis', 'TOONZip']
+      - id: 'Ceramics'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['CERMBrk', 'CERMCrsh', 'CERMFric', 'CERMHndl', 'CERMImpt', 'CERMMisc', 'CERMMvmt', 'CERMTonl']
+      - id: 'Chains'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Handle', 'Impact', 'Misc', 'Movement']
+        short: ['CHAINBrk', 'CHAINHndl', 'CHAINImpt', 'CHAINMisc', 'CHAINMvmt']
+      - id: 'Chemicals'
+        field: Subcategory
+        required: true
+        value: ['Acid', 'Misc', 'Reaction']
+        short: ['CHEMAcid', 'CHEMMisc', 'CHEMReac']
+      - id: 'Clocks'
+        field: Subcategory
+        required: true
+        value: ['Chime', 'Mechanics', 'Misc', 'Tick']
+        short: ['CLOCKChim', 'CLOCKMech', 'CLOCKMisc', 'CLOCKTick']
+      - id: 'Cloth'
+        field: Subcategory
+        required: true
+        value: ['Flap', 'Handle', 'Impact', 'Misc', 'Movement', 'Rip']
+        short: ['CLOTHFlp', 'CLOTHHndl', 'CLOTHImpt', 'CLOTHMisc', 'CLOTHMvmt', 'CLOTHRip']
+      - id: 'Communications'
+        field: Subcategory
+        required: true
+        value: ['Audio Visual', 'Camera', 'Cellphone', 'Microphone', 'Misc', 'Phonograph', 'Radio', 'Static', 'Telemetry', 'Telephone', 'Television', 'Transceiver', 'Typewriter']
+        short: ['COMAv', 'COMCam', 'COMCell', 'COMMic', 'COMMisc', 'COMPhono', 'COMRadio', 'COMStatic', 'COMTelm', 'COMTelph', 'COMTv', 'COMTran', 'COMType']
+      - id: 'Computers'
+        field: Subcategory
+        required: true
+        value: ['Hard Drive', 'Keyboard & Mouse', 'Misc']
+        short: ['CMPTDriv', 'CMPTKey', 'CMPTMisc']
+      - id: 'Creatures'
+        field: Subcategory
+        required: true
+        value: ['Aquatic', 'Avian', 'Beast', 'Blob', 'Dinosaur', 'Dragon', 'Elemental', 'Ethereal', 'Humanoid', 'Insectoid', 'Misc', 'Monster', 'Reptilian', 'Small', 'Source']
+        short: ['CREAAqua', 'CREAAvian', 'CREABeast', 'CREABlob', 'CREADino', 'CREADrgn', 'CREAElem', 'CREAEthr', 'CREAHmn', 'CREAInsc', 'CREAMisc', 'CREAMnstr', 'CREARept', 'CREASmall', 'CREASrce']
+      - id: 'Crowds'
+        field: Subcategory
+        required: true
+        value: ['Angry', 'Applause', 'Battle', 'Celebration', 'Cheering', 'Children', 'Conversation', 'Laughter', 'Loop Group', 'Misc', 'Panic', 'Quiet', 'Reaction', 'Singing', 'Sport', 'Walla']
+        short: ['CRWDAngr', 'CRWDApls', 'CRWDBatl', 'CRWDCele', 'CRWDCheer', 'CRWDChld', 'CRWDConv', 'CRWDLaff', 'CRWDLoop', 'CRWDMisc', 'CRWDPanic', 'CRWDQuiet', 'CRWDReac', 'CRWDSing', 'CRWDSprt', 'CRWDWalla']
+      - id: 'Designed'
+        field: Subcategory
+        required: true
+        value: ['Bass Dive', 'Boom', 'Braam', 'Distortion', 'Drone', 'Eerie', 'Ethereal', 'Granular', 'Impact', 'Misc', 'Morph', 'Riser', 'Rumble', 'Rhythmic', 'Source', 'Stinger', 'Synthetic', 'Tonal', 'Vocal', 'Whoosh']
+        short: ['DSGNBass', 'DSGNBoom', 'DSGNBram', 'DSGNDist', 'DSGNDron', 'DSGNErie', 'DSGNEthr', 'DSGNGran', 'DSGNImpt', 'DSGNMisc', 'DSGNMorph', 'DSGNRise', 'DSGNRmbl', 'DSGNRythm', 'DSGNSrce', 'DSGNStngr', 'DSGNSynth', 'DSGNTonl', 'DSGNVocl', 'DSGNWhsh']
+      - id: 'Destruction'
+        field: Subcategory
+        required: true
+        value: ['Collapse', 'Crash & Debris', 'Misc']
+        short: ['DESTRClpse', 'DESTRCrsh', 'DESTRMisc']
+      - id: 'Dirt & Sand'
+        field: Subcategory
+        required: true
+        value: ['Crash & Debris', 'Dust', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['DIRTCrsh', 'DIRTDust', 'DIRTHndl', 'DIRTImpt', 'DIRTMisc', 'DIRTMvmt', 'DIRTTonl']
+      - id: 'Doors'
+        field: Subcategory
+        required: true
+        value: ['Antique', 'Appliance', 'Cabinet', 'Composite', 'Creak', 'Dungeon', 'Electric', 'Gate', 'Glass', 'Hardware', 'Hitech', 'Hydraulic & Pneumatic', 'Knock', 'Metal', 'Misc', 'Plastic', 'Prison', 'Revolving', 'Sliding', 'Stone', 'Swinging', 'Wood']
+        short: ['DOORAntq', 'DOORAppl', 'DOORCab', 'DOORComp', 'DOORCreak', 'DOORDungn', 'DOORElec', 'DOORGate', 'DOORGlas', 'DOORHdwr', 'DOORTech', 'DOORHydr', 'DOORKnck', 'DOORMetl', 'DOORMisc', 'DOORPlas', 'DOORPrisn', 'DOORRevl', 'DOORSlid', 'DOORSton', 'DOORSwng', 'DOORWood']
+      - id: 'Drawers'
+        field: Subcategory
+        required: true
+        value: ['Metal', 'Misc', 'Plastic', 'Wood']
+        short: ['DRWRMetl', 'DRWRMisc', 'DRWRPlas', 'DRWRWood']
+      - id: 'Electricity'
+        field: Subcategory
+        required: true
+        value: ['Arc', 'Buzz & Hum', 'Electromagnetic', 'Misc', 'Sparks', 'Zap']
+        short: ['ELECArc', 'ELECBuzz', 'ELECEmf', 'ELECMisc', 'ELECSprk', 'ELECZap']
+      - id: 'Equipment'
+        field: Subcategory
+        required: true
+        value: ['Bridle & Tack', 'Hitech', 'Misc', 'Recreational', 'Sport', 'Tactical']
+        short: ['EQUIPBridle', 'EQUIPTech', 'EQUIPMisc', 'EQUIPRec', 'EQUIPSprt', 'EQUIPTact']
+      - id: 'Explosions'
+        field: Subcategory
+        required: true
+        value: ['Designed', 'Misc', 'Real']
+        short: ['EXPLDsgn', 'EXPLMisc', 'EXPLReal']
+      - id: 'Farts'
+        field: Subcategory
+        required: true
+        value: ['Designed', 'Misc', 'Real']
+        short: ['FARTDsgn', 'FARTMisc', 'FARTReal']
+      - id: 'Fight'
+        field: Subcategory
+        required: true
+        value: ['Bodyfall', 'Cloth', 'Grab', 'Impact', 'Misc']
+        short: ['FGHTBf', 'FGHTClth', 'FGHTGrab', 'FGHTImpt', 'FGHTMisc']
+      - id: 'Fire'
+        field: Subcategory
+        required: true
+        value: ['Burning', 'Burst', 'Crackle', 'Gas', 'Ignite', 'Misc', 'Sizzle', 'Torch', 'Turbulent', 'Whoosh']
+        short: ['FIREBurn', 'FIREBrst', 'FIRECrkl', 'FIREGas', 'FIREIgn', 'FIREMisc', 'FIRESizz', 'FIRETrch', 'FIRETurb', 'FIREWhsh']
+      - id: 'Fireworks'
+        field: Subcategory
+        required: true
+        value: ['Commercial', 'Misc', 'Recreational']
+        short: ['FRWKComr', 'FRWKMisc', 'FRWKRec']
+      - id: 'Foley'
+        field: Subcategory
+        required: true
+        value: ['Cloth', 'Feet', 'Hands', 'Misc', 'Prop']
+        short: ['FOLYClth', 'FOLYFeet', 'FOLYHand', 'FOLYMisc', 'FOLYProp']
+      - id: 'Food & Drink'
+        field: Subcategory
+        required: true
+        value: ['Cooking', 'Drinking', 'Eating', 'Glassware', 'Ingredients', 'Kitchenware', 'Misc', 'Pour', 'Tableware']
+        short: ['FOODCook', 'FOODDrnk', 'FOODEat', 'FOODGware', 'FOODIngr', 'FOODKware', 'FOODMisc', 'FOODPour', 'FOODTware']
+      - id: 'Footsteps'
+        field: Subcategory
+        required: true
+        value: ['Animal', 'Creature', 'Horse', 'Human', 'Misc']
+        short: ['FEETAnml', 'FEETCrea', 'FEETHors', 'FEETHmn', 'FEETMisc']
+      - id: 'Games'
+        field: Subcategory
+        required: true
+        value: ['Arcade', 'Board', 'Casino', 'Misc', 'Video']
+        short: ['GAMEArcd', 'GAMEBoard', 'GAMECas', 'GAMEMisc', 'GAMEVideo']
+      - id: 'Geothermal'
+        field: Subcategory
+        required: true
+        value: ['Fumarole', 'Geyser', 'Lava', 'Misc', 'Mud Pots']
+        short: ['GEOFuma', 'GEOGeyser', 'GEOLava', 'GEOMisc', 'GEOMudpot']
+      - id: 'Glass'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['GLASBrk', 'GLASCrsh', 'GLASFric', 'GLASHndl', 'GLASImpt', 'GLASMisc', 'GLASMvmt', 'GLASTonl']
+      - id: 'Gore'
+        field: Subcategory
+        required: true
+        value: ['Blood', 'Bone', 'Burn', 'Flesh', 'Misc', 'Ooze', 'Source', 'Splat', 'Squish', 'Stab']
+        short: ['GOREBlood', 'GOREBone', 'GOREBurn', 'GOREFlsh', 'GOREMisc', 'GOREOoze', 'GORESrce', 'GORESplt', 'GORESqsh', 'GOREStab']
+      - id: 'Guns'
+        field: Subcategory
+        required: true
+        value: ['Antique', 'Artillery', 'Automatic', 'Cannon', 'Handle', 'Hitech', 'Mechanism', 'Misc', 'Pistol', 'Rifle', 'Shotgun', 'Suppressed']
+        short: ['GUNAntq', 'GUNArtl', 'GUNAuto', 'GUNCano', 'GUNHndl', 'GUNTech', 'GUNMech', 'GUNMisc', 'GUNPis', 'GUNRif', 'GUNShotg', 'GUNSupr']
+      - id: 'Horns'
+        field: Subcategory
+        required: true
+        value: ['Air Powered', 'Celebration', 'Misc', 'Traditional']
+        short: ['HORNAir', 'HORNCele', 'HORNMisc', 'HORNTrad']
+      - id: 'Human'
+        field: Subcategory
+        required: true
+        value: ['Blow', 'Breath', 'Burp', 'Cough', 'Heartbeat', 'Kiss', 'Misc', 'Pee', 'Skin', 'Sneeze', 'Sniff', 'Snore', 'Spit', 'Vomit']
+        short: ['HMNBlow', 'HMNBrth', 'HMNBurp', 'HMNCough', 'HMNHart', 'HMNKiss', 'HMNMisc', 'HMNPee', 'HMNSkin', 'HMNSneez', 'HMNSniff', 'HMNSnor', 'HMNSpit', 'HMNVomit']
+      - id: 'Ice'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['ICEBrk', 'ICECrsh', 'ICEFric', 'ICEHndl', 'ICEImpt', 'ICEMisc', 'ICEMvmt', 'ICETonl']
+      - id: 'Lasers'
+        field: Subcategory
+        required: true
+        value: ['Beam', 'Gun', 'Impact', 'Misc']
+        short: ['LASRBeam', 'LASRGun', 'LASRImpt', 'LASRMisc']
+      - id: 'Leather'
+        field: Subcategory
+        required: true
+        value: ['Creak', 'Handle', 'Impact', 'Misc', 'Movement']
+        short: ['LETHRCreak', 'LETHRHndl', 'LETHRImpt', 'LETHRMisc', 'LETHRMvmt']
+      - id: 'Liquid & Mud'
+        field: Subcategory
+        required: true
+        value: ['Bubbles', 'Impact', 'Misc', 'Movement', 'Suction']
+        short: ['LIQBubl', 'LIQImpt', 'LIQMisc', 'LIQMvmt', 'LIQSuct']
+      - id: 'Machines'
+        field: Subcategory
+        required: true
+        value: ['Amusement', 'Antique', 'Appliance', 'Construction', 'Elevator', 'Escalator', 'Fan', 'Garden', 'Gym', 'Hitech', 'Hvac', 'Industrial', 'Mechanism', 'Medical', 'Misc', 'Office', 'Pump']
+        short: ['MACHAmus', 'MACHAntq', 'MACHAppl', 'MACHCnst', 'MACHElev', 'MACHEscl', 'MACHFan', 'MACHGrdn', 'MACHGym', 'MACHTech', 'MACHHvac', 'MACHInd', 'MACHMech', 'MACHMed', 'MACHMisc', 'MACHOffc', 'MACHPump']
+      - id: 'Magic'
+        field: Subcategory
+        required: true
+        value: ['Angelic', 'Elemental', 'Evil', 'Misc', 'Poof', 'Shimmer', 'Spell']
+        short: ['MAGAngl', 'MAGElem', 'MAGEvil', 'MAGMisc', 'MAGPoof', 'MAGShim', 'MAGSpel']
+      - id: 'Mechanical'
+        field: Subcategory
+        required: true
+        value: ['Click', 'Gears', 'Hydraulic & Pneumatic', 'Latch', 'Lever', 'Lock', 'Misc', 'Pulley', 'Ratchet', 'Relay', 'Roller', 'Switch']
+        short: ['MECHClik', 'MECHGear', 'MECHHydr', 'MECHLtch', 'MECHLvr', 'MECHLock', 'MECHMisc', 'MECHPuly', 'MECHRtch', 'MECHRelay', 'MECHRolr', 'MECHSwtch']
+      - id: 'Metal'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['METLBrk', 'METLCrsh', 'METLFric', 'METLHndl', 'METLImpt', 'METLMisc', 'METLMvmt', 'METLTonl']
+      - id: 'Motors'
+        field: Subcategory
+        required: true
+        value: ['Antique', 'Combustion', 'Electric', 'Misc', 'Servo', 'Turbine']
+        short: ['MOTRAntq', 'MOTRComb', 'MOTRElec', 'MOTRMisc', 'MOTRSrvo', 'MOTRTurb']
+      - id: 'Movement'
+        field: Subcategory
+        required: true
+        value: ['Activity', 'Animal', 'Creature', 'Crowd', 'Human', 'Insect', 'Misc', 'Presence']
+        short: ['MOVEActv', 'MOVEAnml', 'MOVECrea', 'MOVECrwd', 'MOVEHmn', 'MOVEInsc', 'MOVEMisc', 'MOVEPres']
+      - id: 'Musical'
+        field: Subcategory
+        required: true
+        value: ['Bells', 'Brass', 'Chime', 'Choral', 'Experimental', 'Instrument', 'Keyed', 'Loop', 'Misc', 'Percussion', 'Percussion Tuned', 'Performance', 'Plucked', 'Sample', 'Shaken', 'Song & Phrase', 'Stinger', 'Stringed', 'Synthesized', 'Toy', 'Woodwind']
+        short: ['MUSCBell', 'MUSCBrass', 'MUSCChim', 'MUSCChor', 'MUSCExpr', 'MUSCInst', 'MUSCKeyd', 'MUSCLoop', 'MUSCMisc', 'MUSCPerc', 'MUSCTnprc', 'MUSCPrfm', 'MUSCPluck', 'MUSCSmpl', 'MUSCShake', 'MUSCSong', 'MUSCStngr', 'MUSCStr', 'MUSCSynth', 'MUSCToy', 'MUSCWind']
+      - id: 'Natural Disaster'
+        field: Subcategory
+        required: true
+        value: ['Avalanche', 'Earthquake', 'Misc', 'Tornado', 'Tsunami', 'Typhoon', 'Volcano']
+        short: ['NATDAval', 'NATDQuak', 'NATDMisc', 'NATDTorn', 'NATDTsun', 'NATDThyp', 'NATDVolc']
+      - id: 'Objects'
+        field: Subcategory
+        required: true
+        value: ['Bag', 'Book', 'Coin', 'Container', 'Fashion', 'Furniture', 'Garden', 'Gym', 'Household', 'Jewelry', 'Keys', 'Luggage', 'Medical', 'Misc', 'Office', 'Packaging', 'Tape', 'Umbrella', 'Wheeled', 'Writing', 'Zipper']
+        short: ['OBJBag', 'OBJBook', 'OBJCoin', 'OBJCont', 'OBJFash', 'OBJFurn', 'OBJGrdn', 'OBJGym', 'OBJHsehld', 'OBJJewl', 'OBJKey', 'OBJLug', 'OBJMed', 'OBJMisc', 'OBJOffc', 'OBJPack', 'OBJTape', 'OBJUmbr', 'OBJWhled', 'OBJWrite', 'OBJZipr']
+      - id: 'Paper'
+        field: Subcategory
+        required: true
+        value: ['Flutter', 'Friction', 'Handle', 'Impact', 'Misc', 'Rip', 'Tonal']
+        short: ['PAPRFltr', 'PAPRFric', 'PAPRHndl', 'PAPRImpt', 'PAPRMisc', 'PAPRRip', 'PAPRTonl']
+      - id: 'Plastic'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['PLASBrk', 'PLASCrsh', 'PLASFric', 'PLASHndl', 'PLASImpt', 'PLASMisc', 'PLASMvmt', 'PLASTonl']
+      - id: 'Rain'
+        field: Subcategory
+        required: true
+        value: ['Cloth', 'Concrete', 'General', 'Glass', 'Interior', 'Metal', 'Plastic', 'Vegetation', 'Water', 'Wood']
+        short: ['RAINClth', 'RAINConc', 'RAIN', 'RAINGlas', 'RAINInt', 'RAINMetl', 'RAINPlas', 'RAINVege', 'RAINWatr', 'RAINWood']
+      - id: 'Robots'
+        field: Subcategory
+        required: true
+        value: ['Misc', 'Movement', 'Vocal']
+        short: ['ROBTMisc', 'ROBTMvmt', 'ROBTVox']
+      - id: 'Rocks'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['ROCKBrk', 'ROCKCrsh', 'ROCKFric', 'ROCKHndl', 'ROCKImpt', 'ROCKMisc', 'ROCKMvmt', 'ROCKTonl']
+      - id: 'Rope'
+        field: Subcategory
+        required: true
+        value: ['Creak', 'Handle', 'Impact', 'Misc', 'Movement']
+        short: ['ROPECreak', 'ROPEHndl', 'ROPEImpt', 'ROPEMisc', 'ROPEMvmt']
+      - id: 'Rubber'
+        field: Subcategory
+        required: true
+        value: ['Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['RUBRCrsh', 'RUBRFric', 'RUBRHndl', 'RUBRImpt', 'RUBRMisc', 'RUBRMvmt', 'RUBRTonl']
+      - id: 'Scifi'
+        field: Subcategory
+        required: true
+        value: ['Alarm', 'Computer', 'Door', 'Energy', 'Impact', 'Machine', 'Mechanism', 'Misc', 'Retro', 'Spaceship', 'Vehicle', 'Weapon']
+        short: ['SCIAlrm', 'SCICmpt', 'SCIDoor', 'SCIEnrg', 'SCIImpt', 'SCIMach', 'SCIMech', 'SCIMisc', 'SCIRetro', 'SCIShip', 'SCIVeh', 'SCIWeap']
+      - id: 'Snow'
+        field: Subcategory
+        required: true
+        value: ['Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement']
+        short: ['SNOWCrsh', 'SNOWFric', 'SNOWHndl', 'SNOWImpt', 'SNOWMisc', 'SNOWMvmt']
+      - id: 'Sports'
+        field: Subcategory
+        required: true
+        value: ['Court', 'Field', 'Gym', 'Indoor', 'Misc', 'Skate', 'Track & Field', 'Water', 'Winter']
+        short: ['SPRTCourt', 'SPRTField', 'SPRTGym', 'SPRTIndor', 'SPRTMisc', 'SPRTSkate', 'SPRTTrck', 'SPRTWatr', 'SPRTWntr']
+      - id: 'Swooshes'
+        field: Subcategory
+        required: true
+        value: ['Swish', 'Whoosh']
+        short: ['SWSH', 'WHSH']
+      - id: 'Tools'
+        field: Subcategory
+        required: true
+        value: ['Garden', 'Hand', 'Misc', 'Pneumatic', 'Power']
+        short: ['TOOLGrdn', 'TOOLHand', 'TOOLMisc', 'TOOLPneu', 'TOOLPowr']
+      - id: 'Toys'
+        field: Subcategory
+        required: true
+        value: ['Electronic', 'Mechanical', 'Misc']
+        short: ['TOYElec', 'TOYMech', 'TOYMisc']
+      - id: 'Trains'
+        field: Subcategory
+        required: true
+        value: ['Brake', 'Clack', 'Door', 'Diesel', 'Electric', 'High Speed', 'Horn', 'Interior', 'Mechanism', 'Misc', 'Steam', 'Subway', 'Tram']
+        short: ['TRNBrake', 'TRNClak', 'TRNDoor', 'TRNDiesl', 'TRNElec', 'TRNHspd', 'TRNHorn', 'TRNInt', 'TRNMech', 'TRNMisc', 'TRNSteam', 'TRNSbwy', 'TRNTram']
+      - id: 'User Interface'
+        field: Subcategory
+        required: true
+        value: ['Alert', 'Beep', 'Click', 'Data', 'Glitch', 'Misc', 'Motion']
+        short: ['UIAlert', 'UIBeep', 'UIClick', 'UIData', 'UIGlitch', 'UIMisc', 'UIMvmt']
+      - id: 'Vegetation'
+        field: Subcategory
+        required: true
+        value: ['Grass', 'Leaves', 'Misc', 'Tree']
+        short: ['VEGEGras', 'VEGELeaf', 'VEGEMisc', 'VEGETree']
+      - id: 'Vehicles'
+        field: Subcategory
+        required: true
+        value: ['Alarm', 'Antique', 'Atv', 'Bicycle', 'Brake', 'Bus', 'Car', 'Construction', 'Door', 'Electric', 'Emergency', 'Farm', 'Freight', 'Generic By', 'Horn', 'Interior', 'Jalopy', 'Mechanism', 'Military', 'Misc', 'Motorcycle', 'Racing', 'Siren', 'Skid', 'Suspension', 'Tire', 'Truck Van & Suv', 'Utility', 'Wagon', 'Window']
+        short: ['VEHAlrm', 'VEHAntq', 'VEHAtv', 'VEHBike', 'VEHBrake', 'VEHBus', 'VEHCar', 'VEHCnst', 'VEHDoor', 'VEHElec', 'VEHEmrg', 'VEHFarm', 'VEHFrght', 'VEHBy', 'VEHHorn', 'VEHInt', 'VEHJalop', 'VEHMech', 'VEHMil', 'VEHMisc', 'VEHMoto', 'VEHRace', 'VEHSirn', 'VEHSkid', 'VEHSusp', 'VEHTire', 'VEHTruck', 'VEHUtil', 'VEHWagn', 'VEHWndw']
+      - id: 'Voices'
+        field: Subcategory
+        required: true
+        value: ['Alien', 'Baby', 'Cheer', 'Child', 'Crying', 'Efforts', 'Female', 'Futzed', 'Historical', 'Laugh', 'Male', 'Misc', 'Reaction', 'Scream', 'Singing', 'Whisper']
+        short: ['VOXAlien', 'VOXBaby', 'VOXCheer', 'VOXChld', 'VOXCry', 'VOXEfrt', 'VOXFem', 'VOXFutz', 'VOXHist', 'VOXLaff', 'VOXMale', 'VOXMisc', 'VOXReac', 'VOXScrm', 'VOXSing', 'VOXWhsp']
+      - id: 'Water'
+        field: Subcategory
+        required: true
+        value: ['Bubbles', 'Drain', 'Drip', 'Fizz', 'Flow', 'Fountain', 'Impact', 'Lap', 'Misc', 'Movement', 'Plumbing', 'Pour', 'Splash', 'Spray', 'Steam', 'Surf', 'Turbulent', 'Underwater', 'Waterfall', 'Wave']
+        short: ['WATRBubl', 'WATRDran', 'WATRDrip', 'WATRFizz', 'WATRFlow', 'WATRFoun', 'WATRImpt', 'WATRLap', 'WATRMisc', 'WATRMvmt', 'WATRPlmb', 'WATRPour', 'WATRSplsh', 'WATRSpray', 'WATRStm', 'WATRSurf', 'WATRTurb', 'WATRUndwtr', 'WATRFall', 'WATRWave']
+      - id: 'Weapons'
+        field: Subcategory
+        required: true
+        value: ['Armor', 'Arrow', 'Axe', 'Blunt', 'Bow', 'Knife', 'Misc', 'Polearm', 'Siege', 'Sword', 'Whip']
+        short: ['WEAPArmr', 'WEAPArro', 'WEAPAxe', 'WEAPBlnt', 'WEAPBow', 'WEAPKnif', 'WEAPMisc', 'WEAPPole', 'WEAPSiege', 'WEAPSwrd', 'WEAPWhip']
+      - id: 'Weather'
+        field: Subcategory
+        required: true
+        value: ['Hail', 'Misc', 'Storm', 'Thunder']
+        short: ['HAIL', 'WTHR', 'STORM', 'THUN']
+      - id: 'Whistles'
+        field: Subcategory
+        required: true
+        value: ['Human', 'Mechanical', 'Misc']
+        short: ['WHSTHmn', 'WHSTMech', 'WHSTMisc']
+      - id: 'Wind'
+        field: Subcategory
+        required: true
+        value: ['Designed', 'General', 'Gust', 'Interior', 'Tonal', 'Turbulent', 'Vegetation']
+        short: ['WINDDsgn', 'WIND', 'WINDGust', 'WINDInt', 'WINDTonl', 'WINDTurb', 'WINDVege']
+      - id: 'Windows'
+        field: Subcategory
+        required: true
+        value: ['Covering', 'Hardware', 'Knock', 'Metal', 'Misc', 'Plastic', 'Wood']
+        short: ['WNDWCover', 'WNDWHdwr', 'WNDWKnck', 'WNDWMetl', 'WNDWMisc', 'WNDWPlas', 'WNDWWood']
+      - id: 'Wings'
+        field: Subcategory
+        required: true
+        value: ['Bird', 'Creature', 'Insect', 'Misc']
+        short: ['WINGBird', 'WINGCrea', 'WINGInsc', 'WINGMisc']
+      - id: 'Wood'
+        field: Subcategory
+        required: true
+        value: ['Break', 'Crash & Debris', 'Friction', 'Handle', 'Impact', 'Misc', 'Movement', 'Tonal']
+        short: ['WOODBrk', 'WOODCrsh', 'WOODFric', 'WOODHandl', 'WOODImpt', 'WOODMisc', 'WOODMvmt', 'WOODTonl']
+  - field: User Category
+    value: ''
+    help: If no User Category, leave blank!
+  - field: File Name
+    required: true
+    value: ''
+    help: Name your items using spaces (not underscores).
+  - field: Enumeration
+    value: 1
+    zeroes: 1
+    singles: false
+    separator: " "
+    help: Number to start enumerating with.
+  - field: Creator ID
+    required: true
+    value: ''
+    help: Easily identifiable user ID.
+  - field: Source ID
+    value: ''
+    help: Optional project/show ID.
+  - field: User Data/Notes
+    value: ''
+    help: Optional notes. If none, leave blank.
