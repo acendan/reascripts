@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.1
+-- @version 0.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,6 +8,9 @@
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # The Last Renamer
+-- @changelog
+--   # Added name preview and copy button
+--   # Support multiple IDs for dependent fields
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -64,8 +67,6 @@ function Init()
 end
 
 function LoadField(field, parent)
-  -- TODO: Add asterisk to required fields (optional = false or not optional)
-
   local sep = wgt.name == "" and "" or field.separator and field.separator or wgt.data.separator
   local unskippable = (field.skip and field.skip == false) or not field.skip
   local value = ""
@@ -156,11 +157,23 @@ function LoadField(field, parent)
   end
 end
 
+function PassesIDCheck(field, parent)
+  if not field.id then return true end
+  if not parent then return false end
+  if type(field.id) == "table" then
+    for i, id in ipairs(field.id) do
+      if parent.value[parent.selected] == id then return true end
+    end
+    return false
+  end
+  return parent.value[parent.selected] == field.id
+end
+
 -- Load all fields and nested subfields recursively
 function LoadFields(fields, parent)
   for i, field in ipairs(fields) do
     -- If field has an ID, it's dependent on parent dropdown's selected value
-    if (field.id and parent and parent.value[parent.selected] == field.id) or not field.id then
+    if PassesIDCheck(field, parent) then
       LoadField(field, parent)
       if field.fields then LoadFields(field.fields, field) end
     end
@@ -243,6 +256,17 @@ function TabNaming()
   elseif wgt.error then
     reaper.ImGui_SameLine(ctx)
     reaper.ImGui_TextColored(ctx, 0xFF0000FF, wgt.error)
+  end
+
+  -- Preview name text in grey
+  reaper.ImGui_TextDisabled(ctx, wgt.name)
+
+  -- Copy to clipboard button next to preview text
+  if wgt.name ~= "" then
+    reaper.ImGui_SameLine(ctx)
+    if reaper.ImGui_Button(ctx, "Copy") then
+      reaper.CF_SetClipboard(wgt.name)
+    end
   end
 end
 

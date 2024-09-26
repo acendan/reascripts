@@ -9,6 +9,12 @@ fields:
   - field: A Questionable Category
     value: [Dogs, Cats, Rats]
     help: This is a simple dropdown!
+    fields:
+      - id: [Dogs, Cats]
+        field: Domesticated
+        value: true
+        btrue: "DMSTC"
+        bfalse: "WILD"
   - field: Body
     required: true
     value: I Am A Good Filename
