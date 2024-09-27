@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.3
+-- @version 8.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,9 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # ImGui tooltip
---   # ImGui scaling
---   # ImGui font setter
+--   # Updated UI Scale text
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -350,7 +348,7 @@ end
 
 function acendan.ImGui_ScaleSlider(flags)
   local scale = acendan.ImGui_GetSetting("ui_scale", 1.0)
-  local rv, scale = reaper.ImGui_SliderDouble(ctx, "Scale", scale, 0.5, 2.0, "%.2f", flags or reaper.ImGui_SliderFlags_AlwaysClamp())
+  local rv, scale = reaper.ImGui_SliderDouble(ctx, "UI Scale", scale, 0.5, 2.0, "%.2f", flags or reaper.ImGui_SliderFlags_AlwaysClamp())
   if rv then 
     acendan.ImGui_SetSetting("ui_scale", scale)
     return true

@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.6
+-- @version 0.7
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,8 +9,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Tooltips in presets panel
---   # Added scalable UI slider in settings menu
+--   # History
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -59,6 +58,7 @@ function Init()
   wgt.data = nil                                          -- Active scheme data
   wgt.name = ""
   wgt.preset = {}
+  wgt.history = {}
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
@@ -254,6 +254,17 @@ function FindField(fields, field)
   end
 end
 
+function ClickLoadPreset()
+  local preset = wgt.preset.presets[wgt.preset.idx]
+  for field, value in pairs(preset) do
+    if field ~= "preset" then
+      local find_field = FindField(wgt.data.fields, field)
+      if find_field then SetFieldValue(find_field, value) end
+    end
+  end
+  wgt.serialize = {}
+end
+
 function LoadPresets()
   reaper.ImGui_SameLine(ctx, 0, 50)
   if reaper.ImGui_Button(ctx, "Presets") then
@@ -266,10 +277,14 @@ function LoadPresets()
       items[#items + 1] = preset.preset
     end
     if reaper.ImGui_BeginListBox(ctx, "##PresetsList", -FLT_MIN, 5 * reaper.ImGui_GetTextLineHeightWithSpacing(ctx)) then
-      for n,v in ipairs(items) do
+      for n, v in ipairs(items) do
         local is_selected = wgt.preset.idx == n
-        if reaper.ImGui_Selectable(ctx, v, is_selected) then
+        if reaper.ImGui_Selectable(ctx, v .. "##" .. tostring(n), is_selected, reaper.ImGui_SelectableFlags_AllowDoubleClick()) then
           wgt.preset.idx = n
+          if reaper.ImGui_IsMouseDoubleClicked( ctx, reaper.ImGui_MouseButton_Left()) then
+            ClickLoadPreset()
+            reaper.ImGui_CloseCurrentPopup(ctx)
+          end
         end
 
         -- Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
@@ -283,17 +298,8 @@ function LoadPresets()
     -- Load
     local enabled = wgt.preset.idx and wgt.preset.idx > 0
     if not enabled then reaper.ImGui_BeginDisabled(ctx) end
-    acendan.ImGui_Button("Load", function()
-      local preset = wgt.preset.presets[wgt.preset.idx]
-      for field, value in pairs(preset) do
-        if field ~= "preset" then
-          local find_field = FindField(wgt.data.fields, field)
-          if find_field then SetFieldValue(find_field, value) end
-        end
-      end
-      wgt.serialize = {}
-    end, 0.42)
-    acendan.ImGui_Tooltip("Loads the selected preset into the naming fields.")
+    acendan.ImGui_Button("Load", ClickLoadPreset, 0.42)
+    acendan.ImGui_Tooltip("Loads the selected preset into the naming fields.\n\nPro Tip: Double-click a preset to load and close this menu.")
 
     -- Overwrite selected
     reaper.ImGui_SameLine(ctx)
@@ -317,7 +323,7 @@ function LoadPresets()
     -- Save
     reaper.ImGui_Separator(ctx)
     local rv, new_preset = reaper.ImGui_InputTextWithHint(ctx, "##new_preset", "Preset Name", wgt.preset.new)
-    if rv then 
+    if rv then
       wgt.preset.new = new_preset
     end
     reaper.ImGui_SameLine(ctx)
@@ -328,6 +334,58 @@ function LoadPresets()
       wgt.preset.new = ""
     end, 0.42)
     acendan.ImGui_Tooltip("Saves the current naming fields as a new preset.")
+    if not enabled then reaper.ImGui_EndDisabled(ctx) end
+
+    reaper.ImGui_EndPopup(ctx)
+  end
+end
+
+function ClickLoadHistory()
+  local history = wgt.history.presets[wgt.history.idx]
+  for field, value in pairs(history) do
+    if field ~= "history" then
+      local find_field = FindField(wgt.data.fields, field)
+      if find_field then SetFieldValue(find_field, value) end
+    end
+  end
+  wgt.serialize = {}
+end
+
+function LoadHistory()
+  reaper.ImGui_SameLine(ctx)
+  if reaper.ImGui_Button(ctx, "History") then
+    reaper.ImGui_OpenPopup(ctx, "HistoryPopup")
+  end
+  if reaper.ImGui_BeginPopup(ctx, "HistoryPopup") then
+    local items = {}
+    for _, history in ipairs(wgt.history.presets) do
+      items[#items + 1] = history.history
+    end
+    if reaper.ImGui_BeginListBox(ctx, "##HistoryList", 300, 5 * reaper.ImGui_GetTextLineHeightWithSpacing(ctx)) then
+      for n, v in ipairs(items) do
+        local is_selected = wgt.history.idx == n
+        if reaper.ImGui_Selectable(ctx, v .. "##" .. tostring(n), is_selected, reaper.ImGui_SelectableFlags_AllowDoubleClick()) then
+          wgt.history.idx = n
+          if reaper.ImGui_IsMouseDoubleClicked( ctx, reaper.ImGui_MouseButton_Left()) then
+            ClickLoadHistory()
+            reaper.ImGui_CloseCurrentPopup(ctx)
+          end
+        end
+        acendan.ImGui_Tooltip(v)
+
+        -- Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+        if is_selected then
+          reaper.ImGui_SetItemDefaultFocus(ctx)
+        end
+      end
+      reaper.ImGui_EndListBox(ctx)
+    end
+
+    -- Load
+    local enabled = wgt.history.idx and wgt.history.idx > 0
+    if not enabled then reaper.ImGui_BeginDisabled(ctx) end
+    acendan.ImGui_Button("Load", ClickLoadHistory, 0.42)
+    acendan.ImGui_Tooltip("Loads the selected history into the naming fields.\n\nPro Tip: Double-click a history to load and close this menu.")
     if not enabled then reaper.ImGui_EndDisabled(ctx) end
 
     reaper.ImGui_EndPopup(ctx)
@@ -346,6 +404,7 @@ function TabNaming()
   -- TODO: Add custom font for titles
   reaper.ImGui_Text(ctx, wgt.data.title)
   LoadPresets()
+  LoadHistory()
   LoadFields(wgt.data.fields)
 
   ----------------- Target -----------------------
@@ -375,7 +434,7 @@ function TabNaming()
   -- Preview name text in grey
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_Separator(ctx)
-  
+
   -- Copy to clipboard button next to preview text
   Button("Copy", function()
     if not wgt.name or wgt.name == "" then return end
@@ -452,10 +511,18 @@ function TabSettings()
 
   -- Slider to set UI element scale
   if acendan.ImGui_ScaleSlider() then wgt.set_font = true end
+
+  -- Slider for num history, from 3 to 50
+  local num_hist = tonumber(GetPreviousValue("opt_num_hist", 10))
+  local rv, num_hist = reaper.ImGui_SliderInt(ctx, "History Count", num_hist, 1, 50)
+  if rv then SetCurrentValue("opt_num_hist", num_hist) end
+  acendan.ImGui_Tooltip("Number of history entries to store for each scheme.")
 end
 
 function Main()
-  if wgt.set_font then acendan.ImGui_SetFont(); wgt.set_font = false end
+  if wgt.set_font then
+    acendan.ImGui_SetFont(); wgt.set_font = false
+  end
   acendan.ImGui_PushStyles()
 
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
@@ -505,6 +572,10 @@ function LoadScheme(scheme)
   -- Clear presets if scheme has changed
   wgt.preset.presets = nil
   RecallPresets()
+
+  -- Clear histories if scheme has changed
+  wgt.history.presets = nil
+  RecallHistories()
 
   -- Clear on load if setting is enabled
   if GetPreviousValue("opt_auto_clear", false) then ClearFields(wgt.data.fields) end
@@ -573,7 +644,40 @@ function SetFieldValue(field, value)
   end
 end
 
-function StorePreset(preset)
+function StoreHistory()
+  -- Remove anything after max history
+  local prefix = "History"
+  local i = 1
+  local max = tonumber(GetPreviousValue("opt_num_hist", 10))
+  local history = {}
+  while true do
+    local prev = GetPreviousValue(wgt.data.title .. " - " .. prefix .. i, nil)
+    if not prev then break end
+    if i >= max then
+      DeleteCurrentValue(wgt.data.title .. " - " .. prefix .. i)
+    else 
+      history[#history + 1] = prev
+    end
+    i = i + 1
+  end
+
+  -- Move all previous history back a slot
+  for i, hist in ipairs(history) do
+    SetCurrentValue(wgt.data.title .. " - " .. prefix .. tostring(i + 1), hist)
+  end
+  DeleteCurrentValue(wgt.data.title .. " - " .. prefix .. "1")
+
+  -- Store current settings in first slot
+  StorePreset(wgt.name, prefix, wgt.history)
+
+  -- Refresh history
+  wgt.history.presets = nil
+  RecallHistories()
+end
+
+function StorePreset(preset, prefix, settings)
+  prefix = prefix or "Preset"
+  settings = settings or wgt.preset
   local function SerializeFields(fields)
     for _, field in ipairs(fields) do
       local name = acendan.encapsulate(tostring(field.field))
@@ -592,12 +696,12 @@ function StorePreset(preset)
       -- Append to preset buffer
       if type(field.value) == "table" then
         if field.selected then
-          wgt.preset.buf = wgt.preset.buf .. name .. "=" .. acendan.encapsulate(tostring(field.selected)) .. "||"
+          settings.buf = settings.buf .. name .. "=" .. acendan.encapsulate(tostring(field.selected)) .. "||"
         end
       else
         local valstr = tostring(field.value)
         if valstr ~= "" then
-          wgt.preset.buf = wgt.preset.buf .. name .. "=" .. acendan.encapsulate(tostring(field.value)) .. "||"
+          settings.buf = settings.buf .. name .. "=" .. acendan.encapsulate(tostring(field.value)) .. "||"
         end
       end
 
@@ -611,34 +715,50 @@ function StorePreset(preset)
   -- Store preset in next available slot for this scheme
   local i = 1
   while true do
-    local prev = GetPreviousValue(wgt.data.title .. " - Preset" .. i, nil)
+    local prev = GetPreviousValue(wgt.data.title .. " - " .. prefix .. i, nil)
     if not prev then
-      wgt.preset.buf = "preset=" .. preset .. "||"
+      settings.buf = prefix:lower() .. "=" .. preset .. "||"
       SerializeFields(wgt.data.fields)
-      SetCurrentValue(wgt.data.title .. " - Preset" .. i, wgt.preset.buf)
+      SetCurrentValue(wgt.data.title .. " - " .. prefix .. i, settings.buf)
       break
     end
     i = i + 1
   end
 
   -- Append to presets table
-  wgt.preset.presets[#wgt.preset.presets + 1] = RecallPreset(#wgt.preset.presets + 1)
+  settings.presets[#settings.presets + 1] = RecallPreset(#settings.presets + 1, prefix)
 end
 
-function RecallPresets()
+function RecallPresets(prefix, settings)
   -- Load all presets for this scheme
-  if wgt.preset.presets then return end
-  wgt.preset.presets = {}
+  prefix = prefix or "Preset"
+  settings = settings or wgt.preset
+  if settings.presets then return end
+  settings.presets = {}
   local i = 1
   while true do
-    local preset = GetPreviousValue(wgt.data.title .. " - Preset" .. i, nil)
+    local preset = GetPreviousValue(wgt.data.title .. " - " .. prefix .. i, nil)
     if not preset then break end
-    wgt.preset.presets[#wgt.preset.presets + 1] = RecallPreset(i)
+    settings.presets[#settings.presets + 1] = RecallPreset(i, prefix)
     i = i + 1
   end
 end
 
-function RecallPreset(idx)
+function RecallHistories()
+  -- Load all histories for this scheme
+  if wgt.history.presets then return end
+  wgt.history.presets = {}
+  local prefix = "History"
+  local i = 1
+  while true do
+    local history = GetPreviousValue(wgt.data.title .. " - " .. prefix .. i, nil)
+    if not history then break end
+    wgt.history.presets[#wgt.history.presets + 1] = RecallPreset(i, prefix)
+    i = i + 1
+  end
+end
+
+function RecallPreset(idx, prefix)
   local function DeserializePreset(preset)
     local fields = {}
     for field, value in preset:gmatch('([^=]+)=([^|]+)||') do
@@ -648,25 +768,26 @@ function RecallPreset(idx)
     return fields
   end
 
-  local preset = GetPreviousValue(wgt.data.title .. " - Preset" .. idx, nil)
+  local preset = GetPreviousValue(wgt.data.title .. " - " .. prefix .. idx, nil)
   if not preset then return nil end
   return DeserializePreset(preset)
 end
 
-function DeletePreset(idx)
-  DeleteCurrentValue(wgt.data.title .. " - Preset" .. idx)
+function DeletePreset(idx, prefix)
+  prefix = prefix or "Preset"
+  DeleteCurrentValue(wgt.data.title .. " - " .. prefix .. idx)
   wgt.preset.presets[idx] = nil
   -- Shift all presets down by one
   local i = idx + 1
   while true do
-    local preset = GetPreviousValue(wgt.data.title .. " - Preset" .. i, nil)
+    local preset = GetPreviousValue(wgt.data.title .. " - " .. prefix .. i, nil)
     if not preset then break end
-    SetCurrentValue(wgt.data.title .. " - Preset" .. i - 1, preset)
+    SetCurrentValue(wgt.data.title .. " - " .. prefix .. i - 1, preset)
     wgt.preset.presets[i - 1] = wgt.preset.presets[i]
     i = i + 1
   end
   -- Delete the last one
-  DeleteCurrentValue(wgt.data.title .. " - Preset" .. i - 1)
+  DeleteCurrentValue(wgt.data.title .. " - " .. prefix .. i - 1)
   wgt.preset.presets[i - 1] = nil
 end
 
@@ -713,6 +834,7 @@ function RenameButton()
   wgt.error = Rename(wgt.target, wgt.mode, wgt.name, wgt.enumeration)
   reaper.Undo_EndBlock("The Last Renamer - " .. wgt.data.title, -1)
   StoreSettings()
+  StoreHistory()
 end
 
 -- @param target Regions, Items, Tracks
