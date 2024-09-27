@@ -5,7 +5,7 @@ find: [" "]
 replace: "_"
 fields:
   - field: A Useful Prefix
-    value: placeholder
+    value: DEFAULT
     help: The thing at the front!
     capitalization: UPPER
   - field: A Questionable Category
@@ -20,6 +20,7 @@ fields:
   - field: Body
     required: true
     value: ""
+    hint: I Am A Good Filename
     help: The most important part.
     capitalization: Title
   - field: Loop

@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.1
+-- @version 8.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,8 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Fixed bug in yaml loader
---   # Added joshnt's remix of getSelectedRegions
+--   # Uncapsulate strings if they start and end with quotes
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -427,6 +426,14 @@ end
 function acendan.encapsulate(str)
   if str:find("%s") then
     str = '"' .. str .. '"'
+  end
+  return str
+end
+
+-- Uncapsulate strings if they start and end with quotes
+function acendan.uncapsulate(str)
+  if acendan.stringStarts(str, '"') and acendan.stringEnds(str, '"') then
+    str = str:sub(2,-2)
   end
   return str
 end

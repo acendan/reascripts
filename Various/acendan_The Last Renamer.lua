@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.4
+-- @version 0.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,11 +9,12 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Load empty window if active scheme fails to load
+--   # Support placeholder string for text inputs
+--   # Added presets menu for recalling scheme settings
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.1 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.2 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -42,6 +43,8 @@ local WINDOW_SIZE = { width = 500, height = 100 }
 local WINDOW_FLAGS = reaper.ImGui_WindowFlags_NoCollapse() | reaper.ImGui_WindowFlags_AlwaysAutoResize()
 local CONFIG_FLAGS = reaper.ImGui_ConfigFlags_DockingEnable() | reaper.ImGui_ConfigFlags_NavEnableKeyboard()
 local SLIDER_FLAGS = reaper.ImGui_SliderFlags_AlwaysClamp()
+local FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
+local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 
@@ -55,6 +58,7 @@ function Init()
   wgt.scheme = GetPreviousValue("scheme", wgt.schemes[1]) -- Active scheme filename
   wgt.data = nil                                          -- Active scheme data
   wgt.name = ""
+  wgt.preset = {}
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
@@ -99,7 +103,7 @@ function LoadField(field, parent)
 
     -- Text
   elseif type(field.value) == "string" then
-    local rv, str = reaper.ImGui_InputText(ctx, field.field, field.value)
+    local rv, str = reaper.ImGui_InputTextWithHint(ctx, field.field, field.hint, field.value)
     if rv then
       field.value = str
       wgt.serialize[#wgt.serialize + 1] = { field.field, field.value }
@@ -226,6 +230,105 @@ function ValidateFields()
   end
 end
 
+function FindField(fields, field)
+  -- Field may have one id or multiple ids after name, separated by :
+  local field_name = field:match("([^:]+)")
+  local field_ids = {}
+  for id in field:gmatch(":(%w+)") do
+    field_ids[#field_ids + 1] = id
+  end
+  for _, f in ipairs(fields) do
+    if f.field == field_name then
+      if #field_ids == 0 then return f end
+      if f.id then
+        for _, id in ipairs(field_ids) do
+          if id == f.id then return f end
+        end
+      end
+    end
+    if f.fields then
+      local find_field = FindField(f.fields, field)
+      if find_field then return find_field end
+    end
+  end
+end
+
+function LoadPresets()
+  reaper.ImGui_SameLine(ctx, 0, 50)
+  if reaper.ImGui_Button(ctx, "Presets") then
+    RecallPresets()
+    reaper.ImGui_OpenPopup(ctx, "PresetPopup")
+  end
+  if reaper.ImGui_BeginPopup(ctx, "PresetPopup") then
+    local items = {}
+    for _, preset in ipairs(wgt.preset.presets) do
+      items[#items + 1] = preset.preset
+    end
+    if reaper.ImGui_BeginListBox(ctx, "##PresetsList", -FLT_MIN, 5 * reaper.ImGui_GetTextLineHeightWithSpacing(ctx)) then
+      for n,v in ipairs(items) do
+        local is_selected = wgt.preset.idx == n
+        if reaper.ImGui_Selectable(ctx, v, is_selected) then
+          wgt.preset.idx = n
+        end
+
+        -- Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+        if is_selected then
+          reaper.ImGui_SetItemDefaultFocus(ctx)
+        end
+      end
+      reaper.ImGui_EndListBox(ctx)
+    end
+
+    -- Load
+    local enabled = wgt.preset.idx and wgt.preset.idx > 0
+    if not enabled then reaper.ImGui_BeginDisabled(ctx) end
+    acendan.ImGui_Button("Load", function()
+      local preset = wgt.preset.presets[wgt.preset.idx]
+      for field, value in pairs(preset) do
+        if field ~= "preset" then
+          local find_field = FindField(wgt.data.fields, field)
+          if find_field then SetFieldValue(find_field, value) end
+        end
+      end
+      wgt.serialize = {}
+    end, 0.42)
+
+    -- Overwrite selected
+    reaper.ImGui_SameLine(ctx)
+    acendan.ImGui_Button("Overwrite", function()
+      -- Delete selected preset then save current settings as new preset with same name
+      local preset = wgt.preset.presets[wgt.preset.idx].preset
+      DeletePreset(wgt.preset.idx)
+      StorePreset(preset)
+    end, 0.15)
+
+    -- Delete
+    reaper.ImGui_SameLine(ctx)
+    acendan.ImGui_Button("Delete", function()
+      DeletePreset(wgt.preset.idx)
+      wgt.preset.idx = nil
+    end, 0)
+    if not enabled then reaper.ImGui_EndDisabled(ctx) end
+
+    -- Save
+    reaper.ImGui_Separator(ctx)
+    local rv, new_preset = reaper.ImGui_InputTextWithHint(ctx, "##new_preset", "Preset Name", wgt.preset.new)
+    if rv then 
+      wgt.preset.new = new_preset
+    end
+    reaper.ImGui_SameLine(ctx)
+    local enabled = wgt.preset.new and wgt.preset.new ~= ""
+    if not enabled then reaper.ImGui_BeginDisabled(ctx) end
+    acendan.ImGui_Button("Save", function()
+      StorePreset(wgt.preset.new)
+      wgt.preset.new = ""
+    end, 0.42)
+    if not enabled then reaper.ImGui_EndDisabled(ctx) end
+
+    reaper.ImGui_EndPopup(ctx)
+  end
+end
+
 function TabNaming()
   if not LoadScheme(wgt.scheme) then
     wgt.scheme = nil
@@ -237,11 +340,12 @@ function TabNaming()
   ----------------- Naming -----------------------
   -- TODO: Add custom font for titles
   reaper.ImGui_Text(ctx, wgt.data.title)
+  LoadPresets()
   LoadFields(wgt.data.fields)
-  reaper.ImGui_Separator(ctx)
 
   ----------------- Target -----------------------
-  reaper.ImGui_Text(ctx, "Renaming Target")
+  reaper.ImGui_Spacing(ctx)
+  reaper.ImGui_SeparatorText(ctx, "Renaming")
   LoadTargets()
 
   ----------------- Submit -----------------------
@@ -261,12 +365,11 @@ function TabNaming()
     -- If we know there are no errors or warnings, allow user to press Enter to rename
     RenameButton()
   end
-  reaper.ImGui_Separator(ctx)
 
   ----------------- Preview -----------------------
   -- Preview name text in grey
-  reaper.ImGui_Text(ctx, "Preview: ")
-  reaper.ImGui_SameLine(ctx)
+  reaper.ImGui_Spacing(ctx)
+  reaper.ImGui_SeparatorText(ctx, "Preview")
   reaper.ImGui_TextDisabled(ctx, SanitizeName(wgt.name, wgt.enumeration, {}))
 
   -- Copy to clipboard button next to preview text
@@ -410,32 +513,133 @@ end
 function RecallSettings(title, fields)
   for i, field in ipairs(fields) do
     local prev = GetPreviousValue(title .. " - " .. field.field, nil)
-    if prev then
-      -- Dropdowns
-      if type(field.value) == "table" then
-        field.selected = tonumber(prev)
-
-        -- Enumeration
-      elseif type(field.value) == "number" then
-        if type(prev) == "number" then
-          field.value = tonumber(prev)
-        elseif prev == "$num" then
-          field.numwild = true
-          field.value = prev
-        end
-
-        -- Dropdowns
-      elseif type(field.value) == "boolean" then
-        field.value = prev == "true" and true or false
-
-        -- Text
-      elseif type(field.value) == "string" then
-        field.value = prev
-      end
-    end
+    if prev then SetFieldValue(field, prev) end
     if field.fields then RecallSettings(title, field.fields) end
   end
   wgt.serialize = {}
+  wgt.preset.presets = nil
+  RecallPresets()
+end
+
+function SetFieldValue(field, value)
+  -- Dropdowns
+  if type(field.value) == "table" then
+    field.selected = tonumber(value)
+
+    -- Enumeration
+  elseif type(field.value) == "number" then
+    if type(value) == "number" then
+      field.value = tonumber(value)
+    elseif value == "$num" then
+      field.numwild = true
+      field.value = value
+    end
+
+    -- Dropdowns
+  elseif type(field.value) == "boolean" then
+    field.value = value == "true" and true or false
+
+    -- Text
+  elseif type(field.value) == "string" then
+    field.value = value
+  end
+end
+
+function StorePreset(preset)
+  local function SerializeFields(fields)
+    for _, field in ipairs(fields) do
+      local name = acendan.encapsulate(tostring(field.field))
+
+      -- Append id(s) to name
+      if field.id then
+        if type(field.id) == "table" then
+          for _, id in ipairs(field.id) do
+            name = name .. ":" .. acendan.encapsulate(id)
+          end
+        else
+          name = name .. ":" .. acendan.encapsulate(field.id)
+        end
+      end
+
+      -- Append to preset buffer
+      if type(field.value) == "table" then
+        if field.selected then
+          wgt.preset.buf = wgt.preset.buf .. name .. "=" .. acendan.encapsulate(tostring(field.selected)) .. "||"
+        end
+      else
+        local valstr = tostring(field.value)
+        if valstr ~= "" then
+          wgt.preset.buf = wgt.preset.buf .. name .. "=" .. acendan.encapsulate(tostring(field.value)) .. "||"
+        end
+      end
+
+      -- Recurse through nested fields
+      if field.fields then
+        SerializeFields(field.fields)
+      end
+    end
+  end
+
+  -- Store preset in next available slot for this scheme
+  local i = 1
+  while true do
+    local prev = GetPreviousValue(wgt.data.title .. " - Preset" .. i, nil)
+    if not prev then
+      wgt.preset.buf = "preset=" .. preset .. "||"
+      SerializeFields(wgt.data.fields)
+      SetCurrentValue(wgt.data.title .. " - Preset" .. i, wgt.preset.buf)
+      break
+    end
+    i = i + 1
+  end
+
+  -- Append to presets table
+  wgt.preset.presets[#wgt.preset.presets + 1] = RecallPreset(#wgt.preset.presets + 1)
+end
+
+function RecallPresets()
+  -- Load all presets for this scheme
+  if wgt.preset.presets then return end
+  wgt.preset.presets = {}
+  local i = 1
+  while true do
+    local preset = GetPreviousValue(wgt.data.title .. " - Preset" .. i, nil)
+    if not preset then break end
+    wgt.preset.presets[#wgt.preset.presets + 1] = RecallPreset(i)
+    i = i + 1
+  end
+end
+
+function RecallPreset(idx)
+  local function DeserializePreset(preset)
+    local fields = {}
+    for field, value in preset:gmatch('([^=]+)=([^|]+)||') do
+      -- Serialization has to handle strings that may or may not be encapsulated
+      fields[acendan.uncapsulate(field)] = acendan.uncapsulate(value)
+    end
+    return fields
+  end
+
+  local preset = GetPreviousValue(wgt.data.title .. " - Preset" .. idx, nil)
+  if not preset then return nil end
+  return DeserializePreset(preset)
+end
+
+function DeletePreset(idx)
+  DeleteCurrentValue(wgt.data.title .. " - Preset" .. idx)
+  wgt.preset.presets[idx] = nil
+  -- Shift all presets down by one
+  local i = idx + 1
+  while true do
+    local preset = GetPreviousValue(wgt.data.title .. " - Preset" .. i, nil)
+    if not preset then break end
+    SetCurrentValue(wgt.data.title .. " - Preset" .. i - 1, preset)
+    wgt.preset.presets[i - 1] = wgt.preset.presets[i]
+    i = i + 1
+  end
+  -- Delete the last one
+  DeleteCurrentValue(wgt.data.title .. " - Preset" .. i - 1)
+  wgt.preset.presets[i - 1] = nil
 end
 
 function Capitalize(str, capitalization)
