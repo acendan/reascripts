@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="d7326337fcea3dd3f0cb7572a7a047b9a74dbd72" name="ACendan Scripts">
+<index version="1" commit="37d209bd20c6fb5db2ca1babc2e85bb023432532" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -3003,6 +3003,24 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/d7326337fcea3dd3f0cb7572a7a047b9a74dbd72/Various/Schemes/Example.yaml</source>
         <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/d7326337fcea3dd3f0cb7572a7a047b9a74dbd72/Various/Schemes/Generic%20Game.yaml</source>
         <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/d7326337fcea3dd3f0cb7572a7a047b9a74dbd72/Various/Schemes/UCS.yaml</source>
+      </version>
+      <version name="0.3" author="Aaron Cendan" time="2024-09-27T04:32:52Z">
+        <changelog><![CDATA[# Added scheme settings to find and replace list of characters in name
+# Added "Clear All Fields" button
+# Added "Rescan Schemes Directory" button
+# Dropdowns default to empty on load
+# Press 'Enter' to trigger renaming]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/86e2ebfbd25b3ff1a88c3d2ac5f1d569b011d334/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/86e2ebfbd25b3ff1a88c3d2ac5f1d569b011d334/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/86e2ebfbd25b3ff1a88c3d2ac5f1d569b011d334/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/86e2ebfbd25b3ff1a88c3d2ac5f1d569b011d334/Various/Schemes/UCS.yaml</source>
+      </version>
+      <version name="0.4" author="Aaron Cendan" time="2024-09-27T05:24:39Z">
+        <changelog><![CDATA[# Load empty window if active scheme fails to load]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/37d209bd20c6fb5db2ca1babc2e85bb023432532/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/37d209bd20c6fb5db2ca1babc2e85bb023432532/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/37d209bd20c6fb5db2ca1babc2e85bb023432532/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/37d209bd20c6fb5db2ca1babc2e85bb023432532/Various/Schemes/UCS.yaml</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
