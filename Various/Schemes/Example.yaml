@@ -1,6 +1,8 @@
 title: Example Naming Convention
 separator: "_"
 illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
+find: [" "]
+replace: "_"
 fields:
   - field: A Useful Prefix
     value: placeholder
@@ -17,7 +19,7 @@ fields:
         bfalse: "WILD"
   - field: Body
     required: true
-    value: I Am A Good Filename
+    value: ""
     help: The most important part.
     capitalization: Title
   - field: Loop

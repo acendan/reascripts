@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.2
+-- @version 0.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,8 +9,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added name preview and copy button
---   # Support multiple IDs for dependent fields
+--   # Added scheme settings to find and replace list of characters in name
+--   # Added "Clear All Fields" button
+--   # Added "Rescan Schemes Directory" button
+--   # Dropdowns default to empty on load
+--   # Press 'Enter' to trigger renaming
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -62,8 +65,8 @@ function Init()
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
-  wgt.targets.Items = { "Selected", "All", "Under Mouse" }
-  wgt.targets.Tracks = { "Selected", "All", "Under Mouse" }
+  wgt.targets.Items = { "Selected", "All" }
+  wgt.targets.Tracks = { "Selected", "All" }
 end
 
 function LoadField(field, parent)
@@ -107,7 +110,7 @@ function LoadField(field, parent)
 
     -- Dropdown
   elseif type(field.value) == "table" then
-    local selected = field.selected and field.selected or 1
+    local selected = field.selected and field.selected or 0
     if reaper.ImGui_BeginCombo(ctx, field.field, field.value[selected]) then
       for i, value in ipairs(field.value) do
         local is_selected = selected == i
@@ -238,17 +241,11 @@ function TabNaming()
   ----------------- Target -----------------------
   reaper.ImGui_Text(ctx, "Renaming Target")
   LoadTargets()
-  reaper.ImGui_Separator(ctx)
 
   ----------------- Submit -----------------------
   ValidateFields()
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
-  Button("Rename", function()
-    reaper.Undo_BeginBlock()
-    wgt.error = Rename(wgt.target, wgt.mode, wgt.name, wgt.enumeration)
-    reaper.Undo_EndBlock("The Last Renamer - " .. wgt.data.title, -1)
-    StoreSettings()
-  end)
+  Button("Rename", RenameButton, "Applies your name to the given target!\n\nPro Tip: You can press the 'Enter' key to trigger renaming from any of the fields above.", 0.42)
   if wgt.invalid then
     reaper.ImGui_EndDisabled(ctx)
     reaper.ImGui_SameLine(ctx)
@@ -256,17 +253,37 @@ function TabNaming()
   elseif wgt.error then
     reaper.ImGui_SameLine(ctx)
     reaper.ImGui_TextColored(ctx, 0xFF0000FF, wgt.error)
+  elseif reaper.ImGui_IsKeyReleased(ctx, reaper.ImGui_Key_Enter()) then
+    -- If we know there are no errors or warnings, allow user to press Enter to rename
+    RenameButton()
   end
+  reaper.ImGui_Separator(ctx)
 
+  ----------------- Preview -----------------------
   -- Preview name text in grey
-  reaper.ImGui_TextDisabled(ctx, wgt.name)
+  reaper.ImGui_Text(ctx, "Preview: ")
+  reaper.ImGui_SameLine(ctx)
+  reaper.ImGui_TextDisabled(ctx, SanitizeName(wgt.name, wgt.enumeration, {}))
 
   -- Copy to clipboard button next to preview text
   if wgt.name ~= "" then
-    reaper.ImGui_SameLine(ctx)
-    if reaper.ImGui_Button(ctx, "Copy") then
+    if reaper.ImGui_Button(ctx, "Copy to Clipboard") then
       reaper.CF_SetClipboard(wgt.name)
     end
+  end
+
+  -- Button to clear local settings for current scheme
+  reaper.ImGui_SameLine(ctx)
+  Button("Clear All Fields", function()
+    ClearFields(wgt.data.fields)
+    SetScheme(wgt.scheme)
+  end, nil, 0)
+end
+
+function ClearFields(fields)
+  for i, field in ipairs(fields) do
+    DeleteCurrentValue(wgt.data.title .. " - " .. field.field)
+    if field.fields then ClearFields(field.fields) end
   end
 end
 
@@ -285,22 +302,28 @@ function TabSettings()
     reaper.ImGui_EndCombo(ctx)
   end
 
-  -- Button to open schemes directory
-  Button("Open Schemes Directory", function()
-    reaper.CF_ShellExecute(SCHEMES_DIR)
-  end)
-
   -- Button to validate selected scheme
   Button("Validate Scheme", function()
     if wgt.scheme and ValidateScheme(wgt.scheme) then
       acendan.msg("Scheme is valid!", "The Last Renamer")
     end
-  end)
+  end, "Check the selected scheme for YAML formatting errors.")
+
+  -- Button to open schemes directory
+  reaper.ImGui_Separator(ctx)
+  Button("Open Schemes Directory", function()
+    reaper.CF_ShellExecute(SCHEMES_DIR)
+  end, "Open the folder containing your schemes in a file browser.")
+  
+  -- Rescan schemes directory
+  Button("Rescan Schemes Directory", function()
+    wgt.schemes = FetchSchemes()
+  end, "Rescan the schemes directory for new scheme files.")
 
   -- Button to open the wiki
   Button("Documentation", function()
     reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
-  end)
+  end, "Open the wiki for The Last Renamer.")
 end
 
 function Main()
@@ -368,6 +391,10 @@ function SetCurrentValue(key, value)
   reaper.SetExtState(SCRIPT_NAME, key, tostring(value), true)
 end
 
+function DeleteCurrentValue(key)
+  reaper.DeleteExtState(SCRIPT_NAME, key, true)
+end
+
 function StoreSettings()
   for i = 1, #wgt.serialize do
     local field, value = table.unpack(wgt.serialize[i])
@@ -423,9 +450,14 @@ end
 -- ~~~~~~~~~~~~~ IMGUI ~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function Button(name, callback)
-  if reaper.ImGui_Button(ctx, name) then
+function Button(name, callback, help, color)
+  if color then 
+    acendan.ImGui_Button(name, callback, color)
+  elseif reaper.ImGui_Button(ctx, name, color) then
     callback()
+  end
+  if help then
+    acendan.ImGui_HelpMarker(help)
   end
 end
 
@@ -439,6 +471,13 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~ RENAMING ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function RenameButton()
+  reaper.Undo_BeginBlock()
+  wgt.error = Rename(wgt.target, wgt.mode, wgt.name, wgt.enumeration)
+  reaper.Undo_EndBlock("The Last Renamer - " .. wgt.data.title, -1)
+  StoreSettings()
+end
+
 -- @param target Regions, Items, Tracks
 -- @param mode Selected, All, Time Selection, Edit Cursor
 -- @param name New name
@@ -491,11 +530,21 @@ function SanitizeName(name, enumeration, wildcards)
     wild = wild:gsub(wildcard.find, wildcard.replace)
   end
 
+  -- Resolve enumeration
   local enumerated = wild:gsub(enumeration.sep .. enumeration.wildcard, GetEnumeration(enumeration))
+  
+  -- Strip illegal characters and leading/trailing spaces
   local stripped = enumerated:match("^%s*(.-)%s*$")
   local illegal = wgt.data.illegal or { ":", "*", "?", "\"", "<", ">", "|", "\\", "/" }
   for _, char in ipairs(illegal) do
     stripped = stripped:gsub(char, "")
+  end
+
+  -- Find & replace after generating all other parts of the name
+  if wgt.data.find and wgt.data.replace then
+    for _, char in ipairs(wgt.data.find) do
+      stripped = stripped:gsub(char, wgt.data.replace)
+    end
   end
   return stripped
 end
