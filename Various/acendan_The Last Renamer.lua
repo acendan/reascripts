@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.3
+-- @version 0.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,11 +9,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added scheme settings to find and replace list of characters in name
---   # Added "Clear All Fields" button
---   # Added "Rescan Schemes Directory" button
---   # Dropdowns default to empty on load
---   # Press 'Enter' to trigger renaming
+--   # Load empty window if active scheme fails to load
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -54,9 +50,6 @@ local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function Init()
-  ctx = reaper.ImGui_CreateContext(SCRIPT_NAME, CONFIG_FLAGS)
-  reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
-
   wgt = {}
   wgt.schemes = FetchSchemes()                            -- Table of filenames in scheme dir
   wgt.scheme = GetPreviousValue("scheme", wgt.schemes[1]) -- Active scheme filename
@@ -67,6 +60,12 @@ function Init()
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
   wgt.targets.Items = { "Selected", "All" }
   wgt.targets.Tracks = { "Selected", "All" }
+
+  -- Try loading scheme, and if it fails, just load up empty window
+  if not LoadScheme(wgt.scheme) then wgt.scheme = nil end
+
+  ctx = reaper.ImGui_CreateContext(SCRIPT_NAME, CONFIG_FLAGS)
+  reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
 end
 
 function LoadField(field, parent)
@@ -228,7 +227,10 @@ function ValidateFields()
 end
 
 function TabNaming()
-  if not LoadScheme(wgt.scheme) then return end
+  if not LoadScheme(wgt.scheme) then
+    wgt.scheme = nil
+    return
+  end
   wgt.name = ""
   wgt.required = ""
 
@@ -245,7 +247,9 @@ function TabNaming()
   ----------------- Submit -----------------------
   ValidateFields()
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
-  Button("Rename", RenameButton, "Applies your name to the given target!\n\nPro Tip: You can press the 'Enter' key to trigger renaming from any of the fields above.", 0.42)
+  Button("Rename", RenameButton,
+    "Applies your name to the given target!\n\nPro Tip: You can press the 'Enter' key to trigger renaming from any of the fields above.",
+    0.42)
   if wgt.invalid then
     reaper.ImGui_EndDisabled(ctx)
     reaper.ImGui_SameLine(ctx)
@@ -314,7 +318,7 @@ function TabSettings()
   Button("Open Schemes Directory", function()
     reaper.CF_ShellExecute(SCHEMES_DIR)
   end, "Open the folder containing your schemes in a file browser.")
-  
+
   -- Rescan schemes directory
   Button("Rescan Schemes Directory", function()
     wgt.schemes = FetchSchemes()
@@ -375,6 +379,7 @@ function LoadScheme(scheme)
 end
 
 function ValidateScheme(scheme)
+  if not scheme then return nil end
   local scheme_path = SCHEMES_DIR .. scheme
   local status, result = pcall(acendan.loadYaml, scheme_path)
   if not status then
@@ -451,7 +456,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function Button(name, callback, help, color)
-  if color then 
+  if color then
     acendan.ImGui_Button(name, callback, color)
   elseif reaper.ImGui_Button(ctx, name, color) then
     callback()
@@ -532,7 +537,7 @@ function SanitizeName(name, enumeration, wildcards)
 
   -- Resolve enumeration
   local enumerated = wild:gsub(enumeration.sep .. enumeration.wildcard, GetEnumeration(enumeration))
-  
+
   -- Strip illegal characters and leading/trailing spaces
   local stripped = enumerated:match("^%s*(.-)%s*$")
   local illegal = wgt.data.illegal or { ":", "*", "?", "\"", "<", ">", "|", "\\", "/" }
