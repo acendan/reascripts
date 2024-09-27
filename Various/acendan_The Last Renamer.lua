@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.5
+-- @version 0.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,12 +9,12 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Support placeholder string for text inputs
---   # Added presets menu for recalling scheme settings
+--   # Tooltips in presets panel
+--   # Added scalable UI slider in settings menu
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.2 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.3 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -69,6 +69,7 @@ function Init()
   if not LoadScheme(wgt.scheme) then wgt.scheme = nil end
 
   ctx = reaper.ImGui_CreateContext(SCRIPT_NAME, CONFIG_FLAGS)
+  acendan.ImGui_SetFont()
   reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
 end
 
@@ -292,6 +293,7 @@ function LoadPresets()
       end
       wgt.serialize = {}
     end, 0.42)
+    acendan.ImGui_Tooltip("Loads the selected preset into the naming fields.")
 
     -- Overwrite selected
     reaper.ImGui_SameLine(ctx)
@@ -301,6 +303,7 @@ function LoadPresets()
       DeletePreset(wgt.preset.idx)
       StorePreset(preset)
     end, 0.15)
+    acendan.ImGui_Tooltip("Overwrites the selected preset with the current naming fields.")
 
     -- Delete
     reaper.ImGui_SameLine(ctx)
@@ -309,6 +312,7 @@ function LoadPresets()
       wgt.preset.idx = nil
     end, 0)
     if not enabled then reaper.ImGui_EndDisabled(ctx) end
+    acendan.ImGui_Tooltip("Permanently deletes the selected preset.")
 
     -- Save
     reaper.ImGui_Separator(ctx)
@@ -323,6 +327,7 @@ function LoadPresets()
       StorePreset(wgt.preset.new)
       wgt.preset.new = ""
     end, 0.42)
+    acendan.ImGui_Tooltip("Saves the current naming fields as a new preset.")
     if not enabled then reaper.ImGui_EndDisabled(ctx) end
 
     reaper.ImGui_EndPopup(ctx)
@@ -369,22 +374,23 @@ function TabNaming()
   ----------------- Preview -----------------------
   -- Preview name text in grey
   reaper.ImGui_Spacing(ctx)
-  reaper.ImGui_SeparatorText(ctx, "Preview")
+  reaper.ImGui_Separator(ctx)
+  
+  -- Copy to clipboard button next to preview text
+  Button("Copy", function()
+    if not wgt.name or wgt.name == "" then return end
+    reaper.CF_SetClipboard(wgt.name)
+  end, "Copies the generated name to your clipboard.\n\nUnfortunately, this can not resolve wildcards or enumeration.")
+
+  -- Display generated name
+  reaper.ImGui_SameLine(ctx)
   reaper.ImGui_TextDisabled(ctx, SanitizeName(wgt.name, wgt.enumeration, {}))
 
-  -- Copy to clipboard button next to preview text
-  if wgt.name ~= "" then
-    if reaper.ImGui_Button(ctx, "Copy to Clipboard") then
-      reaper.CF_SetClipboard(wgt.name)
-    end
-  end
-
   -- Button to clear local settings for current scheme
-  reaper.ImGui_SameLine(ctx)
   Button("Clear All Fields", function()
     ClearFields(wgt.data.fields)
     SetScheme(wgt.scheme)
-  end, nil, 0)
+  end, "Clears out all fields, restoring them to their default state.", 0)
 end
 
 function ClearFields(fields)
@@ -399,6 +405,8 @@ end
 -- end
 
 function TabSettings()
+  reaper.ImGui_SeparatorText(ctx, "Scheme")
+
   -- Combobox for schemes
   if reaper.ImGui_BeginCombo(ctx, "Scheme", wgt.scheme) then
     for i, scheme in ipairs(wgt.schemes) do
@@ -418,23 +426,38 @@ function TabSettings()
 
   -- Button to open schemes directory
   reaper.ImGui_Separator(ctx)
-  Button("Open Schemes Directory", function()
+  Button("Open Schemes", function()
     reaper.CF_ShellExecute(SCHEMES_DIR)
   end, "Open the folder containing your schemes in a file browser.")
 
   -- Rescan schemes directory
-  Button("Rescan Schemes Directory", function()
+  reaper.ImGui_SameLine(ctx)
+  Button("Rescan Schemes", function()
     wgt.schemes = FetchSchemes()
   end, "Rescan the schemes directory for new scheme files.")
 
   -- Button to open the wiki
   Button("Documentation", function()
     reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
-  end, "Open the wiki for The Last Renamer.")
+  end, "Open the wiki for The Last Renamer.", 0.75)
+
+  ----------------- Options -----------------------
+  reaper.ImGui_SeparatorText(ctx, "Options")
+
+  -- Checkbox to auto clear on load
+  local auto_clear = GetPreviousValue("opt_auto_clear", false)
+  local rv, auto_clear = reaper.ImGui_Checkbox(ctx, "Auto Clear", auto_clear == "true" and true or false)
+  if rv then SetCurrentValue("opt_auto_clear", auto_clear) end
+  acendan.ImGui_Tooltip("Automatically clear all fields when loading scheme (opening tool or switching scheme).")
+
+  -- Slider to set UI element scale
+  if acendan.ImGui_ScaleSlider() then wgt.set_font = true end
 end
 
 function Main()
+  if wgt.set_font then acendan.ImGui_SetFont(); wgt.set_font = false end
   acendan.ImGui_PushStyles()
+
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
 
@@ -478,6 +501,13 @@ function LoadScheme(scheme)
   wgt.data = ValidateScheme(scheme)
   if not wgt.data then return false end
   RecallSettings(wgt.data.title, wgt.data.fields)
+
+  -- Clear presets if scheme has changed
+  wgt.preset.presets = nil
+  RecallPresets()
+
+  -- Clear on load if setting is enabled
+  if GetPreviousValue("opt_auto_clear", false) then ClearFields(wgt.data.fields) end
   return true
 end
 
@@ -517,8 +547,6 @@ function RecallSettings(title, fields)
     if field.fields then RecallSettings(title, field.fields) end
   end
   wgt.serialize = {}
-  wgt.preset.presets = nil
-  RecallPresets()
 end
 
 function SetFieldValue(field, value)
@@ -666,7 +694,7 @@ function Button(name, callback, help, color)
     callback()
   end
   if help then
-    acendan.ImGui_HelpMarker(help)
+    acendan.ImGui_Tooltip(help)
   end
 end
 

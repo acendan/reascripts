@@ -1,23 +1,41 @@
 title: Generic Game
 separator: "_"
 illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
+find: [" "]
+replace: "_"
 fields:
-  - field: Type
+  - field: Category
     value: [Ambience, Interactable, Environmental, Cinematic, 'Non-Player Character', 'User Interface', Player]
     short: [AMB, INT, ENV, CIN, NPC, UI, PLR]
+    capitalization: Title
+    help: Categories to group sounds. To add more categories to this dropdown open the .yaml and add a value and short pair.
   - field: Level
     value: ''
+    capitalization: Title
+    help: Optional Main level or Map if level specific. If global type Global.
   - field: Sub Level
     value: ''
+    capitalization: Title
+    help: Optional Sub level or map if level specific.
+  - field: Type
+    value: ''
+    capitalization: Title
+    help: Add Type to group sounds alphabetically for organization prior to describing the types of sounds.
   - field: Description
     value: ''
+    capitalization: Title
+    help: Add short description from specific to generic. Spaces will be replaced with _ and each word will be capitalized.
   - field: Variation
     value: A
-    separator: " "
+    capitalization: Title
+    help: Add a variation letter for each grouping of sound to keep subsets of similar sonic quality easily identifiable.
   - field: Loop
     value: false
     btrue: "lp"
     bfalse: ""
-  - field: Enumeration
+    help: If it loops check the box to add lp.
+  - field: Variation Enumeration
     value: 1
     zeroes: 1
+    singles: true
+    help: Append variation numbers, typically starting with 1, to the end with 2 digits for up to 99 variations. 1 will start with 01.

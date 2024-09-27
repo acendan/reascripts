@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.2
+-- @version 8.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,9 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Uncapsulate strings if they start and end with quotes
+--   # ImGui tooltip
+--   # ImGui scaling
+--   # ImGui font setter
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -297,54 +299,108 @@ acendan.ImGui_Styles.colors = {
   { reaper.ImGui_Col_TableHeaderBg, 858993663 },
 }
 acendan.ImGui_Styles.vars = {
-  { reaper.ImGui_StyleVar_Alpha, 1.0 },
-  { reaper.ImGui_StyleVar_DisabledAlpha, 0.6 },
-  { reaper.ImGui_StyleVar_WindowPadding, { 8, 4 } },
-  { reaper.ImGui_StyleVar_FramePadding, { 4, 3 } },
-  { reaper.ImGui_StyleVar_CellPadding, { 4, 4 } },
-  { reaper.ImGui_StyleVar_ItemSpacing, { 4, 4 } },
-  { reaper.ImGui_StyleVar_ItemInnerSpacing, { 4, 4 } },
-  { reaper.ImGui_StyleVar_IndentSpacing, 21 },
-  { reaper.ImGui_StyleVar_ScrollbarSize, 14 },
-  { reaper.ImGui_StyleVar_GrabMinSize, 12 },
-  { reaper.ImGui_StyleVar_WindowBorderSize, 1 },
-  { reaper.ImGui_StyleVar_ChildBorderSize, 1 },
-  { reaper.ImGui_StyleVar_PopupBorderSize, 1 },
-  { reaper.ImGui_StyleVar_FrameBorderSize, 0 },
-  { reaper.ImGui_StyleVar_WindowRounding, 8 },
-  { reaper.ImGui_StyleVar_ChildRounding, 0 },
-  { reaper.ImGui_StyleVar_FrameRounding, 2 },
-  { reaper.ImGui_StyleVar_PopupRounding, 4 },
-  { reaper.ImGui_StyleVar_ScrollbarRounding, 4 },
-  { reaper.ImGui_StyleVar_GrabRounding, 2 },
-  { reaper.ImGui_StyleVar_TabRounding, 2 },
-  { reaper.ImGui_StyleVar_WindowTitleAlign, { 0.5, 0.5 } },
-  { reaper.ImGui_StyleVar_ButtonTextAlign, { 0.5, 0.5 } },
-  { reaper.ImGui_StyleVar_SelectableTextAlign, { 0, 0.5 } },
+  { reaper.ImGui_StyleVar_Alpha(), 1.0 },
+  { reaper.ImGui_StyleVar_DisabledAlpha(), 0.6 },
+  { reaper.ImGui_StyleVar_WindowPadding(), { 8, 4 } },
+  { reaper.ImGui_StyleVar_FramePadding(), { 4, 3 } },
+  { reaper.ImGui_StyleVar_CellPadding(), { 4, 4 } },
+  { reaper.ImGui_StyleVar_ItemSpacing(), { 4, 4 } },
+  { reaper.ImGui_StyleVar_ItemInnerSpacing(), { 4, 4 } },
+  { reaper.ImGui_StyleVar_IndentSpacing(), 21 },
+  { reaper.ImGui_StyleVar_ScrollbarSize(), 14 },
+  { reaper.ImGui_StyleVar_GrabMinSize(), 12 },
+  { reaper.ImGui_StyleVar_WindowBorderSize(), 1 },
+  { reaper.ImGui_StyleVar_ChildBorderSize(), 1 },
+  { reaper.ImGui_StyleVar_PopupBorderSize(), 1 },
+  { reaper.ImGui_StyleVar_FrameBorderSize(), 0 },
+  { reaper.ImGui_StyleVar_WindowRounding(), 8 },
+  { reaper.ImGui_StyleVar_ChildRounding(), 0 },
+  { reaper.ImGui_StyleVar_FrameRounding(), 2 },
+  { reaper.ImGui_StyleVar_PopupRounding(), 4 },
+  { reaper.ImGui_StyleVar_ScrollbarRounding(), 4 },
+  { reaper.ImGui_StyleVar_GrabRounding(), 2 },
+  { reaper.ImGui_StyleVar_TabRounding(), 2 },
+  { reaper.ImGui_StyleVar_WindowTitleAlign(), { 0.5, 0.5 } },
+  { reaper.ImGui_StyleVar_ButtonTextAlign(), { 0.5, 0.5 } },
+  { reaper.ImGui_StyleVar_SelectableTextAlign(), { 0, 0.5 } },
 }
+acendan.ImGui_Styles.scalable = {
+  reaper.ImGui_StyleVar_WindowPadding(),
+  reaper.ImGui_StyleVar_FramePadding(),
+  reaper.ImGui_StyleVar_CellPadding(),
+  reaper.ImGui_StyleVar_ItemSpacing(),
+  reaper.ImGui_StyleVar_ItemInnerSpacing(),
+  reaper.ImGui_StyleVar_IndentSpacing(),
+  reaper.ImGui_StyleVar_ScrollbarSize(),
+  reaper.ImGui_StyleVar_GrabMinSize(),
+}
+acendan.ImGui_Styles.font = nil
+
+function acendan.ImGui_SetFont(font_name, font_size)
+  font_name = font_name or "Arial"
+  font_size = math.floor((font_size or 14) * acendan.ImGui_GetScale())
+  if acendan.ImGui_Styles.font then reaper.ImGui_Detach(ctx, acendan.ImGui_Styles.font) end
+  acendan.ImGui_Styles.font = reaper.ImGui_CreateFont(font_name, font_size)
+  reaper.ImGui_Attach(ctx, acendan.ImGui_Styles.font)
+end
+
+function acendan.ImGui_GetScale()
+  return acendan.ImGui_GetSetting("ui_scale", 1.0)
+end
+
+function acendan.ImGui_ScaleSlider(flags)
+  local scale = acendan.ImGui_GetSetting("ui_scale", 1.0)
+  local rv, scale = reaper.ImGui_SliderDouble(ctx, "Scale", scale, 0.5, 2.0, "%.2f", flags or reaper.ImGui_SliderFlags_AlwaysClamp())
+  if rv then 
+    acendan.ImGui_SetSetting("ui_scale", scale)
+    return true
+  end
+  acendan.ImGui_Tooltip("Adjust the scale of the GUI elements.\n\nCtrl+Click to type in values.")
+  return false
+end
 
 function acendan.ImGui_PushStyles()
+  local scale = acendan.ImGui_GetSetting("ui_scale", 1.0)
   for _, value in ipairs(acendan.ImGui_Styles.colors) do
     reaper.ImGui_PushStyleColor(ctx, value[1](), value[2])
   end
   for _, value in ipairs(acendan.ImGui_Styles.vars) do
-    if type(value[2]) == "table" then
-      reaper.ImGui_PushStyleVar(ctx, value[1](), value[2][1], value[2][2])
+    local style_var = value[1]
+    local style_val = value[2]
+    local is_table = type(style_val) == "table"
+
+    if acendan.tableContainsVal(acendan.ImGui_Styles.scalable, style_var) then
+      if is_table then
+        style_val = { style_val[1] * scale, style_val[2] * scale }
+      else
+        style_val = style_val * scale
+      end
+    end
+
+    if is_table then
+      reaper.ImGui_PushStyleVar(ctx, style_var, style_val[1], style_val[2])
     else
-      reaper.ImGui_PushStyleVar(ctx, value[1](), value[2])
+      reaper.ImGui_PushStyleVar(ctx, style_var, style_val)
     end
   end
+  reaper.ImGui_PushFont(ctx, acendan.ImGui_Styles.font)
 end
 
 function acendan.ImGui_PopStyles()
   reaper.ImGui_PopStyleColor(ctx, #acendan.ImGui_Styles.colors)  
   reaper.ImGui_PopStyleVar(ctx, #acendan.ImGui_Styles.vars)
+  reaper.ImGui_PopFont(ctx)
 end
 
 function acendan.ImGui_HelpMarker(desc, wrap_pos)
   wrap_pos = wrap_pos or 18.0
   reaper.ImGui_SameLine(ctx)
   reaper.ImGui_TextDisabled(ctx, '(?)')
+  acendan.ImGui_Tooltip(desc, wrap_pos)
+end
+
+function acendan.ImGui_Tooltip(desc, wrap_pos)
+  wrap_pos = wrap_pos or 18.0
   if reaper.ImGui_IsItemHovered(ctx) then
     reaper.ImGui_BeginTooltip(ctx)
     reaper.ImGui_PushTextWrapPos(ctx, reaper.ImGui_GetFontSize(ctx) * wrap_pos)
