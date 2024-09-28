@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.7
+-- @version 0.8
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # History
+--   # Preset import and export
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -46,6 +46,7 @@ local FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
 local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
+local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -59,6 +60,7 @@ function Init()
   wgt.name = ""
   wgt.preset = {}
   wgt.history = {}
+  wgt.dragdrop = {}
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
@@ -281,7 +283,7 @@ function LoadPresets()
         local is_selected = wgt.preset.idx == n
         if reaper.ImGui_Selectable(ctx, v .. "##" .. tostring(n), is_selected, reaper.ImGui_SelectableFlags_AllowDoubleClick()) then
           wgt.preset.idx = n
-          if reaper.ImGui_IsMouseDoubleClicked( ctx, reaper.ImGui_MouseButton_Left()) then
+          if reaper.ImGui_IsMouseDoubleClicked(ctx, reaper.ImGui_MouseButton_Left()) then
             ClickLoadPreset()
             reaper.ImGui_CloseCurrentPopup(ctx)
           end
@@ -299,7 +301,8 @@ function LoadPresets()
     local enabled = wgt.preset.idx and wgt.preset.idx > 0
     if not enabled then reaper.ImGui_BeginDisabled(ctx) end
     acendan.ImGui_Button("Load", ClickLoadPreset, 0.42)
-    acendan.ImGui_Tooltip("Loads the selected preset into the naming fields.\n\nPro Tip: Double-click a preset to load and close this menu.")
+    acendan.ImGui_Tooltip(
+      "Loads the selected preset into the naming fields.\n\nPro Tip: Double-click a preset to load and close this menu.")
 
     -- Overwrite selected
     reaper.ImGui_SameLine(ctx)
@@ -366,7 +369,7 @@ function LoadHistory()
         local is_selected = wgt.history.idx == n
         if reaper.ImGui_Selectable(ctx, v .. "##" .. tostring(n), is_selected, reaper.ImGui_SelectableFlags_AllowDoubleClick()) then
           wgt.history.idx = n
-          if reaper.ImGui_IsMouseDoubleClicked( ctx, reaper.ImGui_MouseButton_Left()) then
+          if reaper.ImGui_IsMouseDoubleClicked(ctx, reaper.ImGui_MouseButton_Left()) then
             ClickLoadHistory()
             reaper.ImGui_CloseCurrentPopup(ctx)
           end
@@ -385,7 +388,8 @@ function LoadHistory()
     local enabled = wgt.history.idx and wgt.history.idx > 0
     if not enabled then reaper.ImGui_BeginDisabled(ctx) end
     acendan.ImGui_Button("Load", ClickLoadHistory, 0.42)
-    acendan.ImGui_Tooltip("Loads the selected history into the naming fields.\n\nPro Tip: Double-click a history to load and close this menu.")
+    acendan.ImGui_Tooltip(
+      "Loads the selected history into the naming fields.\n\nPro Tip: Double-click a history to load and close this menu.")
     if not enabled then reaper.ImGui_EndDisabled(ctx) end
 
     reaper.ImGui_EndPopup(ctx)
@@ -517,6 +521,145 @@ function TabSettings()
   local rv, num_hist = reaper.ImGui_SliderInt(ctx, "History Count", num_hist, 1, 50)
   if rv then SetCurrentValue("opt_num_hist", num_hist) end
   acendan.ImGui_Tooltip("Number of history entries to store for each scheme.")
+
+  ----------------- Backup -----------------------
+  reaper.ImGui_SeparatorText(ctx, "Backup")
+
+  -- Button to export all presets for the selected scheme to an ini file
+  Button("Export Presets", function()
+    -- Get presets
+    local presets = {}
+    while true do
+      local preset_title = wgt.data.title .. " - Preset" .. tostring(#presets + 1)
+      local preset = GetPreviousValue(preset_title, nil)
+      if not preset then break end
+      presets[#presets + 1] = { title = preset_title, preset = preset }
+    end
+    if #presets == 0 then
+      acendan.msg("No presets found for scheme: " .. wgt.data.title, "The Last Renamer")
+      return
+    end
+
+    -- Ensure dir exists
+    local start_ini_path = acendan.encapsulate(BACKUPS_DIR .. "TheLastRenamer_" .. wgt.scheme:gsub("yaml", "ini"))
+    local ini_path = start_ini_path
+    if not acendan.directoryExists(BACKUPS_DIR) then
+      reaper.RecursiveCreateDirectory(BACKUPS_DIR, 0)
+      if not acendan.directoryExists(BACKUPS_DIR) then
+        acendan.msg("Error creating backups directory:\n\n" .. BACKUPS_DIR, "The Last Renamer")
+        return
+      end
+    end
+    local i = 1
+    while acendan.fileExists(ini_path) do
+      ini_path = start_ini_path:gsub(".ini", "_" .. tostring(i) .. ".ini")
+      i = i + 1
+    end
+
+    -- Create ini file
+    local file, err = io.open(ini_path, "w") -- "w" opens for writing and wipes file
+    if not file or err then
+      acendan.msg("Error creating ini file:\n\n" .. tostring(err), "The Last Renamer")
+      return
+    end
+    file:write("[The Last Renamer]\n")
+    for _, preset in ipairs(presets) do
+      file:write(preset.title .. "=" .. preset.preset .. "\n")
+    end
+    file:close()
+
+    -- Copy path to clipboard
+    reaper.CF_SetClipboard(ini_path)
+    acendan.msg(tostring(#presets) .. " preset(s) exported to:\n\n" .. ini_path .. "\n\nPath copied to clipboard.",
+      "The Last Renamer")
+  end, "Exports all presets for the selected scheme to an ini file.")
+
+  -- Button to import presets from drag-dropped ini files
+  reaper.ImGui_SameLine(ctx)
+  Button("Import Presets", function()
+    -- Check for drag-dropped files
+    if #wgt.dragdrop == 0 then
+      acendan.msg("No preset files found to import! Please drag-drop preset .ini files below.", "The Last Renamer")
+      return
+    end
+
+    -- Read ini file(s)
+    local presets = {}
+    for _, file in ipairs(wgt.dragdrop) do
+      local i = 1
+      while true do
+        local preset_title = wgt.data.title .. " - Preset" .. tostring(i)
+        local ret, preset = reaper.BR_Win32_GetPrivateProfileString("The Last Renamer", preset_title, "", file)
+        if not ret or not preset or preset == "" then break end
+        presets[#presets + 1] = {
+          title = wgt.data.title .. " - Preset" .. tostring(#presets + 1),
+          preset = preset
+        }
+        i = i + 1
+      end
+    end
+
+    -- Clear existing presets for this scheme if overwrite enabled
+    if GetPreviousValue("opt_overwrite", false) then
+      local num_presets = #wgt.preset.presets
+      for i = 1, num_presets do
+        local preset_title = wgt.data.title .. " - Preset" .. tostring(i)
+        if HasValue(preset_title) then
+          DeleteCurrentValue(preset_title)
+        end
+      end
+      wgt.preset.presets = {}
+    end
+
+    -- Import presets
+    for _, preset in ipairs(presets) do
+      StorePreset(preset.title, nil, nil, preset.preset)
+    end
+    acendan.msg(tostring(#presets) .. " preset(s) imported from " .. tostring(#wgt.dragdrop) .. " files!",
+      "The Last Renamer")
+  end, "Imports presets from ini file(s) drag-dropped below. Only imports presets for the active scheme.")
+
+  -- Overwrite On Import checkbox
+  reaper.ImGui_SameLine(ctx)
+  local overwrite = GetPreviousValue("opt_overwrite", false)
+  local rv, overwrite = reaper.ImGui_Checkbox(ctx, "Overwrite?", overwrite == "true" and true or false)
+  if rv then SetCurrentValue("opt_overwrite", overwrite) end
+  acendan.ImGui_Tooltip(
+  "If unchecked, imported presets will be added to existing ones. If checked, will erase pre-existing presets on import.\n\nIf you enable this, back up existing ones with the Export button first!")
+
+  -- Drag drop box for ini files
+  if reaper.ImGui_BeginChild(ctx, '##drop_files', 300, 50, reaper.ImGui_ChildFlags_FrameStyle()) then
+    if #wgt.dragdrop == 0 then
+      reaper.ImGui_Text(ctx, 'Drag-drop preset file(s) to import...')
+    else
+      reaper.ImGui_Text(ctx, ('Ready to import %d file(s):'):format(#wgt.dragdrop))
+      reaper.ImGui_SameLine(ctx)
+      if reaper.ImGui_SmallButton(ctx, 'Clear') then
+        wgt.dragdrop = {}
+      end
+    end
+    for _, file in ipairs(wgt.dragdrop) do
+      reaper.ImGui_Bullet(ctx)
+      reaper.ImGui_TextWrapped(ctx, file:match('[^/\\]+$'))
+    end
+    reaper.ImGui_EndChild(ctx)
+  end
+
+  -- Drag drop handler
+  if reaper.ImGui_BeginDragDropTarget(ctx) then
+    local rv, count = reaper.ImGui_AcceptDragDropPayloadFiles(ctx)
+    if rv then
+      wgt.dragdrop = {}
+      for i = 0, count - 1 do
+        local filename
+        rv, filename = reaper.ImGui_GetDragDropPayloadFile(ctx, i)
+        if rv and filename:match("%.ini$") then
+          table.insert(wgt.dragdrop, filename)
+        end
+      end
+    end
+    reaper.ImGui_EndDragDropTarget(ctx)
+  end
 end
 
 function Main()
@@ -593,7 +736,7 @@ function ValidateScheme(scheme)
 end
 
 function GetPreviousValue(key, default)
-  return reaper.HasExtState(SCRIPT_NAME, key) and reaper.GetExtState(SCRIPT_NAME, key) or default
+  return HasValue(key) and reaper.GetExtState(SCRIPT_NAME, key) or default
 end
 
 function SetCurrentValue(key, value)
@@ -602,6 +745,10 @@ end
 
 function DeleteCurrentValue(key)
   reaper.DeleteExtState(SCRIPT_NAME, key, true)
+end
+
+function HasValue(key)
+  return reaper.HasExtState(SCRIPT_NAME, key)
 end
 
 function StoreSettings()
@@ -655,7 +802,7 @@ function StoreHistory()
     if not prev then break end
     if i >= max then
       DeleteCurrentValue(wgt.data.title .. " - " .. prefix .. i)
-    else 
+    else
       history[#history + 1] = prev
     end
     i = i + 1
@@ -675,7 +822,7 @@ function StoreHistory()
   RecallHistories()
 end
 
-function StorePreset(preset, prefix, settings)
+function StorePreset(preset, prefix, settings, preserialized)
   prefix = prefix or "Preset"
   settings = settings or wgt.preset
   local function SerializeFields(fields)
@@ -717,8 +864,12 @@ function StorePreset(preset, prefix, settings)
   while true do
     local prev = GetPreviousValue(wgt.data.title .. " - " .. prefix .. i, nil)
     if not prev then
-      settings.buf = prefix:lower() .. "=" .. preset .. "||"
-      SerializeFields(wgt.data.fields)
+      if preserialized then
+        settings.buf = preserialized
+      else
+        settings.buf = prefix:lower() .. "=" .. preset .. "||"
+        SerializeFields(wgt.data.fields)
+      end
       SetCurrentValue(wgt.data.title .. " - " .. prefix .. i, settings.buf)
       break
     end
