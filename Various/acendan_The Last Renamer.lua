@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.8
+-- @version 0.9
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,11 +9,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Preset import and export
+--   # Call ImGui_SetScale on init
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.3 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.5 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -72,7 +72,9 @@ function Init()
 
   ctx = reaper.ImGui_CreateContext(SCRIPT_NAME, CONFIG_FLAGS)
   acendan.ImGui_SetFont()
-  reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
+  local scale = acendan.ImGui_GetScale()
+  reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width * scale, WINDOW_SIZE.height * scale)
+  acendan.ImGui_SetScale(scale)
 end
 
 function LoadField(field, parent)

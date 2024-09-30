@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.4
+-- @version 8.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Updated UI Scale text
+--   # acendan.ImGui_SetScale
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -346,6 +346,10 @@ function acendan.ImGui_GetScale()
   return acendan.ImGui_GetSetting("ui_scale", 1.0)
 end
 
+function acendan.ImGui_SetScale(scale)
+  acendan.ImGui_SetSetting("ui_scale", scale or acendan.ImGui_GetScale())
+end
+
 function acendan.ImGui_ScaleSlider(flags)
   local scale = acendan.ImGui_GetSetting("ui_scale", 1.0)
   local rv, scale = reaper.ImGui_SliderDouble(ctx, "UI Scale", scale, 0.5, 2.0, "%.2f", flags or reaper.ImGui_SliderFlags_AlwaysClamp())
@@ -417,7 +421,7 @@ function acendan.ImGui_GetSettingBool(key, default)
 end
 
 function acendan.ImGui_SetSetting(key, value)
-  return reaper.SetExtState("acendan_imgui", key, value, 0)
+  return reaper.SetExtState("acendan_imgui", key, value, true)
 end
 
 function acendan.ImGui_SetSettingBool(key, value)
