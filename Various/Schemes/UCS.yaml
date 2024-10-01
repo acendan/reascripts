@@ -420,6 +420,7 @@ fields:
   - field: User Category
     value: ''
     help: If no User Category, leave blank!
+    separator: "-"
   - field: File Name
     required: true
     value: ''
