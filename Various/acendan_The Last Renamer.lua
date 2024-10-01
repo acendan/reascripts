@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.95
+-- @version 0.96
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added Metadata tab
---   # Added 'x' to clear dropdowns
+--   # Cleaned up metadata mode warnings
+--   # Fixed nested presets with multiple ID arrays
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -223,8 +223,9 @@ function LoadTargets()
     for target, modes in pairs(wgt.targets) do
       if reaper.ImGui_Selectable(ctx, target, wgt.target == target) then
         wgt.target = target
-        wgt.mode = nil
         SetCurrentValue("target", target)
+        wgt.mode = nil
+        DeleteCurrentValue("mode")
       end
     end
     reaper.ImGui_EndCombo(ctx)
@@ -270,7 +271,7 @@ function FindField(fields, field)
       if #field_ids == 0 then return f end
       if f.id then
         for _, id in ipairs(field_ids) do
-          if id == f.id then return f end
+          if type(f.id) == "table" and acendan.tableContainsVal(f.id, id) or f.id == id then return f end
         end
       end
     end
@@ -435,7 +436,6 @@ function TabNaming()
   wgt.required = ""
 
   ----------------- Naming -----------------------
-  -- TODO: Add custom font for titles
   reaper.ImGui_Text(ctx, wgt.data.title)
   LoadPresets()
   LoadHistory()
@@ -498,7 +498,7 @@ function TabMetadata()
 
   ----------------- Metadata -----------------------
   reaper.ImGui_Text(ctx, "Metadata")
-  acendan.ImGui_HelpMarker("- Metadata fields are optional, and will be placed as a META marker after your target.\n- 'Add new metadata' setting must be enabled in the Render window!\n- All of the wildcards in the render menu are available for use in metadata fields! Refer to the Render Wildcard Help menu in Reaper for more information.")
+  acendan.ImGui_HelpMarker("Metadata fields are optional, and will be placed as a META marker after your target.\n\n'Add new metadata' setting must be enabled in the Render window!\n\nAll of the wildcards in the render menu are available for use in metadata fields! Refer to the Render Wildcard Help menu in Reaper for more information.")
   LoadFields(wgt.meta.fields)
 
   ----------------- Target -----------------------
@@ -507,7 +507,7 @@ function TabMetadata()
   LoadTargets()
 
   -- Disable target Tracks if on metadata tab
-  local disabled = wgt.target == "Tracks"
+  local disabled = not wgt.target or wgt.target == "Tracks" or not wgt.mode
   if disabled then reaper.ImGui_BeginDisabled(ctx) end
 
   ----------------- Submit -----------------------
@@ -517,7 +517,8 @@ function TabMetadata()
 
   if disabled then
     reaper.ImGui_SameLine(ctx)
-    reaper.ImGui_TextColored(ctx, 0xFFFF00BB, "Unsupported target: " .. wgt.target)
+    local warning = wgt.target and ((wgt.target == "Tracks" or wgt.mode) and "Unsupported metadata target: " .. wgt.target or "Please select a mode for: " .. wgt.target) or "Please select a target."
+    reaper.ImGui_TextColored(ctx, 0xFFFF00BB, warning)
     reaper.ImGui_EndDisabled(ctx)
   elseif wgt.meta.error then
     reaper.ImGui_SameLine(ctx)
