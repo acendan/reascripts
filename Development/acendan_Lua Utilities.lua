@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.5
+-- @version 8.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,8 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # acendan.ImGui_SetScale
+--   # acendan.promptForFile
+--   # acendan.mkSymLink
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -1667,6 +1668,23 @@ function acendan.promptForFolder(message)
   end
 end
 
+-- Prompt user to locate file in system // returns String (or nil if cancelled)
+function acendan.promptForFile(message, start_dir, start_file, exts, allow_mult)
+  -- Check for Reaper JS Extension
+  if reaper.JS_Dialog_BrowseForSaveFile then
+    local ret, file = reaper.JS_Dialog_BrowseForOpenFiles( message, start_dir or "", start_file or "", exts or "", allow_mult or false)
+    if ret and file ~= "" then
+      -- File found
+      return file
+    else 
+      return nil
+    end
+  else
+    acendan.msg("Please install JS_ReaScript REAPER extension, available in Reapack extension, under ReaTeam Extensions repository.","Missing JS API")
+    return nil
+  end
+end
+
 -- Gets current platform and separator
 -- USE THIS IN YOUR SCRIPTS:
 -- local win, sep = acendan.getOS()
@@ -1674,6 +1692,15 @@ function acendan.getOS()
   local win = string.find(reaper.GetOS(), "Win") ~= nil
   local sep = win and '\\' or '/'
   return win, sep
+end
+
+-- Make symbolic link
+function acendan.mkSymLink(from, to, is_dir)
+  local win, sep = acendan.getOS()
+  local cmd = win and
+    "mklink" .. (is_dir and " /D" or " /H") .. " " .. acendan.encapsulate(to) .. " " .. acendan.encapsulate(from) or
+    "ln -s " .. acendan.encapsulate(from) .. " " .. acendan.encapsulate(to)
+  os.execute(cmd)
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

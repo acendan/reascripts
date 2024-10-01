@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.9
+-- @version 0.91
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,11 +9,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Call ImGui_SetScale on init
+--   # Add shared file
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.5 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.6 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -489,22 +489,46 @@ function TabSettings()
     end
   end, "Check the selected scheme for YAML formatting errors.")
 
+  -- Button to open the wiki
+  reaper.ImGui_SameLine(ctx)
+  Button("Documentation", function()
+    reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
+  end, "Open the wiki for The Last Renamer.", 0.75)
+  
   -- Button to open schemes directory
   reaper.ImGui_Separator(ctx)
-  Button("Open Schemes", function()
+  Button("Open Schemes Folder", function()
     reaper.CF_ShellExecute(SCHEMES_DIR)
   end, "Open the folder containing your schemes in a file browser.")
 
   -- Rescan schemes directory
   reaper.ImGui_SameLine(ctx)
-  Button("Rescan Schemes", function()
+  Button("Rescan Folder", function()
     wgt.schemes = FetchSchemes()
   end, "Rescan the schemes directory for new scheme files.")
 
-  -- Button to open the wiki
-  Button("Documentation", function()
-    reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
-  end, "Open the wiki for The Last Renamer.", 0.75)
+  -- Add shared scheme
+  Button("Add Shared Scheme", function()
+    local shared_scheme = acendan.promptForFile("Select a shared scheme to import", "", "", "YAML Files (*.yaml)\0*.yaml\0\0")
+    if shared_scheme then
+      local shared_scheme_name = shared_scheme:match("[^/\\]+$")
+      -- Ignore if shared scheme is in schemes directory
+      if shared_scheme:find(SCHEMES_DIR) then
+        acendan.msg("Shared scheme must be outside of the schemes directory!", "The Last Renamer")
+        return
+      end
+      acendan.mkSymLink(shared_scheme, SCHEMES_DIR .. shared_scheme_name)
+      -- Validate sym link worked
+      if not acendan.fileExists(SCHEMES_DIR .. shared_scheme_name) then
+        acendan.msg("Error creating shared scheme symlink!", "The Last Renamer")
+        return
+      end
+      wgt.schemes = FetchSchemes()
+      SetScheme(shared_scheme_name)
+    else
+      acendan.msg("No shared scheme selected!", "The Last Renamer")
+    end
+  end, "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).")
 
   ----------------- Options -----------------------
   reaper.ImGui_SeparatorText(ctx, "Options")
