@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.92
+-- @version 0.93
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Add scheme load failure message
+--   # Toolbar icon link
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -493,25 +493,8 @@ function TabSettings()
     end
   end, "Check the selected scheme for YAML formatting errors.")
 
-  -- Button to open the wiki
-  reaper.ImGui_SameLine(ctx)
-  Button("Documentation", function()
-    reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
-  end, "Open the wiki for The Last Renamer.", 0.75)
-  
-  -- Button to open schemes directory
-  reaper.ImGui_Separator(ctx)
-  Button("Open Schemes Folder", function()
-    reaper.CF_ShellExecute(SCHEMES_DIR)
-  end, "Open the folder containing your schemes in a file browser.")
-
-  -- Rescan schemes directory
-  reaper.ImGui_SameLine(ctx)
-  Button("Rescan Folder", function()
-    wgt.schemes = FetchSchemes()
-  end, "Rescan the schemes directory for new scheme files.")
-
   -- Add shared scheme
+  reaper.ImGui_SameLine(ctx)
   Button("Add Shared Scheme", function()
     local shared_scheme = acendan.promptForFile("Select a shared scheme to import", "", "", "YAML Files (*.yaml)\0*.yaml\0\0")
     if shared_scheme then
@@ -534,7 +517,34 @@ function TabSettings()
     end
   end, "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).")
 
+  -- Button to open schemes directory
+  reaper.ImGui_Spacing(ctx)
+  reaper.ImGui_Text(ctx, "File System")
+  Button("Open Schemes Folder", function()
+    reaper.CF_ShellExecute(SCHEMES_DIR)
+  end, "Open the folder containing your schemes in a file browser.")
+
+  -- Rescan schemes directory
+  reaper.ImGui_SameLine(ctx)
+  Button("Rescan Folder", function()
+    wgt.schemes = FetchSchemes()
+  end, "Rescan the schemes directory for new scheme files.")
+
+  -- Button to open the wiki
+  reaper.ImGui_Spacing(ctx)
+  reaper.ImGui_Text(ctx, "Links")
+  Button("Documentation", function()
+    reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
+  end, "Open the wiki for The Last Renamer.", 0.75)
+
+  -- Button to download the toolbar icon
+  reaper.ImGui_SameLine(ctx)
+  Button("Toolbar Icon", function()
+    reaper.CF_ShellExecute("https://github.com/user-attachments/files/17199235/LastRenamerToolbarIcon.zip")
+  end, "Download the toolbar icon for The Last Renamer!\n\nCourtesy of Stephen Schappler <3")
+
   ----------------- Options -----------------------
+  reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Options")
 
   -- Checkbox to auto clear on load
@@ -553,6 +563,7 @@ function TabSettings()
   acendan.ImGui_Tooltip("Number of history entries to store for each scheme.")
 
   ----------------- Backup -----------------------
+  reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Backup")
 
   -- Button to export all presets for the selected scheme to an ini file
