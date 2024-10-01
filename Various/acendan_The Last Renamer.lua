@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.98
+-- @version 0.99
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed enumeration of singles
---   # Added setting to hide Metadata tab (defaults to false)
+--   # Add support for metadata fields that ref naming panel
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -1419,24 +1418,32 @@ function GenerateMetadataMarker()
     return marker .. key .. "=" .. tostring(val) .. ";"
   end
 
+  local function ProcessRenderMetadata(marker, meta, key, field, short)
+    -- If a metadata field defines `short: false`, 
+    -- it will use the fully qualified value rather than the shorthand
+    short = short == nil or short
+    if type(field.value) == "table" then
+      if field.selected then
+        if field.short and short then
+          marker = SetRenderMetadata(marker, meta, key, field.short[field.selected])
+        else
+          marker = SetRenderMetadata(marker, meta, key, field.value[field.selected])
+        end
+      end
+    else
+      local valstr = tostring(field.value)
+      if valstr ~= "" then
+        marker = SetRenderMetadata(marker, meta, key, valstr)
+      end
+    end
+    return marker
+  end
+
   -- Function to recursively iterate through meta fields and generate a marker string
   local function GenerateMarkerString(fields, marker, parent)
     for _, field in ipairs(fields) do
       if field.value and PassesIDCheck(field, parent) and not field.skip then
-        if type(field.value) == "table" then
-          if field.selected then
-            if field.short then
-              marker = SetRenderMetadata(marker, field.meta, field.field, field.short[field.selected])
-            else
-              marker = SetRenderMetadata(marker, field.meta, field.field, field.value[field.selected])
-            end
-          end
-        else
-          local valstr = tostring(field.value)
-          if valstr ~= "" then
-            marker = SetRenderMetadata(marker, field.meta, field.field, field.value)
-          end
-        end
+        marker = ProcessRenderMetadata(marker, field.meta, field.field, field)
       end
       if field.fields then
         marker = GenerateMarkerString(field.fields, marker, field)
@@ -1445,7 +1452,26 @@ function GenerateMetadataMarker()
     return marker
   end
 
-  -- TODO: Function to lookup refs
+  -- Resolve meta references that use data from naming tab
+  local function ResolveMetaRefs(fields, marker, refs)
+    if not fields or not refs then return marker end
+    for _, field in ipairs(fields) do
+      if type(field.id) == "table" then
+        for _, id in ipairs(field.id) do
+          local find_field = FindField(refs, id)
+          if find_field then
+            marker = ProcessRenderMetadata(marker, field.meta, field.field, find_field, field.short)
+          end
+        end
+      else
+        local find_field = FindField(refs, field.id)
+        if find_field then
+          marker = ProcessRenderMetadata(marker, field.meta, field.field, find_field, field.short)
+        end
+      end
+    end
+    return marker
+  end
 
   -- Hard-codes metadata fields into the settings menu
   local function ApplyHardCodedFields(hardcoded)
@@ -1461,6 +1487,7 @@ function GenerateMetadataMarker()
 
   local marker = "META;"
   marker = GenerateMarkerString(wgt.meta.fields, marker, nil)
+  marker = ResolveMetaRefs(wgt.meta.refs, marker, wgt.data.fields)
   ApplyHardCodedFields(wgt.meta.hardcoded)
   return marker
 end

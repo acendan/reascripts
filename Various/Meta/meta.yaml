@@ -75,25 +75,26 @@ fields:
     meta: ["IXML:USER:Notes"]
 refs:
   - field: Category
-    id: Category 
+    id: Category
     meta: ["ID3:TCON", "INFO:IGNR", "XMP:dm/genre", "VORBIS:GENRE", "IXML:USER:Category"]
   - field: CatID
-    id: Subcategory.short 
+    id: Subcategory
     meta: ["IXML:USER:LongID", "IXML:USER:CatID"]
+  - field: Subcategory
+    id: Subcategory
+    short: false
+    meta: ["IXML:USER:SubCategory"]
   - field: FXName
-    id: ["Asset", "Name"] 
+    id: ["Asset", "Name", "File Name"] 
     meta: ["IXML:USER:FXName"]
   - field: Show
     id: ["Show", "Source ID"]
     meta: ["IXML:USER:Source", "ID3:TPE2", "IXML:USER:Show"]
-  - field: SubCategory
-    id: Subcategory 
-    meta: ["IXML:USER:SubCategory"]
   - field: UserCategory
-    id: UserCategory 
+    id: User Category
     meta: ["IXML:USER:UserCategory"]
   - field: VendorCategory
-    id: VendorCategory
+    id: Vendor Category
     meta: ["IXML:USER:VendorCategory"]
 hardcoded:
   - field: Embedder
