@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.93
+-- @version 0.94
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Toolbar icon link
+--   # Replaced links with toolbar icon
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -530,19 +530,6 @@ function TabSettings()
     wgt.schemes = FetchSchemes()
   end, "Rescan the schemes directory for new scheme files.")
 
-  -- Button to open the wiki
-  reaper.ImGui_Spacing(ctx)
-  reaper.ImGui_Text(ctx, "Links")
-  Button("Documentation", function()
-    reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
-  end, "Open the wiki for The Last Renamer.", 0.75)
-
-  -- Button to download the toolbar icon
-  reaper.ImGui_SameLine(ctx)
-  Button("Toolbar Icon", function()
-    reaper.CF_ShellExecute("https://github.com/user-attachments/files/17199235/LastRenamerToolbarIcon.zip")
-  end, "Download the toolbar icon for The Last Renamer!\n\nCourtesy of Stephen Schappler <3")
-
   ----------------- Options -----------------------
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Options")
@@ -716,6 +703,12 @@ function Main()
     TabItem("Naming", TabNaming)
     --TabItem("Metadata", TabMetadata)
     TabItem("Settings", TabSettings)
+
+    -- Documentation link button
+    if reaper.ImGui_TabItemButton(ctx, '?', reaper.ImGui_TabItemFlags_Trailing() | reaper.ImGui_TabItemFlags_NoTooltip()) then
+      reaper.CF_ShellExecute("https://github.com/acendan/reascripts/wiki/The-Last-Renamer")
+    end
+
     reaper.ImGui_EndTabBar(ctx)
   end
 
