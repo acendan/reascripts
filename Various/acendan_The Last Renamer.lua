@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.91
+-- @version 0.92
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Add shared file
+--   # Add scheme load failure message
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -399,10 +399,14 @@ function LoadHistory()
 end
 
 function TabNaming()
+  -- Load scheme
   if not LoadScheme(wgt.scheme) then
+    wgt.load_failed = wgt.load_failed or (wgt.scheme and "Failed to load scheme:  " .. wgt.scheme or "Failed to load scheme!")
+    reaper.ImGui_TextColored(ctx, 0xFFFF00BB, wgt.load_failed .. "\n\nPlease select a new scheme in the Settings tab.")
     wgt.scheme = nil
     return
   end
+  wgt.load_failed = nil
   wgt.name = ""
   wgt.required = ""
 
