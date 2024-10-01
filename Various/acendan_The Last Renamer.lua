@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.96
+-- @version 0.97
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Cleaned up metadata mode warnings
---   # Fixed nested presets with multiple ID arrays
+--   # Fixed up loading fields with encapsulated keys
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -936,7 +935,7 @@ function StorePreset(preset, prefix, settings, preserialized)
   settings = settings or wgt.preset
   local function SerializeFields(fields)
     for _, field in ipairs(fields) do
-      local name = acendan.encapsulate(tostring(field.field))
+      local name = tostring(field.field)
 
       -- Append id(s) to name
       if field.id then
