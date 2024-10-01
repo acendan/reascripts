@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="02973fce1c6cbf99c23b2e55fbd00d7f08c49fc6" name="ACendan Scripts">
+<index version="1" commit="74513639d84e0a25c5115ab248b81d38f346c511" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -3100,6 +3100,13 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/02973fce1c6cbf99c23b2e55fbd00d7f08c49fc6/Various/Schemes/Example.yaml</source>
         <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/02973fce1c6cbf99c23b2e55fbd00d7f08c49fc6/Various/Schemes/Generic%20Game.yaml</source>
         <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/02973fce1c6cbf99c23b2e55fbd00d7f08c49fc6/Various/Schemes/UCS.yaml</source>
+      </version>
+      <version name="0.93" author="Aaron Cendan" time="2024-10-01T04:27:04Z">
+        <changelog><![CDATA[# Toolbar icon link]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/74513639d84e0a25c5115ab248b81d38f346c511/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/74513639d84e0a25c5115ab248b81d38f346c511/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/74513639d84e0a25c5115ab248b81d38f346c511/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/74513639d84e0a25c5115ab248b81d38f346c511/Various/Schemes/UCS.yaml</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
