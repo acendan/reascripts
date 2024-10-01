@@ -1,0 +1,104 @@
+fields:
+  - field: Description
+    value: ""
+    hint: "Detailed description of file"
+    help: "Important details about the asset, props, recording conditions, etc."
+    meta: ["IXML:BEXT:BWF_DESCRIPTION", "BWF:Description", "ID3:COMM", "INFO:ICMT", "XMP:dc/description", "VORBIS:DESCRIPTION", "VORBIS:COMMENT", "IXML:USER:Description"]
+  - field: Title
+    value: ""
+    hint: "SHORT TITLE"
+    help: "Brief descriptive title."
+    meta: ["ID3:TIT2", "INFO:INAM", "XMP:dc/title", "VORBIS:TITLE", "IXML:USER:TrackTitle"]
+  - field: Keywords
+    value: ""
+    hint: "Comma, Separated, Tags"
+    help: "Keywords used to help easily find asset in queries."
+    meta: ["IXML:USER:Keywords"]
+  - field: Designer
+    value: ""
+    hint: "Aaron Cendan"
+    help: "Artist or originator."
+    meta: ["IXML:USER:Artist", "BWF:Originator", "ID3:TPE1", "INFO:IART", "XMP:dm/artist", "VORBIS:ARTIST", "IXML:USER:Designer"]
+  - field: Microphone
+    value: ""
+    hint: "Mini MS"
+    help: "Microphone"
+    meta: ["IXML:USER:Microphone"]
+  - field: RecMedium
+    value: ""
+    hint: "Zoom F3"
+    help: "Recorder or device used."
+    meta: ["IXML:USER:RecMedium"]
+  - field: IntExt
+    value: [Interior, Exterior]
+    skip: true
+    help: "Inside or Outside"
+    meta: ["IXML:USER:MicPerspective"]
+    fields:
+      - id: Interior
+        field: Perspective
+        help: "Relative placement of microphone to source."
+        value: ["Close Up", "Medium", "Distant", "Direct", "Onboard", "Various", "Contact", "Hydrophone", "Electromagnetic"]
+        short: ["CU|INT", "MED|INT", "DST|INT", "D/I|INT", "OB|INT", "VARI|INT", "CNTCT|INT", "HYDRO|INT", "EMF|INT"]
+        meta: ["IXML:USER:MicPerspective"]
+      - id: Exterior
+        field: Perspective
+        help: "Relative placement of microphone to source."
+        value: ["Close Up", "Medium", "Distant", "Direct", "Onboard", "Various", "Contact", "Hydrophone", "Electromagnetic"]
+        short: ["CU|EXT", "MED|EXT", "DST|EXT", "D/I|EXT", "OB|EXT", "VARI|EXT", "CNTCT|EXT", "HYDRO|EXT", "EMF|EXT"]
+        meta: ["IXML:USER:MicPerspective"]
+  - field: RecType
+    value: ["Ambisonic", "Binaural", "Blumlein", "Boundary", "Cardioid", "Contact", "DIN", "Double Mid-Side Decoded", "Double Mid-Side Encoded", "Electromagnetic", "Figure 8", "Geophone", "Hydrophone", "Hypercardioid", "Infrasonic", "Jecklin", "Left-Center-Right", "Left-Right-Center", "Mid-Side Decoded", "Mid-Side Encoded", "NOS", "Omnidirectional", "ORTF", "Parabolic", "Quadraphonic", "SASS", "Shotgun", "Spaced Pair", "Supercardioid", "Ultrasonic", "XY"]
+    short: ["AMB", "BIN", "BLUM", "BOUND", "CARD", "CNTCT", "DIN", "DMS-DCOD", "DMS-RAW", "EMF", "FIG8", "GEO", "HYDRO", "HYPCARD", "INFRA", "OSS", "LCR", "LRC", "MS-DCOD", "MS-RAW", "NOS", "OMNI", "ORTF", "PARA", "QUAD", "SASS", "SHOT", "AB", "SUPCARD", "ULTRA", "XY"]
+    meta: ["IXML:USER:RecType"]
+    help: "Microphone configuration or polar pattern."
+  - field: Library
+    value: ""
+    help: "Library or project, if relevant."
+    meta: ["ID3:TALB", "INFO:IPRD", "XMP:dm/album", "VORBIS:ALBUM", "IXML:USER:Library"]
+  - field: Manufacturer
+    value: ""
+    help: "Studio or individual responsible for this library."
+    meta: ["IXML:USER:Manufacturer"]
+  - field: URL
+    value: ""
+    help: "Website"
+    meta: ["BWF:OriginatorReference", "IXML:USER:URL"]
+  - field: Location
+    value: ""
+    hint: "Country, State, City"
+    help: "Primarily used for ambience recordings where location is important."
+    meta: ["IXML:USER:Location"]
+  - field: MetaNotes
+    value: ""
+    help: "Additional information that didn't fit elsewhere."
+    meta: ["IXML:USER:Notes"]
+refs:
+  - field: Category
+    id: Category 
+    meta: ["ID3:TCON", "INFO:IGNR", "XMP:dm/genre", "VORBIS:GENRE", "IXML:USER:Category"]
+  - field: CatID
+    id: Subcategory.short 
+    meta: ["IXML:USER:LongID", "IXML:USER:CatID"]
+  - field: FXName
+    id: ["Asset", "Name"] 
+    meta: ["IXML:USER:FXName"]
+  - field: Show
+    id: ["Show", "Source ID"]
+    meta: ["IXML:USER:Source", "ID3:TPE2", "IXML:USER:Show"]
+  - field: SubCategory
+    id: Subcategory 
+    meta: ["IXML:USER:SubCategory"]
+  - field: UserCategory
+    id: UserCategory 
+    meta: ["IXML:USER:UserCategory"]
+  - field: VendorCategory
+    id: VendorCategory
+    meta: ["IXML:USER:VendorCategory"]
+hardcoded:
+  - field: Embedder
+    hard: The Last Renamer
+    meta: ["IXML:USER:Embedder"]
+  - field: ReleaseDate
+    hard: $date
+    meta: ["IXML:USER:ReleaseDate"]

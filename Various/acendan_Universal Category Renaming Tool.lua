@@ -346,7 +346,7 @@ function parseUCSWebInterfaceInput()
       local ret, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
       if num_regions > 0 then
         if num_regions == 1 then ucs_enum = "false" end
-        RenameRegions(num_markers,num_regions)
+        ProcessRegions(num_markers,num_regions)
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
@@ -364,7 +364,7 @@ function parseUCSWebInterfaceInput()
       local num_items = reaper.CountMediaItems( 0 )
       if num_items > 0 then
         if num_items == 1 then ucs_enum = "false" end
-        RenameItems(num_items)
+        ProcessItems(num_items)
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
@@ -389,7 +389,7 @@ function parseUCSWebInterfaceInput()
       local num_tracks =  reaper.CountTracks( 0 )
       if num_tracks > 0 then
         if num_tracks == 1 then ucs_enum = "false" end
-        RenameTracks(num_tracks)
+        ProcessTracks(num_tracks)
       else
         reaper.MB("Project has no " .. ucs_type .. " to rename!", "UCS Renaming Tool", 0)
       end
@@ -438,7 +438,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~ REGIONS ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function RenameRegions(num_markers,num_regions)
+function ProcessRegions(num_markers,num_regions)
   local num_total = num_markers + num_regions
 
   if ucs_area == "Time Selection" then
@@ -661,7 +661,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~ ITEMS ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function RenameItems(num_items)
+function ProcessItems(num_items)
   if ucs_area == "Selected Items" then
     local num_sel_items = reaper.CountSelectedMediaItems(0)
     if num_sel_items > 0 then
@@ -832,7 +832,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~ TRACKS ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function RenameTracks(num_tracks)
+function ProcessTracks(num_tracks)
   if ucs_area == "Selected Tracks" then
     num_sel_tracks = reaper.CountSelectedTracks( 0 )
     if num_sel_tracks > 0 then

@@ -1,15 +1,17 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.94
+-- @version 0.95
 -- @metapackage
 -- @provides
 --   [main] .
 --   Schemes/*.{yaml}
+--   Meta/*.{yaml}
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Replaced links with toolbar icon
+--   # Added Metadata tab
+--   # Added 'x' to clear dropdowns
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -47,6 +49,7 @@ local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
+local META_DIR = SCRIPT_DIR .. "Meta" .. SEP
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -57,10 +60,11 @@ function Init()
   wgt.schemes = FetchSchemes()                            -- Table of filenames in scheme dir
   wgt.scheme = GetPreviousValue("scheme", wgt.schemes[1]) -- Active scheme filename
   wgt.data = nil                                          -- Active scheme data
-  wgt.name = ""
-  wgt.preset = {}
-  wgt.history = {}
-  wgt.dragdrop = {}
+  wgt.meta = nil                                          -- Metadata
+  wgt.name = ""                                           -- Generated name
+  wgt.preset = {}                                         -- Preset data
+  wgt.history = {}                                        -- History data
+  wgt.dragdrop = {}                                       -- Drag-dropped files
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
@@ -80,8 +84,12 @@ end
 function LoadField(field, parent)
   local sep = wgt.name == "" and "" or field.separator and field.separator or wgt.data.separator
   local unskippable = (field.skip and field.skip == false) or not field.skip
+  local meta = field.meta and true or false
   local value = ""
   local wildcard_help = ""
+
+  -- If metadata field's value is missing, skip
+  if meta and not field.value then return end
 
   -- Enumeration
   if type(field.value) == "number" or field.numwild then
@@ -94,27 +102,31 @@ function LoadField(field, parent)
         field.value = str
         field.numwild = true
       end
-      wgt.serialize[#wgt.serialize + 1] = { field.field, field.value }
+      if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.value } end
     end
-    wgt.enumeration = {
-      start = field.value,
-      zeroes = field.zeroes or 1,
-      singles = field.singles or false,
-      wildcard = "$enum",
-      sep = sep
-    }
-    value = field.numwild and "$num" or wgt.enumeration.wildcard
-    wildcard_help = wildcard_help .. "$num: Use project number from renaming target.\n"
+    if not meta then
+      wgt.enumeration = {
+        start = field.value,
+        zeroes = field.zeroes or 1,
+        singles = field.singles or false,
+        wildcard = "$enum",
+        sep = sep
+      }
+      value = field.numwild and "$num" or wgt.enumeration.wildcard
+      wildcard_help = wildcard_help .. "$num: Use project number from renaming target.\n"
+    end
 
     -- Text
   elseif type(field.value) == "string" then
     local rv, str = reaper.ImGui_InputTextWithHint(ctx, field.field, field.hint, field.value)
     if rv then
       field.value = str
-      wgt.serialize[#wgt.serialize + 1] = { field.field, field.value }
+      if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.value } end
     end
-    value = field.value
-    wildcard_help = wildcard_help .. "$name: Use original name from renaming target.\n"
+    if not meta then
+      value = field.value
+      wildcard_help = wildcard_help .. "$name: Use original name from renaming target.\n"
+    end
 
     -- Dropdown
   elseif type(field.value) == "table" then
@@ -124,29 +136,40 @@ function LoadField(field, parent)
         local is_selected = selected == i
         if reaper.ImGui_Selectable(ctx, value, is_selected) then
           field.selected = i
-          wgt.serialize[#wgt.serialize + 1] = { field.field, field.selected }
+          if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.selected } end
         end
         if is_selected then reaper.ImGui_SetItemDefaultFocus(ctx) end
       end
       reaper.ImGui_EndCombo(ctx)
     end
+    
+    -- Clear dropdown 'x'
+    reaper.ImGui_SameLine(ctx)
+    if reaper.ImGui_SmallButton(ctx, 'x##' .. field.field) then
+      field.selected = nil
+    end
+    acendan.ImGui_Tooltip("Clear dropdown selection.")
 
-    -- Use short value as abbreviation, if applicable
-    value = (field.selected and field.short) and field.short[field.selected] or
-        (field.selected) and field.value[field.selected] or ""
+    if not meta then
+      -- Use short value as abbreviation, if applicable
+      value = (field.selected and field.short) and field.short[field.selected] or
+          (field.selected) and field.value[field.selected] or ""
+    end
 
     -- Checkbox
   elseif type(field.value) == "boolean" then
     local rv, bool = reaper.ImGui_Checkbox(ctx, field.field, field.value)
     if rv then
       field.value = bool
-      wgt.serialize[#wgt.serialize + 1] = { field.field, field.value }
+      if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.value } end
     end
-    value = field.value and field.btrue or field.bfalse
+    if not meta then
+      value = field.value and field.btrue or field.bfalse
+    end
   end
 
   -- Append to name
-  if unskippable and value ~= "" then
+  if unskippable and value ~= "" and not meta then
     if field.capitalization then value = Capitalize(value, field.capitalization) end
     wgt.name = wgt.name .. sep .. value
   end
@@ -401,7 +424,8 @@ end
 function TabNaming()
   -- Load scheme
   if not LoadScheme(wgt.scheme) then
-    wgt.load_failed = wgt.load_failed or (wgt.scheme and "Failed to load scheme:  " .. wgt.scheme or "Failed to load scheme!")
+    wgt.load_failed = wgt.load_failed or
+    (wgt.scheme and "Failed to load scheme:  " .. wgt.scheme or "Failed to load scheme!")
     reaper.ImGui_TextColored(ctx, 0xFFFF00BB, wgt.load_failed .. "\n\nPlease select a new scheme in the Settings tab.")
     wgt.scheme = nil
     return
@@ -419,13 +443,13 @@ function TabNaming()
 
   ----------------- Target -----------------------
   reaper.ImGui_Spacing(ctx)
-  reaper.ImGui_SeparatorText(ctx, "Renaming")
+  reaper.ImGui_SeparatorText(ctx, "Targets")
   LoadTargets()
 
   ----------------- Submit -----------------------
   ValidateFields()
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
-  Button("Rename", RenameButton,
+  Button("Rename", ApplyName,
     "Applies your name to the given target!\n\nPro Tip: You can press the 'Enter' key to trigger renaming from any of the fields above.",
     0.42)
   if wgt.invalid then
@@ -437,7 +461,7 @@ function TabNaming()
     reaper.ImGui_TextColored(ctx, 0xFF0000FF, wgt.error)
   elseif reaper.ImGui_IsKeyReleased(ctx, reaper.ImGui_Key_Enter()) then
     -- If we know there are no errors or warnings, allow user to press Enter to rename
-    RenameButton()
+    ApplyName()
   end
 
   ----------------- Preview -----------------------
@@ -469,9 +493,46 @@ function ClearFields(fields)
   end
 end
 
--- function TabMetadata()
---   return
--- end
+function TabMetadata()
+  if not ValidateMeta() then return end
+
+  ----------------- Metadata -----------------------
+  reaper.ImGui_Text(ctx, "Metadata")
+  acendan.ImGui_HelpMarker("- Metadata fields are optional, and will be placed as a META marker after your target.\n- 'Add new metadata' setting must be enabled in the Render window!\n- All of the wildcards in the render menu are available for use in metadata fields! Refer to the Render Wildcard Help menu in Reaper for more information.")
+  LoadFields(wgt.meta.fields)
+
+  ----------------- Target -----------------------
+  reaper.ImGui_Spacing(ctx)
+  reaper.ImGui_SeparatorText(ctx, "Targets")
+  LoadTargets()
+
+  -- Disable target Tracks if on metadata tab
+  local disabled = wgt.target == "Tracks"
+  if disabled then reaper.ImGui_BeginDisabled(ctx) end
+
+  ----------------- Submit -----------------------
+  Button("Apply Metadata", ApplyMetadata,
+    "Applies your metadata to the given target!\n\nPro Tip: You can press the 'Enter' key to trigger metadata application from any of the fields above.",
+    0.42)
+
+  if disabled then
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_TextColored(ctx, 0xFFFF00BB, "Unsupported target: " .. wgt.target)
+    reaper.ImGui_EndDisabled(ctx)
+  elseif wgt.meta.error then
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_TextColored(ctx, 0xFF0000FF, wgt.meta.error)
+  elseif reaper.ImGui_IsKeyReleased(ctx, reaper.ImGui_Key_Enter()) then
+    ApplyMetadata()
+  end
+
+  -- Clear all fields
+  reaper.ImGui_Spacing(ctx)
+  reaper.ImGui_Separator(ctx)
+  Button("Clear All Fields", function()
+    wgt.meta = nil
+  end, "Clears out all fields, restoring them to their default state.", 0)
+end
 
 function TabSettings()
   reaper.ImGui_SeparatorText(ctx, "Scheme")
@@ -496,7 +557,8 @@ function TabSettings()
   -- Add shared scheme
   reaper.ImGui_SameLine(ctx)
   Button("Add Shared Scheme", function()
-    local shared_scheme = acendan.promptForFile("Select a shared scheme to import", "", "", "YAML Files (*.yaml)\0*.yaml\0\0")
+    local shared_scheme = acendan.promptForFile("Select a shared scheme to import", "", "",
+      "YAML Files (*.yaml)\0*.yaml\0\0")
     if shared_scheme then
       local shared_scheme_name = shared_scheme:match("[^/\\]+$")
       -- Ignore if shared scheme is in schemes directory
@@ -515,7 +577,8 @@ function TabSettings()
     else
       acendan.msg("No shared scheme selected!", "The Last Renamer")
     end
-  end, "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).")
+  end,
+    "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).")
 
   -- Button to open schemes directory
   reaper.ImGui_Spacing(ctx)
@@ -653,7 +716,7 @@ function TabSettings()
   local rv, overwrite = reaper.ImGui_Checkbox(ctx, "Overwrite?", overwrite == "true" and true or false)
   if rv then SetCurrentValue("opt_overwrite", overwrite) end
   acendan.ImGui_Tooltip(
-  "If unchecked, imported presets will be added to existing ones. If checked, will erase pre-existing presets on import.\n\nIf you enable this, back up existing ones with the Export button first!")
+    "If unchecked, imported presets will be added to existing ones. If checked, will erase pre-existing presets on import.\n\nIf you enable this, back up existing ones with the Export button first!")
 
   -- Drag drop box for ini files
   if reaper.ImGui_BeginChild(ctx, '##drop_files', 300, 50, reaper.ImGui_ChildFlags_FrameStyle()) then
@@ -701,7 +764,7 @@ function Main()
 
   if reaper.ImGui_BeginTabBar(ctx, "TabBar") then
     TabItem("Naming", TabNaming)
-    --TabItem("Metadata", TabMetadata)
+    TabItem("Metadata", TabMetadata)
     TabItem("Settings", TabSettings)
 
     -- Documentation link button
@@ -767,6 +830,17 @@ function ValidateScheme(scheme)
     acendan.msg("Error loading scheme: " .. scheme .. "\n\n" .. tostring(result), "The Last Renamer"); return nil
   end
   return result
+end
+
+function ValidateMeta()
+  if wgt.meta then return true end
+  local status, result = pcall(acendan.loadYaml, META_DIR .. "meta.yaml")
+  if not status then
+    reaper.ImGui_TextColored(ctx, 0xFF0000FF, "Error loading metadata!\n\n" .. tostring(result))
+    return false
+  end
+  wgt.meta = result
+  return true
 end
 
 function GetPreviousValue(key, default)
@@ -1014,7 +1088,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~ RENAMING ~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function RenameButton()
+function ApplyName()
   reaper.Undo_BeginBlock()
   wgt.error = Rename(wgt.target, wgt.mode, wgt.name, wgt.enumeration)
   reaper.Undo_EndBlock("The Last Renamer - " .. wgt.data.title, -1)
@@ -1040,17 +1114,17 @@ function Rename(target, mode, name, enumeration)
   if target == "Regions" then
     local _, num_markers, num_regions = reaper.CountProjectMarkers(0)
     if num_regions > 0 then
-      return RenameRegions(mode, num_markers + num_regions, name, enumeration)
+      return ProcessRegions(mode, num_markers + num_regions, name, enumeration)
     end
   elseif target == "Items" then
     local num_items = reaper.CountMediaItems(0)
     if num_items > 0 then
-      return RenameItems(mode, num_items, name, enumeration)
+      return ProcessItems(mode, num_items, name, enumeration)
     end
   elseif target == "Tracks" then
     local num_tracks = reaper.CountTracks(0)
     if num_tracks > 0 then
-      return RenameTracks(mode, num_tracks, name, enumeration)
+      return ProcessTracks(mode, num_tracks, name, enumeration)
     end
   end
 
@@ -1106,7 +1180,7 @@ function PadZeroes(num, zeroes)
   return num_str
 end
 
-function RenameRegions(mode, num_mkrs_rgns, name, enumeration)
+function ProcessRegions(mode, num_mkrs_rgns, name, enumeration, meta)
   local error = nil
   local queue = {}
 
@@ -1168,6 +1242,8 @@ function RenameRegions(mode, num_mkrs_rgns, name, enumeration)
 
   -- Process queue
   if #queue > 0 then
+    if meta then return queue end
+
     enumeration.num = #queue
     for _, item in ipairs(queue) do
       local i, pos, rgnend, color, markrgnindexnumber, wildcards = table.unpack(item)
@@ -1181,7 +1257,7 @@ function RenameRegions(mode, num_mkrs_rgns, name, enumeration)
   return error
 end
 
-function RenameItems(mode, num_items, name, enumeration)
+function ProcessItems(mode, num_items, name, enumeration, meta)
   local error = nil
   local queue = {}
 
@@ -1197,7 +1273,7 @@ function RenameItems(mode, num_items, name, enumeration)
         local item_num = math.floor(reaper.GetMediaItemInfo_Value(item, "IP_ITEMNUMBER") + 1)
         if take ~= nil then
           local wildcards = { { find = "$name", replace = item_name }, { find = "$num", replace = PadZeroes(item_num) } }
-          queue[#queue + 1] = { take, wildcards }
+          queue[#queue + 1] = { take, wildcards, item_end }
         end
       end
     else
@@ -1213,16 +1289,18 @@ function RenameItems(mode, num_items, name, enumeration)
       local item_num = math.floor(reaper.GetMediaItemInfo_Value(item, "IP_ITEMNUMBER") + 1)
       if take ~= nil then
         local wildcards = { { find = "$name", replace = item_name }, { find = "$num", replace = PadZeroes(item_num) } }
-        queue[#queue + 1] = { take, wildcards }
+        queue[#queue + 1] = { take, wildcards, item_end }
       end
     end
   end
 
   -- Process queue
   if #queue > 0 then
+    if meta then return queue end
+
     enumeration.num = #queue
     for _, item in ipairs(queue) do
-      local take, wildcards = table.unpack(item)
+      local take, wildcards, item_end = table.unpack(item)
       reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", SanitizeName(name, enumeration, wildcards), true)
     end
   else
@@ -1232,7 +1310,7 @@ function RenameItems(mode, num_items, name, enumeration)
   return error
 end
 
-function RenameTracks(mode, num_tracks, name, enumeration)
+function ProcessTracks(mode, num_tracks, name, enumeration)
   local error = nil
   local queue = {}
 
@@ -1271,6 +1349,128 @@ function RenameTracks(mode, num_tracks, name, enumeration)
   end
 
   return error
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~ META ~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function ApplyMetadata()
+  wgt.meta.error = nil
+
+  local marker = GenerateMetadataMarker()
+  if not marker or marker == "" then
+    wgt.meta.error = "No metadata to apply!"
+    return
+  end
+
+  reaper.Undo_BeginBlock()
+
+  if wgt.target == "Regions" then
+    local _, num_markers, num_regions = reaper.CountProjectMarkers(0)
+    if num_regions > 0 then
+      local queue = ProcessRegions(wgt.mode, num_markers + num_regions, nil, nil, true)
+      if type(queue) == "table" then
+        for _, rgn in ipairs(queue) do
+          local _, _, rgnend, _, idx, _ = table.unpack(rgn)
+          SetMetadataMarker(marker, rgnend, idx)
+        end
+      else
+        wgt.meta.error = queue
+      end
+    else
+      wgt.meta.error = "No regions to apply metadata to!"
+    end
+  elseif wgt.target == "Items" then
+    local num_items = reaper.CountMediaItems(0)
+    if num_items > 0 then
+      local queue = ProcessItems(wgt.mode, num_items, nil, nil, true)
+      if type(queue) == "table" then
+        for _, item in ipairs(queue) do
+          local _, _, item_end = table.unpack(item)
+          SetMetadataMarker(marker, item_end)
+        end
+      else
+        wgt.meta.error = queue
+      end
+    else
+      wgt.meta.error = "No items to apply metadata to!"
+    end
+  end
+
+  reaper.Undo_EndBlock("The Last Renamer - Metadata", -1)
+end
+
+function GenerateMetadataMarker()
+  local function SetRenderMetadata(marker, meta, key, val)
+    for _, metaspec in ipairs(meta) do
+      reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", metaspec .. "|$marker(" .. key .. ")[;]", true )
+    end
+    return marker .. key .. "=" .. tostring(val) .. ";"
+  end
+
+  -- Function to recursively iterate through meta fields and generate a marker string
+  local function GenerateMarkerString(fields, marker, parent)
+    for _, field in ipairs(fields) do
+      if field.value and PassesIDCheck(field, parent) and not field.skip then
+        if type(field.value) == "table" then
+          if field.selected then
+            if field.short then
+              marker = SetRenderMetadata(marker, field.meta, field.field, field.short[field.selected])
+            else
+              marker = SetRenderMetadata(marker, field.meta, field.field, field.value[field.selected])
+            end
+          end
+        else
+          local valstr = tostring(field.value)
+          if valstr ~= "" then
+            marker = SetRenderMetadata(marker, field.meta, field.field, field.value)
+          end
+        end
+      end
+      if field.fields then
+        marker = GenerateMarkerString(field.fields, marker, field)
+      end
+    end
+    return marker
+  end
+
+  -- TODO: Function to lookup refs
+
+  -- Hard-codes metadata fields into the settings menu
+  local function ApplyHardCodedFields(hardcoded)
+    if not hardcoded then return end
+    for _, field in ipairs(hardcoded) do
+      if field.hard then
+        for _, metaspec in ipairs(field.meta) do
+          reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", metaspec .. "|" .. field.hard, true )
+        end
+      end
+    end
+  end
+
+  local marker = "META;"
+  marker = GenerateMarkerString(wgt.meta.fields, marker, nil)
+  ApplyHardCodedFields(wgt.meta.hardcoded)
+  return marker
+end
+
+function SetMetadataMarker(marker, pos, num)
+  -- Delete existing metadata markers if necessary
+  local _, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+  local num_total = num_markers + num_regions
+  if num_markers > 0 then
+    local i = 0
+    while i < num_total do
+      local retval, isrgn, mkpos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
+      if not isrgn and (math.abs(mkpos - pos) < 0.01) and name:find("META") then
+        reaper.DeleteProjectMarker(0, markrgnindexnumber, false)
+      end
+      i = i + 1
+    end
+  end
+
+  reaper.AddProjectMarker(0, false, pos, 0, marker, num and num or -1)
+  reaper.AddProjectMarker(0, false, pos + 0.001, 0, "META", num and num or -1)
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
