@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.97
+-- @version 0.98
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed up loading fields with encapsulated keys
+--   # Fixed enumeration of singles
+--   # Added setting to hide Metadata tab (defaults to false)
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -599,9 +600,15 @@ function TabSettings()
 
   -- Checkbox to auto clear on load
   local auto_clear = GetPreviousValue("opt_auto_clear", false)
-  local rv, auto_clear = reaper.ImGui_Checkbox(ctx, "Auto Clear", auto_clear == "true" and true or false)
+  local rv, auto_clear = reaper.ImGui_Checkbox(ctx, "Auto Clear Fields", auto_clear == "true" and true or false)
   if rv then SetCurrentValue("opt_auto_clear", auto_clear) end
   acendan.ImGui_Tooltip("Automatically clear all fields when loading scheme (opening tool or switching scheme).")
+
+  -- Enable metadata
+  local enable_meta = GetPreviousValue("opt_enable_meta", false)
+  local rv, enable_meta = reaper.ImGui_Checkbox(ctx, "Enable Metadata Tab", enable_meta == "true" and true or false)
+  if rv then SetCurrentValue("opt_enable_meta", enable_meta) end
+  acendan.ImGui_Tooltip("Enable the metadata tab for adding metadata to your renaming targets.\n\nRequires 'Add new metadata' setting in the Render window!")
 
   -- Slider to set UI element scale
   if acendan.ImGui_ScaleSlider() then wgt.set_font = true end
@@ -764,7 +771,7 @@ function Main()
 
   if reaper.ImGui_BeginTabBar(ctx, "TabBar") then
     TabItem("Naming", TabNaming)
-    TabItem("Metadata", TabMetadata)
+    TabItem("Metadata", TabMetadata, "opt_enable_meta")
     TabItem("Settings", TabSettings)
 
     -- Documentation link button
@@ -1078,7 +1085,9 @@ function Button(name, callback, help, color)
   end
 end
 
-function TabItem(name, tab)
+function TabItem(name, tab, setting)
+  -- If present, setting can be used to toggle visibility of tab
+  if setting and GetPreviousValue(setting, false) ~= "true" then return end
   if reaper.ImGui_BeginTabItem(ctx, name) then
     tab()
     reaper.ImGui_EndTabItem(ctx)
@@ -1134,7 +1143,9 @@ end
 function SanitizeName(name, enumeration, wildcards)
   -- Uses enumeration struct to generate string substitution for enumeration
   local function GetEnumeration(enumeration)
-    if (enumeration.num == 1 and not enumeration.singles) or type(enumeration.start) == "string" then
+    if (enumeration.num == 1 and not enumeration.singles) then
+      return ""
+    elseif type(enumeration.start) == "string" then
       return enumeration.sep
     end
     local num_str = PadZeroes(enumeration.start, enumeration.zeroes)
