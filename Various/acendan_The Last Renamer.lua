@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.991
+-- @version 0.992
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,11 +10,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Add support for metadata fields that ref naming panel
+--   # Use hashtag prefix for meta markers to prevent embedding in rendered files 
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.6 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.7 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -49,6 +49,8 @@ local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
 local META_DIR = SCRIPT_DIR .. "Meta" .. SEP
+
+local META_MKR_PREFIX = "#META"
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ FUNCTIONS ~~~~~~~~~~~
@@ -445,6 +447,13 @@ function TabNaming()
   reaper.ImGui_SeparatorText(ctx, "Targets")
   LoadTargets()
 
+  -- If target is Items - Selected and NVK Only is enabled, display warning
+  if wgt.target == "Items" and wgt.mode == "Selected" and GetPreviousValue("opt_nvk_only", false) == "true" then
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_TextColored(ctx, 0x13BD99FF, "NVK")
+    acendan.ImGui_Tooltip("Only NVK Folder Items will be targeted when set to 'Items - Selected'.\n\nDisable this option in Settings if you want to target standard media items.")
+  end
+
   ----------------- Submit -----------------------
   ValidateFields()
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
@@ -786,6 +795,9 @@ function Main()
 
     reaper.ImGui_EndTabBar(ctx)
   end
+
+  -- If esc pressed, close window
+  if reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Key_Escape()) then open = false end
 
   reaper.ImGui_End(ctx)
   acendan.ImGui_PopStyles()
@@ -1280,7 +1292,7 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
 
   if mode == "Selected" then
     -- Target NVK folder items
-    if GetPreviousValue("opt_nvk_only", false) then
+    if GetPreviousValue("opt_nvk_only", false) == "true" then
       acendan.saveSelectedItems(ini_sel_items)
       reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS299b15567d77797373f0eb5ad61a758224186ab7"), 0) -- Script: nvk_FOLDER_ITEMS - Deselect non-folder items.lua
     end
@@ -1296,7 +1308,7 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
         local item_num = math.floor(reaper.GetMediaItemInfo_Value(item, "IP_ITEMNUMBER") + 1)
         if take ~= nil then
           local wildcards = { { find = "$name", replace = item_name }, { find = "$num", replace = PadZeroes(item_num) } }
-          queue[#queue + 1] = { take, wildcards, item_end }
+          queue[#queue + 1] = { take, wildcards, item_end, item_num }
         end
       end
     else
@@ -1316,7 +1328,7 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
       local item_num = math.floor(reaper.GetMediaItemInfo_Value(item, "IP_ITEMNUMBER") + 1)
       if take ~= nil then
         local wildcards = { { find = "$name", replace = item_name }, { find = "$num", replace = PadZeroes(item_num) } }
-        queue[#queue + 1] = { take, wildcards, item_end }
+        queue[#queue + 1] = { take, wildcards, item_end, item_num }
       end
     end
   end
@@ -1327,7 +1339,7 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
 
     enumeration.num = #queue
     for _, item in ipairs(queue) do
-      local take, wildcards, item_end = table.unpack(item)
+      local take, wildcards, _, _ = table.unpack(item)
       reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", SanitizeName(name, enumeration, wildcards), true)
     end
   else
@@ -1413,8 +1425,8 @@ function ApplyMetadata()
       local queue = ProcessItems(wgt.mode, num_items, nil, nil, true)
       if type(queue) == "table" then
         for _, item in ipairs(queue) do
-          local _, _, item_end = table.unpack(item)
-          SetMetadataMarker(marker, item_end)
+          local _, _, item_end, item_num = table.unpack(item)
+          SetMetadataMarker(marker, item_end, item_num)
         end
       else
         wgt.meta.error = queue
@@ -1502,7 +1514,7 @@ function GenerateMetadataMarker()
     end
   end
 
-  local marker = "META;"
+  local marker = META_MKR_PREFIX .. ";"
   marker = GenerateMarkerString(wgt.meta.fields, marker, nil)
   marker = ResolveMetaRefs(wgt.meta.refs, marker, wgt.data.fields)
   ApplyHardCodedFields(wgt.meta.hardcoded)
@@ -1510,22 +1522,9 @@ function GenerateMetadataMarker()
 end
 
 function SetMetadataMarker(marker, pos, num)
-  -- Delete existing metadata markers if necessary
-  local _, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
-  local num_total = num_markers + num_regions
-  if num_markers > 0 then
-    local i = 0
-    while i < num_total do
-      local retval, isrgn, mkpos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3( 0, i )
-      if not isrgn and (math.abs(mkpos - pos) < 0.01) and name:find("META") then
-        reaper.DeleteProjectMarker(0, markrgnindexnumber, false)
-      end
-      i = i + 1
-    end
-  end
-
-  reaper.AddProjectMarker(0, false, pos, 0, marker, num and num or -1)
-  reaper.AddProjectMarker(0, false, pos + 0.001, 0, "META", num and num or -1)
+  acendan.deleteProjectMarkers(false, pos, META_MKR_PREFIX)                             -- Delete existing meta markers at position
+  reaper.AddProjectMarker(0, false, pos, 0, marker, num and num or -1)                  -- Actual meta marker
+  reaper.AddProjectMarker(0, false, pos + 0.001, 0, META_MKR_PREFIX, num and num or -1) -- Second marker slightly after to hide the name of the first
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

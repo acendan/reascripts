@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.6
+-- @version 8.7
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,8 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # acendan.promptForFile
---   # acendan.mkSymLink
+--   # acendan.deleteProjectMarkers
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -1286,6 +1285,26 @@ function acendan.deleteActionMarker(mkr_cmd, mkr_text)
         end
         i = i + 1
       end
+    end
+  end
+end
+
+function acendan.deleteProjectMarkers(delrgns, pos, contains, tolerance)
+  tolerance = tolerance or 0.01
+  local _, num_markers, num_regions = reaper.CountProjectMarkers( 0 )
+  local num_total = num_markers + num_regions
+  if num_markers > 0 then
+    local del_mkrs = {}
+    local i = 0
+    while i < num_total do
+      local _, isrgn, mkpos, _, name, markrgnindexnumber, _ = reaper.EnumProjectMarkers3( 0, i )
+      if (isrgn == delrgns) and (math.abs(mkpos - pos) < 0.01) and name:find(contains) then
+        del_mkrs[#del_mkrs+1] = markrgnindexnumber
+      end
+      i = i + 1
+    end
+    for _, mkr in ipairs(del_mkrs) do
+      reaper.DeleteProjectMarker(0, mkr, false)
     end
   end
 end
