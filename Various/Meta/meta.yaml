@@ -78,10 +78,10 @@ refs:
     id: Category
     meta: ["ID3:TCON", "INFO:IGNR", "XMP:dm/genre", "VORBIS:GENRE", "IXML:USER:Category"]
   - field: CatID
-    id: Subcategory
+    id: Subcategory:Category
     meta: ["IXML:USER:LongID", "IXML:USER:CatID"]
   - field: Subcategory
-    id: Subcategory
+    id: Subcategory:Category
     short: false
     meta: ["IXML:USER:SubCategory"]
   - field: FXName

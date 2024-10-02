@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.992
+-- @version 0.993
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Use hashtag prefix for meta markers to prevent embedding in rendered files 
+--   # Fix resolution of nested metadata fields
+--   # Fix crash on changing scheme then switching to metadata tab
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -83,9 +84,9 @@ function Init()
 end
 
 function LoadField(field, parent)
-  local sep = wgt.name == "" and "" or field.separator and field.separator or wgt.data.separator
   local unskippable = (field.skip and field.skip == false) or not field.skip
   local meta = field.meta and true or false
+  local sep = (wgt.name == "" or meta) and "" or field.separator and field.separator or wgt.data.separator
   local value = ""
   local wildcard_help = ""
 
@@ -241,6 +242,13 @@ function LoadTargets()
       end
       reaper.ImGui_EndCombo(ctx)
     end
+  end
+  
+  -- If target is Items - Selected and NVK Only is enabled, display warning
+  if wgt.target == "Items" and wgt.mode == "Selected" and GetPreviousValue("opt_nvk_only", false) == "true" then
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_TextColored(ctx, 0x13BD99FF, "NVK")
+    acendan.ImGui_Tooltip("Only NVK Folder Items will be targeted when set to 'Items - Selected'.\n\nDisable this option in Settings if you want to target standard media items.")
   end
 end
 
@@ -446,13 +454,6 @@ function TabNaming()
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_SeparatorText(ctx, "Targets")
   LoadTargets()
-
-  -- If target is Items - Selected and NVK Only is enabled, display warning
-  if wgt.target == "Items" and wgt.mode == "Selected" and GetPreviousValue("opt_nvk_only", false) == "true" then
-    reaper.ImGui_SameLine(ctx)
-    reaper.ImGui_TextColored(ctx, 0x13BD99FF, "NVK")
-    acendan.ImGui_Tooltip("Only NVK Folder Items will be targeted when set to 'Items - Selected'.\n\nDisable this option in Settings if you want to target standard media items.")
-  end
 
   ----------------- Submit -----------------------
   ValidateFields()
@@ -712,7 +713,7 @@ function TabSettings()
     end
 
     -- Clear existing presets for this scheme if overwrite enabled
-    if GetPreviousValue("opt_overwrite", false) then
+    if GetPreviousValue("opt_overwrite", false) == "true" then
       local num_presets = #wgt.preset.presets
       for i = 1, num_presets do
         local preset_title = wgt.data.title .. " - Preset" .. tostring(i)
@@ -842,7 +843,7 @@ function LoadScheme(scheme)
   RecallHistories()
 
   -- Clear on load if setting is enabled
-  if GetPreviousValue("opt_auto_clear", false) then ClearFields(wgt.data.fields) end
+  if GetPreviousValue("opt_auto_clear", false) == "true" then ClearFields(wgt.data.fields) end
   return true
 end
 
@@ -897,6 +898,23 @@ function RecallSettings(title, fields)
     if field.fields then RecallSettings(title, field.fields) end
   end
   wgt.serialize = {}
+end
+
+function GetFieldValue(field, short)
+  -- For dropdowns, `short = false` will use fully qualified value rather than abbr
+  short = short == nil or short
+  if type(field.value) == "table" then
+    if field.selected then
+      if field.short and short then
+        return field.short[field.selected]
+      else
+        return field.value[field.selected]
+      end
+    end
+  else
+    return tostring(field.value)
+  end
+  return ""
 end
 
 function SetFieldValue(field, value)
@@ -1441,38 +1459,18 @@ end
 
 function GenerateMetadataMarker()
   local function SetRenderMetadata(marker, meta, key, val)
+    if val == "" then return marker end
     for _, metaspec in ipairs(meta) do
       reaper.GetSetProjectInfo_String( 0, "RENDER_METADATA", metaspec .. "|$marker(" .. key .. ")[;]", true )
     end
     return marker .. key .. "=" .. tostring(val) .. ";"
   end
 
-  local function ProcessRenderMetadata(marker, meta, key, field, short)
-    -- If a metadata field defines `short: false`, 
-    -- it will use the fully qualified value rather than the shorthand
-    short = short == nil or short
-    if type(field.value) == "table" then
-      if field.selected then
-        if field.short and short then
-          marker = SetRenderMetadata(marker, meta, key, field.short[field.selected])
-        else
-          marker = SetRenderMetadata(marker, meta, key, field.value[field.selected])
-        end
-      end
-    else
-      local valstr = tostring(field.value)
-      if valstr ~= "" then
-        marker = SetRenderMetadata(marker, meta, key, valstr)
-      end
-    end
-    return marker
-  end
-
   -- Function to recursively iterate through meta fields and generate a marker string
   local function GenerateMarkerString(fields, marker, parent)
     for _, field in ipairs(fields) do
       if field.value and PassesIDCheck(field, parent) and not field.skip then
-        marker = ProcessRenderMetadata(marker, field.meta, field.field, field)
+        marker = SetRenderMetadata(marker, field.meta, field.field,  GetFieldValue(field))
       end
       if field.fields then
         marker = GenerateMarkerString(field.fields, marker, field)
@@ -1486,16 +1484,27 @@ function GenerateMetadataMarker()
     if not fields or not refs then return marker end
     for _, field in ipairs(fields) do
       if type(field.id) == "table" then
+        -- If ID is an array, resolve each one
         for _, id in ipairs(field.id) do
           local find_field = FindField(refs, id)
           if find_field then
-            marker = ProcessRenderMetadata(marker, field.meta, field.field, find_field, field.short)
+            marker = SetRenderMetadata(marker, field.meta, field.field,  GetFieldValue(find_field, field.short))
           end
         end
       else
-        local find_field = FindField(refs, field.id)
+        -- If ID is something like "Subcategory:Category", resolve it
+        local field_name = field.id:match("([^:]+)")
+        for id in field.id:gmatch(":(%w+)") do        
+          local find_field = FindField(refs, id)
+          if find_field then
+            field_name = field_name .. ":" .. GetFieldValue(find_field, field.short)
+          end
+        end
+
+        -- Resolve the field
+        local find_field = FindField(refs, field_name)
         if find_field then
-          marker = ProcessRenderMetadata(marker, field.meta, field.field, find_field, field.short)
+          marker = SetRenderMetadata(marker, field.meta, field.field,  GetFieldValue(find_field, field.short))
         end
       end
     end
@@ -1516,7 +1525,7 @@ function GenerateMetadataMarker()
 
   local marker = META_MKR_PREFIX .. ";"
   marker = GenerateMarkerString(wgt.meta.fields, marker, nil)
-  marker = ResolveMetaRefs(wgt.meta.refs, marker, wgt.data.fields)
+  marker = ResolveMetaRefs(wgt.meta.refs, marker, wgt.data and wgt.data.fields or nil)
   ApplyHardCodedFields(wgt.meta.hardcoded)
   return marker
 end
