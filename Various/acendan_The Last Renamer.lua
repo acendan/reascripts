@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.99
+-- @version 0.991
 -- @metapackage
 -- @provides
 --   [main] .
@@ -608,6 +608,12 @@ function TabSettings()
   local rv, enable_meta = reaper.ImGui_Checkbox(ctx, "Enable Metadata Tab", enable_meta == "true" and true or false)
   if rv then SetCurrentValue("opt_enable_meta", enable_meta) end
   acendan.ImGui_Tooltip("Enable the metadata tab for adding metadata to your renaming targets.\n\nRequires 'Add new metadata' setting in the Render window!")
+
+  -- Only process NVK folder items in items mode
+  local nvk_only = GetPreviousValue("opt_nvk_only", false)
+  local rv, nvk_only = reaper.ImGui_Checkbox(ctx, "NVK Folder Items", nvk_only == "true" and true or false)
+  if rv then SetCurrentValue("opt_nvk_only", nvk_only) end
+  acendan.ImGui_Tooltip("Only target NVK Folder Items when set to 'Items - Selected'. If unsure, leave unchecked.")
 
   -- Slider to set UI element scale
   if acendan.ImGui_ScaleSlider() then wgt.set_font = true end
@@ -1270,8 +1276,15 @@ end
 function ProcessItems(mode, num_items, name, enumeration, meta)
   local error = nil
   local queue = {}
+  local ini_sel_items = {}
 
   if mode == "Selected" then
+    -- Target NVK folder items
+    if GetPreviousValue("opt_nvk_only", false) then
+      acendan.saveSelectedItems(ini_sel_items)
+      reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS299b15567d77797373f0eb5ad61a758224186ab7"), 0) -- Script: nvk_FOLDER_ITEMS - Deselect non-folder items.lua
+    end
+
     local num_sel_items = reaper.CountSelectedMediaItems(0)
     if num_sel_items > 0 then
       for i = 0, num_sel_items - 1 do
@@ -1289,6 +1302,10 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
     else
       error = "No items selected!"
     end
+
+    -- Restore items (if deselected in NVK mode)
+    if #ini_sel_items > 0 then acendan.restoreSelectedItems(ini_sel_items) end
+
   elseif mode == "All" then
     for i = 0, num_items - 1 do
       local item = reaper.GetMediaItem(0, i)
