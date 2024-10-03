@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.995
+-- @version 0.996
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,11 +10,12 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Totally broke everything on the last submit, my b
+--   # Update metadata tab help marker
+--   # Fix NVK folder items targeting nested
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.7 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.8 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -508,7 +509,7 @@ function TabMetadata()
 
   ----------------- Metadata -----------------------
   reaper.ImGui_Text(ctx, "Metadata")
-  acendan.ImGui_HelpMarker("Metadata fields are optional, and will be placed as a META marker after your target.\n\n'Add new metadata' setting must be enabled in the Render window!\n\nAll of the wildcards in the render menu are available for use in metadata fields! Refer to the Render Wildcard Help menu in Reaper for more information.")
+  acendan.ImGui_HelpMarker("Metadata fields are optional, and will be placed as a META marker after your target.\n\n'Add new metadata' setting must be enabled in the Render window!")
   LoadFields(wgt.meta.fields)
 
   ----------------- Target -----------------------
@@ -1315,10 +1316,14 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
   local ini_sel_items = {}
 
   if mode == "Selected" then
-    -- Target NVK folder items
+    -- Target NVK folder items (deselect others)
     if GetPreviousValue("opt_nvk_only", false) == "true" then
       acendan.saveSelectedItems(ini_sel_items)
-      reaper.Main_OnCommand(reaper.NamedCommandLookup("_RS299b15567d77797373f0eb5ad61a758224186ab7"), 0) -- Script: nvk_FOLDER_ITEMS - Deselect non-folder items.lua
+      for _, item in ipairs(ini_sel_items) do
+        if not acendan.isFolderItem(item) or not acendan.isTopLevelFolderItem(item, ini_sel_items) then
+          reaper.SetMediaItemSelected(item, false)
+        end
+      end
     end
 
     local num_sel_items = reaper.CountSelectedMediaItems(0)

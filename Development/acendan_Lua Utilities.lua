@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.7
+-- @version 8.8
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # acendan.deleteProjectMarkers
+--   # NVK Folder Items helpers
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -818,6 +818,41 @@ function acendan.getFilenameTrackActiveTake(item)
     end
   end
   return nil
+end
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~ NVK ~~~~~~~~~~~~~~~~
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-- Check if this is a top level folder item
+function acendan.isFolderItem(item)
+  return select(2, reaper.GetSetMediaItemTakeInfo_String(reaper.GetActiveTake(item), 'P_EXT:nvk_take_source_type_v2', '', false)) == 'EMPTY'
+end
+
+-- Typically, others should be the selected items. Could also be *all* items.
+function acendan.isTopLevelFolderItem(item, others)
+  local track = reaper.GetMediaItem_Track(item)
+  local parent = reaper.GetMediaTrackInfo_Value( track, "P_PARTRACK")
+  local item_start = reaper.GetMediaItemInfo_Value( item, "D_POSITION" )
+  local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH" )
+  local item_end = item_start + item_len
+  
+  -- Check if track is at root level/top
+  if parent == 0 then return true end
+  
+  -- Check if other item is a folder item on this track's parent at these bounds
+  for _, other in ipairs(others) do
+    local other_is_nvk = acendan.isFolderItem(other)
+    local other_track = reaper.GetMediaItem_Track(other)
+    local other_start = reaper.GetMediaItemInfo_Value(other, "D_POSITION" )
+    local other_len = reaper.GetMediaItemInfo_Value(other, "D_LENGTH" )
+    local other_end = other_start + other_len
+    if other_is_nvk and parent == other_track and item_start >= other_start - 0.01 and item_end <= other_end + 0.01 then
+      return false
+    end
+  end
+  
+  return true
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
