@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.996
+-- @version 0.997
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Update metadata tab help marker
---   # Fix NVK folder items targeting nested
+--   # NVK folder items mode - if no folder items still selected, revert to initial selection
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -1323,6 +1322,12 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
         if not acendan.isFolderItem(item) or not acendan.isTopLevelFolderItem(item, ini_sel_items) then
           reaper.SetMediaItemSelected(item, false)
         end
+      end
+
+      -- If no folder items still selected, revert to initial selection
+      if reaper.CountSelectedMediaItems(0) == 0 then
+        acendan.restoreSelectedItems(ini_sel_items)
+        ini_sel_items = {}
       end
     end
 
