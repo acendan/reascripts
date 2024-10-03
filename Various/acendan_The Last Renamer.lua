@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.994
+-- @version 0.995
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Recall previous metadata tab settings on load
- 
+--   # Totally broke everything on the last submit, my b
+
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
   dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.7 then
@@ -66,6 +66,7 @@ function Init()
   wgt.preset = {}                                         -- Preset data
   wgt.history = {}                                        -- History data
   wgt.dragdrop = {}                                       -- Drag-dropped files
+  wgt.serialize = {}                                      -- Serialized fields
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
