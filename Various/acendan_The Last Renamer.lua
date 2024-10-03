@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 0.993
+-- @version 0.994
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,9 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fix resolution of nested metadata fields
---   # Fix crash on changing scheme then switching to metadata tab
-
+--   # Recall previous metadata tab settings on load
+ 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
   dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.7 then
@@ -83,12 +82,13 @@ function Init()
   acendan.ImGui_SetScale(scale)
 end
 
-function LoadField(field, parent)
+function LoadField(field)
   local unskippable = (field.skip and field.skip == false) or not field.skip
   local meta = field.meta and true or false
   local sep = (wgt.name == "" or meta) and "" or field.separator and field.separator or wgt.data.separator
   local value = ""
   local wildcard_help = ""
+  local serialize = meta and wgt.meta.serialize or wgt.serialize
 
   -- If metadata field's value is missing, skip
   if meta and not field.value then return end
@@ -104,7 +104,7 @@ function LoadField(field, parent)
         field.value = str
         field.numwild = true
       end
-      if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.value } end
+      serialize[#serialize + 1] = { field.field, field.value }
     end
     if not meta then
       wgt.enumeration = {
@@ -123,7 +123,7 @@ function LoadField(field, parent)
     local rv, str = reaper.ImGui_InputTextWithHint(ctx, field.field, field.hint, field.value)
     if rv then
       field.value = str
-      if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.value } end
+      serialize[#serialize + 1] = { field.field, field.value }
     end
     if not meta then
       value = field.value
@@ -138,7 +138,7 @@ function LoadField(field, parent)
         local is_selected = selected == i
         if reaper.ImGui_Selectable(ctx, value, is_selected) then
           field.selected = i
-          if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.selected } end
+          serialize[#serialize + 1] = { field.field, field.selected }
         end
         if is_selected then reaper.ImGui_SetItemDefaultFocus(ctx) end
       end
@@ -163,7 +163,7 @@ function LoadField(field, parent)
     local rv, bool = reaper.ImGui_Checkbox(ctx, field.field, field.value)
     if rv then
       field.value = bool
-      if not meta then wgt.serialize[#wgt.serialize + 1] = { field.field, field.value } end
+      serialize[#serialize + 1] = { field.field, field.value }
     end
     if not meta then
       value = field.value and field.btrue or field.bfalse
@@ -210,7 +210,7 @@ function LoadFields(fields, parent)
   for i, field in ipairs(fields) do
     -- If field has an ID, it's dependent on parent dropdown's selected value
     if PassesIDCheck(field, parent) then
-      LoadField(field, parent)
+      LoadField(field)
       if field.fields then LoadFields(field.fields, field) end
     end
   end
@@ -865,6 +865,8 @@ function ValidateMeta()
     return false
   end
   wgt.meta = result
+  wgt.meta.serialize = {}
+  RecallSettings("Metadata", wgt.meta.fields, wgt.meta.serialize)
   return true
 end
 
@@ -884,20 +886,23 @@ function HasValue(key)
   return reaper.HasExtState(SCRIPT_NAME, key)
 end
 
-function StoreSettings()
-  for i = 1, #wgt.serialize do
-    local field, value = table.unpack(wgt.serialize[i])
-    SetCurrentValue(wgt.data.title .. " - " .. field, value)
+function StoreSettings(title, serialize)
+  title = title or wgt.data.title
+  serialize = serialize or wgt.serialize
+  for i = 1, #serialize do
+    local field, value = table.unpack(serialize[i])
+    SetCurrentValue(title .. " - " .. field, value)
   end
 end
 
-function RecallSettings(title, fields)
+function RecallSettings(title, fields, serialize)
+  serialize = serialize or wgt.serialize
   for i, field in ipairs(fields) do
     local prev = GetPreviousValue(title .. " - " .. field.field, nil)
     if prev then SetFieldValue(field, prev) end
     if field.fields then RecallSettings(title, field.fields) end
   end
-  wgt.serialize = {}
+  serialize = {}
 end
 
 function GetFieldValue(field, short)
@@ -1419,6 +1424,8 @@ function ApplyMetadata()
     wgt.meta.error = "No metadata to apply!"
     return
   end
+
+  StoreSettings("Metadata", wgt.meta.serialize)
 
   reaper.Undo_BeginBlock()
 
