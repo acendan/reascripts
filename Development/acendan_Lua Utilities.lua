@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 8.8
+-- @version 8.9
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,8 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # NVK Folder Items helpers
+--   # Dir exists mac compatibility
+--   # acendan.pathBuilder
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -25,8 +26,9 @@ local VSDEBUG = os.getenv("VSCODE_DBG_UUID") == "df3e118e-8874-49f7-ab62-ceb1664
 -- ~~~~~~~~~~~~ CONSTANTS ~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-local SCRIPT_NAME = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
-local SCRIPT_DIR = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
+local WIN, SEP = acendan.getOS()
+local SCRIPT_NAME = ({ reaper.get_action_context() })[2]:match("([^/\\_]+)%.lua$")
+local SCRIPT_DIR = ({ reaper.get_action_context() })[2]:sub(1, ({ reaper.get_action_context() })[2]:find(SEP .. "[^" .. SEP .. "]*$"))
 
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1500,17 +1502,23 @@ end
 
 -- Check if a directory/folder exists. // returns Boolean
 function acendan.directoryExists(folder)
-  local fileHandle, strError = io.open(folder .. "\\*.*","r")
-  if fileHandle ~= nil then
-    io.close(fileHandle)
-    return true
-  else
-    if string.match(strError,"No such file or directory") then
-      return false
-    else
-      return true
-    end
+  local ok, err, code = os.rename(folder.."/", folder.."/")
+  if not ok then
+     if code == 13 then
+        return true -- Permission denied, but it exists
+     end
   end
+  return ok, err
+end
+
+-- Build a filepath from table
+function acendan.pathBuilder(prefix, paths)
+  local _, sep = acendan.getOS()
+  local full = prefix
+  for _, subpath in ipairs(paths) do
+    full = full .. sep .. subpath
+  end
+  return full
 end
 
 --[[
@@ -1927,8 +1935,7 @@ end
 -- Looks for JSFX by name in Effects/ACendan Scripts/JSFX/      \\ Returns boolean
 function acendan.checkForJSFX(jsfx_name)
   if not jsfx_name:find(".jsfx") then jsfx_name = jsfx_name .. ".jsfx" end
-  
-  if reaper.file_exists( reaper.GetResourcePath() .. "\\Effects\\ACendan Scripts\\JSFX\\" .. jsfx_name ) then
+  if reaper.file_exists(acendan.pathBuilder(reaper.GetResourcePath(), {"Effects","ACendan Scripts","JSFX",jsfx_name})) then
     return true
   else
     return false
@@ -1938,9 +1945,8 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~ YAML ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function acendan.loadYaml(filename)
-  local yamllib = reaper.GetResourcePath()..'\\Scripts\\ACendan Scripts\\Development\\Lib\\yaml.lua'
+function acendan.loadYaml(filename, sep)
+  local yamllib = acendan.pathBuilder(reaper.GetResourcePath(), {"Scripts","ACendan Scripts","Development","Lib","yaml.lua"})
   if not yaml and reaper.file_exists(yamllib) then dofile(yamllib) end
   if not yaml then acendan.msg("Failed to load YAML library!"); return nil end
   if not reaper.file_exists(filename) then return nil end
