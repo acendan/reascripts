@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.01
+-- @version 1.02
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,11 +10,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed minor Mac compatibility bugs
+--   # Increment lua utils version number
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.8 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.9 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
