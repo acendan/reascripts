@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.02
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Increment lua utils version number
+--   # Replace symlink with ext state for loading shared schemes
+--   # Remove Shared Scheme button
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -566,7 +567,6 @@ function TabSettings()
   end, "Check the selected scheme for YAML formatting errors.")
 
   -- Add shared scheme
-  reaper.ImGui_SameLine(ctx)
   Button("Add Shared Scheme", function()
     local shared_scheme = acendan.promptForFile("Select a shared scheme to import", "", "",
       "YAML Files (*.yaml)\0*.yaml\0\0")
@@ -577,19 +577,46 @@ function TabSettings()
         acendan.msg("Shared scheme must be outside of the schemes directory!", "The Last Renamer")
         return
       end
-      acendan.mkSymLink(shared_scheme, SCHEMES_DIR .. shared_scheme_name)
-      -- Validate sym link worked
-      if not acendan.fileExists(SCHEMES_DIR .. shared_scheme_name) then
-        acendan.msg("Error creating shared scheme symlink!", "The Last Renamer")
-        return
+
+      local shared_schemes_table = GetSharedSchemes()
+      -- Check if scheme already exists in shared schemes
+      for _, scheme in ipairs(shared_schemes_table) do
+        if scheme == shared_scheme then
+          acendan.msg("Shared scheme already exists!", "The Last Renamer")
+          return
+        end
       end
+      shared_schemes_table[#shared_schemes_table + 1] = shared_scheme
+      SetCurrentValue("shared_schemes", table.concat(shared_schemes_table, ";"))
+
       wgt.schemes = FetchSchemes()
-      SetScheme(shared_scheme_name)
+      SetScheme("Shared: " .. shared_scheme_name)
     else
       acendan.msg("No shared scheme selected!", "The Last Renamer")
     end
   end,
     "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).")
+
+  -- Remove shared scheme
+  reaper.ImGui_SameLine(ctx)
+  Button("Remove Shared Scheme", function()
+    if not wgt.scheme:find("Shared: ") then
+      acendan.msg("Selected scheme is not a shared scheme!", "The Last Renamer")
+      return
+    end
+    local shared_scheme_name = wgt.scheme:match("Shared: ([^/\\]+)")
+    local shared_schemes_table = GetSharedSchemes()
+    for i, scheme in ipairs(shared_schemes_table) do
+      if scheme:find(shared_scheme_name) then
+        table.remove(shared_schemes_table, i)
+        break
+      end
+    end
+    SetCurrentValue("shared_schemes", table.concat(shared_schemes_table, ";"))
+
+    wgt.schemes = FetchSchemes()
+    SetScheme(wgt.schemes[1])
+  end, "Removes the selected shared scheme from the schemes list.", 0)
 
   -- Button to open schemes directory
   reaper.ImGui_Spacing(ctx)
@@ -819,6 +846,11 @@ function FetchSchemes()
       file_idx = file_idx + 1
     until not reaper.EnumerateFiles(SCHEMES_DIR, file_idx)
   end
+  local shared_schemes_table = GetSharedSchemes()
+  for _, shared_scheme in ipairs(shared_schemes_table) do
+    local shared_scheme_name = shared_scheme:match("[^/\\]+$")
+    schemes[#schemes + 1] = "Shared: " .. shared_scheme_name
+  end
   return schemes
 end
 
@@ -850,7 +882,21 @@ end
 
 function ValidateScheme(scheme)
   if not scheme then return nil end
-  local scheme_path = SCHEMES_DIR .. scheme
+  local scheme_path = ""
+  if scheme:find("Shared: ") then
+    -- Load shared scheme
+    local shared_schemes_table = GetSharedSchemes()
+    for _, shared_scheme in ipairs(shared_schemes_table) do
+      local shared_scheme_name = shared_scheme:match("[^/\\]+$")
+      if scheme:find(shared_scheme_name) then
+        scheme_path = shared_scheme
+        break
+      end
+    end
+  else
+    -- Load scheme from schemes directory
+    scheme_path = SCHEMES_DIR .. scheme
+  end
   local status, result = pcall(acendan.loadYaml, scheme_path)
   if not status then
     acendan.msg("Error loading scheme: " .. scheme .. "\n\n" .. tostring(result), "The Last Renamer"); return nil
@@ -1109,6 +1155,16 @@ function Capitalize(str, capitalization)
   else
     return str
   end
+end
+
+-- Get shared schemes table
+function GetSharedSchemes()
+  local shared_schemes = GetPreviousValue("shared_schemes", "")
+  local shared_schemes_table = {}
+  for shared_scheme in shared_schemes:gmatch("[^;]+") do
+    shared_schemes_table[#shared_schemes_table + 1] = shared_scheme
+  end
+  return shared_schemes_table
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
