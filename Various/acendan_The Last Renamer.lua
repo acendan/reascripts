@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.11
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Replace symlink with ext state for loading shared schemes
---   # Remove Shared Scheme button
+--   # Fixed FXName field in UCS metadata
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then

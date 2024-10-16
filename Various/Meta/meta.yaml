@@ -85,7 +85,7 @@ refs:
     short: false
     meta: ["IXML:USER:SubCategory"]
   - field: FXName
-    id: ["Asset", "Name", "File Name"] 
+    id: ["Asset", "Name", "File Name"]
     meta: ["IXML:USER:FXName"]
   - field: Show
     id: ["Show", "Source ID"]
