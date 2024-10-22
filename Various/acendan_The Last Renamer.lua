@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.2
+-- @version 1.21
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added maxchars to yaml config for max filename length
+--   # Fixed minor data serialization bug
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -105,7 +105,7 @@ function LoadField(field)
         field.value = str
         field.numwild = true
       end
-      serialize[#serialize + 1] = { field.field, field.value }
+      AppendSerializedField(serialize, field.field, field.value)
     end
     if not meta then
       wgt.enumeration = {
@@ -124,7 +124,7 @@ function LoadField(field)
     local rv, str = reaper.ImGui_InputTextWithHint(ctx, field.field, field.hint, field.value)
     if rv then
       field.value = str
-      serialize[#serialize + 1] = { field.field, field.value }
+      AppendSerializedField(serialize, field.field, field.value)
     end
     if not meta then
       value = field.value
@@ -139,7 +139,7 @@ function LoadField(field)
         local is_selected = selected == i
         if reaper.ImGui_Selectable(ctx, value, is_selected) then
           field.selected = i
-          serialize[#serialize + 1] = { field.field, field.selected }
+          AppendSerializedField(serialize, field.field, field.selected)
         end
         if is_selected then reaper.ImGui_SetItemDefaultFocus(ctx) end
       end
@@ -164,7 +164,7 @@ function LoadField(field)
     local rv, bool = reaper.ImGui_Checkbox(ctx, field.field, field.value)
     if rv then
       field.value = bool
-      serialize[#serialize + 1] = { field.field, field.value }
+      AppendSerializedField(serialize, field.field, field.value)
     end
     if not meta then
       value = field.value and field.btrue or field.bfalse
@@ -1168,6 +1168,17 @@ function GetSharedSchemes()
     shared_schemes_table[#shared_schemes_table + 1] = shared_scheme
   end
   return shared_schemes_table
+end
+
+-- Remove existing entry and append new one to serialize table
+function AppendSerializedField(serialize, field, value)
+  for i, entry in ipairs(serialize) do
+    if entry[1] == field then
+      table.remove(serialize, i)
+      break
+    end
+  end
+  serialize[#serialize + 1] = { field, value }
 end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
