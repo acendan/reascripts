@@ -12,6 +12,7 @@ fields:
     capitalization: UPPER
   - field: A Questionable Category
     value: [Dogs, Cats, Rats]
+    default: 2
     help: This is a simple dropdown!
     fields:
       - id: [Dogs, Cats]

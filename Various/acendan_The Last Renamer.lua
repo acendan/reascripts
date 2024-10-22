@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.3
+-- @version 1.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added option to check for duplicate fields (on by default)
+--   # Added option to set default value for dropdown fields
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -134,6 +134,7 @@ function LoadField(field)
 
     -- Dropdown
   elseif type(field.value) == "table" then
+    if not field.selected and field.default then field.selected = field.default end
     local selected = field.selected and field.selected or 0
     if reaper.ImGui_BeginCombo(ctx, field.field, field.value[selected]) then
       for i, value in ipairs(field.value) do
