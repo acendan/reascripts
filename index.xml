@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="b3fdfda61c5770d96da958b542940e6c8cf6caf3" name="ACendan Scripts">
+<index version="1" commit="b6103f867c8bd466b74cbd88deee7e36b7d36e47" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -3263,6 +3263,14 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/b3fdfda61c5770d96da958b542940e6c8cf6caf3/Various/Schemes/Generic%20Game.yaml</source>
         <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/b3fdfda61c5770d96da958b542940e6c8cf6caf3/Various/Schemes/UCS.yaml</source>
         <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/b3fdfda61c5770d96da958b542940e6c8cf6caf3/Various/Meta/meta.yaml</source>
+      </version>
+      <version name="1.21" author="Aaron Cendan" time="2024-10-22T16:23:28Z">
+        <changelog><![CDATA[# Fixed minor data serialization bug]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/b6103f867c8bd466b74cbd88deee7e36b7d36e47/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/b6103f867c8bd466b74cbd88deee7e36b7d36e47/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/b6103f867c8bd466b74cbd88deee7e36b7d36e47/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/b6103f867c8bd466b74cbd88deee7e36b7d36e47/Various/Schemes/UCS.yaml</source>
+        <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/b6103f867c8bd466b74cbd88deee7e36b7d36e47/Various/Meta/meta.yaml</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
