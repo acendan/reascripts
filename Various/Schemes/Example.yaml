@@ -4,6 +4,7 @@ illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/"
 find: [" "]
 replace: "_"
 maxchars: 64
+dupes: false
 fields:
   - field: A Useful Prefix
     value: DEFAULT

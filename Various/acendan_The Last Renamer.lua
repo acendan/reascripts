@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.21
+-- @version 1.3
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed minor data serialization bug
+--   # Added option to check for duplicate fields (on by default)
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -67,6 +67,7 @@ function Init()
   wgt.history = {}                                        -- History data
   wgt.dragdrop = {}                                       -- Drag-dropped files
   wgt.serialize = {}                                      -- Serialized fields
+  wgt.values = {}                                         -- Values for duplicate checking
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
@@ -175,6 +176,7 @@ function LoadField(field)
   if unskippable and value ~= "" and not meta then
     if field.capitalization then value = Capitalize(value, field.capitalization) end
     wgt.name = wgt.name .. sep .. value
+    wgt.values[#wgt.values+1] = value
   end
 
   -- Enforce required fields
@@ -269,6 +271,13 @@ function ValidateFields(preview_name)
   end
   if wgt.data.maxchars and preview_name and #preview_name > wgt.data.maxchars then
     wgt.invalid = "Name length (" .. #preview_name .. ") exceeds max num characters (" .. wgt.data.maxchars .. ")."; return
+  end
+  if not wgt.data.dupes and #wgt.values > 0 then
+    for _, value in ipairs(wgt.values) do
+      if acendan.tableCountOccurrences(wgt.values, value) > 1 then
+        wgt.invalid = "Duplicate field found: " .. value; return
+      end
+    end
   end
 end
 
@@ -447,6 +456,7 @@ function TabNaming()
   wgt.load_failed = nil
   wgt.name = ""
   wgt.required = ""
+  wgt.values = {}
 
   ----------------- Naming -----------------------
   reaper.ImGui_Text(ctx, wgt.data.title)
