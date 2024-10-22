@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.11
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed FXName field in UCS metadata
+--   # Added maxchars to yaml config for max filename length
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -253,7 +253,7 @@ function LoadTargets()
   end
 end
 
-function ValidateFields()
+function ValidateFields(preview_name)
   wgt.invalid = nil
   if wgt.required ~= "" then
     wgt.invalid = "Missing field: " .. wgt.required; return
@@ -266,6 +266,9 @@ function ValidateFields()
   end
   if wgt.target and not wgt.mode then
     wgt.invalid = "Please set a renaming mode for target: " .. wgt.target; return
+  end
+  if wgt.data.maxchars and preview_name and #preview_name > wgt.data.maxchars then
+    wgt.invalid = "Name length (" .. #preview_name .. ") exceeds max num characters (" .. wgt.data.maxchars .. ")."; return
   end
 end
 
@@ -457,7 +460,8 @@ function TabNaming()
   LoadTargets()
 
   ----------------- Submit -----------------------
-  ValidateFields()
+  local preview_name = SanitizeName(wgt.name, wgt.enumeration, {})
+  ValidateFields(preview_name)
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
   Button("Rename", ApplyName,
     "Applies your name to the given target!\n\nPro Tip: You can press the 'Enter' key to trigger renaming from any of the fields above.",
@@ -487,7 +491,7 @@ function TabNaming()
 
   -- Display generated name
   reaper.ImGui_SameLine(ctx)
-  reaper.ImGui_TextDisabled(ctx, SanitizeName(wgt.name, wgt.enumeration, {}))
+  reaper.ImGui_TextDisabled(ctx, preview_name)
 
   -- Button to clear local settings for current scheme
   Button("Clear All Fields", function()
