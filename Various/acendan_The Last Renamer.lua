@@ -14,7 +14,7 @@
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.9 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.0 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -45,13 +45,6 @@ local CONFIG_FLAGS = reaper.ImGui_ConfigFlags_DockingEnable() | reaper.ImGui_Con
 local SLIDER_FLAGS = reaper.ImGui_SliderFlags_AlwaysClamp()
 local FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
 local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
-
--- @NVK
--- Hacky stuff for autocomplete windows, adding this in the hopes that if this function gets added to the API, it won't break anything
-if not reaper.ImGui_WindowFlags_ChildWindow then
-  reaper.ImGui_WindowFlags_ChildWindow = function() return 1 << 24 end
-end
-local AUTOFILL_COMBO_FLAGS = reaper.ImGui_WindowFlags_ChildWindow() | reaper.ImGui_WindowFlags_NoMove()
 
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
@@ -89,87 +82,6 @@ function Init()
   local scale = acendan.ImGui_GetScale()
   reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width * scale, WINDOW_SIZE.height * scale)
   acendan.ImGui_SetScale(scale)
-end
-
--- TODO: Move to acendan lua utils
-function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
-  assert(filter, "ImGui_AutoFillComboBox: filter is nil. Please create a filter with ImGui_TextFilter_Create()")
-
-  local ret = nil
-
-  -- Search filter
-  -- For some reason, this does NOT autofill w tab key when using reaper.ImGui_TextFilter_Draw
-  -- Instead, just manually draw an input text and use the results to filter
-  local rv, str = reaper.ImGui_InputText(ctx, title .. "##" .. title .. "_filter", reaper.ImGui_TextFilter_Get(filter), reaper.ImGui_InputTextFlags_EscapeClearsAll())
-  if rv and reaper.ImGui_IsItemActive(ctx) then reaper.ImGui_TextFilter_Set(filter, str) end
-
-  -- Input states
-  local tabbed = reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_Tab()) and not reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Mod_Shift())
-  local arrowed = reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_DownArrow()) or reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_UpArrow())
-  local filteractive = reaper.ImGui_IsItemActive(ctx)
-  local filterfocused = reaper.ImGui_IsItemFocused(ctx)
-  local clicked = false
-  local focused = false
-
-  -- Open popup on focus
-  if filteractive then reaper.ImGui_OpenPopup(ctx, title .. "_popup") end
-
-  -- Popup
-  local visible_items = {}
-  local x_l, y_hi = reaper.ImGui_GetItemRectMin(ctx)
-  local x_r, y_lo = reaper.ImGui_GetItemRectMax(ctx)
-  reaper.ImGui_SetNextWindowPos(ctx, x_l, y_lo, reaper.ImGui_Cond_Always(), 0, 0)
-  if reaper.ImGui_BeginPopup(ctx, title .. "_popup", AUTOFILL_COMBO_FLAGS) then
-
-    -- Hacky focus manipulation
-    if not filterfocused and reaper.ImGui_IsWindowFocused( ctx ) then reaper.ImGui_SetNextWindowFocus( ctx ) end
-    if arrowed and not reaper.ImGui_IsAnyItemFocused( ctx ) then reaper.ImGui_SetWindowFocusEx( ctx, title .. "_popup" ) end
-
-    -- Dropdown list
-    if reaper.ImGui_BeginListBox(ctx, "##" .. title .. "_listbox") then
-      for i, item in ipairs(items) do
-        if reaper.ImGui_TextFilter_PassFilter(filter, item) then
-          visible_items[#visible_items + 1] = item
-          if reaper.ImGui_Selectable(ctx, item, item == items[selected]) then
-            ret = { i, item }
-            clicked = true
-          end
-
-          -- Focus on first visible item
-          if arrowed and not focused and not reaper.ImGui_IsAnyItemFocused(ctx) and reaper.ImGui_IsItemVisible(ctx) then reaper.ImGui_SetKeyboardFocusHere(ctx, -1); focused = true end
-        end
-      end
-      reaper.ImGui_EndListBox(ctx)
-    end
-
-    if tabbed or clicked then reaper.ImGui_CloseCurrentPopup(ctx) end
-    reaper.ImGui_EndPopup(ctx)
-  end
-
-  -- If tab is pressed, select first visible item in listbox
-  if tabbed and #visible_items > 0 then
-    local first_visible_item = visible_items[1]
-    ret = { acendan.tableContainsVal(items, first_visible_item), first_visible_item }
-  end
-
-  -- Clear 'x'
-  reaper.ImGui_SameLine(ctx)
-  reaper.ImGui_PushTabStop(ctx, false)
-  if reaper.ImGui_SmallButton(ctx, 'x##' .. title) then
-    selected = nil
-    reaper.ImGui_TextFilter_Clear(filter)
-  end
-  reaper.ImGui_PopTabStop(ctx)
-  acendan.ImGui_Tooltip("Clear selection.")
-
-  -- Exit focus on filter
-  if filteractive and (tabbed or clicked) then reaper.ImGui_SetKeyboardFocusHere(ctx) end
-
-  -- Return selected item num, text
-  if ret then
-    reaper.ImGui_TextFilter_Set(filter, ret[2])
-    return true, ret[1], ret[2]
-  end
 end
 
 function LoadField(field)
@@ -224,7 +136,7 @@ function LoadField(field)
   elseif type(field.value) == "table" then
     if not field.selected then field.selected = field.default or 0 end
     if not field.filter then field.filter = reaper.ImGui_CreateTextFilter(field.value[field.selected] or ""); reaper.ImGui_Attach(ctx, field.filter) end
-    local rv, rownum, rowtext = ImGui_AutoFillComboBox(ctx, field.field, field.value, field.selected, field.filter)
+    local rv, rownum, rowtext = acendan.ImGui_AutoFillComboBox(ctx, field.field, field.value, field.selected, field.filter)
     if rv then
       -- acendan.dbg("Selected: " .. rowtext .. " (" .. rownum .. ")" .. " Text Filter: " .. reaper.ImGui_TextFilter_Get(field.filter))
       field.selected = rownum
