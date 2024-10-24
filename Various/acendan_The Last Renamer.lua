@@ -46,6 +46,13 @@ local SLIDER_FLAGS = reaper.ImGui_SliderFlags_AlwaysClamp()
 local FLT_MIN, FLT_MAX = reaper.ImGui_NumericLimits_Float()
 local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 
+-- @NVK
+-- Hacky stuff for autocomplete windows, adding this in the hopes that if this function gets added to the API, it won't break anything
+if not reaper.ImGui_WindowFlags_ChildWindow then
+  reaper.ImGui_WindowFlags_ChildWindow = function() return 1 << 24 end
+end
+local AUTOFILL_COMBO_FLAGS = reaper.ImGui_WindowFlags_ChildWindow() | reaper.ImGui_WindowFlags_NoFocusOnAppearing() | reaper.ImGui_WindowFlags_NoNavFocus()
+
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
 local META_DIR = SCRIPT_DIR .. "Meta" .. SEP
@@ -82,6 +89,78 @@ function Init()
   local scale = acendan.ImGui_GetScale()
   reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width * scale, WINDOW_SIZE.height * scale)
   acendan.ImGui_SetScale(scale)
+end
+
+-- TODO: Move to acendan lua utils
+function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
+  assert(filter, "ImGui_AutoFillComboBox: filter is nil. Please create a filter with ImGui_TextFilter_Create()")
+
+  local ret = nil
+
+  local function SelectRow(rownum, rowtext)
+    reaper.ImGui_CloseCurrentPopup(ctx)
+    reaper.ImGui_TextFilter_Set(filter, rowtext)
+    return { rownum, rowtext }
+  end
+
+  -- Search filter
+  --
+  --  TODO: If no decent answer from NVK or REAPER slack by EOD, 
+  --  comment out the draw function and just use the text filter
+  --  via text edit callbacks on a standard TextEdit.
+  --
+  reaper.ImGui_TextFilter_Draw(filter, ctx, title .. "##" .. title .. "_filter")
+
+  -- If input text has focus then show combo as pop-up
+  if reaper.ImGui_IsItemActive(ctx) then
+    reaper.ImGui_OpenPopup(ctx, title .. "_popup")
+  end
+
+  -- Popup
+  local x_l, y_hi = reaper.ImGui_GetItemRectMin(ctx)
+  local x_r, y_lo = reaper.ImGui_GetItemRectMax(ctx)
+  reaper.ImGui_SetNextWindowPos(ctx, x_l, y_lo, reaper.ImGui_Cond_Always(), 0, 0)
+  if reaper.ImGui_BeginPopup(ctx, title .. "_popup", AUTOFILL_COMBO_FLAGS) then
+    
+    -- Listbox with dropdown items
+    local visible_items = {}
+    if reaper.ImGui_BeginListBox(ctx, "##" .. title .. "_listbox") then
+      for i, item in ipairs(items) do
+        if reaper.ImGui_TextFilter_PassFilter(filter, item) then
+          visible_items[#visible_items + 1] = item
+          if reaper.ImGui_Selectable(ctx, item, item == items[selected]) then
+            ret = SelectRow(i, item)
+          end
+        end
+      end
+      reaper.ImGui_EndListBox(ctx)
+    end
+
+    -- If tab is pressed, close popup and select first visible item in listbox
+    if reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_Tab()) and #visible_items > 0 then
+      
+      local first_visible_item = visible_items[1]
+      ret = SelectRow(acendan.tableContainsVal(items, first_visible_item), first_visible_item)
+      
+      -- TODO: Figure out why the rowtext isn't populating filter text on tab key
+      -- TODO: Fix preset/history loading with new combo box
+    
+    end
+
+    reaper.ImGui_EndPopup(ctx)
+  end
+
+  -- Clear 'x'
+  reaper.ImGui_SameLine(ctx)
+  reaper.ImGui_PushTabStop(ctx, false)
+  if reaper.ImGui_SmallButton(ctx, 'x##' .. title) then
+    selected = nil
+    reaper.ImGui_TextFilter_Clear(filter)
+  end
+  reaper.ImGui_PopTabStop(ctx)
+  acendan.ImGui_Tooltip("Clear selection.")
+
+  if ret then return true, ret[1], ret[2] else return false end
 end
 
 function LoadField(field)
@@ -134,26 +213,14 @@ function LoadField(field)
 
     -- Dropdown
   elseif type(field.value) == "table" then
-    if not field.selected and field.default then field.selected = field.default end
-    local selected = field.selected and field.selected or 0
-    if reaper.ImGui_BeginCombo(ctx, field.field, field.value[selected]) then
-      for i, value in ipairs(field.value) do
-        local is_selected = selected == i
-        if reaper.ImGui_Selectable(ctx, value, is_selected) then
-          field.selected = i
-          AppendSerializedField(serialize, field.field, field.selected)
-        end
-        if is_selected then reaper.ImGui_SetItemDefaultFocus(ctx) end
-      end
-      reaper.ImGui_EndCombo(ctx)
+    if not field.selected then field.selected = field.default or 0 end
+    if not field.filter then field.filter = reaper.ImGui_CreateTextFilter(field.value[field.selected] or ""); reaper.ImGui_Attach(ctx, field.filter) end
+    local rv, rownum, rowtext = ImGui_AutoFillComboBox(ctx, field.field, field.value, field.selected, field.filter)
+    if rv then
+      -- acendan.dbg("Selected: " .. rowtext .. " (" .. rownum .. ")" .. " Text Filter: " .. reaper.ImGui_TextFilter_Get(field.filter))
+      field.selected = rownum
+      AppendSerializedField(serialize, field.field, field.selected)
     end
-    
-    -- Clear dropdown 'x'
-    reaper.ImGui_SameLine(ctx)
-    if reaper.ImGui_SmallButton(ctx, 'x##' .. field.field) then
-      field.selected = nil
-    end
-    acendan.ImGui_Tooltip("Clear dropdown selection.")
 
     if not meta then
       -- Use short value as abbreviation, if applicable
@@ -461,8 +528,10 @@ function TabNaming()
 
   ----------------- Naming -----------------------
   reaper.ImGui_Text(ctx, wgt.data.title)
+  reaper.ImGui_PushTabStop(ctx, false)
   LoadPresets()
   LoadHistory()
+  reaper.ImGui_PopTabStop(ctx)
   LoadFields(wgt.data.fields)
 
   ----------------- Target -----------------------
