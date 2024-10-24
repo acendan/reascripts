@@ -51,7 +51,7 @@ local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 if not reaper.ImGui_WindowFlags_ChildWindow then
   reaper.ImGui_WindowFlags_ChildWindow = function() return 1 << 24 end
 end
-local AUTOFILL_COMBO_FLAGS = reaper.ImGui_WindowFlags_ChildWindow() | reaper.ImGui_WindowFlags_NoFocusOnAppearing() | reaper.ImGui_WindowFlags_NoNavFocus() | reaper.ImGui_WindowFlags_NoNav() | reaper.ImGui_WindowFlags_NoMove()
+local AUTOFILL_COMBO_FLAGS = reaper.ImGui_WindowFlags_ChildWindow() | reaper.ImGui_WindowFlags_NoMove()
 
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
@@ -98,21 +98,34 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
   local ret = nil
 
   -- Search filter
-  local rv, str = reaper.ImGui_InputText(ctx, title .. "##" .. title .. "_filter", reaper.ImGui_TextFilter_Get(filter))
+  -- For some reason, this does NOT autofill w tab key when using reaper.ImGui_TextFilter_Draw
+  -- Instead, just manually draw an input text and use the results to filter
+  local rv, str = reaper.ImGui_InputText(ctx, title .. "##" .. title .. "_filter", reaper.ImGui_TextFilter_Get(filter), reaper.ImGui_InputFlags_RouteUnlessBgFocused())
   if rv and reaper.ImGui_IsItemActive(ctx) then reaper.ImGui_TextFilter_Set(filter, str) end
 
-  local tabbed = reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_Tab())
+  -- Input states
+  local tabbed = reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_Tab()) and not reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Mod_Shift())
+  local arrowed = reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_DownArrow()) or reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_UpArrow())
+  local filteractive = reaper.ImGui_IsItemActive(ctx)
+  local filterfocused = reaper.ImGui_IsItemFocused(ctx)
+  local clicked = false
+  local focused = false
 
   -- Open popup on focus
-  if reaper.ImGui_IsItemActive(ctx) then reaper.ImGui_OpenPopup(ctx, title .. "_popup") end
+  if filteractive then reaper.ImGui_OpenPopup(ctx, title .. "_popup") end
 
   -- Popup
   local visible_items = {}
-  local clicked = false
   local x_l, y_hi = reaper.ImGui_GetItemRectMin(ctx)
   local x_r, y_lo = reaper.ImGui_GetItemRectMax(ctx)
   reaper.ImGui_SetNextWindowPos(ctx, x_l, y_lo, reaper.ImGui_Cond_Always(), 0, 0)
   if reaper.ImGui_BeginPopup(ctx, title .. "_popup", AUTOFILL_COMBO_FLAGS) then
+
+    -- Hacky focus manipulation
+    if not filterfocused and reaper.ImGui_IsWindowFocused( ctx ) then reaper.ImGui_SetNextWindowFocus( ctx ) end
+    if arrowed and not reaper.ImGui_IsAnyItemFocused( ctx ) then reaper.ImGui_SetWindowFocusEx( ctx, title .. "_popup" ) end
+
+    -- Dropdown list
     if reaper.ImGui_BeginListBox(ctx, "##" .. title .. "_listbox") then
       for i, item in ipairs(items) do
         if reaper.ImGui_TextFilter_PassFilter(filter, item) then
@@ -121,6 +134,9 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
             ret = { i, item }
             clicked = true
           end
+
+          -- Focus on first visible item
+          if arrowed and not focused and not reaper.ImGui_IsAnyItemFocused(ctx) and reaper.ImGui_IsItemVisible(ctx) then reaper.ImGui_SetKeyboardFocusHere(ctx, -1); focused = true end
         end
       end
       reaper.ImGui_EndListBox(ctx)
@@ -130,12 +146,12 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
     reaper.ImGui_EndPopup(ctx)
   end
 
-  -- If tab is pressed, close popup and select first visible item in listbox
+  -- If tab is pressed, select first visible item in listbox
   if tabbed and #visible_items > 0 then
     local first_visible_item = visible_items[1]
     ret = { acendan.tableContainsVal(items, first_visible_item), first_visible_item }
   end
-  
+
   -- Clear 'x'
   reaper.ImGui_SameLine(ctx)
   reaper.ImGui_PushTabStop(ctx, false)
@@ -145,6 +161,9 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
   end
   reaper.ImGui_PopTabStop(ctx)
   acendan.ImGui_Tooltip("Clear selection.")
+
+  -- Exit focus on filter
+  if filteractive and (tabbed or clicked) then reaper.ImGui_SetKeyboardFocusHere(ctx) end
 
   -- Return selected item num, text
   if ret then
