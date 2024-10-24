@@ -1065,6 +1065,7 @@ function SetFieldValue(field, value)
   -- Dropdowns
   if type(field.value) == "table" then
     field.selected = tonumber(value)
+    if field.filter then reaper.ImGui_TextFilter_Set(field.filter, field.value[field.selected]) end
 
     -- Enumeration
   elseif type(field.value) == "number" then
