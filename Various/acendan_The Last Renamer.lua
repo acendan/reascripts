@@ -100,7 +100,7 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
   -- Search filter
   -- For some reason, this does NOT autofill w tab key when using reaper.ImGui_TextFilter_Draw
   -- Instead, just manually draw an input text and use the results to filter
-  local rv, str = reaper.ImGui_InputText(ctx, title .. "##" .. title .. "_filter", reaper.ImGui_TextFilter_Get(filter), reaper.ImGui_InputFlags_RouteUnlessBgFocused())
+  local rv, str = reaper.ImGui_InputText(ctx, title .. "##" .. title .. "_filter", reaper.ImGui_TextFilter_Get(filter), reaper.ImGui_InputTextFlags_EscapeClearsAll())
   if rv and reaper.ImGui_IsItemActive(ctx) then reaper.ImGui_TextFilter_Set(filter, str) end
 
   -- Input states
@@ -918,7 +918,7 @@ function Main()
   end
 
   -- If esc pressed, close window
-  if reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Key_Escape()) then open = false end
+  if reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Key_Escape()) and not reaper.ImGui_IsPopupOpen(ctx, "", reaper.ImGui_PopupFlags_AnyPopupId()) then open = false end
 
   reaper.ImGui_End(ctx)
   acendan.ImGui_PopStyles()
