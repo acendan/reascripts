@@ -51,7 +51,7 @@ local DBL_MIN, DBL_MAX = reaper.ImGui_NumericLimits_Double()
 if not reaper.ImGui_WindowFlags_ChildWindow then
   reaper.ImGui_WindowFlags_ChildWindow = function() return 1 << 24 end
 end
-local AUTOFILL_COMBO_FLAGS = reaper.ImGui_WindowFlags_ChildWindow() | reaper.ImGui_WindowFlags_NoFocusOnAppearing() | reaper.ImGui_WindowFlags_NoNavFocus()
+local AUTOFILL_COMBO_FLAGS = reaper.ImGui_WindowFlags_ChildWindow() | reaper.ImGui_WindowFlags_NoFocusOnAppearing() | reaper.ImGui_WindowFlags_NoNavFocus() | reaper.ImGui_WindowFlags_NoNav() | reaper.ImGui_WindowFlags_NoMove()
 
 local SCHEMES_DIR = SCRIPT_DIR .. "Schemes" .. SEP
 local BACKUPS_DIR = SCRIPT_DIR .. "Backups" .. SEP
@@ -97,59 +97,45 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
 
   local ret = nil
 
-  local function SelectRow(rownum, rowtext)
-    reaper.ImGui_CloseCurrentPopup(ctx)
-    reaper.ImGui_TextFilter_Set(filter, rowtext)
-    return { rownum, rowtext }
-  end
-
   -- Search filter
-  --
-  --  TODO: If no decent answer from NVK or REAPER slack by EOD, 
-  --  comment out the draw function and just use the text filter
-  --  via text edit callbacks on a standard TextEdit.
-  --
-  reaper.ImGui_TextFilter_Draw(filter, ctx, title .. "##" .. title .. "_filter")
+  local rv, str = reaper.ImGui_InputText(ctx, title .. "##" .. title .. "_filter", reaper.ImGui_TextFilter_Get(filter))
+  if rv and reaper.ImGui_IsItemActive(ctx) then reaper.ImGui_TextFilter_Set(filter, str) end
 
-  -- If input text has focus then show combo as pop-up
-  if reaper.ImGui_IsItemActive(ctx) then
-    reaper.ImGui_OpenPopup(ctx, title .. "_popup")
-  end
+  local tabbed = reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_Tab())
+
+  -- Open popup on focus
+  if reaper.ImGui_IsItemActive(ctx) then reaper.ImGui_OpenPopup(ctx, title .. "_popup") end
 
   -- Popup
+  local visible_items = {}
+  local clicked = false
   local x_l, y_hi = reaper.ImGui_GetItemRectMin(ctx)
   local x_r, y_lo = reaper.ImGui_GetItemRectMax(ctx)
   reaper.ImGui_SetNextWindowPos(ctx, x_l, y_lo, reaper.ImGui_Cond_Always(), 0, 0)
   if reaper.ImGui_BeginPopup(ctx, title .. "_popup", AUTOFILL_COMBO_FLAGS) then
-    
-    -- Listbox with dropdown items
-    local visible_items = {}
     if reaper.ImGui_BeginListBox(ctx, "##" .. title .. "_listbox") then
       for i, item in ipairs(items) do
         if reaper.ImGui_TextFilter_PassFilter(filter, item) then
           visible_items[#visible_items + 1] = item
           if reaper.ImGui_Selectable(ctx, item, item == items[selected]) then
-            ret = SelectRow(i, item)
+            ret = { i, item }
+            clicked = true
           end
         end
       end
       reaper.ImGui_EndListBox(ctx)
     end
 
-    -- If tab is pressed, close popup and select first visible item in listbox
-    if reaper.ImGui_IsKeyPressed(ctx, reaper.ImGui_Key_Tab()) and #visible_items > 0 then
-      
-      local first_visible_item = visible_items[1]
-      ret = SelectRow(acendan.tableContainsVal(items, first_visible_item), first_visible_item)
-      
-      -- TODO: Figure out why the rowtext isn't populating filter text on tab key
-      -- TODO: Fix preset/history loading with new combo box
-    
-    end
-
+    if tabbed or clicked then reaper.ImGui_CloseCurrentPopup(ctx) end
     reaper.ImGui_EndPopup(ctx)
   end
 
+  -- If tab is pressed, close popup and select first visible item in listbox
+  if tabbed and #visible_items > 0 then
+    local first_visible_item = visible_items[1]
+    ret = { acendan.tableContainsVal(items, first_visible_item), first_visible_item }
+  end
+  
   -- Clear 'x'
   reaper.ImGui_SameLine(ctx)
   reaper.ImGui_PushTabStop(ctx, false)
@@ -160,7 +146,11 @@ function ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
   reaper.ImGui_PopTabStop(ctx)
   acendan.ImGui_Tooltip("Clear selection.")
 
-  if ret then return true, ret[1], ret[2] else return false end
+  -- Return selected item num, text
+  if ret then
+    reaper.ImGui_TextFilter_Set(filter, ret[2])
+    return true, ret[1], ret[2]
+  end
 end
 
 function LoadField(field)
