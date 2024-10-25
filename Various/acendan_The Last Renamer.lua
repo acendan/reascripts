@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.4
+-- @version 1.5
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,11 +10,12 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added option to set default value for dropdown fields
+--   # Rewrote custom dropdown box that auto-fills while typing
+--   # Fixed incrementation bug with enumeration
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 8.9 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.0 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return
@@ -134,26 +135,19 @@ function LoadField(field)
 
     -- Dropdown
   elseif type(field.value) == "table" then
-    if not field.selected and field.default then field.selected = field.default end
-    local selected = field.selected and field.selected or 0
-    if reaper.ImGui_BeginCombo(ctx, field.field, field.value[selected]) then
-      for i, value in ipairs(field.value) do
-        local is_selected = selected == i
-        if reaper.ImGui_Selectable(ctx, value, is_selected) then
-          field.selected = i
-          AppendSerializedField(serialize, field.field, field.selected)
-        end
-        if is_selected then reaper.ImGui_SetItemDefaultFocus(ctx) end
-      end
-      reaper.ImGui_EndCombo(ctx)
+    if not field.selected then field.selected = field.default or 0 end
+    if not field.filter then field.filter = reaper.ImGui_CreateTextFilter(field.value[field.selected] or ""); reaper.ImGui_Attach(ctx, field.filter) end
+    local rv, rownum, rowtext
+    if GetPreviousValue("opt_autofill", false) == "true" then
+      rv, rownum, rowtext = acendan.ImGui_AutoFillComboBox(ctx, field.field, field.value, field.selected, field.filter)
+    else
+      rv, rownum, rowtext = acendan.ImGui_ComboBox(ctx, field.field, field.value, field.selected)
     end
-    
-    -- Clear dropdown 'x'
-    reaper.ImGui_SameLine(ctx)
-    if reaper.ImGui_SmallButton(ctx, 'x##' .. field.field) then
-      field.selected = nil
+    if rv then
+      -- acendan.dbg("Selected: " .. rowtext .. " (" .. rownum .. ")" .. " Text Filter: " .. reaper.ImGui_TextFilter_Get(field.filter))
+      field.selected = rownum
+      AppendSerializedField(serialize, field.field, field.selected)
     end
-    acendan.ImGui_Tooltip("Clear dropdown selection.")
 
     if not meta then
       -- Use short value as abbreviation, if applicable
@@ -461,8 +455,10 @@ function TabNaming()
 
   ----------------- Naming -----------------------
   reaper.ImGui_Text(ctx, wgt.data.title)
+  reaper.ImGui_PushTabStop(ctx, false)
   LoadPresets()
   LoadHistory()
+  reaper.ImGui_PopTabStop(ctx)
   LoadFields(wgt.data.fields)
 
   ----------------- Target -----------------------
@@ -471,7 +467,7 @@ function TabNaming()
   LoadTargets()
 
   ----------------- Submit -----------------------
-  local preview_name = SanitizeName(wgt.name, wgt.enumeration, {})
+  local preview_name = SanitizeName(wgt.name, wgt.enumeration, {}, true)
   ValidateFields(preview_name)
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
   Button("Rename", ApplyName,
@@ -661,6 +657,12 @@ function TabSettings()
   if rv then SetCurrentValue("opt_enable_meta", enable_meta) end
   acendan.ImGui_Tooltip("Enable the metadata tab for adding metadata to your renaming targets.\n\nRequires 'Add new metadata' setting in the Render window!")
 
+  -- Enable autofill dropdowns
+  local autofill = GetPreviousValue("opt_autofill", false)
+  local rv, autofill = reaper.ImGui_Checkbox(ctx, "Enable Autofill Dropdowns", autofill == "true" and true or false)
+  if rv then SetCurrentValue("opt_autofill", autofill) end
+  acendan.ImGui_Tooltip("Experimental - Overrides standard dropdowns with custom dropdowns that auto-fill with tab while typing.\n\nMay be buggy!")
+
   -- Only process NVK folder items in items mode
   local nvk_only = GetPreviousValue("opt_nvk_only", false)
   local rv, nvk_only = reaper.ImGui_Checkbox(ctx, "NVK Folder Items", nvk_only == "true" and true or false)
@@ -840,7 +842,7 @@ function Main()
   end
 
   -- If esc pressed, close window
-  if reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Key_Escape()) then open = false end
+  if reaper.ImGui_IsKeyDown(ctx, reaper.ImGui_Key_Escape()) and not reaper.ImGui_IsPopupOpen(ctx, "", reaper.ImGui_PopupFlags_AnyPopupId()) then open = false end
 
   reaper.ImGui_End(ctx)
   acendan.ImGui_PopStyles()
@@ -987,6 +989,7 @@ function SetFieldValue(field, value)
   -- Dropdowns
   if type(field.value) == "table" then
     field.selected = tonumber(value)
+    if field.filter then reaper.ImGui_TextFilter_Set(field.filter, field.value[field.selected]) end
 
     -- Enumeration
   elseif type(field.value) == "number" then
@@ -1262,16 +1265,18 @@ function Rename(target, mode, name, enumeration)
   return "Project has no " .. target .. " to rename!"
 end
 
-function SanitizeName(name, enumeration, wildcards)
+function SanitizeName(name, enumeration, wildcards, skipincrement)
   -- Uses enumeration struct to generate string substitution for enumeration
   local function GetEnumeration(enumeration)
-    if (enumeration.num == 1 and not enumeration.singles) then
+    if not enumeration or (enumeration.num == 1 and not enumeration.singles) then
       return ""
     elseif type(enumeration.start) == "string" then
       return enumeration.sep
     end
     local num_str = PadZeroes(enumeration.start, enumeration.zeroes)
-    enumeration.start = enumeration.start + 1
+    if not skipincrement then
+      enumeration.start = enumeration.start + 1
+    end
     return enumeration.sep .. num_str
   end
 
@@ -1282,10 +1287,12 @@ function SanitizeName(name, enumeration, wildcards)
   end
 
   -- Resolve enumeration
-  local enumerated = wild:gsub(enumeration.sep .. enumeration.wildcard, GetEnumeration(enumeration))
+  if enumeration then
+    wild = wild:gsub(enumeration.sep .. enumeration.wildcard, GetEnumeration(enumeration))
+  end
 
   -- Strip illegal characters and leading/trailing spaces
-  local stripped = enumerated:match("^%s*(.-)%s*$")
+  local stripped = wild:match("^%s*(.-)%s*$")
   local illegal = wgt.data.illegal or { ":", "*", "?", "\"", "<", ">", "|", "\\", "/" }
   for _, char in ipairs(illegal) do
     stripped = stripped:gsub(char, "")
