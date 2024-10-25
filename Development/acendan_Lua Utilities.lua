@@ -459,6 +459,21 @@ function acendan.ImGui_Button(label, callback, color_h)
   reaper.ImGui_PopID(ctx)
 end
 
+function acendan.ImGui_ComboBox(ctx, title, items, selected)
+  local ret = nil
+  if reaper.ImGui_BeginCombo(ctx, title, items[selected]) then
+    for i, value in ipairs(items) do
+      local is_selected = selected == i
+      if reaper.ImGui_Selectable(ctx, value, is_selected) then
+        ret = { i, value }
+      end
+      if is_selected then reaper.ImGui_SetItemDefaultFocus(ctx) end
+    end
+    reaper.ImGui_EndCombo(ctx)
+  end
+  if ret then return true, ret[1], ret[2] end
+end
+
 function acendan.ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
   assert(filter, "ImGui_AutoFillComboBox: filter is nil. Please create a filter with ImGui_TextFilter_Create()")
 
