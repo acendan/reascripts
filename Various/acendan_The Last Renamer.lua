@@ -466,7 +466,7 @@ function TabNaming()
   LoadTargets()
 
   ----------------- Submit -----------------------
-  local preview_name = SanitizeName(wgt.name, wgt.enumeration, {})
+  local preview_name = SanitizeName(wgt.name, wgt.enumeration, {}, true)
   ValidateFields(preview_name)
   if wgt.invalid then reaper.ImGui_BeginDisabled(ctx) end
   Button("Rename", ApplyName,
@@ -1264,7 +1264,7 @@ function Rename(target, mode, name, enumeration)
   return "Project has no " .. target .. " to rename!"
 end
 
-function SanitizeName(name, enumeration, wildcards)
+function SanitizeName(name, enumeration, wildcards, skipincrement)
   -- Uses enumeration struct to generate string substitution for enumeration
   local function GetEnumeration(enumeration)
     if not enumeration or (enumeration.num == 1 and not enumeration.singles) then
@@ -1273,7 +1273,9 @@ function SanitizeName(name, enumeration, wildcards)
       return enumeration.sep
     end
     local num_str = PadZeroes(enumeration.start, enumeration.zeroes)
-    enumeration.start = enumeration.start + 1
+    if not skipincrement then
+      enumeration.start = enumeration.start + 1
+    end
     return enumeration.sep .. num_str
   end
 
