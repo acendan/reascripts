@@ -11,6 +11,7 @@
 --   # The Last Renamer
 -- @changelog
 --   # Rewrote custom dropdown box that auto-fills while typing
+--   # Fixed incrementation bug with enumeration
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
