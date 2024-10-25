@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.5
+-- @version 1.51
 -- @metapackage
 -- @provides
 --   [main] .
