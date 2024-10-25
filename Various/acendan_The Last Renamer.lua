@@ -660,7 +660,7 @@ function TabSettings()
   local autofill = GetPreviousValue("opt_autofill", false)
   local rv, autofill = reaper.ImGui_Checkbox(ctx, "Enable Autofill Dropdowns", autofill == "true" and true or false)
   if rv then SetCurrentValue("opt_autofill", autofill) end
-  acendan.ImGui_Tooltip("Experimental! Overrides standard dropdowns with custom dropdowns that autofill when pressing tab while typing.\n\nMay be buggy!")
+  acendan.ImGui_Tooltip("Experimental - Overrides standard dropdowns with custom dropdowns that auto-fill with tab while typing.\n\nMay be buggy!")
 
   -- Only process NVK folder items in items mode
   local nvk_only = GetPreviousValue("opt_nvk_only", false)
