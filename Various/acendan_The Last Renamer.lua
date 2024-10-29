@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.52
+-- @version 1.53
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,12 +10,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Rewrote custom dropdown box that auto-fills while typing
---   # Fixed incrementation bug with enumeration
+--   # Fixed dropdown 'x' not appearing for standard dropdowns
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.1 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.2 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return

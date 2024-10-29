@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 9.1
+-- @version 9.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -471,6 +471,16 @@ function acendan.ImGui_ComboBox(ctx, title, items, selected)
     end
     reaper.ImGui_EndCombo(ctx)
   end
+  
+  -- Clear 'x'
+  reaper.ImGui_SameLine(ctx)
+  reaper.ImGui_PushTabStop(ctx, false)
+  if reaper.ImGui_SmallButton(ctx, 'x##' .. title) then
+    ret = { 0, "" }
+  end
+  reaper.ImGui_PopTabStop(ctx)
+  acendan.ImGui_Tooltip("Clear selection.")
+
   if ret then return true, ret[1], ret[2] end
 end
 
@@ -538,7 +548,7 @@ function acendan.ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
   reaper.ImGui_SameLine(ctx)
   reaper.ImGui_PushTabStop(ctx, false)
   if reaper.ImGui_SmallButton(ctx, 'x##' .. title) then
-    selected = nil
+    ret = { 0, "" }
     reaper.ImGui_TextFilter_Clear(filter)
   end
   reaper.ImGui_PopTabStop(ctx)
