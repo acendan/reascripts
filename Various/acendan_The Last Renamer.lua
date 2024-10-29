@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.53
+-- @version 1.6
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed dropdown 'x' not appearing for standard dropdowns
+--   # Support nested subfields under toggles (thanks to @terromino for the suggestion!)
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -191,13 +191,16 @@ function LoadField(field)
 end
 
 function PassesIDCheck(field, parent)
-  if not field.id then return true end
+  if field.id == nil then return true end
   if not parent then return false end
   if type(field.id) == "table" then
     for i, id in ipairs(field.id) do
       if parent.value[parent.selected] == id then return true end
     end
     return false
+  end
+  if type(field.id) == "boolean" then
+    return parent.value == field.id
   end
   return parent.value[parent.selected] == field.id
 end

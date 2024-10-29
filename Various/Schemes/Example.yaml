@@ -46,10 +46,12 @@ fields:
         field: Manufacturer
         value: [Toyota, Honda, Nissan]
         short: [JPToy, JPHon, JPNis]
-  - field: Type
-    value: [SFX, DX, MUS]
+  - field: Is SFX?
+    value: false
+    btrue: "SFX"
+    bfalse: ""
     fields:
-      - id: SFX
+      - id: true
         field: Category
         value: [Lvl, Wpn, Env]
         fields:
@@ -58,12 +60,6 @@ fields:
           - field: Variation
             value: A
             separator: " "
-      - id: DX
-        field: Dialogue
-        value: My Dialogue Asset
-      - id: MUS
-        field: Music
-        value: My Music Asset
   - field: Enumeration
     value: 1
     zeroes: 1
