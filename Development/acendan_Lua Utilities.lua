@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 9.2
+-- @version 9.21
 -- @metapackage
 -- @provides
 --   [main] .
