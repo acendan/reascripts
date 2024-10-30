@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.61
+-- @version 1.62
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Support nested subfields under toggles (thanks to @terromino for the suggestion!)
+--   # Various bug fixing to support subfields under toggles
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -174,7 +174,8 @@ function LoadField(field)
   end
 
   -- Enforce required fields
-  if field.required and value == "" then
+  local empty_short = (field.selected and field.short) and field.short[field.selected] == "" or false
+  if field.required and value == "" and not empty_short then
     reaper.ImGui_SameLine(ctx)
     reaper.ImGui_TextColored(ctx, 0xFF0000FF, "*")
     if wgt.required == "" then wgt.required = field.field end
@@ -1051,13 +1052,13 @@ function StorePreset(preset, prefix, settings, preserialized)
       local name = tostring(field.field)
 
       -- Append id(s) to name
-      if field.id then
+      if field.id ~= nil then
         if type(field.id) == "table" then
           for _, id in ipairs(field.id) do
-            name = name .. ":" .. acendan.encapsulate(id)
+            name = name .. ":" .. acendan.encapsulate(tostring(id))
           end
         else
-          name = name .. ":" .. acendan.encapsulate(field.id)
+          name = name .. ":" .. acendan.encapsulate(tostring(field.id))
         end
       end
 
@@ -1243,8 +1244,12 @@ end
 --        sep: Separator before wildcard.
 -- @return error
 function Rename(target, mode, name, enumeration)
-  if not target or not mode or not name or not enumeration then
-    return "Missing required parameters!"
+  if not target or not mode then
+    return "Missing renaming target!"
+  elseif not name then
+    return "Attempting rename with empty name!"
+  elseif not enumeration then
+    return "Missing enumeration!"
   end
 
   if target == "Regions" then
