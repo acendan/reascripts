@@ -50,11 +50,13 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Items Editing\acendan_Set selected items BWF metadata subfield to track name
  - Items Editing\acendan_Shuffle Mode_Move all items left continuously background
  - Items Editing\acendan_Sort selected items order by item names alphabetically ignoring capitalization
+ - Items Editing\acendan_Sort selected items order by peak
  - Items Editing\acendan_Split selected item by channel to new tracks
  - Items Editing\acendan_Stretch selected items to fit between nearest markers
  - Items Editing\acendan_Trim left edge of selected items by amount...
  - Items Editing\acendan_Trim right edge of selected items by amount...
  - Items Editing\acendan_Trim selected items at last zero crossing
+ - Items Editing\ausbaxter_acendan_Set snap offset to first transient in selected items
  - Markers\acendan_Action Marker_Move play cursor to left edge start of random selected item
  - Markers\acendan_Add marker to end of project regions prompt for name
  - Markers\acendan_Add marker to end of selected items prompt for name
@@ -81,6 +83,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Media Explorer\acendan_Remove all custom user metadata columns
  - Metadata\acendan_Export project render metadata settings to file
  - Metadata\acendan_Import project render metadata settings from file
+ - Metadata\acendan_Multi Mic Manager
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in first selected track
  - Razor Edits\acendan_Snap edit cursor to nearest razor edit edge in track under mouse
  - Regions\acendan_Add prefix or suffix to regions in time selection
@@ -98,6 +101,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Regions\acendan_Extend regions in time selection left edge by length
  - Regions\acendan_Import region names from text file
  - Regions\acendan_Rename regions from nearest markers
+ - Regions\acendan_Render regions ignoring overlapped items using the most recent render settings
  - Regions\acendan_Set nearest regions edges to selected media items
  - Regions\acendan_Set region color near edit cursor to SWS custom color
  - Regions\acendan_Shrink overlapping regions edges to time selection
@@ -136,6 +140,7 @@ Copy and paste the following URL in Extensions > ReaPack > Import a Repository:
  - Various\acendan_Organize TeamTalk conference recording media items by timestamp and user number in name
  - Various\acendan_Randomly deliver affirmations nvk_Game Audio Affirmations once an hour
  - Various\acendan_StreamDeck Context Monitor
+ - Various\acendan_The Last Renamer
  - Various\acendan_UCS Renaming Tool - Media Explorer Filter
  - Various\acendan_UCS Renaming Tool - Send To Interface
  - Various\acendan_Universal Category Renaming Tool
