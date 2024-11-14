@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.62
+-- @version 1.7
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Various bug fixing to support subfields under toggles
+--   # Fixed bug with duplicates not being detected when separator is present in value (ty @sippycup!)
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -271,8 +271,20 @@ function ValidateFields(preview_name)
     wgt.invalid = "Name length (" .. #preview_name .. ") exceeds max num characters (" .. wgt.data.maxchars .. ")."; return
   end
   if not wgt.data.dupes and #wgt.values > 0 then
+    local dupes_tbl = {}
+    -- if value contains separator(s), split and add each part to dupes_tbl
     for _, value in ipairs(wgt.values) do
-      if acendan.tableCountOccurrences(wgt.values, value) > 1 then
+      if wgt.data.separator and value:find(wgt.data.separator) then
+        for part in value:gmatch("[^" .. wgt.data.separator .. "]+") do
+          dupes_tbl[#dupes_tbl + 1] = part:lower()
+        end
+      else
+        dupes_tbl[#dupes_tbl + 1] = value:lower()
+      end
+    end
+    -- check for dupes
+    for _, value in ipairs(dupes_tbl) do
+      if acendan.tableCountOccurrences(dupes_tbl, value:lower()) > 1 then
         wgt.invalid = "Duplicate field found: " .. value; return
       end
     end
