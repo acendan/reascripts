@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.7
+-- @version 1.8
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed bug with duplicates not being detected when separator is present in value (ty @sippycup!)
+--   # Added option to skip enumeration on items that overlap
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -243,6 +243,17 @@ function LoadTargets()
       end
       reaper.ImGui_EndCombo(ctx)
     end
+  end
+
+  -- If target is Items, add toggle to respect overlaps
+  if wgt.target == "Items" then
+    if not wgt.overlap then wgt.overlap = GetPreviousValue("opt_overlap", false) == "true" end
+    local rv, overlap = reaper.ImGui_Checkbox(ctx, "Respect Overlaps", wgt.overlap)
+    if rv then
+      wgt.overlap = overlap
+      SetCurrentValue("opt_overlap", overlap)
+    end
+    acendan.ImGui_Tooltip("If checked, enumeration will not increment on items that overlap with neighbors on this track.")
   end
   
   -- If target is Items - Selected and NVK Only is enabled, display warning
@@ -1449,7 +1460,7 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
         local item_num = math.floor(reaper.GetMediaItemInfo_Value(item, "IP_ITEMNUMBER") + 1)
         if take ~= nil then
           local wildcards = { { find = "$name", replace = item_name }, { find = "$num", replace = PadZeroes(item_num) } }
-          queue[#queue + 1] = { take, wildcards, item_end, item_num }
+          queue[#queue + 1] = { item, take, wildcards, item_start, item_end, item_num }
         end
       end
     else
@@ -1469,7 +1480,7 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
       local item_num = math.floor(reaper.GetMediaItemInfo_Value(item, "IP_ITEMNUMBER") + 1)
       if take ~= nil then
         local wildcards = { { find = "$name", replace = item_name }, { find = "$num", replace = PadZeroes(item_num) } }
-        queue[#queue + 1] = { take, wildcards, item_end, item_num }
+        queue[#queue + 1] = { item, take, wildcards, item_start, item_end, item_num }
       end
     end
   end
@@ -1479,9 +1490,34 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
     if meta then return queue end
 
     enumeration.num = #queue
-    for _, item in ipairs(queue) do
-      local take, wildcards, _, _ = table.unpack(item)
-      reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", SanitizeName(name, enumeration, wildcards), true)
+    for _, item_data in ipairs(queue) do
+      local item, take, wildcards, item_start, item_end, item_num = table.unpack(item_data)
+
+      -- Handle overlaps if the option is enabled
+      if wgt.overlap then
+        local track = reaper.GetMediaItem_Track(item)
+        local track_num_items = reaper.CountTrackMediaItems( track )
+        local has_overlap = false
+        if track_num_items > 0 then
+          for i=0, track_num_items - 1 do
+            local track_item = reaper.GetTrackMediaItem( track, i )
+            if item ~= track_item then
+              local track_item_start = reaper.GetMediaItemInfo_Value( track_item, "D_POSITION" )
+              local track_item_end = track_item_start + reaper.GetMediaItemInfo_Value( track_item, "D_LENGTH" )
+              -- Only check for overlaps on left side of item, as we should start incrementing after the rightmost item in this overlap chain
+              has_overlap = item_start < track_item_end and item_end > track_item_start
+              if has_overlap then break end
+            end
+          end
+        end
+        if not has_overlap then
+          enumeration.start = enumeration.start + 1
+        end
+      end
+
+      -- Rename item
+      local new_name = SanitizeName(name, enumeration, wildcards, wgt.overlap) -- Skip incrementing the enumeration if overlaps are enabled
+      reaper.GetSetMediaItemTakeInfo_String(take, "P_NAME", new_name, true)
     end
   else
     error = "No items to rename (" .. mode .. ")!"

@@ -821,6 +821,21 @@ else
   acendan.msg("Project has no items!")
 end
 
+-- Loop through all items on specific track
+local track = reaper.GetTrack(0, 0) -- Get first track
+local num_items = reaper.CountTrackMediaItems( track )
+if num_items > 0 then
+  for i=0, num_items - 1 do
+    local item = reaper.GetTrackMediaItem( track, i )
+    local take = reaper.GetActiveTake( item )
+    if take ~= nil then 
+      
+    end
+  end
+else
+  acendan.msg("Track has no items!")
+end
+
 -- Loop through selected items
 local num_sel_items = reaper.CountSelectedMediaItems(0)
 if num_sel_items > 0 then
