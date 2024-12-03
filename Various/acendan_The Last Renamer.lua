@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.80
+-- @version 1.81
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added option to skip enumeration on items that overlap
+--   # Fixed up minor bug in the Rescan Folder button (ty Austin, luv u)
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -881,17 +881,23 @@ end
 -- Fetch filenames from SCHEMES_DIR
 function FetchSchemes()
   local schemes = {}
-  if acendan.directoryExists(SCHEMES_DIR) then
+  if SCHEMES_DIR ~= nil then
     local file_idx = 0
     repeat
       schemes[#schemes + 1] = reaper.EnumerateFiles(SCHEMES_DIR, file_idx)
       file_idx = file_idx + 1
     until not reaper.EnumerateFiles(SCHEMES_DIR, file_idx)
+  else
+    acendan.msg("Schemes directory not found: " .. SCHEMES_DIR)
+    return schemes
   end
   local shared_schemes_table = GetSharedSchemes()
   for _, shared_scheme in ipairs(shared_schemes_table) do
     local shared_scheme_name = shared_scheme:match("[^/\\]+$")
     schemes[#schemes + 1] = "Shared: " .. shared_scheme_name
+  end
+  if #schemes == 0 then
+    acendan.msg("No schemes found in: " .. SCHEMES_DIR)
   end
   return schemes
 end
