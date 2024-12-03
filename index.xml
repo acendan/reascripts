@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="5dd1da405a0b029bc605d6e25ba8c4d85ab0c255" name="ACendan Scripts">
+<index version="1" commit="3b44f1058d02a55bf2240caef0a3b152a8eb914f" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -3389,6 +3389,14 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/5dd1da405a0b029bc605d6e25ba8c4d85ab0c255/Various/Schemes/Generic%20Game.yaml</source>
         <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/5dd1da405a0b029bc605d6e25ba8c4d85ab0c255/Various/Schemes/UCS.yaml</source>
         <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/5dd1da405a0b029bc605d6e25ba8c4d85ab0c255/Various/Meta/meta.yaml</source>
+      </version>
+      <version name="1.81" author="Aaron Cendan" time="2024-12-03T16:02:39Z">
+        <changelog><![CDATA[# Fixed up minor bug in the Rescan Folder button (ty Austin, luv u)]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/3b44f1058d02a55bf2240caef0a3b152a8eb914f/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/3b44f1058d02a55bf2240caef0a3b152a8eb914f/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/3b44f1058d02a55bf2240caef0a3b152a8eb914f/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/3b44f1058d02a55bf2240caef0a3b152a8eb914f/Various/Schemes/UCS.yaml</source>
+        <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/3b44f1058d02a55bf2240caef0a3b152a8eb914f/Various/Meta/meta.yaml</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
