@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.81
+-- @version 1.82
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,9 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed up minor bug in the Rescan Folder button (ty Austin, luv u)
+--   # Fixed incrementation bug under niche circumstances (classic Schapps)
+--   # Preview display num chars out of max, when applicable
+--   # Limit UCS to 100 chars per spec
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -525,6 +527,11 @@ function TabNaming()
   -- Display generated name
   reaper.ImGui_SameLine(ctx)
   reaper.ImGui_TextDisabled(ctx, preview_name)
+
+  if wgt.data.maxchars then
+    reaper.ImGui_SameLine(ctx)
+    reaper.ImGui_TextDisabled(ctx, "(" .. #preview_name .. "/" .. wgt.data.maxchars .. ")")
+  end
 
   -- Button to clear local settings for current scheme
   Button("Clear All Fields", function()
@@ -1508,11 +1515,15 @@ function ProcessItems(mode, num_items, name, enumeration, meta)
           for i=0, track_num_items - 1 do
             local track_item = reaper.GetTrackMediaItem( track, i )
             if item ~= track_item then
+              -- If this item overlaps with an earlier one (on its left side), only start incrementing after the rightmost item in this overlap chain
               local track_item_start = reaper.GetMediaItemInfo_Value( track_item, "D_POSITION" )
               local track_item_end = track_item_start + reaper.GetMediaItemInfo_Value( track_item, "D_LENGTH" )
-              -- Only check for overlaps on left side of item, as we should start incrementing after the rightmost item in this overlap chain
               has_overlap = item_start < track_item_end and item_end > track_item_start
               if has_overlap then break end
+            elseif i == 0 then
+              -- If the current item is the first one in the track, then toggle the flag to prevent incrementing
+              has_overlap = true
+              break
             end
           end
         end

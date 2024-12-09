@@ -1,6 +1,7 @@
 title: Universal Category System v8.2
 separator: "_"
 illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
+maxchars: 100
 fields:
   - field: Category
     required: true
