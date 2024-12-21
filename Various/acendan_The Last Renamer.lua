@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 1.82
+-- @version 2.0
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,9 +10,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed incrementation bug under niche circumstances (classic Schapps)
---   # Preview display num chars out of max, when applicable
---   # Limit UCS to 100 chars per spec
+--   # Fixed metadata application w items as target (and NVK Folder Items)
+--   # Fixed metadata "Clear Fields" button
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -535,15 +534,15 @@ function TabNaming()
 
   -- Button to clear local settings for current scheme
   Button("Clear All Fields", function()
-    ClearFields(wgt.data.fields)
+    ClearFields(wgt.data.title, wgt.data.fields)
     SetScheme(wgt.scheme)
   end, "Clears out all fields, restoring them to their default state.", 0)
 end
 
-function ClearFields(fields)
+function ClearFields(title, fields)
   for i, field in ipairs(fields) do
-    DeleteCurrentValue(wgt.data.title .. " - " .. field.field)
-    if field.fields then ClearFields(field.fields) end
+    DeleteCurrentValue(title .. " - " .. field.field)
+    if field.fields then ClearFields(title, field.fields) end
   end
 end
 
@@ -585,6 +584,7 @@ function TabMetadata()
   reaper.ImGui_Spacing(ctx)
   reaper.ImGui_Separator(ctx)
   Button("Clear All Fields", function()
+    ClearFields("Metadata", wgt.meta.fields)
     wgt.meta = nil
   end, "Clears out all fields, restoring them to their default state.", 0)
 end
@@ -1621,7 +1621,7 @@ function ApplyMetadata()
       local queue = ProcessItems(wgt.mode, num_items, nil, nil, true)
       if type(queue) == "table" then
         for _, item in ipairs(queue) do
-          local _, _, item_end, item_num = table.unpack(item)
+          local _, _, _, _, item_end, item_num = table.unpack(item)
           SetMetadataMarker(marker, item_end, item_num)
         end
       else
