@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.0
+-- @version 2.01
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,8 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed metadata application w items as target (and NVK Folder Items)
---   # Fixed metadata "Clear Fields" button
+--   # Added PascalCase capitalization option
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -1204,6 +1203,8 @@ function Capitalize(str, capitalization)
   local caps = capitalization:lower() -- oh the irony of case sensitive :find()
   if caps:find("title") then
     return str:gsub("(%a)([%w_']*)", function(first, rest) return first:upper() .. rest:lower() end)
+  elseif caps:find("pascal") then
+    return str:gsub("(%a)([%w_']*)", function(first, rest) return first:upper() .. rest end):gsub(" ", "")
   elseif caps:find("up") then
     return str:upper()
   elseif caps:find("low") then
