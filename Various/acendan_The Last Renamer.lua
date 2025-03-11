@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.01
+-- @version 2.02
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added PascalCase capitalization option
+--   # Provide dummy enumeration if scheme doesn't define field
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -1286,7 +1286,18 @@ function Rename(target, mode, name, enumeration)
   elseif not name then
     return "Attempting rename with empty name!"
   elseif not enumeration then
-    return "Missing enumeration!"
+    if FindField(wgt.data.fields, "Enumeration") then
+      return "Missing enumeration!"
+    else
+      -- Scheme doesn't define enumeration settings, provide a dummy fallback
+      enumeration = {
+        start = 1,
+        zeroes = 1,
+        singles = false,
+        wildcard = "$enum",
+        sep = wgt.data.separator
+      }
+    end
   end
 
   if target == "Regions" then
