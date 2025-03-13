@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 8.3.1
+-- @version 8.3.2
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -24,14 +24,18 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   * Support for Selected Regions on Mac! (Thanks to joshnt for the fix)
+--   * Added support for appending item enumeration number to fxname and track title meta fields
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Initialize global var for full name, see setFullName()
-local ucs_full_name = ""
+ucs_full_name = ""
+
+-- Append item number to various metadata fields
+enumerate_fxname = false
+enumerate_tr_title = false
 
 -- Init copy settings (EDIT VIA SETTINGS MENU OF THE WEB INTERFACE)
 local copy_to_clipboard = false
@@ -1262,14 +1266,14 @@ function iXMLMarkers(position,relname)
     mega_marker = mega_marker .. ";" .. "SubCategory=" .. ucs_scat
     mega_marker = mega_marker .. ";" .. "UserCategory=" .. ucs_usca
     mega_marker = mega_marker .. ";" .. "VendorCategory=" .. ucs_vend
-    mega_marker = mega_marker .. ";" .. "FXName=" .. relname
+    mega_marker = mega_marker .. ";" .. "FXName=" .. relname .. (enumerate_fxname and " " .. tostring(ucs_num) or "")
     mega_marker = mega_marker .. ";" .. "Notes=" .. ucs_data
     mega_marker = mega_marker .. ";" .. "Show=" .. ucs_show
     mega_marker = mega_marker .. ";" .. "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat
 
     -- Extended meta
     if ret_meta then
-      mega_marker = mega_marker .. ";" .. "TrackTitle=" .. meta_title
+      mega_marker = mega_marker .. ";" .. "TrackTitle=" .. meta_title .. (enumerate_tr_title and " " .. tostring(ucs_num) or "")
       mega_marker = mega_marker .. ";" .. "Description=" .. meta_desc
       mega_marker = mega_marker .. ";" .. "Keywords=" .. meta_keys
       mega_marker = mega_marker .. ";" .. "RecMedium=" .. meta_recmed
@@ -1385,14 +1389,14 @@ function iXMLMarkers(position,relname)
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "SubCategory=" .. ucs_scat, ucs_num}
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "UserCategory=" .. ucs_usca, ucs_num}
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "VendorCategory=" .. ucs_vend, ucs_num}
-    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "FXName=" .. relname, ucs_num}
+    iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "FXName=" .. relname .. (enumerate_fxname and " " .. tostring(ucs_num) or ""), ucs_num}
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Notes=" .. ucs_data, ucs_num}
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Show=" .. ucs_show, ucs_num}
     iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "CategoryFull=" .. ucs_cat .. "-" .. ucs_scat, ucs_num}
 
     -- Extended meta
     if ret_meta then
-      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "TrackTitle=" .. meta_title, ucs_num}
+      iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "TrackTitle=" .. meta_title .. (enumerate_tr_title and " " .. tostring(ucs_num) or ""), ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Description=" .. meta_desc, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Keywords=" .. meta_keys, ucs_num}
       iXMLMarkerTbl[#iXMLMarkerTbl+1] = {position, "Microphone=" .. meta_mic, ucs_num}
