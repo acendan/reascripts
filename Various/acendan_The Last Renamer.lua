@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.02
+-- @version 2.03
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Provide dummy enumeration if scheme doesn't define field
+--   # Strip capitalization settings from wildcards
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -1200,6 +1200,10 @@ function DeletePreset(idx, prefix)
 end
 
 function Capitalize(str, capitalization)
+  local lowstr = str:lower()
+  if lowstr == "$name" or lowstr == "$enum" then return lowstr end
+  if not capitalization or capitalization == "" then return str end
+  
   local caps = capitalization:lower() -- oh the irony of case sensitive :find()
   if caps:find("title") then
     return str:gsub("(%a)([%w_']*)", function(first, rest) return first:upper() .. rest:lower() end)
