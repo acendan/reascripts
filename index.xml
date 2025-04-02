@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="143ae49d0de78c8ba50f3c3d88b8c4ee85d25a90" name="ACendan Scripts">
+<index version="1" commit="7794749c8bac7f3d4e4c9d0c90bf2d9edeb60c9e" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -3432,6 +3432,14 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/00864241c5b5f943a3216ba5ab51bfbc5a671caa/Various/Schemes/Generic%20Game.yaml</source>
         <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/00864241c5b5f943a3216ba5ab51bfbc5a671caa/Various/Schemes/UCS.yaml</source>
         <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/00864241c5b5f943a3216ba5ab51bfbc5a671caa/Various/Meta/meta.yaml</source>
+      </version>
+      <version name="2.03" author="Aaron Cendan" time="2025-04-02T03:25:44Z">
+        <changelog><![CDATA[# Strip capitalization settings from wildcards]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/7794749c8bac7f3d4e4c9d0c90bf2d9edeb60c9e/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/7794749c8bac7f3d4e4c9d0c90bf2d9edeb60c9e/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/7794749c8bac7f3d4e4c9d0c90bf2d9edeb60c9e/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/7794749c8bac7f3d4e4c9d0c90bf2d9edeb60c9e/Various/Schemes/UCS.yaml</source>
+        <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/7794749c8bac7f3d4e4c9d0c90bf2d9edeb60c9e/Various/Meta/meta.yaml</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
