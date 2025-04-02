@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.03
+-- @version 2.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -10,7 +10,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Strip capitalization settings from wildcards
+--   # Updated help text for shared scheme import
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -637,7 +637,7 @@ function TabSettings()
       acendan.msg("No shared scheme selected!", "The Last Renamer")
     end
   end,
-    "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).")
+    "Import a shared scheme from a YAML file outside of the schemes directory (for example, a file used by multiple team members via Perforce).\n\nNote: Shared Schemes can not have hyphens in their filename.")
 
   -- Remove shared scheme
   reaper.ImGui_SameLine(ctx)
