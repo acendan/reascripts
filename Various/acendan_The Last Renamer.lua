@@ -1,16 +1,17 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.1
+-- @version 2.2
 -- @metapackage
 -- @provides
 --   [main] .
 --   Schemes/*.{yaml}
 --   Meta/*.{yaml}
+--   VSCode/*.{json}
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Updated help text for shared scheme import
+--   # Added VS Code schema validation, thanks Xan!
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
