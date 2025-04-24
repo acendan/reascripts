@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.2
+-- @version 2.21
 -- @metapackage
 -- @provides
 --   [main] .
@@ -11,7 +11,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added VS Code schema validation, thanks Xan!
+--   # Fixed sanitization in copy func
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -520,7 +520,7 @@ function TabNaming()
   -- Copy to clipboard button next to preview text
   Button("Copy", function()
     if not wgt.name or wgt.name == "" then return end
-    reaper.CF_SetClipboard(wgt.name)
+    reaper.CF_SetClipboard(SanitizeName(wgt.name, nil, {}, true))
   end, "Copies the generated name to your clipboard.\n\nUnfortunately, this can not resolve wildcards or enumeration.")
 
   -- Display generated name
