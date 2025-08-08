@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.21
+-- @version 2.22
 -- @metapackage
 -- @provides
 --   [main] .
@@ -11,7 +11,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed sanitization in copy func
+--   # Fixed up various ImGui issues for compatibility with 0.10 release
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -30,7 +30,7 @@ if not reaper.ImGui_Key_0() then
   return
 end
 local VSDEBUG = os.getenv("VSCODE_DBG_UUID") == "df3e118e-8874-49f7-ab62-ceb166401fb9" and
-    dofile('C:/Users/aaron/.vscode/extensions/antoinebalaine.reascript-docs-0.1.12/debugger/LoadDebug.lua') or nil
+    dofile('C:/Users/aaron/.vscode/extensions/antoinebalaine.reascript-docs-0.1.14/debugger/LoadDebug.lua') or nil
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~ CONSTANTS ~~~~~~~~~~~
@@ -371,8 +371,7 @@ function LoadPresets()
     local enabled = wgt.preset.idx and wgt.preset.idx > 0
     if not enabled then reaper.ImGui_BeginDisabled(ctx) end
     acendan.ImGui_Button("Load", ClickLoadPreset, 0.42)
-    acendan.ImGui_Tooltip(
-      "Loads the selected preset into the naming fields.\n\nPro Tip: Double-click a preset to load and close this menu.")
+    acendan.ImGui_Tooltip("Loads the selected preset into the naming fields.\n\nPro Tip: Double-click a preset to load and close this menu.")
 
     -- Overwrite selected
     reaper.ImGui_SameLine(ctx)
@@ -482,10 +481,10 @@ function TabNaming()
 
   ----------------- Naming -----------------------
   reaper.ImGui_Text(ctx, wgt.data.title)
-  reaper.ImGui_PushTabStop(ctx, false)
+  reaper.ImGui_PushItemFlag(ctx, reaper.ImGui_ItemFlags_NoTabStop(), true)
   LoadPresets()
   LoadHistory()
-  reaper.ImGui_PopTabStop(ctx)
+  reaper.ImGui_PopItemFlag(ctx)
   LoadFields(wgt.data.fields)
 
   ----------------- Target -----------------------

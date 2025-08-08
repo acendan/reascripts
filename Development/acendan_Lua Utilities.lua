@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 9.21
+-- @version 9.22
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Autofill combobox
+--   # Fixed up various ImGui issues for compatibility with 0.10 release
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -280,7 +280,6 @@ acendan.ImGui_Styles.colors = {
   { reaper.ImGui_Col_Header, 0x60606066 },
   { reaper.ImGui_Col_HeaderHovered, 0x606060FF },
   { reaper.ImGui_Col_HeaderActive, 0x808080FF },
-  { reaper.ImGui_Col_NavHighlight, 0xCDA4DEC8 },
   { reaper.ImGui_Col_TableRowBg, 0xFFFFFF00 },
   { reaper.ImGui_Col_TableRowBgAlt, 0xFFFFFF04 },
   { reaper.ImGui_Col_SliderGrab, 0xCDA4DEC8 },
@@ -371,8 +370,12 @@ end
 
 function acendan.ImGui_PushStyles()
   local scale = acendan.ImGui_GetSetting("ui_scale", 1.0)
-  for _, value in ipairs(acendan.ImGui_Styles.colors) do
-    reaper.ImGui_PushStyleColor(ctx, value[1](), value[2])
+  for idx, value in ipairs(acendan.ImGui_Styles.colors) do
+    if value[1] then
+      reaper.ImGui_PushStyleColor(ctx, value[1](), value[2])
+    else
+      acendan.dbg("ImGui style color has been removed at acendan.ImGui_Styles.colors index:" .. idx)
+    end
   end
   for _, value in ipairs(acendan.ImGui_Styles.vars) do
     local style_var = value[1]
@@ -393,7 +396,7 @@ function acendan.ImGui_PushStyles()
       reaper.ImGui_PushStyleVar(ctx, style_var, style_val)
     end
   end
-  reaper.ImGui_PushFont(ctx, acendan.ImGui_Styles.font)
+  reaper.ImGui_PushFont(ctx, acendan.ImGui_Styles.font, reaper.ImGui_GetFontSize(ctx))
 end
 
 function acendan.ImGui_PopStyles()
@@ -546,12 +549,12 @@ function acendan.ImGui_AutoFillComboBox(ctx, title, items, selected, filter)
 
   -- Clear 'x'
   reaper.ImGui_SameLine(ctx)
-  reaper.ImGui_PushTabStop(ctx, false)
+  reaper.ImGui_PushItemFlag(ctx, reaper.ImGui_ItemFlags_NoTabStop(), true)
   if reaper.ImGui_SmallButton(ctx, 'x##' .. title) then
     ret = { 0, "" }
     reaper.ImGui_TextFilter_Clear(filter)
   end
-  reaper.ImGui_PopTabStop(ctx)
+  reaper.ImGui_PopItemFlag(ctx)
   acendan.ImGui_Tooltip("Clear selection.")
 
   -- Exit focus on filter
