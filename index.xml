@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="9c5e32ba7d8dc410ae308cdb073711aed7b7c019" name="ACendan Scripts">
+<index version="1" commit="2ed663533680051e1276c8ad6bd3c68949e8f483" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -295,6 +295,11 @@
         <changelog><![CDATA[# Fixed up various ImGui issues for compatibility with 0.10 release]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/9c5e32ba7d8dc410ae308cdb073711aed7b7c019/Development/acendan_Lua%20Utilities.lua</source>
         <source file="Lib/yaml.lua">https://github.com/acendan/reascripts/raw/9c5e32ba7d8dc410ae308cdb073711aed7b7c019/Development/Lib/yaml.lua</source>
+      </version>
+      <version name="9.23" author="Aaron Cendan" time="2025-08-18T21:49:25Z">
+        <changelog><![CDATA[# Fixed up various ImGui issues for compatibility with 0.10.0.1 release]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Development/acendan_Lua%20Utilities.lua</source>
+        <source file="Lib/yaml.lua">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Development/Lib/yaml.lua</source>
       </version>
     </reapack>
   </category>
@@ -3463,6 +3468,15 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
         <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/9c5e32ba7d8dc410ae308cdb073711aed7b7c019/Various/Schemes/UCS.yaml</source>
         <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/9c5e32ba7d8dc410ae308cdb073711aed7b7c019/Various/Meta/meta.yaml</source>
         <source file="VSCode/last_renamer_schema.json">https://github.com/acendan/reascripts/raw/9c5e32ba7d8dc410ae308cdb073711aed7b7c019/Various/VSCode/last_renamer_schema.json</source>
+      </version>
+      <version name="2.23" author="Aaron Cendan" time="2025-08-18T21:49:25Z">
+        <changelog><![CDATA[# Fixed up various ImGui issues for compatibility with 0.10 release]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Various/acendan_The%20Last%20Renamer.lua</source>
+        <source file="Schemes/Example.yaml">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Various/Schemes/Example.yaml</source>
+        <source file="Schemes/Generic Game.yaml">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Various/Schemes/Generic%20Game.yaml</source>
+        <source file="Schemes/UCS.yaml">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Various/Schemes/UCS.yaml</source>
+        <source file="Meta/meta.yaml">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Various/Meta/meta.yaml</source>
+        <source file="VSCode/last_renamer_schema.json">https://github.com/acendan/reascripts/raw/2ed663533680051e1276c8ad6bd3c68949e8f483/Various/VSCode/last_renamer_schema.json</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
