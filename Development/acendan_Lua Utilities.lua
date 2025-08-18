@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 9.22
+-- @version 9.23
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Fixed up various ImGui issues for compatibility with 0.10 release
+--   # Fixed up various ImGui issues for compatibility with 0.10.0.1 release
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -477,11 +477,11 @@ function acendan.ImGui_ComboBox(ctx, title, items, selected)
   
   -- Clear 'x'
   reaper.ImGui_SameLine(ctx)
-  reaper.ImGui_PushTabStop(ctx, false)
+  reaper.ImGui_PushItemFlag(ctx, reaper.ImGui_ItemFlags_NoTabStop(), true)
   if reaper.ImGui_SmallButton(ctx, 'x##' .. title) then
     ret = { 0, "" }
   end
-  reaper.ImGui_PopTabStop(ctx)
+  reaper.ImGui_PopItemFlag(ctx)
   acendan.ImGui_Tooltip("Clear selection.")
 
   if ret then return true, ret[1], ret[2] end

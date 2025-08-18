@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.22
+-- @version 2.23
 -- @metapackage
 -- @provides
 --   [main] .
@@ -24,7 +24,11 @@ else
   reaper.ShowConsoleMsg(
     "This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return
 end
-if not reaper.ImGui_Key_0() then
+
+if reaper.ImGui_Key_0() then
+  package.path = reaper.ImGui_GetBuiltinPath() .. '/?.lua'
+  require 'imgui' '0.10.0.1'
+else
   acendan.msg(
     "This script requires the ReaImGui API, which can be installed from:\n\nExtensions > ReaPack > Browse packages...")
   return
