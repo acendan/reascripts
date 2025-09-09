@@ -1,0 +1,3 @@
+[submodule "ucs-renaming-tool"]
+	path = ucs-renaming-tool
+	url = https://github.com/acendan/ucs-renaming-tool
