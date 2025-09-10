@@ -3,6 +3,7 @@
 @version 8.3
 @provides
   acendan_UCS Renaming Tool.html
+  ucs-renaming-tool.js
   ucs_libraries/*.{js,png,css,svg,map,txt}
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
