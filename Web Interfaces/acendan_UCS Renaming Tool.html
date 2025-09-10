@@ -417,9 +417,7 @@
     <script type="text/javascript" src="ucs_libraries/countrystatecity.js"></script>
 </head>
 <body>
-    <!--------------->
-    <!--- NAVBAR ---->
-    <!--------------->
+    <!-- ================= NAVBAR ================= -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: var(--navbar-background); color: var(--navbar-text); transition: background-color 1s, color 1s;" id="ucsNavbar">
         <a class="navbar-brand" href="#">
             <img src="ucs_libraries/ucs_logo_white_on_black.png" width="30" height="30" class="d-inline-block align-top" alt="" id="navbarLogo">
@@ -492,20 +490,18 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center; justify-content: center;">
-                <!-- FETCH FROM REAPER -->
+                <!-- Fetch from REAPER -->
                 <a id="reacallBtnDark" onClick="reacall()" type="button" class="btn btn-outline-dark dark--hidden" style="margin-left: 15px; margin-right: 15px;"><img class="icons filter-dark" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
                 <a id="reacallBtnLight" onClick="reacall()" type="button" class="btn btn-outline-light light--hidden" style="margin-left: 15px; margin-right: 15px;"><img class="icons filter-light" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
 
-                <!-- SETTINGS MENU -->
+                <!-- Settings menu -->
                 <a id="settingsBtnDark" type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-dark" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
                 <a id="settingsBtnLight" type="button" class="btn btn-outline-light light--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-light" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
             </form>
         </div>
     </nav>
     
-    <!------------------------>
-    <!---  SETTINGS MENU  ---->
-    <!------------------------>
+    <!-- ================ SETTINGS MENU ================ -->
     <div class="modal fade settings-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -513,24 +509,22 @@
                 <h3 style="margin:0;" class="modal-title" id="settingsMenuTitle">UCS Renaming Tool Settings</h4>
               </div>
               <div class="modal-body">               
-                <!------------------------>
-                <!---  PROCESSING     ---->
-                <!------------------------>
+                <!-- ================ PROCESSING ================ -->
                 <h5 id="settingsMenuProcessingTitle"><i>Processing</i></h5>
-                <!-- VENDOR CATEGORY -->
+                <!-- Vendor category -->
                 <p style="margin-bottom:0px;" id="settingsVendorHeader">Vendor Category:</p>
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="vendorCatCheckbox">
                     <h7 id="settingsVendorDescription">Show Vendor Category field. Only relevant for library vendors.</h7>
                 </div>
-                <!-- DISABLE FX NAME FORMATTING -->
+                <!-- Disable FX name formatting -->
                 <p style="margin-bottom:0px;margin-top:15px;" id="settingsFXFormattingHeader">File Name Cleanup:</p>
                 <small class="form-text text-muted" id="settingsfxFormatting">Title Case, Remove Illegal Characters, Extra Spaces, etc.</small>
                 <select id="fxFormattingSetting" class="form-control col-md-5" style="margin-left:30px">
                     <option>Enable name cleanup (Default)</option>
                     <option>Disable name cleanup</option>
                 </select>                
-                <!-- DISABLE CAPITALIZATION -->
+                <!-- Disable capitalization -->
                 <p style="margin-bottom:0px;margin-top:15px;" id="settingsCapsHeader">Automatic Field Capitalization:</p>
                 <small class="form-text text-muted" id="settingsCapsDesc">Creator ID, Source ID, User Category, Vendor Category</small>
                 <select id="nameCapitalizationSetting" class="form-control col-md-5" style="margin-left:30px">
@@ -538,7 +532,7 @@
                     <option>Title Case</option>
                     <option>Disable automatic capitalization</option>
                 </select>
-                <!-- COPY RESULTS -->
+                <!-- Copy results -->
                 <p style="margin-bottom:0px;margin-top:15px;" id="settingsCopyHeader">Copy UCS File Name to Clipboard:</p>
                 <select id="copyResultsSetting" class="form-control col-md-5" style="margin-left:30px">
                     <option>Do not copy (Default)</option>
@@ -547,17 +541,15 @@
                 </select>
                 <div id="copyResultsWarning" style="margin:0;margin-left:30px;" class="alert alert-warning" role="alert">This will bypass the processing section and <i>just copy to clipboard</i>.</div>
 
-                <!------------------------>
-                <!---  UCS TABLE      ---->
-                <!------------------------>
+                <!-- ================ UCS TABLE ================ -->
                 <h5 class="modal-heading" style="margin-top:35px;" id="settingsUCSTableHeader">UCS Table</h5>
-                <!-- AUTO SUBMIT FORM ON ROW CLICK -->
+                <!-- Auto submit form on row click -->
                 <p style="margin-bottom:0px;" id="settingsUCSAutoSubmit">Auto Submit:</p>
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="autoSubmitCheckbox">
                     <h7 id="settingsUCSAutoSubmitDesc">Automatically submit form data when clicking table rows</h7>
                 </div>
-                <!-- AUTO SEARCH MEDIA EXPLORER -->
+                <!-- Auto search Media Explorer -->
                 <p style="margin-bottom:0px;margin-top:25px;" id="settingsFilterMediaExp">Filter Media Explorer:</p>
                 <div class="form-check" style="margin-left:30px">
                     <input class="form-check-input" type="checkbox" id="autoSearchCatSubcatCheckbox">
@@ -568,7 +560,7 @@
                     <h7 id="settingsFilterMediaExpSyn">Search media explorer for synonyms when clicking table rows</h7>
                 </div>
 
-                <!------------------------>
+                <!-- ========================================== -->
                 <!--- RENDER METADATA  --->
                 <!------------------------>
                 <h5 class="modal-heading" style="margin-top:35px;" id="settingsMetadataHeader">Metadata</h5>

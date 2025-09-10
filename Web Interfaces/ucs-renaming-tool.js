@@ -2116,9 +2116,9 @@ function loadUserPreset(index) {
     $("#presetName").val(presetSettings.preset).trigger('change');
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// DELETE USER PRESETS
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Delete the selected user preset from localStorage and update the UI.
+ */
 function deleteThisPreset() {
     // Get index of selected option
     var preset_index_to_delete = parseInt($("#deletePresetSelect").val(), 10);
@@ -2144,9 +2144,9 @@ function deleteThisPreset() {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// SAVE CURRENT SETTINGS TO HISTORY
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Save the current settings to the user's history in localStorage and update the dropdown.
+ */
 function saveThisHistory() {
     // Get user's settings            
     var currentCatID = getCatID($("#userInputCategory").val(), $("select#userSelectSubCategory option:checked").val());
@@ -2280,9 +2280,10 @@ function saveThisHistory() {
     deleteOldHistory();
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// LOAD SPECIFIC HISTORY
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Load a specific history entry by index and populate the UI fields.
+ * @param {number} index The index of the history entry to load.
+ */
 function loadThisHistory(index) {
     // Close presets dropdown menu, if open
     if ($('#navbarHistoryDropdownOptions').hasClass("show")) $("#navbarHistoryDropdown").dropdown("toggle");
@@ -2390,9 +2391,9 @@ function loadThisHistory(index) {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// DELETE USER PRESETS
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Delete old history entries if the number exceeds the maximum allowed slots.
+ */
 function deleteOldHistory() {
     // Fetch presets
     if (localStorage.getItem("num-history") !== null) {
@@ -2419,9 +2420,9 @@ function deleteOldHistory() {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// LOAD USERS HISTORY AND FILL OUT DROPDOWN
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Load all user history entries and fill out the dropdown menu.
+ */
 function loadUserHistory() {
     // Load presets
     if (localStorage.getItem("num-history") !== null) {
@@ -2439,11 +2440,11 @@ function loadUserHistory() {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// GBX Mod
-// Format:  GBX [UCS Cat] [UCS Sub Cat] [Brief Description based on Meta Tag incl Source + Source Descriptor] [Mic] SRC
-// Example: GBX FOLY CLOTH Canvas Large Snap Whoosh Cloth Fight Explo 416 SRC.wav
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * GBX Mod: Update the UI for GBX naming convention.
+ * Format: GBX [UCS Cat] [UCS Sub Cat] [Brief Description based on Meta Tag incl Source + Source Descriptor] [Mic] SRC
+ * Example: GBX FOLY CLOTH Canvas Large Snap Whoosh Cloth Fight Explo 416 SRC.wav
+ */
 function GBXMod() {
     // Update Title
     $("#navbarTitle").text("UCS Tool - GBX Mod");
@@ -2475,9 +2476,10 @@ function GBXMod() {
     // $("#showGroup").hide();
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// USE OFFLINE UCS DATA IF AVAILABLE
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Use offline UCS data if available and populate the DataTable and autocomplete arrays.
+ * @param {string} offlineTableData The offline UCS data as a JSON string.
+ */
 function useOfflineUSCData(offlineTableData) {
     // Display appropriate HTML elements
     $("#UCSTableSubHeading").text("UCS Data Offline Mode ~ UCS v8.2");
@@ -2542,9 +2544,9 @@ function useOfflineUSCData(offlineTableData) {
     );
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// USE GOOGLE SHEET DATA IF UCS OFFLINE NOT AVAILABLE
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Use Google Sheets UCS data if offline data is not available, populate DataTable and autocomplete arrays.
+ */
 function useGSheetsUSCData() {
     // Display appropriate HTML elements
     $("#downloadUCSButton").show();
@@ -2631,11 +2633,12 @@ function useGSheetsUSCData() {
     })
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// SET REAPER PROJEXTSTATE
-// ~~~~~~~~~~~~~~~~~~~~
-// Can accept HTML element ID as input 1, will use element ID as extstate field name
-// Can accept other variables as input 1, with extstate field name as input 2 string
+/**
+ * Set a REAPER project extstate value using the web interface.
+ * Can accept an HTML element ID as the first argument, or a value and extstate field name.
+ * @param {string} field The HTML element ID or value.
+ * @param {string} [extName] The extstate field name (optional).
+ */
 function setProjExtState(field, extName = "") {
     var htmlEle = document.getElementById(field);
     if (htmlEle) {
@@ -2647,9 +2650,12 @@ function setProjExtState(field, extName = "") {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// FIND CATID FROM CAT & SUBCAT
-// ~~~~~~~~~~~~~~~~~~~~
+/**
+ * Find the CatID from the selected category and subcategory.
+ * @param {string} selectedCat The selected category.
+ * @param {string} selectedSubcat The selected subcategory.
+ * @return {string} The CatID or 'CATID_INVALID' if not found.
+ */
 function getCatID(selectedCat, selectedSubcat) {
     var arrVal = selectedCat + ", " + selectedSubcat;
     if (Object.keys(jsonCatIDArr).find(key => jsonCatIDArr[key] === arrVal)) {
@@ -2665,11 +2671,12 @@ function getCatID(selectedCat, selectedSubcat) {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// CLEAN UP USER'S FILE NAME INPUT
-// ~~~~~~~~~~~~~~~~~~~~
-// Splits into name & number (formatted as string)
-// Uses RegEx to ensure name conforms to UCS standard (see RegEx function below)
+/**
+ * Clean up the user's file name input and split it into name and number.
+ * Uses RegEx to ensure name conforms to UCS standard.
+ * @param {string} name The input name string.
+ * @return {Array} [cleanName, number] The cleaned name and number as strings.
+ */
 function getNameAndNumber(name) {
     var fxFormattingSetting = $("#fxFormattingSetting").val();
     var cleanName = (fxFormattingSetting.includes("Enable")) ? stringCleaning(name) : name.replace(/_/g, " ");
@@ -2689,10 +2696,11 @@ function getNameAndNumber(name) {
     }
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// REGEX USER INPUT CLEANING
-// ~~~~~~~~~~~~~~~~~~~~
-// RegEx to clean up user input fields, see comments on right
+/**
+ * Clean up user input fields using RegEx.
+ * @param {string} inString The input string to clean.
+ * @return {string} The cleaned string.
+ */
 function stringCleaning(inString) {
     var noIllegalChars = inString.replace(/[\"\'\~\`\@\=\&\*\/\\\:\<\>\?\|\%\#\!\+\[\]\{\}]/g, "");    // Removes illegal characters
     var noLeadingWhitespace = noIllegalChars.replace(/^\s+/, "");                          // Removes whitespace at start of string
@@ -2702,11 +2710,10 @@ function stringCleaning(inString) {
     return noDoubleSpaces;
 }
 
-// ~~~~~~~~~~~~~~~~~~~~
-// DOWNLOAD "UCS.txt" BLOB FILE
-// ~~~~~~~~~~~~~~~~~~~~
-// Creates a text file from the Univ Cat System array
-// Spoofs a download link on the page for the created file, clicks it then removes spoof (sneaky)
+/**
+ * Download a "UCS.txt" blob file from the UCS array.
+ * Spoofs a download link on the page for the created file, clicks it, then removes the link.
+ */
 function downloadBlobFile() {
     // Open Reaper resource path
     wwr_req(encodeURIComponent(REApath));
