@@ -1,6 +1,6 @@
 -- @description UCS Renaming Tool
 -- @author Aaron Cendan
--- @version 8.3.2
+-- @version 8.4
 -- @metapackage
 -- @provides
 --   [main] . > acendan_UCS Renaming Tool.lua
@@ -13,7 +13,7 @@
 --
 --   ### Useful Resources
 --   * Blog post: https://www.aaroncendan.me/side-projects/ucs
---   * Tutorial vid: https://youtu.be/fO-2At7eEQ0
+--   * Documentation: https://github.com/acendan/reascripts/wiki/UCS-Renaming-Tool
 --   * Universal Category System: https://universalcategorysystem.com
 --   * UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo
 --
@@ -24,7 +24,7 @@
 --        REAPER\Data\toolbar_icons
 --   * It should then show up when you are customizing toolbar icons in Reaper.
 -- @changelog
---   * Added support for appending item enumeration number to fxname and track title meta fields
+--   * Updated documentation and installation instruction links
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~ GLOBAL VARIABLES ~~~~~~~~~~
@@ -1888,8 +1888,8 @@ function openUCSWebInterface()
   if ucs_path ~= "" then
     openURL(ucs_path)
   else
-    local response = reaper.MB("UCS Renaming Tool not found in Reaper Web Interface settings!\n\nWould you like to open the installation tutorial video?","Open UCS Renaming Tool",4)
-    if response == 6 then openURL("https://youtu.be/fO-2At7eEQ0") end
+    local response = reaper.MB("UCS Renaming Tool not found in Reaper Web Interface settings!\n\nWould you like to open the installation instructions?","UCS Renaming Tool",4)
+    if response == 6 then openURL("https://github.com/acendan/reascripts/wiki/UCS-Renaming-Tool#reaper-web-interface-settings") end
   end
 end
 
@@ -1986,5 +1986,9 @@ if reaper.HasExtState( "UCS_WebInterface", "runFromWeb" ) then
   end
 end
 
--- Open web interface - No extstate found or run from Actions List
-if not debug_mode then openUCSWebInterface() end
+-- if reaper.file_exists("C:\\REAPER\\reascripts\\ucs-renaming-tool\\ucs\\dist\\v0.0.0\\ucs-renaming-tool-v0.0.0-win.exe") then
+--   reaper.CF_ShellExecute("C:\\REAPER\\reascripts\\ucs-renaming-tool\\ucs\\dist\\v0.0.0\\ucs-renaming-tool-v0.0.0-win.exe")
+-- else
+  -- Open web interface - No extstate found or run from Actions List
+  if not debug_mode then openUCSWebInterface() end
+--end
