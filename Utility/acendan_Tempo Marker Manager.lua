@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 2.4
+-- @version 3.0
 -- @metapackage
 -- @provides
 --   [main] .
