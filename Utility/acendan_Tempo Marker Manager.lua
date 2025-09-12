@@ -1,6 +1,6 @@
 -- @description Tempo Marker Manager (ImGui)
 -- @author Aaron Cendan
--- @version 2.3
+-- @version 2.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,7 @@
 -- @about
 --   # Tempo Marker Manager, similar to tempo manager in Logic Pro
 -- @changelog
---   # ImGui Style
+--   # Fixed ImGui bug, thanks Dax!
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~ USER CONFIG - EDIT ME ~~~~~
@@ -114,7 +114,7 @@ function main()
   end
   
   -- Update table size every loop
-  tables.advanced.outer_size_value        = { 0.0, reaper.ImGui_GetWindowHeight(ctx) - 140 } --{ 0.0, TEXT_BASE_HEIGHT * 12 },
+  tables.advanced.outer_size_value        = { 0.0, reaper.ImGui_GetWindowHeight(ctx) - 160 } --{ 0.0, TEXT_BASE_HEIGHT * 12 },
   
   -- Update time sel and region info every loop
   local start_time_sel, end_time_sel = reaper.GetSet_LoopTimeRange(0,0,0,0,0)
@@ -239,9 +239,6 @@ function main()
       reaper.ImGui_TableHeadersRow(ctx)
     end
 
-    -- Show data
-    reaper.ImGui_PushButtonRepeat(ctx, true)
-
     -- Demonstrate using clipper for large vertical lists
     reaper.ImGui_ListClipper_Begin(clipper, #tables.advanced.items)
     while reaper.ImGui_ListClipper_Step(clipper) do
@@ -361,7 +358,6 @@ function main()
         reaper.ImGui_PopID(ctx)
       end
     end
-    reaper.ImGui_PopButtonRepeat(ctx)
 
     reaper.ImGui_EndTable(ctx)
   end
@@ -372,7 +368,7 @@ function main()
   HelpMarker("Set 'Time' OR 'Measure & Beat', then click the + button!")
   
   -- Get edit cursor position button
-  reaper.ImGui_SameLine(ctx, reaper.ImGui_GetWindowWidth(ctx) - 140)
+  reaper.ImGui_SameLine(ctx, reaper.ImGui_GetWindowWidth(ctx) - 160)
   if reaper.ImGui_Button(ctx, 'Time @ Edit Cursor', -FLT_MIN, 0.0) then
     add_mkr.tpos = reaper.format_timestr(reaper.GetCursorPosition(),"")
   end
@@ -394,9 +390,6 @@ function main()
       if tables.advanced.show_headers then
         reaper.ImGui_TableHeadersRow(ctx)
       end
-  
-      -- Show data
-      reaper.ImGui_PushButtonRepeat(ctx, true)
 
       reaper.ImGui_PushID(ctx, 'add_marker_rows')
       reaper.ImGui_TableNextRow(ctx, reaper.ImGui_TableRowFlags_None(), tables.advanced.row_min_height)
@@ -478,9 +471,6 @@ function main()
       end
 
       reaper.ImGui_PopID(ctx)
-
-      
-      reaper.ImGui_PopButtonRepeat(ctx)
   
       reaper.ImGui_EndTable(ctx)
     end
