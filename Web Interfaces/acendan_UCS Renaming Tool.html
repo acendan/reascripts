@@ -491,8 +491,12 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center; justify-content: center;">
                 <!-- Fetch from REAPER -->
-                <a id="reacallBtnDark" onClick="reacall()" type="button" class="btn btn-outline-dark dark--hidden" style="margin-left: 15px; margin-right: 15px;"><img class="icons filter-dark" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
-                <a id="reacallBtnLight" onClick="reacall()" type="button" class="btn btn-outline-light light--hidden" style="margin-left: 15px; margin-right: 15px;"><img class="icons filter-light" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
+                <a id="reacallBtnDark" onClick="reacall()" type="button" class="btn btn-outline-dark dark--hidden" style="margin-right: 15px;" title="Fetches the current selection and metadata from REAPER into the tool."><img class="icons filter-dark" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
+                <a id="reacallBtnLight" onClick="reacall()" type="button" class="btn btn-outline-light light--hidden" style="margin-right: 15px;" title="Fetches the current selection and metadata from REAPER into the tool."><img class="icons filter-light" src="ucs_libraries/reacall.svg" alt="reacall_icon">&nbsp;Reacall</a>
+
+                <!-- Documentation button -->
+                <a id="docsBtnDark" href="https://github.com/acendan/reascripts/wiki/UCS-Renaming-Tool" target="_blank" class="btn btn-outline-dark dark--hidden" style="margin-right: 15px;"><img class="icons filter-dark" src="ucs_libraries/info.svg" alt="docs_icon">&nbsp;Docs</a>
+                <a id="docsBtnLight" href="https://github.com/acendan/reascripts/wiki/UCS-Renaming-Tool" target="_blank" class="btn btn-outline-light light--hidden" style="margin-right: 15px;"><img class="icons filter-light" src="ucs_libraries/info.svg" alt="docs_icon">&nbsp;Docs</a>
 
                 <!-- Settings menu -->
                 <a id="settingsBtnDark" type="button" class="btn btn-outline-dark dark--hidden" data-toggle="modal" data-target=".settings-modal"><img class="icons filter-dark" src="ucs_libraries/settings.svg" alt="settings_icon">&nbsp;Settings</a>
@@ -567,7 +571,7 @@
                 <!-- UCS Metadata -->
                 <p style="margin-bottom:0px;" id="settingsUCSMetadataHeader">Render UCS Metadata:</p>
                 <div class="form-check" style="margin-left:30px">
-                    <input class="form-check-input" type="checkbox" id="iXMLSettings">
+                    <input class="form-check-input" type="checkbox" id="iXMLSettings" checked>
                     <h7 id="settingsUCSMetadataDesc">Embed UCS form info in metadata when rendering</h7>
                 </div>
                 <!-- Extended Metadata -->
@@ -1543,7 +1547,12 @@
         <!------------------------>
         <form id="ucsForm">
             <!-- NAMING SECTION -->
-            <div style="margin-top:40px;"><h5 id="naming"><i>Naming</i></h5></div>
+            <div style="margin-top:40px;">
+                <h5 id="namingPreviewTitle">
+                    <i id="generatedNameTitle">Naming</i>
+                    <b><span id="generatedNamePreview" style="font-style: normal; color: #7ab1ec;"></span></b>
+                </h5>
+            </div>
 
             <div class="form-row" id="namingFormRow">
                 <!-- Category -->

@@ -67,6 +67,65 @@ var day = new Date().getDate();
 // Determine Online or Offline Mode
 // ~~~~~~~~~~~~~~~~~~~~
 $(function () {
+    // Live update for generated name preview
+    function updateGeneratedNamePreview() {
+        // Gather relevant fields
+        var selectedCategory = $("#userInputCategory").val();
+        var selectedSubcategory = $("#userSelectSubCategory").val();
+        var selectedCatID = getCatID(selectedCategory, selectedSubcategory, true);
+        var nameAndNum = getNameAndNumber($("#userInputName").val());
+        var nameOnly = nameAndNum[0];
+        var numOnly = nameAndNum[1];
+        var enableNum = $("#userInputVarNumCheckbox").prop("checked");
+        var cleanUserCat = stringCleaning($("#userInputUserCat").val());
+        var cleanInitials = stringCleaning($("#userInputInitials").val());
+        var cleanShow = stringCleaning($("#userInputShow").val());
+        var vendorChecked = $("#vendorCatCheckbox").prop("checked");
+        var vendorCat = vendorChecked ? stringCleaning($("#userInputVendCat").val()) : "";
+        var cleanUserData = stringCleaning($("#userInputData").val());
+
+        // Compose preview name (mirrors submit logic, simplified)
+        var preview = "";
+        if (selectedCatID && selectedCatID !== "CATID_INVALID") {
+            preview += selectedCatID;
+        }
+        if (cleanUserCat) {
+            preview += "-" + cleanUserCat;
+        }
+        if (vendorCat) {
+            preview += "_" + vendorCat + "-";
+        } else {
+            preview += "_";
+        }
+        if (nameOnly) {
+            preview += nameOnly;
+            if (enableNum && numOnly) {
+                preview += " 01";
+            }
+        }
+        if (cleanInitials) {
+            preview += "_" + cleanInitials;
+        }
+        if (cleanShow) {
+            preview += "_" + cleanShow;
+        }
+        if (cleanUserData) {
+            preview += "_" + cleanUserData;
+        }
+
+        if (!preview || preview === "_") {
+            // Default text
+            $("#generatedNameTitle").text("Naming");
+            $("#generatedNamePreview").text("");
+        } else {
+            $("#generatedNameTitle").text("");
+            $("#generatedNamePreview").text(preview);
+        }
+    }
+
+    // Bind update to relevant fields
+    $(document).on("input change", "#userInputCategory, #userSelectSubCategory, #userInputName, #userInputVarNumCheckbox, #userInputUserCat, #userInputVendCat, #userInputInitials, #userInputShow, #vendorCatCheckbox, #userInputData", updateGeneratedNamePreview);
+    
     // Alert Safari users of issues with browser            
     if (isSafari) alert("Safari does not play nicely with this tool. I am working to resolve these issues, but until then, please consider using Google Chrome. Thank you for your understanding!");
 
@@ -76,6 +135,9 @@ $(function () {
 
     // Get previous session settings from local storage
     recallSettings();
+
+    // Initial naming preview
+    updateGeneratedNamePreview();
 
     // Assigns country icon for current language to navbar language dropdown
     getUCSLanguage();
@@ -2656,13 +2718,13 @@ function setProjExtState(field, extName = "") {
  * @param {string} selectedSubcat The selected subcategory.
  * @return {string} The CatID or 'CATID_INVALID' if not found.
  */
-function getCatID(selectedCat, selectedSubcat) {
+function getCatID(selectedCat, selectedSubcat, preview = false) {
     var arrVal = selectedCat + ", " + selectedSubcat;
     if (Object.keys(jsonCatIDArr).find(key => jsonCatIDArr[key] === arrVal)) {
         var arrCatID = Object.keys(jsonCatIDArr).find(key => jsonCatIDArr[key] === arrVal);
         console.log("Found CatID: " + arrCatID);
         return arrCatID;
-    } else {
+    } else if (!preview) {
         //alert("No valid CatID found." + "\n" + "\n" + "Please check your Category & Subcategory selections!");
         $("#userInputCategoryError").show();
         window.scrollTo(0, 0);

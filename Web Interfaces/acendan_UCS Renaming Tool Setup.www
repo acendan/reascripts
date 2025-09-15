@@ -1,6 +1,6 @@
 @description UCS Renaming Tool
 @author Aaron Cendan
-@version 8.4
+@version 8.5
 @provides
   acendan_UCS Renaming Tool.html
   ucs-renaming-tool.js
@@ -8,4 +8,6 @@
   ucs_languages/*.{txt}
 @about Universal Category System Renaming Tool
 @changelog
-   # Updated documentation, split up HTML and JS (finally lol)
+   # Added documentation link
+   # Added name preview in web interface to replace Naming section title
+   # 
