@@ -1,6 +1,6 @@
 -- @description Timecode Manager
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.01
 -- @metapackage
 -- @provides
 --   [main] .
@@ -21,7 +21,7 @@ local SCRIPT_NAME = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local SCRIPT_DIR = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 local REAPER_VERSION = tonumber(reaper.GetAppVersion():match("%d+%.%d+"))
 
-local WINDOW_SIZE = { width = 300, height = 130 }
+local WINDOW_SIZE = { width = 300, height = 210 }
 local WINDOW_FLAGS = reaper.ImGui_WindowFlags_NoCollapse()
 
 
@@ -67,7 +67,7 @@ function main()
   acendan.ImGui_Button("Move to Timecode", moveToTimecode, 0.42)  -- Green
 
   if wgt.error ~= "" then
-    reaper.ImGui_TextColored(ctx, 1, 0.4, 0.4, 1, wgt.error)
+    reaper.ImGui_TextColored(ctx, 0xFFFF00FF, wgt.error)
   end
 
   reaper.ImGui_End(ctx)
@@ -120,15 +120,16 @@ function moveToTimecode()
     reaper.Main_OnCommand(40111, 0) -- View: Zoom in vertical
     reaper.Main_OnCommand(reaper.NamedCommandLookup("_SWS_INSRTTRKABOVE"), 0) -- SWS: Insert track above selected tracks
     reaper.Main_OnCommand(42336, 0) -- Track: Lock/unlock track height
-    if REAPER_VERSION >= 7.46 then
-      reaper.Main_OnCommand(40000, 0) -- Track: Pin tracks to top of arrange view
-    end
+    reaper.Main_OnCommand(40000, 0) -- Track: Pin tracks to top of arrange view
     reaper.Main_OnCommand(40142, 0) -- Insert empty item
     reaper.Main_OnCommand(40688, 0) -- Item properties: Lock
     reaper.Main_OnCommand(42314, 0) -- Item properties: Display item time ruler in H:M:S:F format
     reaper.Main_OnCommand(42697, 0) -- View: Toggle track zoom to default height
   end
-  
+
+  reaper.UpdateArrange()
+  reaper.UpdateTimeline()
+
   wgt.error = ""
 end
 
