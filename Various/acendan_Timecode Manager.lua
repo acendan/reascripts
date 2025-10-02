@@ -1,12 +1,19 @@
 -- @description Timecode Manager
 -- @author Aaron Cendan
--- @version 1.02
+-- @version 1.03
 -- @metapackage
 -- @provides
 --   [main] .
 -- @link https://ko-fi.com/acendan_
 -- @about
---   # GoPro support.
+--   # Supports: Sound Devices WAVs, GoPro MP4/MOVs
+-- @changelog
+--   Added optional checkbox for GoPro hour offset based on file creation date (convert from 12 to 24 hour then replace hour in timecode)
+--   Added settings storage/retrieval for all checkboxes and target option
+
+-- TODO
+-- - Add support for Zoom F3
+-- - Add support for user customizable offsets per track
 
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.24 then acendan.msg('This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',"ACendan Lua Utilities"); return end else reaper.ShowConsoleMsg("This script requires ACendan Lua Utilities! Please install them here:\n\nExtensions > ReaPack > Browse Packages > 'ACendan Lua Utilities'"); return end
@@ -21,7 +28,7 @@ local SCRIPT_NAME = ({reaper.get_action_context()})[2]:match("([^/\\_]+)%.lua$")
 local SCRIPT_DIR = ({reaper.get_action_context()})[2]:sub(1,({reaper.get_action_context()})[2]:find("\\[^\\]*$"))
 local REAPER_VERSION = tonumber(reaper.GetAppVersion():match("%d+%.%d+"))
 
-local WINDOW_SIZE = { width = 300, height = 210 }
+local WINDOW_SIZE = { width = 300, height = 235 }
 local WINDOW_FLAGS = reaper.ImGui_WindowFlags_NoCollapse()
 
 
@@ -34,11 +41,12 @@ function init()
   reaper.ImGui_SetNextWindowSize(ctx, WINDOW_SIZE.width, WINDOW_SIZE.height)
   
   wgt = {
-    locking = true,
-    region = true,
-    ruler = true,
-    reference = false,
-    target = 1, -- 1 = Selected items, 2 = All items
+    locking = acendan.ImGui_GetSettingBool("TimecodeManager_Locking", true),
+    region = acendan.ImGui_GetSettingBool("TimecodeManager_Region", true),
+    ruler = acendan.ImGui_GetSettingBool("TimecodeManager_Ruler", true),
+    reference = acendan.ImGui_GetSettingBool("TimecodeManager_Reference", false),
+    gopro_offset = acendan.ImGui_GetSettingBool("TimecodeManager_GoProOffset", false),
+    target = tonumber(acendan.ImGui_GetSetting("TimecodeManager_Target", "1")), -- 1 = Selected items, 2 = All items
     error = ""
   }
 
@@ -51,20 +59,31 @@ function main()
   local rv, open = reaper.ImGui_Begin(ctx, SCRIPT_NAME, true, WINDOW_FLAGS)
   if not rv then return open end
   
-  rv, wgt.locking = reaper.ImGui_Checkbox(ctx, "Lock item movement", wgt.locking or false)
+  rv, wgt.locking = reaper.ImGui_Checkbox(ctx, "Lock item movement", wgt.locking)
   acendan.ImGui_HelpMarker("When enabled, item locks will be enabled, preventing left/right movement once snapped to timecode.")
+  if rv then acendan.ImGui_SetSettingBool("TimecodeManager_Locking", wgt.locking) end
 
-  rv, wgt.region = reaper.ImGui_Checkbox(ctx, "Make region", wgt.region or false)
+  rv, wgt.region = reaper.ImGui_Checkbox(ctx, "Make region", wgt.region)
   acendan.ImGui_HelpMarker("When enabled, a region will be created at the start and end of the items' embedded timecode.")
+  if rv then acendan.ImGui_SetSettingBool("TimecodeManager_Region", wgt.region) end
 
-  rv, wgt.ruler = reaper.ImGui_Checkbox(ctx, "Set ruler to H:M:S:F", wgt.ruler or false)
+  rv, wgt.ruler = reaper.ImGui_Checkbox(ctx, "Set ruler to H:M:S:F", wgt.ruler)
   acendan.ImGui_HelpMarker("When enabled, the project ruler will be set to Hours:Minutes:Seconds:Frames.")
+  if rv then acendan.ImGui_SetSettingBool("TimecodeManager_Ruler", wgt.ruler) end
 
-  rv, wgt.reference = reaper.ImGui_Checkbox(ctx, "Add ruler item", wgt.reference or false)
+  rv, wgt.reference = reaper.ImGui_Checkbox(ctx, "Add ruler item", wgt.reference)
   acendan.ImGui_HelpMarker("When enabled, a ruler item will be added on a new track to serve as a helper 0:00 reference point from the start of embedded timecode.")
+  if rv then acendan.ImGui_SetSettingBool("TimecodeManager_Reference", wgt.reference) end
 
-  local ret, idx, target = acendan.ImGui_ComboBox(ctx, "Target##tgt", {"Selected items","All items"}, wgt.target or 1)
-  if ret then wgt.target = idx end
+  rv, wgt.gopro_offset = reaper.ImGui_Checkbox(ctx, "GoPro hour offset", wgt.gopro_offset)
+  acendan.ImGui_HelpMarker("When enabled, GoPro items will have an hour offset applied based on the file creation time. Typically unnecessary.")
+  if rv then acendan.ImGui_SetSettingBool("TimecodeManager_GoProOffset", wgt.gopro_offset) end
+
+  local ret, idx, target = acendan.ImGui_ComboBox(ctx, "Target##tgt", {"Selected items","All items"}, wgt.target)
+  if ret then 
+    wgt.target = idx
+    acendan.ImGui_SetSetting("TimecodeManager_Target", tostring(wgt.target))
+  end
   acendan.ImGui_HelpMarker("Choose whether to apply timecode changes to selected items or all items in the project.")
 
   acendan.ImGui_Button("Move to Timecode", moveToTimecode, 0.42)  -- Green
@@ -166,6 +185,19 @@ function setupGoProTimecode()
           if timecode then
             local hours, minutes, seconds, frames = timecode:match("(%d+):(%d+):(%d+)%.(%d+)")
             if hours and minutes and seconds and frames then
+              -- Compensate for GoPro hour offset based on file creation time
+              if wgt.gopro_offset then
+                local created = reaper.ExecProcess( 'cmd.exe /C "dir /T:c \"' .. fmt .. '\" "', 0 ):sub(3)
+                local c_month, c_day, c_year, c_hour, c_minute, c_ampm = created:match("(%d+)-(%d+)-(%d+)%s-(%d+):(%d+)%s?(%a?%a?)")
+                if c_ampm == "PM" and tonumber(c_hour) < 12 then
+                  c_hour = tostring(tonumber(c_hour) + 12)
+                elseif c_ampm == "AM" and tonumber(c_hour) == 12 then
+                  c_hour = "00"
+                end
+                hours = tonumber(c_hour)
+              end
+
+              -- Convert from H:S:M:F to seconds
               local fps = reaper.TimeMap2_QNToTime(1, 1) -- Get project FPS
               local frame_time = (frames / fps)
               local pos = (hours * 3600) + (minutes * 60) + seconds + frame_time
