@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 9.23
+-- @version 9.24
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Fixed up various ImGui issues for compatibility with 0.10.0.1 release
+--   # Cleaned up some ImGui helpers
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -415,11 +415,12 @@ end
 function acendan.ImGui_Tooltip(desc, wrap_pos)
   wrap_pos = wrap_pos or 18.0
   if reaper.ImGui_IsItemHovered(ctx) then
-    reaper.ImGui_BeginTooltip(ctx)
-    reaper.ImGui_PushTextWrapPos(ctx, reaper.ImGui_GetFontSize(ctx) * wrap_pos)
-    reaper.ImGui_Text(ctx, desc)
-    reaper.ImGui_PopTextWrapPos(ctx)
-    reaper.ImGui_EndTooltip(ctx)
+    if reaper.ImGui_BeginTooltip(ctx) then
+      reaper.ImGui_PushTextWrapPos(ctx, reaper.ImGui_GetFontSize(ctx) * wrap_pos)
+      reaper.ImGui_Text(ctx, desc)
+      reaper.ImGui_PopTextWrapPos(ctx)
+      reaper.ImGui_EndTooltip(ctx)
+    end
   end
 end
 
@@ -462,6 +463,7 @@ function acendan.ImGui_Button(label, callback, color_h)
   reaper.ImGui_PopID(ctx)
 end
 
+-- Example: acendan.ImGui_ComboBox(ctx, "Target##sel", {"Selected items","All items"}, wgt.target or 1)
 function acendan.ImGui_ComboBox(ctx, title, items, selected)
   local ret = nil
   if reaper.ImGui_BeginCombo(ctx, title, items[selected]) then
