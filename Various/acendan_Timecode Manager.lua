@@ -1,6 +1,6 @@
 -- @description Timecode Manager
 -- @author Aaron Cendan
--- @version 1.06
+-- @version 1.07
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,7 +8,8 @@
 -- @about
 --   # Supports: Sound Devices WAVs, Zoom F3 WAVs, GoPro MP4/MOVs
 -- @changelog
---   Added button in track offset panel to calculate gap from first item in track's first transient to edit cursor
+--   Switch to using closest item to edit cursor for offset snapping
+--   Fixed some minor window positioning issues
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -135,9 +136,9 @@ function main()
   ImGui.SameLine(ctx)
 
   -- Track offsets popup
-  local popup_w, popup_h = 260, 180
+  local popup_w, popup_h = WINDOW_SIZE.width - 20, WINDOW_SIZE.height - 20
   local ret = ImGui.Button(ctx, "Set Track Offsets...")
-  acendan.ImGui_Tooltip("Set custom timecode offsets per track (stored in the project file).\n\nExamples\n00:00:00:15 = Right by 15 frames\n-01:00:00:00 = Left by 1 hr")
+  acendan.ImGui_Tooltip("Files slightly misaligned after Move to Timecode? This lets you set custom offsets per track (stored in the .rpp).\n\nExamples\n00:00:00:23 = Right by 23 frames\n-01:30:00:00 = Left by 1.5 hrs")
   if ret then
     ImGui.SetNextWindowSize(ctx, popup_w, popup_h, ImGui.Cond_Always)
     local main_x, main_y = ImGui.GetWindowPos(ctx)
@@ -149,12 +150,13 @@ function main()
     ImGui.OpenPopup(ctx, 'Track Offsets')
   end
   if ImGui.BeginPopupModal(ctx, 'Track Offsets', nil, WINDOW_FLAGS) then
+    popup_w, popup_h = ImGui.GetWindowSize(ctx)
     if reaper.ImGui_BeginTable(ctx, 'TrackOffsetsTbl', 2, tbls.flags & ~ImGui.TableFlags_Sortable, popup_w - 20, popup_h - 70, 0) then
       -- Declare columns
-      ImGui.TableSetupColumn(ctx, 'Track Name',
-        ImGui.TableColumnFlags_DefaultSort | ImGui.TableColumnFlags_WidthStretch | ImGui.TableColumnFlags_NoHide, 100.0,
+      ImGui.TableSetupColumn(ctx, 'Track',
+        ImGui.TableColumnFlags_DefaultSort | ImGui.TableColumnFlags_WidthStretch | ImGui.TableColumnFlags_NoHide, 0.0,
         1)
-      ImGui.TableSetupColumn(ctx, 'Offset (+/-)', ImGui.TableColumnFlags_WidthStretch, 140.0, 2)
+      ImGui.TableSetupColumn(ctx, 'Offset (+/-)', ImGui.TableColumnFlags_WidthFixed, 120.0, 2)
       ImGui.TableSetupScrollFreeze(ctx, tbls.freeze_cols, tbls.freeze_rows)
 
       -- Show headers
@@ -174,25 +176,11 @@ function main()
           -- Add track name
           ImGui.TableSetColumnIndex(ctx, 0)
           local ret, buf = reaper.GetTrackName(track)
-          ImGui.Text(ctx, ret and buf or "Track " .. (row_n + 1))
+          ImGui.Text(ctx, ret and (row_n + 1) .. ". " .. buf or "Track " .. (row_n + 1))
 
           -- Add offset input
           ImGui.TableSetColumnIndex(ctx, 1)
-          local _, offset = reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", "", false)
-          ret, buf = ImGui.InputTextWithHint(ctx, "##offset1", "hh:mm:ss:ff", offset, ImGui.InputTextFlags_None, nil)
-          if ret then
-            local valid = buf:match("^(%-?%d+):(%d+):(%d+)%:?(%d*)$")
-            if not valid then buf = offset end -- Revert to previous value if invalid
-            reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", buf, true)
-          end
-          -- Reset x button
-          ImGui.SameLine(ctx)
-          if ImGui.Button(ctx, "x##reset_offset_" .. row_n, 0.0, 0.0) then
-            reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", "", true)
-          end
-          acendan.ImGui_Tooltip("Reset to 00:00:00:00")
           -- Snap to cursor
-          ImGui.SameLine(ctx)
           if ImGui.Button(ctx, ">##snap_offset_" .. row_n, 0.0, 0.0) then
             reaper.PreventUIRefresh(1)
             local cursor_pos = reaper.GetCursorPosition()
@@ -201,33 +189,71 @@ function main()
               local ini_sel_items = {}
               acendan.saveSelectedItems(ini_sel_items)
 
-              -- Find first transient in first item
-              local first_item = reaper.GetTrackMediaItem(track, 0)
-              local item_pos = reaper.GetMediaItemInfo_Value(first_item, "D_POSITION")
-              reaper.SelectAllMediaItems( 0, false) -- Deselect all items
-              reaper.SetMediaItemSelected(first_item, true) -- Select first item
-              reaper.SetEditCurPos2( 0, item_pos, false, false) -- Move cursor to item start
-              reaper.Main_OnCommand(40375, 0) -- Item navigation: Move cursor to next transient in items
-              local first_trans = reaper.GetCursorPosition()
+              -- Find the item on this track nearest to the edit cursor
+              local nearest_item, nearest_dist = nil, math.huge
+              for i = 0, item_count - 1 do
+                local item = reaper.GetTrackMediaItem(track, i)
+                local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+                local item_len = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+                local item_end = item_pos + item_len
+                local dist = 0
+                if cursor_pos < item_pos then
+                  dist = item_pos - cursor_pos
+                elseif cursor_pos > item_end then
+                  dist = cursor_pos - item_end
+                else
+                  dist = 0 -- cursor is inside the item
+                end
+                if dist < nearest_dist then
+                  nearest_item = item
+                  nearest_dist = dist
+                end
+              end
 
-              -- Calculate offset from first transient to edit cursor position
-              local fps, dropFrame = reaper.TimeMap_curFrameRate(0)
-              local offset_sec = cursor_pos - first_trans
-              local pos_or_neg = offset_sec < 0 and "-" or ""
-              offset_sec = math.abs(offset_sec)
-              local hours = math.floor(offset_sec / 3600)
-              local minutes = math.floor((offset_sec % 3600) / 60)
-              local seconds = math.floor(offset_sec % 60)
-              local frames = math.floor((offset_sec - math.floor(offset_sec)) * fps + 0.5)
-              buf = string.format("%s%02d:%02d:%02d:%02d", pos_or_neg, hours, minutes, seconds, frames)
-              reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", buf, true)
+              if nearest_item then
+                local item_pos = reaper.GetMediaItemInfo_Value(nearest_item, "D_POSITION")
+                reaper.SelectAllMediaItems(0, false)
+                reaper.SetMediaItemSelected(nearest_item, true)
+                reaper.SetEditCurPos2(0, item_pos, false, false)
+                reaper.Main_OnCommand(40375, 0) -- Move cursor to next transient in items
+                local first_trans = reaper.GetCursorPosition()
+
+                -- Calculate offset from first transient to edit cursor position
+                local fps, dropFrame = reaper.TimeMap_curFrameRate(0)
+                local offset_sec = cursor_pos - first_trans
+                local pos_or_neg = offset_sec < 0 and "-" or ""
+                offset_sec = math.abs(offset_sec)
+                local hours = math.floor(offset_sec / 3600)
+                local minutes = math.floor((offset_sec % 3600) / 60)
+                local seconds = math.floor(offset_sec % 60)
+                local frames = math.floor((offset_sec - math.floor(offset_sec)) * fps + 0.5)
+                buf = string.format("%s%02d:%02d:%02d:%02d", pos_or_neg, hours, minutes, seconds, frames)
+                reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", buf, true)
+              end
 
               acendan.restoreSelectedItems(ini_sel_items)
-              reaper.SetEditCurPos2(0, cursor_pos, false, false) -- Move cursor back to original pos
+              reaper.SetEditCurPos2(0, cursor_pos, false, false)
             end
             reaper.PreventUIRefresh(-1)
           end
-          acendan.ImGui_Tooltip("Set offset to distance from first item on track's first transient to edit cursor position.")
+          acendan.ImGui_Tooltip("Sets offset to distance from first transient to edit cursor position, using nearest item on track.")
+          ImGui.SameLine(ctx)
+
+          -- Offset input box
+          local _, offset = reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", "", false)
+          ret, buf = ImGui.InputTextWithHint(ctx, "##offset1", "hh:mm:ss:ff", offset, ImGui.InputTextFlags_None, nil)
+          if ret then
+            local valid = buf:match("^(%-?%d+):(%d+):(%d+)%:?(%d*)$")
+            if not valid then buf = offset end -- Revert to previous value if invalid
+            reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", buf, true)
+          end
+          ImGui.SameLine(ctx)
+          
+          -- Reset x button
+          if ImGui.Button(ctx, "x##reset_offset_" .. row_n, 0.0, 0.0) then
+            reaper.GetSetMediaTrackInfo_String(track, "P_EXT:TimecodeOffset", "", true)
+          end
+          acendan.ImGui_Tooltip("Reset to 00:00:00:00")
 
           ImGui.PopID(ctx)
         end
