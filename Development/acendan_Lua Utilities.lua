@@ -1,6 +1,6 @@
 -- @description ACendan Lua Utilities
 -- @author Aaron Cendan
--- @version 9.25
+-- @version 9.30
 -- @metapackage
 -- @provides
 --   [main] .
@@ -9,7 +9,7 @@
 -- @about
 --   # Lua Utilities
 -- @changelog
---   # Cleaned up some ImGui template
+--   # Added wildcard support to YAML parser to limit need for copy-pasting throughout The Last Renamer scheme files
 
 --[[
 local acendan_LuaUtils = reaper.GetResourcePath()..'/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
@@ -2081,7 +2081,7 @@ end
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~ YAML ~~~~~~~~~~~~~
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function acendan.loadYaml(filename, sep)
+function acendan.loadYaml(filename)
   local yamllib = acendan.pathBuilder(reaper.GetResourcePath(), {"Scripts","ACendan Scripts","Development","Lib","yaml.lua"})
   if not yaml and reaper.file_exists(yamllib) then dofile(yamllib) end
   if not yaml then acendan.msg("Failed to load YAML library!"); return nil end
@@ -2093,8 +2093,30 @@ function acendan.loadYaml(filename, sep)
     f:close()
     return content
   end
-
   local content = readAll(filename)
+
+  -- Replace $wildcards
+  local new_content = ""
+  local wildcards = {}
+  for line in content:gmatch("([^\r\n]*)\r?\n?") do
+    if line:sub(1,1) == "$" and line:find(":") then
+      local wc_key = line:match("%$(.-):")
+      local wc_val = line:match(": (.*)")
+      wildcards[wc_key] = wc_val
+      line = ""
+    else
+      for k, v in pairs(wildcards) do
+        line = line:gsub("%$" .. k, v)
+      end
+    end
+
+    -- Skip empty lines
+    if #line > 0 then
+      new_content = new_content .. line .. "\r\n"
+    end
+  end
+  content = new_content
+
   -- DEBUG
   -- local tokens = yaml.tokenize(content)
   -- local i = 1

@@ -47,484 +47,745 @@
       "description": "The unique parts of a name that, together, define a scheme."
     }
   },
-  "required": ["title", "separator", "fields"],
+  "required": [
+    "title",
+    "separator",
+    "fields"
+  ],
   "dependencies": {
-    "find": ["replace"]
+    "find": [
+      "replace"
+    ]
   },
   "definitions": {
-    "field": {
-      "type": "object",
-        "properties": {
-          "field": {
-            "type": "string",
-            "description": "The name of the field."
-          },
-          "value": {
-            "description": "The type of data used for value defines the type of input, whether that's text input (string), a dropdown (array), checkbox (boolean), or enumeration (integer).",
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "integer"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1
-              }
-            ]
-          },
-          "help": {
-            "type": "string",
-            "minLength": 1,
-            "description": "A description of the field, which will be used for the '(?)' icon next to the field, if present. Minimum length of 1 character."
-          },
-          "capitalization": {
-            "type": "string",
-            "enum": ["UPPER", "lower", "Title"],
-            "description": "Optional capitalization for this field. Can be either: 'UPPER', 'lower', 'Title', or absent to skip capitalization."
-          },
-          "required": {
-            "type": "boolean",
-            "description": "If present and set to 'true', then this field is marked as required in the form (with a red asterisk). Fields are not required by default."
-          },
-          "skip": {
-            "type": "boolean",
-            "description": "If present and set to 'true', then this field will have no impact on the resulting name. This is primarily useful when making nested, interdependent fields (see below)."
-          },
-          "separator": {
-            "type": "string",
-            "description": "If present and set to a string, then this will override the default global separator defined at the root level of your scheme."
-          },
-          "fields": {
-            "type": "array",
-            "items": {
-              "$ref": "#/properties/fields/items"
-            },
-            "description": "A list of nested field definitions or sub-fields. These can only be used when the parent is a dropdown or a checkbox!"
-          },
-          "id": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            ],
-            "description": "This is used in nested fields as a mechanism of ensuring this field only shows up if its parent is set to a specific value. If a nested field is underneath a dropdown and uses a string like 'id: Animals', then that field will only show up if the parent dropdown that contains it is set to 'Animals'. If a nested field uses a table of strings, like 'id: [Cars, Trucks, Motorcyles]', then it will show up if the parent dropdown is set to any of the ids listed. If a nested field is underneath a checkbox and uses a boolean like 'id: true', then that field will only show up if the parent checkbox is toggled on! If you want the nested field to appear regardless of the state of its parent checkbox, simply remove the 'id' field."
-          },
-          "hint": {
-            "type": "string",
-            "description": "A greyed-out placeholder string used when this field has been cleared out."
-          },
-          "short": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "minItems": 1,
-            "description": "An array of strings (typically used for shorthand or abbreviations) to replace the selected dropdown with in the resulting filename."
-          },
-          "default": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "An integer for the one-based index of the 'value' to automatically select on load (if nothing was selected previously)."
-          },
-          "zeroes": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "The number of leading zeroes to pad at the start of your enumeration. For example, zeroes: 1 means the 7th item would have '07' in the name. Zero and positive integers."
-          },
-          "singles": {
-            "type": "boolean",
-            "description": "If present and set to true, this enforces adding an enumeration (i.e. '01') to naming targets, even when it is the only thing being processed. By default (or absent), enumeration is skipped on standalone targets."
-          },
-          "btrue": {
-            "type": "string",
-            "description": "The value to use if the field is true. For example, btrue: 'lp' could add 'lp' to looping sounds"
-          },
-          "bfalse": {
-            "type": "string",
-            "description": "The value to use if the field is false. For example, bfalse: Double quotes (\"\") could skip adding anything to non-looping sounds."
+    "stringOrWildcard": {
+      "oneOf": [
+        {
+          "type": "string",
+          "not": {
+            "pattern": "^\\$.*"
           }
         },
-        "required": ["field", "value"],
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "value": { "type": "string" }
-              }
+        {
+          "type": "string",
+          "pattern": "^\\$.*"
+        }
+      ],
+      "description": "A string which may be a wildcard starting with '$'. These two subschemas are mutually exclusive to avoid ambiguous matches."
+    },
+    "field": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The name of the field."
+        },
+        "value": {
+          "description": "The type of data used for value defines the type of input, whether that's text input (string), a dropdown (array), checkbox (boolean), or enumeration (integer).",
+          "oneOf": [
+            {
+              "type": "string"
             },
-            "then": {
-              "properties": {
-                "hint": {
-                  "type": "string",
-                  "description": "A greyed-out placeholder string used when this field has been cleared out."
-                }
-              }
-            }
-          },
-          {
-            "if": {
-              "properties": {
-                "value": { "type": "array" }
-              }
+            {
+              "type": "boolean"
             },
-            "then": {
-              "properties": {
-                "short": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "minItems": 1,
-                  "description": "An array of strings (typically used for shorthand or abbreviations) to replace the selected dropdown with in the resulting filename."
-                },
-                "default": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "description": "An integer for the one-based index of the value to automatically select on load (if nothing was selected previously)."
-                }
-              }
-            }
-          },
-          {
-            "if": {
-              "properties": { 
-                "value": { "type": "boolean" }
+            {
+              "type": "integer"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "then": {
-                "properties": {
-                  "btrue": {
-                    "type": "string",
-                    "description": "The value to use if the field is true. For example, btrue: 'lp' could add 'lp' to looping sounds"
-                  },
-                  "bfalse": {
-                    "type": "string",
-                    "description": "The value to use if the field is false. For example, bfalse: Double quotes (\"\") could skip adding anything to non-looping sounds."
+              "minItems": 1
+            }
+          ]
+        },
+        "help": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A description of the field, which will be used for the '(?)' icon next to the field, if present. Minimum length of 1 character."
+        },
+        "capitalization": {
+          "type": "string",
+          "enum": [
+            "UPPER",
+            "lower",
+            "Title"
+          ],
+          "description": "Optional capitalization for this field. Can be either: 'UPPER', 'lower', 'Title', or absent to skip capitalization."
+        },
+        "required": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "If present and set to 'true', then this field is marked as required in the form (with a red asterisk). Fields are not required by default. Strings starting with '$' can be used as wildcards."
+        },
+        "skip": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "If present and set to 'true', then this field will have no impact on the resulting name. This is primarily useful when making nested, interdependent fields (see below). Strings starting with '$' can be used as wildcards."
+        },
+        "separator": {
+          "type": "string",
+          "description": "If present and set to a string, then this will override the default global separator defined at the root level of your scheme."
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/properties/fields/items"
+          },
+          "description": "A list of nested field definitions or sub-fields. These can only be used when the parent is a dropdown or a checkbox!"
+        },
+        "id": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "This is used in nested fields as a mechanism of ensuring this field only shows up if its parent is set to a specific value. If a nested field is underneath a dropdown and uses a string like 'id: Animals', then that field will only show up if the parent dropdown that contains it is set to 'Animals'. If a nested field uses a table of strings, like 'id: [Cars, Trucks, Motorcyles]', then it will show up if the parent dropdown is set to any of the ids listed. If a nested field is underneath a checkbox and uses a boolean like 'id: true', then that field will only show up if the parent checkbox is toggled on! If you want the nested field to appear regardless of the state of its parent checkbox, simply remove the 'id' field."
+        },
+        "hint": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "A greyed-out placeholder string used when this field has been cleared out. Strings starting with '$' can be used as wildcards."
+        },
+        "short": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "An array of strings (typically used for shorthand or abbreviations) to replace the selected dropdown with in the resulting filename. Wildcard strings starting with '$' are also allowed."
+        },
+        "default": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "An integer for the one-based index of the 'value' to automatically select on load (if nothing was selected previously). Wildcard strings starting with '$' are allowed."
+        },
+        "zeroes": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "The number of leading zeroes to pad at the start of your enumeration. For example, zeroes: 1 means the 7th item would have '07' in the name. Zero and positive integers. Wildcard strings starting with '$' are allowed."
+        },
+        "singles": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "If present and set to true, this enforces adding an enumeration (i.e. '01') to naming targets, even when it is the only thing being processed. By default (or absent), enumeration is skipped on standalone targets. Wildcard strings starting with '$' are allowed."
+        },
+        "btrue": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "The value to use if the field is true. For example, btrue: 'lp' could add 'lp' to looping sounds. Wildcard strings starting with '$' are allowed."
+        },
+        "bfalse": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/stringOrWildcard"
+            }
+          ],
+          "description": "The value to use if the field is false. For example, bfalse: Double quotes (\"\") could skip adding anything to non-looping sounds. Wildcard strings starting with '$' are allowed."
+        }
+      },
+      "required": [
+        "field",
+        "value"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "hint": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/stringOrWildcard"
                   }
-                }
-              }
-            }
-          },
-          {
-            "if": {
-              "properties": {
-                "value": { "type": "integer" }
-              }
-            },
-            "then": {
-              "properties": {
-                "zeroes": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "description": "The number of leading zeroes to pad at the start of your enumeration. For example, zeroes: 1 means the 7th item would have '07' in the name. Zero and positive integers."
-                },
-                "singles": {
-                  "type": "boolean",
-                  "description": "If present and set to true, this enforces adding an enumeration (i.e. '01') to naming targets, even when it is the only thing being processed. By default (or absent), enumeration is skipped on standalone targets."
-                }
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["hint"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "string" }
-              },
-              "required": ["value"],
-              "description": "If 'hint' is present then 'value' should be a string. I.e. 'hint' only has meaning when 'value' is a string. Consider removing 'hint' if the 'field' is not a string."
-            }
-          },
-          {
-            "if": {
-              "required": ["short"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "array" }
-              },
-              "required": ["value"],
-              "description": "If 'short' is present then 'value' should be a array. I.e. 'short' only has meaning when 'value' is a array. Consider removing 'short' if the 'field' is not a array."
-            }
-          },
-          {
-            "if": {
-              "required": ["default"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "array" }
-              },
-              "required": ["value"],
-              "description": "If 'default' is present then 'value' should be a array. I.e. 'default' only has meaning when 'value' is a array. Consider removing 'default' if the 'field' is not a array."
-            }
-          },
-          {
-            "if": {
-              "required": ["btrue"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "boolean" }
-              },
-              "required": ["value"],
-              "description": "If 'btrue' is present then 'value' should be a boolean. I.e. 'btrue' only has meaning when 'value' is a boolean. Consider removing 'btrue' if the 'field' is not a boolean."
-            }
-          },
-          {
-            "if": {
-              "required": ["bfalse"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "boolean" }
-              },
-              "required": ["value"],
-              "description": "If 'bfalse' is present then 'value' should be a boolean. I.e. 'bfalse' only has meaning when 'value' is a boolean. Consider removing 'bfalse' if the 'field' is not a boolean."
-            }
-          },
-          {
-            "if": {
-              "required": ["zeroes"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "integer" }
-              },
-              "required": ["value"],
-              "description": "If 'zeroes' is present then 'value' should be a integer. I.e. 'zeroes' only has meaning when 'value' is a string. Consider removing 'zeroes' if the 'field' is not a integer."
-            }
-          },
-          {
-            "if": {
-              "required": ["singles"]
-            },
-            "then": {
-              "properties": {
-                "value": { "type": "integer" }
-              },
-              "required": ["value"],
-              "description": "If 'singles' is present then 'value' should be a integer. I.e. 'singles' only has meaning when 'value' is a string. Consider removing 'singles' if the 'field' is not a integer."
-            }
-          },
-          {
-            "if": {
-              "required": ["zeroes"]
-            },
-            "then": {
-              "not": {
-                "required": ["hint"],
-                "description": "Only one of 'zeroes' or 'hint' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["zeroes"]
-            },
-            "then": {
-              "not": {
-                "required": ["short"],
-                "description": "Only one of 'zeroes' or 'short' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["zeroes"]
-            },
-            "then": {
-              "not": {
-                "required": ["default"],
-                "description": "Only one of 'zeroes' or 'default' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["zeroes"]
-            },
-            "then": {
-              "not": {
-                "required": ["btrue"],
-                "description": "Only one of 'zeroes' or 'btrue' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["zeroes"]
-            },
-            "then": {
-              "not": {
-                "required": ["bfalse"],
-                "description": "Only one of 'zeroes' or 'bfalse' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["singles"]
-            },
-            "then": {
-              "not": {
-                "required": ["hint"],
-                "description": "Only one of 'singles' or 'hint' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["singles"]
-            },
-            "then": {
-              "not": {
-                "required": ["short"],
-                "description": "Only one of 'singles' or 'short' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["singles"]
-            },
-            "then": {
-              "not": {
-                "required": ["default"],
-                "description": "Only one of 'singles' or 'default' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["singles"]
-            },
-            "then": {
-              "not": {
-                "required": ["btrue"],
-                "description": "Only one of 'singles' or 'btrue' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["singles"]
-            },
-            "then": {
-              "not": {
-                "required": ["bfalse"],
-                "description": "Only one of 'singles' or 'bfalse' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["btrue"]
-            },
-            "then": {
-              "not": {
-                "required": ["hint"],
-                "description": "Only one of 'btrue' or 'hint' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["btrue"]
-            },
-            "then": {
-              "not": {
-                "required": ["short"],
-                "description": "Only one of 'btrue' or 'short' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["btrue"]
-            },
-            "then": {
-              "not": {
-                "required": ["default"],
-                "description": "Only one of 'btrue' or 'default' should be present."
+                ],
+                "description": "A greyed-out placeholder string used when this field has been cleared out."
               }
             }
           }
-          ,
-          {
-            "if": {
-              "required": ["bfalse"]
-            },
-            "then": {
-              "not": {
-                "required": ["hint"],
-                "description": "Only one of 'bfalse' or 'hint' should be present."
+        },
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "array"
               }
             }
           },
-          {
-            "if": {
-              "required": ["bfalse"]
-            },
-            "then": {
-              "not": {
-                "required": ["short"],
-                "description": "Only one of 'bfalse' or 'short' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["bfalse"]
-            },
-            "then": {
-              "not": {
-                "required": ["default"],
-                "description": "Only one of 'bfalse' or 'default' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["hint"]
-            },
-            "then": {
-              "not": {
-                "required": ["short"],
-                "description": "Only one of 'hint' or 'short' should be present."
-              }
-            }
-          },
-          {
-            "if": {
-              "required": ["hint"]
-            },
-            "then": {
-              "not": {
-                "required": ["default"],
-                "description": "Only one of 'hint' or 'default' should be present."
+          "then": {
+            "properties": {
+              "short": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  {
+                    "$ref": "#/definitions/stringOrWildcard"
+                  }
+                ],
+                "description": "An array of strings (typically used for shorthand or abbreviations) to replace the selected dropdown with in the resulting filename."
+              },
+              "default": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "$ref": "#/definitions/stringOrWildcard"
+                  }
+                ],
+                "description": "An integer for the one-based index of the value to automatically select on load (if nothing was selected previously)."
               }
             }
           }
-        ]
+        },
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "btrue": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/stringOrWildcard"
+                  }
+                ],
+                "description": "The value to use if the field is true. For example, btrue: 'lp' could add 'lp' to looping sounds"
+              },
+              "bfalse": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/stringOrWildcard"
+                  }
+                ],
+                "description": "The value to use if the field is false. For example, bfalse: Double quotes (\"\") could skip adding anything to non-looping sounds."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "zeroes": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\$.*"
+                  }
+                ],
+                "description": "The number of leading zeroes to pad at the start of your enumeration. For example, zeroes: 1 means the 7th item would have '07' in the name. Zero and positive integers."
+              },
+              "singles": {
+                "oneOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\$.*"
+                  }
+                ],
+                "description": "If present and set to true, this enforces adding an enumeration (i.e. '01') to naming targets, even when it is the only thing being processed. By default (or absent), enumeration is skipped on standalone targets."
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "hint"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'hint' is present then 'value' should be a string. I.e. 'hint' only has meaning when 'value' is a string. Consider removing 'hint' if the 'field' is not a string."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "short"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\$.*"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'short' is present then 'value' should be an array or a wildcard string (like $animals). 'short' only has meaning when 'value' is an array or a wildcard reference to an array."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "default"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "array"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\$.*"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'default' is present then 'value' should be an array or a wildcard string (like $animals). 'default' only has meaning when 'value' is an array or a wildcard reference to an array."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "btrue"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'btrue' is present then 'value' should be a boolean. I.e. 'btrue' only has meaning when 'value' is a boolean. Consider removing 'btrue' if the 'field' is not a boolean."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "bfalse"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'bfalse' is present then 'value' should be a boolean. I.e. 'bfalse' only has meaning when 'value' is a boolean. Consider removing 'bfalse' if the 'field' is not a boolean."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zeroes"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'zeroes' is present then 'value' should be a integer. I.e. 'zeroes' only has meaning when 'value' is a string. Consider removing 'zeroes' if the 'field' is not a integer."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "singles"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "description": "If 'singles' is present then 'value' should be a integer. I.e. 'singles' only has meaning when 'value' is a string. Consider removing 'singles' if the 'field' is not a integer."
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zeroes"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "hint"
+              ],
+              "description": "Only one of 'zeroes' or 'hint' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zeroes"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "short"
+              ],
+              "description": "Only one of 'zeroes' or 'short' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zeroes"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "default"
+              ],
+              "description": "Only one of 'zeroes' or 'default' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zeroes"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "btrue"
+              ],
+              "description": "Only one of 'zeroes' or 'btrue' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "zeroes"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "bfalse"
+              ],
+              "description": "Only one of 'zeroes' or 'bfalse' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "singles"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "hint"
+              ],
+              "description": "Only one of 'singles' or 'hint' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "singles"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "short"
+              ],
+              "description": "Only one of 'singles' or 'short' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "singles"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "default"
+              ],
+              "description": "Only one of 'singles' or 'default' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "singles"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "btrue"
+              ],
+              "description": "Only one of 'singles' or 'btrue' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "singles"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "bfalse"
+              ],
+              "description": "Only one of 'singles' or 'bfalse' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "btrue"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "hint"
+              ],
+              "description": "Only one of 'btrue' or 'hint' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "btrue"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "short"
+              ],
+              "description": "Only one of 'btrue' or 'short' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "btrue"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "default"
+              ],
+              "description": "Only one of 'btrue' or 'default' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "bfalse"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "hint"
+              ],
+              "description": "Only one of 'bfalse' or 'hint' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "bfalse"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "short"
+              ],
+              "description": "Only one of 'bfalse' or 'short' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "bfalse"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "default"
+              ],
+              "description": "Only one of 'bfalse' or 'default' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "hint"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "short"
+              ],
+              "description": "Only one of 'hint' or 'short' should be present."
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "hint"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "default"
+              ],
+              "description": "Only one of 'hint' or 'default' should be present."
+            }
+          }
+        }
+      ]
     }
   }
 }

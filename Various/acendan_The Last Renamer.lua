@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.23
+-- @version 2.30
 -- @metapackage
 -- @provides
 --   [main] .
@@ -11,11 +11,11 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Fixed up various ImGui issues for compatibility with 0.10 release
+--   # Added wildcard support to limit need for copy-pasting throughout scheme files
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
-  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.21 then
+  dofile(acendan_LuaUtils); if not acendan or acendan.version() < 9.30 then
     acendan.msg(
       'This script requires a newer version of ACendan Lua Utilities. Please run:\n\nExtensions > ReaPack > Synchronize Packages',
       "ACendan Lua Utilities"); return

@@ -1,0 +1,24 @@
+{
+  "name": "yaml-wildcard-inject",
+  "displayName": "YAML Wildcard Highlighter (injection)",
+  "description": "TextMate injection to add a scope for $-prefixed wildcard identifiers in YAML files so they can be styled separately.",
+  "version": "0.0.1",
+  "publisher": "acendan-local",
+  "engines": { "vscode": "^1.60.0" },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "grammars": [
+      {
+        "scopeName": "injection.renamer.yaml",
+        "path": "./syntaxes/yaml-wildcard-injection.tmLanguage.json",
+        "injectTo": [
+          "source.yaml",
+          "text.yaml",
+          "source.yaml.block",
+          "source.yaml.flow",
+          "source.yaml.frontmatter"
+        ]
+      }
+    ]
+  }
+}
