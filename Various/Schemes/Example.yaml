@@ -1,4 +1,4 @@
-title: Example Naming Convention
+title: Example - All Features
 separator: "_"
 illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
 find: [" "]

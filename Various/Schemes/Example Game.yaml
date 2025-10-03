@@ -1,4 +1,4 @@
-title: Generic Game
+title: Example - Legendary AAA Game
 separator: "_"
 illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
 find: [" "]

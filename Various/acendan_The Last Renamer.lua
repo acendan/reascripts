@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.31
+-- @version 2.32
 -- @metapackage
 -- @provides
 --   [main] .
@@ -11,7 +11,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added ultra minimalist yaml scheme as an example
+--   # Cleaned up some of the example schemes to be more clear about their purpose.
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
