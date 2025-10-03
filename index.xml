@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="6fe55acb1f75ac1c0d4103fc4747f4666f4b5e39" name="ACendan Scripts">
+<index version="1" commit="cbedf3884f3d79c67531a60c834489c52b48d8fc" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -3503,7 +3503,7 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Supports: Sound Devices WAVs, GoPro MP4/MOVs\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Supports: Sound Devices WAVs, Zoom F3 WAVs, GoPro MP4/MOVs\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -3525,6 +3525,10 @@ Added settings storage/retrieval for all checkboxes and target option]]></change
       <version name="1.04" author="Aaron Cendan" time="2025-10-02T20:56:18Z">
         <changelog><![CDATA[Added Zoom F3 support]]></changelog>
         <source main="main">https://github.com/acendan/reascripts/raw/6fe55acb1f75ac1c0d4103fc4747f4666f4b5e39/Various/acendan_Timecode%20Manager.lua</source>
+      </version>
+      <version name="1.05" author="Aaron Cendan" time="2025-10-03T06:17:13Z">
+        <changelog><![CDATA[Add support for user customizable offsets per track]]></changelog>
+        <source main="main">https://github.com/acendan/reascripts/raw/cbedf3884f3d79c67531a60c834489c52b48d8fc/Various/acendan_Timecode%20Manager.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_UCS Renaming Tool - Media Explorer Filter.lua" type="script" desc="UCS Renaming Tool Media Explorer Filter">
