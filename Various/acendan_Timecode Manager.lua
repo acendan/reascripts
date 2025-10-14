@@ -1,6 +1,6 @@
 -- @description Timecode Manager
 -- @author Aaron Cendan
--- @version 1.07
+-- @version 1.08
 -- @metapackage
 -- @provides
 --   [main] .
@@ -8,8 +8,7 @@
 -- @about
 --   # Supports: Sound Devices WAVs, Zoom F3 WAVs, GoPro MP4/MOVs
 -- @changelog
---   Switch to using closest item to edit cursor for offset snapping
---   Fixed some minor window positioning issues
+--   Minor fix for negative offsets
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -323,7 +322,7 @@ function moveToTimecode()
         local pos_or_neg = offset:match("^(%-)") and -1 or 1
         if hours and minutes and seconds then
           local fps, dropFrame = reaper.TimeMap_curFrameRate(0)
-          local pos = (hours * 3600) + (minutes * 60) + seconds + (tonumber(frames) / fps)
+          local pos = (math.abs(hours) * 3600) + (minutes * 60) + seconds + (tonumber(frames) / fps)
           local item_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
           reaper.SetMediaItemInfo_Value(item, "D_POSITION", item_pos + (pos * pos_or_neg))
         end
@@ -408,7 +407,7 @@ function setupGoProTimecode()
 
               -- Convert from H:M:S.FF to seconds
               local fps, dropFrame = reaper.TimeMap_curFrameRate(0)
-              local pos = (hours * 3600) + (minutes * 60) + seconds + (tonumber(frames) / fps)
+              local pos = (math.abs(hours) * 3600) + (minutes * 60) + seconds + (tonumber(frames) / fps)
 
               table.insert(gopro_items, { item, pos })
             end
@@ -458,7 +457,7 @@ function setupF3Timecode()
           -- Strip date from HH::MM::SS format
           if ret2 and bwf_time:match("(%d+:%d+:%d+)") then
             local hours, minutes, seconds = bwf_time:match("(%d+):(%d+):(%d+)")
-            local pos = (hours * 3600) + (minutes * 60) + seconds
+            local pos = (math.abs(hours) * 3600) + (minutes * 60) + seconds
             table.insert(f3_items, { item, pos })
           end
         end
