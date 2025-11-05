@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="92a328d645e02aa0c078a44fd415e70eaa44d1cd" name="ACendan Scripts">
+<index version="1" commit="9e84585dfaab5916ae0f70fac6e843497d6bde28" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -2136,6 +2136,22 @@
       </version>
       <version name="1.1" author="Aaron Cendan" time="2021-03-31T21:21:23Z">
         <source main="main">https://github.com/acendan/reascripts/raw/7db6f5b1c68a1f46acf7c7e97287e7f6828481e0/Regions/acendan_Extend%20regions%20in%20time%20selection%20left%20edge%20by%20length.lua</source>
+      </version>
+    </reapack>
+    <reapack name="acendan_Extend selected regions by length.lua" type="script" desc="Extend Selected Regions by Length">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your selected regions by that length.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+}
+]]></description>
+        <link rel="website">https://aaroncendan.me</link>
+      </metadata>
+      <version name="1.1" author="Aaron Cendan" time="2025-11-05T02:28:15Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/9e84585dfaab5916ae0f70fac6e843497d6bde28/Regions/acendan_Extend%20selected%20regions%20by%20length.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Import region names from text file.lua" type="script" desc="Import Region Names Text File">
