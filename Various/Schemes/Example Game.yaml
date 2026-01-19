@@ -1,7 +1,7 @@
 title: Example - Legendary AAA Game
 separator: "_"
 illegal: ["%.", ":", "*", "?", "!", "=", "+", "@", "#", "<", ">", "|", "\\", "/", '\"', "'", "%%", "%^", "%$", "%[", "]", "{", "}"]
-find: [" "]
+find: ["%s+"]
 replace: "_"
 fields:
   - field: Category
