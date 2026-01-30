@@ -1,10 +1,9 @@
 -- @description Regions from Subprojects
 -- @author Aaron Cendan
--- @version 1.0
+-- @version 1.1
 -- @metapackage
 -- @provides
 --   [main] .
---   Lib/*.{lua}
 -- @link https://ko-fi.com/acendan_
 -- @about
 --   # Select subproject items from the parent main project, run this, and make some sweet regions
