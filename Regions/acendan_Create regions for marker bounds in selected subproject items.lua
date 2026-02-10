@@ -1,6 +1,6 @@
 -- @description Regions from Subprojects
 -- @author Aaron Cendan
--- @version 1.1
+-- @version 1.2
 -- @metapackage
 -- @provides
 --   [main] .
@@ -22,6 +22,7 @@ function main()
     local filename, track, pcm_source = getFilenameTrackActiveTake(item)
     if (filename ~= nil) and (filename:sub(-3):upper() == "RPP") then 
       local subproj = reaper.GetSubProjectFromSource(pcm_source)
+      local item_start = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
       
       local _, num_markers, num_regions = reaper.CountProjectMarkers( subproj )
       local num_total = num_markers + num_regions
@@ -31,17 +32,21 @@ function main()
         local new_rgn_col = 0
         local new_rgn_start = -1
         local new_rgn_end = -1
+        local subproj_start = 0
+        local running_length = 0
       
         local j = 0
         while j < num_total do
           local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(subproj, j)
           if not isrgn then
             if new_rgn_start < 0 then
-              new_rgn_start = pos
+              new_rgn_start = item_start
               new_rgn_name = name
               new_rgn_col = color
+              subproj_start = pos
             else
-              new_rgn_end = pos
+              new_rgn_end = new_rgn_start + (pos - subproj_start) - running_length
+              running_length = running_length + (new_rgn_end - new_rgn_start)
               
               reaper.AddProjectMarker2(0, true, new_rgn_start, new_rgn_end, new_rgn_name, -1, new_rgn_col) 
               
