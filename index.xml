@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" commit="d1e65031a4d881023a4c37dec492c3bacf70626b" name="ACendan Scripts">
+<index version="1" commit="adf57b62661c561436e442fb39afbb1781248d0b" name="ACendan Scripts">
   <category name="Development">
     <reapack name="acendan_Lua Utilities.lua" type="script" desc="ACendan Lua Utilities">
       <metadata>
@@ -1949,6 +1949,9 @@
       </metadata>
       <version name="1.1" author="Aaron Cendan" time="2026-01-30T16:50:56Z">
         <source main="main">https://github.com/acendan/reascripts/raw/d1e65031a4d881023a4c37dec492c3bacf70626b/Regions/acendan_Create%20regions%20for%20marker%20bounds%20in%20selected%20subproject%20items.lua</source>
+      </version>
+      <version name="1.2" author="Aaron Cendan" time="2026-02-10T22:09:05Z">
+        <source main="main">https://github.com/acendan/reascripts/raw/adf57b62661c561436e442fb39afbb1781248d0b/Regions/acendan_Create%20regions%20for%20marker%20bounds%20in%20selected%20subproject%20items.lua</source>
       </version>
     </reapack>
     <reapack name="acendan_Create separate regions around each set of X selected items.lua" type="script" desc="Create Separate Regions Around X Items">
