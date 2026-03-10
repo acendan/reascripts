@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.32
+-- @version 2.4
 -- @metapackage
 -- @provides
 --   [main] .
@@ -11,7 +11,8 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Cleaned up some of the example schemes to be more clear about their purpose.
+--   # Added notes field to display helpful information about fields. Can be enabled in scheme data with 'notesmode' parameter.
+--   # Refer to documentation and Example.yaml file for more details on how to use this feature.
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -73,6 +74,7 @@ function Init()
   wgt.dragdrop = {}                                       -- Drag-dropped files
   wgt.serialize = {}                                      -- Serialized fields
   wgt.values = {}                                         -- Values for duplicate checking
+  wgt.notes = {}                                          -- Notes for fields
 
   wgt.targets = {}
   wgt.targets.Regions = { "Selected", "All", "Time Selection", "Edit Cursor" }
@@ -193,6 +195,15 @@ function LoadField(field)
     acendan.ImGui_HelpMarker(field.help)
   elseif wildcard_help ~= "" then
     acendan.ImGui_HelpMarker("Wildcards\n" .. wildcard_help)
+  end
+
+  -- Notes
+  if wgt.data.notesmode and field.note and field.note ~= "" then
+    if value ~= "" then
+      wgt.notes[#wgt.notes + 1] = field.field .. " - " .. value .. "\n" .. field.note
+    else
+      wgt.notes[#wgt.notes + 1] = field.field .. "\n" .. field.note
+    end
   end
 end
 
@@ -482,6 +493,7 @@ function TabNaming()
   wgt.name = ""
   wgt.required = ""
   wgt.values = {}
+  wgt.notes = {}
 
   ----------------- Naming -----------------------
   reaper.ImGui_Text(ctx, wgt.data.title)
@@ -540,6 +552,22 @@ function TabNaming()
     ClearFields(wgt.data.title, wgt.data.fields)
     SetScheme(wgt.scheme)
   end, "Clears out all fields, restoring them to their default state.", 0)
+
+  --------------------- Notes -----------------------
+  if wgt.data.notesmode then
+    reaper.ImGui_Spacing(ctx)
+    reaper.ImGui_SeparatorText(ctx, "Notes")
+    if #wgt.notes > 0 then
+      if wgt.data.notesmode:lower() == "all" then
+        -- Display all notes, separated by a line break
+        local combined_notes = table.concat(wgt.notes, "\n\n")
+        reaper.ImGui_TextWrapped(ctx, combined_notes)
+      else
+        -- Display most recent note
+        reaper.ImGui_TextWrapped(ctx, wgt.notes[#wgt.notes])
+      end
+    end
+  end
 end
 
 function ClearFields(title, fields)

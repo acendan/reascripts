@@ -5,6 +5,7 @@ find: [" "]
 replace: "_"
 maxchars: 64
 dupes: false
+notesmode: All
 $bodyHint: I Am A Good Filename
 $countries: [USA, Germany, Japan]
 fields:
@@ -12,10 +13,11 @@ fields:
     value: DEFAULT
     help: The thing at the front!
     capitalization: UPPER
-  - field: A Questionable Category
+  - field: Species
     value: [Dogs, Cats, Rats]
     default: 2
     help: This is a simple dropdown!
+    note: "These should go in /Originals/Pets/"
     fields:
       - id: [Dogs, Cats]
         field: Domesticated
@@ -40,14 +42,17 @@ fields:
         field: Manufacturer
         value: [Ford, Chevy, Tesla]
         short: [USFrd, USChv, USTes]
+        note: "Loudness: -13 LUFS-M"
       - id: Germany
         field: Manufacturer
         value: [BMW, Audi, Mercedes]
         short: [DEBmw, DEAud, DEMerc]
+        note: "Loudness: -11 LUFS-M"
       - id: Japan
         field: Manufacturer
         value: [Toyota, Honda, Nissan]
         short: [JPToy, JPHon, JPNis]
+        note: "Loudness: -9 LUFS-M"
       - id: $countries
         field: Headquarters
         value: ""
@@ -60,6 +65,7 @@ fields:
       - id: true
         field: Category
         value: [Lvl, Wpn, Env]
+        note: "Always render mono!"
         fields:
           - field: Asset
             value: My Cool Asset
