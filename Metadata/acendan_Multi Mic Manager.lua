@@ -172,95 +172,139 @@ function createMicLanes()
     reaper.Main_OnCommand(40289, 0) -- Unselect all media items
     reaper.Main_OnCommand(40421, 0) -- Item: Select all items in track
     
-    local ini_sel_items = {}
-    acendan.saveSelectedItems(ini_sel_items)
-    
-    for _, item in ipairs(ini_sel_items) do
-      
+    if reaper.GetTrackNumMediaItems(track) == 0 then
+      return reaper.Undo_EndBlock("Multi Mic Manager", -1)
+    end
+
+    -- Count original items (all on lane 0 before we start processing)
+    local orig_item_count = 0
+    for i = 0, reaper.GetTrackNumMediaItems(track) - 1 do
+      if reaper.GetMediaItemInfo_Value(reaper.GetTrackMediaItem(track, i), "I_FIXEDLANE") == 0 then
+        orig_item_count = orig_item_count + 1
+      end
+    end
+
+    -- Process items one at a time, re-fetching fresh pointers from track each iteration.
+    -- Duplicating items can reallocate REAPER's internal item array, invalidating all
+    -- stored MediaItem* pointers. Original items are on lane 0; after processing we mute
+    -- them, so we find the next unmuted lane-0 item each pass.
+    local lane_name_chunk = nil
+    local last_src_chans = nil
+    local processed_count = 0
+
+    while processed_count < orig_item_count do
+      -- Find next unprocessed original item (lane 0, not yet muted)
+      local item = nil
+      for i = 0, reaper.GetTrackNumMediaItems(track) - 1 do
+        local it = reaper.GetTrackMediaItem(track, i)
+        if reaper.GetMediaItemInfo_Value(it, "I_FIXEDLANE") == 0
+           and reaper.GetMediaItemInfo_Value(it, "B_MUTE") == 0 then
+          item = it
+          break
+        end
+      end
+      if not item then break end
+      processed_count = processed_count + 1
+
       -- Store item position and disable auto fades
       local item_start_pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
       reaper.SetMediaItemInfo_Value(item, "D_FADEINLEN_AUTO", -1)
       reaper.SetMediaItemInfo_Value(item, "D_FADEOUTLEN_AUTO", -1)
-      
-      -- Save this batch of items for grouping later
-      local items = {}
-      items[#items + 1] = item
-      
+
       local take = reaper.GetActiveTake( item )
-      if take ~= nil then 
-        
+      if take ~= nil then
+
         local src = reaper.GetMediaItemTake_Source(take)
         local src_parent = reaper.GetMediaSourceParent(src)
         if src_parent ~= nil then src = src_parent end
         local src_chans = reaper.GetMediaSourceNumChannels(src)
+        last_src_chans = src_chans
 
-        local lane_name_chunk = "LANENAME MultiMic"
-        local recorder_meta = nil
+        -- Build lane name chunk from first item's metadata (same for all items on track)
+        if lane_name_chunk == nil then
+          lane_name_chunk = "LANENAME MultiMic"
+          local recorder_meta = nil
+          for chnl = 1, src_chans do
+            local track_name_meta = chnl == 1 and "IXML:TRACK_LIST:TRACK:NAME" or "IXML:TRACK_LIST:TRACK:NAME:" .. tostring(chnl)
+            local ret, lane_name = reaper.GetMediaFileMetadata(src, track_name_meta)
+            if ret ~= 0 then
+              lane_name_chunk = lane_name_chunk .. " " .. acendan.encapsulate(lane_name)
+            else
+              if recorder_meta == nil then
+                recorder_meta = {}
+                local ret, bwf_desc = reaper.CF_GetMediaSourceMetadata(src, "DESC", "")
+                if ret then
+                  for bwf_trk in string.gmatch(bwf_desc, RECORDER_TRK_PATTERN) do
+                    recorder_meta[#recorder_meta+1] = bwf_trk
+                  end
+                end
+              end
+
+              if #recorder_meta > 0 then
+                lane_name_chunk = lane_name_chunk .. " " .. acendan.encapsulate(recorder_meta[chnl])
+              else
+                lane_name_chunk = lane_name_chunk .. " Ch." .. tostring(chnl)
+              end
+            end
+          end
+        end
+
         local chnl_l = 0
+        local prev_lane_item = nil
         for chnl = 1, src_chans do
           -- Copy item to lane for channel
           acendan.setOnlyItemSelected(item)
           reaper.Main_OnCommand(41295, 0) -- Item: Duplicate items
-          
-          -- Set item lane and channel
+
+          -- Set item lane and channel (new_item is freshly selected by Duplicate)
           local new_item = reaper.GetSelectedMediaItem(0, 0)
-          items[#items + 1] = new_item
           reaper.SetMediaItemInfo_Value(new_item, "D_POSITION", item_start_pos)
           reaper.SetMediaItemInfo_Value(new_item, "I_FIXEDLANE", chnl)
           reaper.SetMediaItemInfo_Value(new_item, "D_FADEINLEN_AUTO", -1)
           reaper.SetMediaItemInfo_Value(new_item, "D_FADEOUTLEN_AUTO", -1)
           reaper.SetMediaItemTakeInfo_Value(reaper.GetActiveTake( new_item ) , "I_CHANMODE", 2 + chnl)
-          
+
+          -- Re-fetch the original item pointer (Duplicate may have invalidated it)
+          item = nil
+          for i = 0, reaper.GetTrackNumMediaItems(track) - 1 do
+            local it = reaper.GetTrackMediaItem(track, i)
+            if reaper.GetMediaItemInfo_Value(it, "I_FIXEDLANE") == 0
+               and reaper.GetMediaItemInfo_Value(it, "B_MUTE") == 0
+               and math.abs(reaper.GetMediaItemInfo_Value(it, "D_POSITION") - item_start_pos) < 0.0001 then
+              item = it
+              break
+            end
+          end
+
           -- Set first mic lane selected
           if chnl == 1 then
             reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:1", 1) -- 1 = Select lane, exclusive
           end
-          
-          -- Rename lane from metadata
+
+          -- Get lane name for pan envelope logic
           local track_name_meta = chnl == 1 and "IXML:TRACK_LIST:TRACK:NAME" or "IXML:TRACK_LIST:TRACK:NAME:" .. tostring(chnl)
           local ret, lane_name = reaper.GetMediaFileMetadata(src, track_name_meta)
-          if ret ~= 0 then
-            lane_name_chunk = lane_name_chunk .. " " .. acendan.encapsulate(lane_name)
-          else
-            -- Try get recorder trk metadata
-            if recorder_meta == nil then
-              recorder_meta = {}
-              local ret, bwf_desc = reaper.CF_GetMediaSourceMetadata(src, "DESC", "")
-              if ret then
-                for bwf_trk in string.gmatch(bwf_desc, RECORDER_TRK_PATTERN) do
-                  recorder_meta[#recorder_meta+1] = bwf_trk
-                end
-              end
-            end
-             
-            -- Succesfully got recorder metadata on earlier pass, name with meta
-            if #recorder_meta > 0 then
-              lane_name_chunk = lane_name_chunk .. " " .. acendan.encapsulate(recorder_meta[chnl])
-              
-            -- Failed to get recorder metadata on earlier pass
-            else
-              lane_name_chunk = lane_name_chunk .. " Ch." .. tostring(chnl)
-              
-            end
-          end
-          
+          if ret == 0 then lane_name = "Ch." .. tostring(chnl) end
+
           -- Show pan envelope and auto pan L/R
           if wgt.enable_pan_env then
             reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENVSHOW2"), 0) -- SWS/S&M: Show take pan envelope
-          
+
             -- Check right channel if previous channel ends in L
             if chnl_l > 0 and lane_name:sub(-1):lower() == "r" then
               reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENV_100R"),0) -- SWS/S&M: Set active take pan envelope to 100% right
-              acendan.setOnlyItemSelected(items[#items - 1])
-              reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENV_100L"),0) -- SWS/S&M: Set active take pan envelope to 100% left
+              if prev_lane_item and reaper.ValidatePtr(prev_lane_item, "MediaItem*") then
+                acendan.setOnlyItemSelected(prev_lane_item)
+                reaper.Main_OnCommand(reaper.NamedCommandLookup("_S&M_TAKEENV_100L"),0) -- SWS/S&M: Set active take pan envelope to 100% left
+              end
               acendan.setOnlyItemSelected(new_item)
-              
+
               -- Set lane selected if first lane was left, this is right
               if chnl == 2 then
                 reaper.SetMediaTrackInfo_Value(track, "C_LANEPLAYS:2", 2) -- 2 = Select lane, keeping others selected
               end
             end
-            
+
             -- Set left channel if ends in L
             if lane_name:sub(-1):lower() == "l" then
               chnl_l = chnl
@@ -269,32 +313,57 @@ function createMicLanes()
               chnl_l = 0
             end
           end
+
+          prev_lane_item = new_item
         end
-        
-        -- Set track lane names and height
-        local _, track_chunk = reaper.GetTrackStateChunk(track, "", false)
-        reaper.SetTrackStateChunk(track, track_chunk:gsub("(LANENAME.-)\n", lane_name_chunk .. "\n"), false)
-        
-        -- Set first mic track as selected lane, set track height
-        if wgt.single_lane then
-          reaper.Main_OnCommand(42638, 0) -- Track properties: Show/play only one fixed item lane
-          reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height)
-        else
-          reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height / src_chans + 1)
+
+        -- Mute original item (marks it as processed for next while-loop iteration)
+        if item then
+          reaper.SetMediaItemInfo_Value(item, "B_MUTE", 1)
         end
-        
-        -- Mute original item
-        reaper.SetMediaItemInfo_Value(item, "B_MUTE", 1)
-        
-        -- Group items
-        if wgt.enable_grouping then
-          acendan.restoreSelectedItems(items)
+      end
+    end
+
+    -- Apply track-level changes AFTER all items are processed
+    -- (SetTrackStateChunk invalidates all item pointers, so do it last)
+    if lane_name_chunk then
+      local _, track_chunk = reaper.GetTrackStateChunk(track, "", false)
+      reaper.SetTrackStateChunk(track, track_chunk:gsub("(LANENAME.-)\n", lane_name_chunk .. "\n"), false)
+    end
+
+    if last_src_chans then
+      if wgt.single_lane then
+        reaper.Main_OnCommand(42638, 0) -- Track properties: Show/play only one fixed item lane
+        reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height)
+      else
+        reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", ini_track_height / last_src_chans + 1)
+      end
+    end
+
+    -- Group items (re-fetch from track since chunk operation may have invalidated pointers)
+    if wgt.enable_grouping then
+      local items_by_pos = {}
+      for i = 0, reaper.GetTrackNumMediaItems(track) - 1 do
+        local it = reaper.GetTrackMediaItem(track, i)
+        local pos = string.format("%.10f", reaper.GetMediaItemInfo_Value(it, "D_POSITION"))
+        if not items_by_pos[pos] then items_by_pos[pos] = {} end
+        items_by_pos[pos][#items_by_pos[pos] + 1] = it
+      end
+      for _, group in pairs(items_by_pos) do
+        if #group > 1 then
+          reaper.Main_OnCommand(40289, 0) -- Unselect all media items
+          for _, it in ipairs(group) do
+            reaper.SetMediaItemSelected(it, true)
+          end
           reaper.Main_OnCommand(40032, 0) -- Item grouping: Group items
         end
       end
     end
-    
-    acendan.restoreSelectedItems(ini_sel_items)
+
+    -- Re-select all items on track
+    reaper.Main_OnCommand(40289, 0) -- Unselect all media items
+    reaper.SetOnlyTrackSelected(track)
+    reaper.Main_OnCommand(40421, 0) -- Item: Select all items in track
   end
   
   reaper.SetEditCurPos(ini_cur_pos, false, false)
