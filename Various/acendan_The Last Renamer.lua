@@ -1,6 +1,6 @@
 -- @description The Last Renamer
 -- @author Aaron Cendan
--- @version 2.4
+-- @version 2.4.1
 -- @metapackage
 -- @provides
 --   [main] .
@@ -11,8 +11,7 @@
 -- @about
 --   # The Last Renamer
 -- @changelog
---   # Added notes field to display helpful information about fields. Can be enabled in scheme data with 'notesmode' parameter.
---   # Refer to documentation and Example.yaml file for more details on how to use this feature.
+--   # Add UCS CategoryFull metadata when applicable
 
 local acendan_LuaUtils = reaper.GetResourcePath() .. '/Scripts/ACendan Scripts/Development/acendan_Lua Utilities.lua'
 if reaper.file_exists(acendan_LuaUtils) then
@@ -1731,6 +1730,16 @@ function GenerateMetadataMarker()
         local find_field = FindField(refs, field_name)
         if find_field then
           marker = SetRenderMetadata(marker, field.meta, field.field,  GetFieldValue(find_field, field.short))
+
+          -- If valid UCS Subcategory found, add CategoryFull metadata
+          if field.field == "Subcategory" and field.id == "Subcategory:Category" then
+            local category_field = FindField(refs, "Category")
+            if category_field then
+              local subcategory_value = GetFieldValue(find_field, field.short)
+              local category_value = GetFieldValue(category_field)
+              marker = SetRenderMetadata(marker, { "IXML:USER:CategoryFull" }, "CategoryFull", category_value:upper() .. "-" .. subcategory_value:upper())
+            end
+          end
         end
       end
     end
