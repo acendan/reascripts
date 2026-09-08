@@ -7,7 +7,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Lua Utilities\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Lua Utilities\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -323,11 +323,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Copy Take Envelope To Automation Envelope\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Copies the selected items' take envelope to the selected automation envelope\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Modified from Claudiohbsantos' script: CS_Copy Take Volume Envelope to Track Volume Envelope.lua\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Copy Take Envelope To Automation Envelope\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Copies the selected items' take envelope to the selected automation envelope\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Modified from Claudiohbsantos' script: CS_Copy Take Volume Envelope to Track Volume Envelope.lua\sa180\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -353,7 +356,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Make a time selection, select some tracks, run the script, party\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Make a time selection, select some tracks, run the script, party\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -370,10 +373,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Open Envelope w Automation Items\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Opens the appropriate envelope in script name and creates automation items based on track item positions.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Open Envelope w Automation Items\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Opens the appropriate envelope in script name and creates automation items based on track item positions.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -445,7 +451,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -471,7 +477,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item notes.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item notes.\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -501,7 +507,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks for the idea, Nikolaj!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks for the idea, Nikolaj!\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -514,12 +520,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Lua Utilities\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select some items. Select a track. Run the script. Bam.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from XRaym's script: Copy selected items and paste at mouse cursor\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Lua Utilities\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Select some items. Select a track. Run the script. Bam.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Adapted from XRaym's script: Copy selected items and paste at mouse cursor\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -535,12 +544,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Lua Utilities\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select some items. Select a track. Run the script. Bam.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from X-Raym's script: Copy selected items and paste at mouse cursor\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Lua Utilities\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Select some items. Select a track. Run the script. Bam.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Adapted from X-Raym's script: Copy selected items and paste at mouse cursor\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -559,12 +571,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Count Selection in Media Explorer\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Requires the JS_ReascriptAPI extension.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Script adapted from: http://forum.cockos.com/showthread.php?p=2071080#post2071080\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Count Selection in Media Explorer\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Requires the JS_ReascriptAPI extension.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Script adapted from: http://forum.cockos.com/showthread.php?p=2071080#post2071080\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -589,10 +604,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This requires nvk_WORKFLOW to work!\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Sample detection thresholds can be set in: nvk_TAKES - Consolidate takes with take markers SMART.eel\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This requires nvk_WORKFLOW to work!\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Sample detection thresholds can be set in: nvk_TAKES - Consolidate takes with take markers SMART.eel\sa180\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -612,11 +630,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script can be useful for copying one track from a different tab into your current session.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select the pasted track and run this to glue each item separately, duplicating the other project's\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab media into your current session.\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This script can be useful for copying one track from a different tab into your current session.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Select the pasted track and run this to glue each item separately, duplicating the other project's\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} media into your current session.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -660,7 +681,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Imports selected item names from a text file where each new line is a new item name\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Imports selected item names from a text file where each new line is a new item name\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -684,7 +705,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Item curve settings manager\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Item curve settings manager\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -715,7 +736,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Splits items onto new tracks, renames with BWF sub-field after hyphen (-) in script name to track name.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Splits items onto new tracks, renames with BWF sub-field after hyphen (-) in script name to track name.\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -746,7 +767,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks NVK for the mousewheel script formatting <3\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks NVK for the mousewheel script formatting <3\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -764,7 +785,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks NVK for the mousewheel script formatting <3\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks NVK for the mousewheel script formatting <3\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -792,7 +813,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks NVK for the mousewheel script formatting <3\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks NVK for the mousewheel script formatting <3\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -827,7 +848,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 MPL's libraries cost money and I'm not bout that life. Re-wrote it. Doesn't do fancy logarithm stuff, sorry.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 MPL's libraries cost money and I'm not bout that life. Re-wrote it. Doesn't do fancy logarithm stuff, sorry.\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -853,8 +874,8 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks NVK for the mousewheel script formatting <3\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks to Archie for the item track moving scripts\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks NVK for the mousewheel script formatting <3\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks to Archie for the item track moving scripts\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -869,8 +890,8 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 I TOTALLY COPIED THIS FROM NVK THANK YOU <3\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 What a horrible name\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 I TOTALLY COPIED THIS FROM NVK THANK YOU <3\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 What a horrible name\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -885,7 +906,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Modification of MPL's Search Tracks script\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Modification of MPL's Search Tracks script\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -898,9 +919,12 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Places items with assorted channel counts on new tracks, organized by num of channels per item\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Places items with assorted channel counts on new tracks, organized by num of channels per item\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -918,9 +942,12 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Places items with similar names on new tracks\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Places items with similar names on new tracks\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -944,7 +971,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Thanks for the idea, Nikolaj!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Thanks for the idea, Nikolaj!\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -957,11 +984,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script is pretty whacky, and the best way to get a feel for it is to just plug in some numbers and try it out.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab I recommend starting with something like max 30 splices and max slice length of 150ms.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab "Create automatic fade-in/fade-out for new items" in Media Item Defaults of the preferences window will play a big role in the pops/smoothness of the glitches\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This script is pretty whacky, and the best way to get a feel for it is to just plug in some numbers and try it out.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} I recommend starting with something like max 30 splices and max slice length of 150ms.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} "Create automatic fade-in/fade-out for new items" in Media Item Defaults of the preferences window will play a big role in the pops/smoothness of the glitches\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -985,10 +1015,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script goes hand-in-hand with acendan_Save stretch markers in selected items as named project markers.lua\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Run it to convert the named markers from that Save script into project markers in their relevant items\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This script goes hand-in-hand with acendan_Save stretch markers in selected items as named project markers.lua\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Run it to convert the named markers from that Save script into project markers in their relevant items\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1005,10 +1038,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script goes hand-in-hand with acendan_Restore stretch markers in selected items from named project markers.lua\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select items with stretch markers then run this to convert them into project markers with a specific naming convention\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This script goes hand-in-hand with acendan_Restore stretch markers in selected items from named project markers.lua\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Select items with stretch markers then run this to convert them into project markers with a specific naming convention\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1027,7 +1063,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Adapted from Archie's "Select Next item in track"\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Adapted from Archie's "Select Next item in track"\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1040,12 +1076,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Set Distance Between Items, Track Respective\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Similar to SWS Reposition items and me2beats set distance between items.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Sets the distance between items relative to other selected items on the same track.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Set Distance Between Items, Track Respective\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Similar to SWS Reposition items and me2beats set distance between items.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Sets the distance between items relative to other selected items on the same track.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1062,12 +1101,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Set Distance Between Items, Track Respective, Milliseconds\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Similar to SWS Reposition items and me2beats set distance between items.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Sets the distance between items relative to other selected items on the same track.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Set Distance Between Items, Track Respective, Milliseconds\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Similar to SWS Reposition items and me2beats set distance between items.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Sets the distance between items relative to other selected items on the same track.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1090,7 +1132,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Appends BWF sub-field after hyphen (-) in script name to original item name.\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1116,7 +1158,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This is a background/toggle script!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This is a background/toggle script!\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1135,7 +1177,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This is copied, almost entirely, from X-Raym's script: X-Raym_Sort selected items order by takes names alphabetically keeping snap offset positions per tracks.lua\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 This is copied, almost entirely, from X-Raym's script: X-Raym_Sort selected items order by takes names alphabetically keeping snap offset positions per tracks.lua\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1150,7 +1192,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This is copied, almost entirely, from X-Raym's script: X-Raym_Sort selected items order by takes names alphabetically keeping snap offset positions per tracks.lua\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 This is copied, almost entirely, from X-Raym's script: X-Raym_Sort selected items order by takes names alphabetically keeping snap offset positions per tracks.lua\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1201,11 +1243,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Credits\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from me2beats: Trim sel items right edges to nearest grid divisions\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Credits\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Adapted from me2beats: Trim sel items right edges to nearest grid divisions\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1229,11 +1274,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Credits\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from me2beats: Trim sel items right edges to nearest grid divisions\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Credits\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Adapted from me2beats: Trim sel items right edges to nearest grid divisions\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1268,12 +1316,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Action Marker - Move Play Cursor to Random Sel Item\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To use this script, run it once while playback is stopped to place an action marker on the timeline.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab After placement on the timeline, the action marker will trigger this script whenever the playhead crosses the marker.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Simply select the items that you would like to jump between, then press space (play/stop) repeately to jump randomly between the selected items!\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Action Marker - Move Play Cursor to Random Sel Item\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} To use this script, run it once while playback is stopped to place an action marker on the timeline.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} After placement on the timeline, the action marker will trigger this script whenever the playhead crosses the marker.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Simply select the items that you would like to jump between, then press space (play/stop) repeately to jump randomly between the selected items!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1320,7 +1371,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Script request from @SoapyMargherita and @ryksounet!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Script request from @SoapyMargherita and @ryksounet!\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1338,11 +1389,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Lua Utilities\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Adapted from XRaym's script: Export markers and regions to tab-delimited CSV file\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Lua Utilities\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Adapted from XRaym's script: Export markers and regions to tab-delimited CSV file\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1358,11 +1412,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Find and Replace in Marker/Region Names\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Aaron Cendan - May 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Prompts user to replace part of a marker or region's name with new text if that marker/region name contains search criteria.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Find and Replace in Marker/Region Names\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Aaron Cendan - May 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Prompts user to replace part of a marker or region's name with new text if that marker/region name contains search criteria.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1447,7 +1504,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Insert Marker Every X Seconds After Edit Cursor\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Insert Marker Every X Seconds After Edit Cursor\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1468,7 +1525,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Lua Utilities\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Lua Utilities\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1524,11 +1581,11 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 To use this script, simply name your markers with an @ symbol at the start, followed by a number, then shift+alt+click on the ruler near a marker\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 For example, you can have markers named:\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 @24 <- This would jump to track number 24 when you shift+alt+click on the ruler near that marker\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 @47 Impact <- This would jump to track number 47, ignoring the additional text after your marker number wildcard\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Alt on PC = Option on Mac\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 To use this script, simply name your markers with an @ symbol at the start, followed by a number, then shift+alt+click on the ruler near a marker\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 For example, you can have markers named:\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 @24 <- This would jump to track number 24 when you shift+alt+click on the ruler near that marker\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 @47 Impact <- This would jump to track number 47, ignoring the additional text after your marker number wildcard\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Alt on PC = Option on Mac\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1588,8 +1645,8 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This script requires "Update search only when enter key pressed" to be disabled in the Media Explorer section of the Actions list.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Shoutouts to cfillion, nofish, and x-raym for the help with getting this script setup!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 This script requires "Update search only when enter key pressed" to be disabled in the Media Explorer section of the Actions list.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Shoutouts to cfillion, nofish, and x-raym for the help with getting this script setup!\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1612,8 +1669,8 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This script requires "Update search only when enter key pressed" to be disabled in the Media Explorer section of the Actions list.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Shoutouts to cfillion, nofish, and x-raym for the help with getting this script setup!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 This script requires "Update search only when enter key pressed" to be disabled in the Media Explorer section of the Actions list.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Shoutouts to cfillion, nofish, and x-raym for the help with getting this script setup!\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1690,9 +1747,9 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Simplifies management of tracks with multiple mics on different channels\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Tutorial: https://youtu.be/V-9kShMDOAQ\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 TODO: Copy-Paste named lanes\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Simplifies management of tracks with multiple mics on different channels\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Tutorial: https://youtu.be/V-9kShMDOAQ\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 TODO: Copy-Paste named lanes\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1880,7 +1937,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Change Region Color if Region Exceeds Length This is a toggle script. If prompted whether you should terminate or start new instances, click "Remember my answer" and "Terminate". Works well on toolbars.\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Change Region Color if Region Exceeds Length This is a toggle script. If prompted whether you should terminate or start new instances, click "Remember my answer" and "Terminate". Works well on toolbars.\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1905,13 +1962,16 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Create Region for Selected Items Across Tracks\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 About this script...\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Select some items in a folder then run the script.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab A region will be created and linked to the parent track of the folder.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Create Region for Selected Items Across Tracks\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 About this script...\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Select some items in a folder then run the script.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} A region will be created and linked to the parent track of the folder.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -1942,7 +2002,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Select subproject items from the parent main project, run this, and make some sweet regions\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Select subproject items from the parent main project, run this, and make some sweet regions\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1960,7 +2020,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Create Separate Regions Around X Items\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Create Separate Regions Around X Items\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -1984,7 +2044,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Creates unique regions for each bundle of overlapping items on the selected track\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Creates unique regions for each bundle of overlapping items on the selected track\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -2059,12 +2119,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This script requires ACendan Lua Utilities!!!\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab There are quite a few options in this script, so I recommend messing around in a test project.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab "Only Repeated Regions" will restart enumeration for repeated names and SKIP enumerating one-off/single occurrences\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Also set up recall using extstates. Didn't do it very efficiently but whatever I'm tired.\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This script requires ACendan Lua Utilities!!!\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} There are quite a few options in this script, so I recommend messing around in a test project.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} "Only Repeated Regions" will restart enumeration for repeated names and SKIP enumerating one-off/single occurrences\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Also set up recall using extstates. Didn't do it very efficiently but whatever I'm tired.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2093,10 +2156,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your region by that length.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Pretty self explanatory, input a number and it will extend your region by that length.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Negative numbers will shrink regions!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2109,10 +2175,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your region by that length.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Pretty self explanatory, input a number and it will extend your region by that length.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Negative numbers will shrink regions!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2125,10 +2194,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your region by that length.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Pretty self explanatory, input a number and it will extend your region by that length.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Negative numbers will shrink regions!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2141,10 +2213,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your region by that length.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Pretty self explanatory, input a number and it will extend your region by that length.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Negative numbers will shrink regions!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2160,10 +2235,13 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Pretty self explanatory, input a number and it will extend your selected regions by that length.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Negative numbers will shrink regions!\sa180\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Pretty self explanatory, input a number and it will extend your selected regions by that length.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Negative numbers will shrink regions!\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2178,7 +2256,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Imports region names from a text file where each new line is a new region name\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Imports region names from a text file where each new line is a new region name\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -2213,7 +2291,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Idea courtesy of the inimitable Juan Pablo Uribe\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Idea courtesy of the inimitable Juan Pablo Uribe\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -2236,7 +2314,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Set regions at edit cursor to SWS custom color!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Set regions at edit cursor to SWS custom color!\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -2352,7 +2430,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Basically lets you take tracks with mono media and merge them into a single multichannel file. Gif here: https://twitter.com/acendan_/status/1374921578765557762?s=20\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Basically lets you take tracks with mono media and merge them into a single multichannel file. Gif here: https://twitter.com/acendan_/status/1374921578765557762?s=20\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2373,12 +2451,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Load Render Directory from Slot\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Requirements\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab SWS Extension: https://www.sws-extension.org/\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Load Render Directory from Slot\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Requirements\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} SWS Extension: https://www.sws-extension.org/\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2394,12 +2475,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Save Render Directory to Slot\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Requirements\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab SWS Extension: https://www.sws-extension.org/\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Save Render Directory to Slot\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Requirements\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} SWS Extension: https://www.sws-extension.org/\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2454,7 +2538,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Extend right edge of time seleciton by x seconds\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Extend right edge of time seleciton by x seconds\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2499,7 +2583,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
 }
 ]]></description>
       </metadata>
@@ -2514,12 +2598,15 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Insert New Track Respect Folders\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Reaper's defaults aren't particularly intuitive.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Bind this to ctrl + T and now when you insert a track with the last track in a folder selected, it will be added to the end of the folder.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Insert New Track Respect Folders\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Reaper's defaults aren't particularly intuitive.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Bind this to ctrl + T and now when you insert a track with the last track in a folder selected, it will be added to the end of the folder.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2548,11 +2635,14 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Search Tracks for FX\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Prompts user for fx name, then searches all tracks for that fx and returns list\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Search Tracks for FX\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - July 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Prompts user for fx name, then searches all tracks for that fx and returns list\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2565,13 +2655,16 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This is a background/toggle script!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Oct 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Notes\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab If this script isn't working for you, then it might be because you have marquee bound to something other than right click.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Check out this YouTube video for a tutorial on how to change it! https://youtu.be/0UlyAehHyN4\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This is a background/toggle script!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - Oct 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Notes\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} If this script isn't working for you, then it might be because you have marquee bound to something other than right click.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Check out this YouTube video for a tutorial on how to change it! https://youtu.be/0UlyAehHyN4\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2611,7 +2704,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
 }
 ]]></description>
       </metadata>
@@ -2625,7 +2718,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - May 2020\par}
 }
 ]]></description>
       </metadata>
@@ -2644,7 +2737,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Pretty similar to "Render to Stereo Stem Track", but with a lot more power under the hood. Handles tracks with items that have a mixed channel count, receives, etc User configs for extra space, alternative track name appending, delete original after render, etc TO DO: Trim receive renders based on item placement from sends\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Pretty similar to "Render to Stereo Stem Track", but with a lot more power under the hood. Handles tracks with items that have a mixed channel count, receives, etc User configs for extra space, alternative track name appending, delete original after render, etc TO DO: Trim receive renders based on item placement from sends\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2691,7 +2784,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Gives level controls for center and sides by MS decoding & re-encoding on the fly\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Gives level controls for center and sides by MS decoding & re-encoding on the fly\par}
 }
 ]]></description>
       </metadata>
@@ -2708,7 +2801,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Fixes waveform discontinuities based on a de-clicking threshold\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Fixes waveform discontinuities based on a de-clicking threshold\par}
 }
 ]]></description>
       </metadata>
@@ -2722,8 +2815,8 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This script jumps to the target playrate set by: acendan_Playrate - Set target playrate value.lua\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This script was written by Edgemeal, on this Reaper forum thread: https://forum.cockos.com/showthread.php?t=262914\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This script jumps to the target playrate set by: acendan_Playrate - Set target playrate value.lua\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This script was written by Edgemeal, on this Reaper forum thread: https://forum.cockos.com/showthread.php?t=262914\par}
 }
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=262914</link>
@@ -2738,9 +2831,9 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This script sets the target playrate used by: acendan_Playrate - Jump to target playrate.lua\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This script was written almost entirely by Edgemeal, on this Reaper forum thread: https://forum.cockos.com/showthread.php?t=262914\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Added support for negative playrates\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This script sets the target playrate used by: acendan_Playrate - Jump to target playrate.lua\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This script was written almost entirely by Edgemeal, on this Reaper forum thread: https://forum.cockos.com/showthread.php?t=262914\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Added support for negative playrates\par}
 }
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=262914</link>
@@ -2755,7 +2848,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Script request from Jon @ Reaper Blog\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Script request from Jon @ Reaper Blog\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -2788,7 +2881,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Tempo Marker Manager, similar to tempo manager in Logic Pro\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Tempo Marker Manager, similar to tempo manager in Logic Pro\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -2870,7 +2963,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Joins/merges channels 1/2 and 3/4 onto channels 1/2, with LINEAR sliders\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Joins/merges channels 1/2 and 3/4 onto channels 1/2, with LINEAR sliders\par}
 }
 ]]></description>
       </metadata>
@@ -2884,7 +2977,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Joins/merges channels 1/2 3/4 5/6 onto channels 1/2, with sliders\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Joins/merges channels 1/2 3/4 5/6 onto channels 1/2, with sliders\par}
 }
 ]]></description>
       </metadata>
@@ -2898,7 +2991,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Joins/merges channels 1/2 and 3/4 onto channels 1/2, with sliders\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Joins/merges channels 1/2 and 3/4 onto channels 1/2, with sliders\par}
 }
 ]]></description>
       </metadata>
@@ -2912,7 +3005,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Duplicates channels 1 and 2 onto channels 3 and 4, 5 and 6, with sliders\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Duplicates channels 1 and 2 onto channels 3 and 4, 5 and 6, with sliders\par}
 }
 ]]></description>
       </metadata>
@@ -2926,7 +3019,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Duplicates channels 1 and 2 onto channels 3 and 4, with sliders\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Duplicates channels 1 and 2 onto channels 3 and 4, with sliders\par}
 }
 ]]></description>
       </metadata>
@@ -2943,15 +3036,19 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+{\list\listtemplateid2{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid2}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Auto Generate Scripts to Open Web Interfaces\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 About\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Run this script to automatically generate actions that open your currently registered web interfaces.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Re-running this will clear out old actions and rebuild based on current list\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Requirements\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab SWS Extension: https://www.sws-extension.org/\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Auto Generate Scripts to Open Web Interfaces\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - August 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 About\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Run this script to automatically generate actions that open your currently registered web interfaces.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Re-running this will clear out old actions and rebuild based on current list\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Requirements\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} SWS Extension: https://www.sws-extension.org/\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -2980,17 +3077,21 @@
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+{\list\listtemplateid2{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid2}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Item Properties GUI\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - September 2020\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Yeah so uh. Click an item, it'll show you stuff :)\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab v1.0 - Name, Sample Rate, Bit Depth, Length\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Credits\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Special thanks to nofish, spk77 and Jeffos. References below.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Script: nofish_Solo (exclusive) last focused FX - GUI.lua\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Based on spk77's GUI template, thanks http://forum.cockos.com/showthread.php?t=161557\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Cooldown function (CPU saver) by Jeffos, thanks http://forum.cockos.com/showpost.php?p=1567657&postcount=39\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Item Properties GUI\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - September 2020\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Yeah so uh. Click an item, it'll show you stuff :)\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} v1.0 - Name, Sample Rate, Bit Depth, Length\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Credits\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} Special thanks to nofish, spk77 and Jeffos. References below.\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} Script: nofish_Solo (exclusive) last focused FX - GUI.lua\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} Based on spk77's GUI template, thanks http://forum.cockos.com/showthread.php?t=161557\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} Cooldown function (CPU saver) by Jeffos, thanks http://forum.cockos.com/showpost.php?p=1567657&postcount=39\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -3067,7 +3168,7 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 TeamTalk Conference Recordings\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 TeamTalk Conference Recordings\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -3085,14 +3186,18 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+{\list\listtemplateid2{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid2}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 This is a background/toggle script!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Credits\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab All credit to Nick von Kaenel for writing the Game Audio Affirmations script. You're a legend.\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Notes\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab When prompted if you want to terminate instances, click the little checkbox then terminate.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 This is a background/toggle script!\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 By Aaron Cendan - Sept 2020\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Credits\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} All credit to Nick von Kaenel for writing the Game Audio Affirmations script. You're a legend.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Notes\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} When prompted if you want to terminate instances, click the little checkbox then terminate.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -3592,7 +3697,7 @@ Resolved folder capitalization bug, thanks to Simon for reporting it!]]></change
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Supports: Sound Devices WAVs, Zoom F3 WAVs, GoPro MP4/MOVs\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Supports: Sound Devices WAVs, Zoom F3 WAVs, GoPro MP4/MOVs\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -3637,12 +3742,15 @@ Fixed some minor window positioning issues]]></changelog>
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Universal Category System (UCS) Renaming Tool\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Developed by Aaron Cendan https://aaroncendan.me aaron.cendan@gmail.com\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Notes\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This is just a helper script for the UCS Renaming Tool! It doesn't really do anything on it's own :)\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Universal Category System (UCS) Renaming Tool\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Developed by Aaron Cendan https://aaroncendan.me aaron.cendan@gmail.com\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Notes\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This is just a helper script for the UCS Renaming Tool! It doesn't really do anything on it's own :)\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -3655,12 +3763,15 @@ Fixed some minor window positioning issues]]></changelog>
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Universal Category System (UCS) Renaming Tool\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Developed by Aaron Cendan https://aaroncendan.me aaron.cendan@gmail.com\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Notes\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab This is just a helper script for the UCS Renaming Tool! It doesn't really do anything on it's own :)\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Universal Category System (UCS) Renaming Tool\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Developed by Aaron Cendan https://aaroncendan.me aaron.cendan@gmail.com\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Notes\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} This is just a helper script for the UCS Renaming Tool! It doesn't really do anything on it's own :)\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -3687,19 +3798,23 @@ Fixed some minor window positioning issues]]></changelog>
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid1}
+{\list\listtemplateid2{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelindent0{\leveltext\'01\u8226 ?;}{\levelnumbers;}\fi-360\li360\lin360 }{\listname ;}\listid2}
+}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Universal Category System (UCS) Renaming Tool\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Developed by Aaron Cendan https://aaroncendan.me aaron.cendan@gmail.com\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Useful Resources\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Blog post: https://www.aaroncendan.me/side-projects/ucs\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Documentation: https://github.com/acendan/reascripts/wiki/UCS-Renaming-Tool\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Universal Category System: https://universalcategorysystem.com\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Toolbar Icon Setup\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab If you would like to set up the UCS logo as a toolbar icon, go to: REAPER\\reaper_www_root\\ucs_libraries\\ucs_toolbar_icon_black.png\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Then copy the image(s) from that folder into: REAPER\\Data\\toolbar_icons\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab It should then show up when you are customizing toolbar icons in Reaper.\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Universal Category System (UCS) Renaming Tool\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Developed by Aaron Cendan https://aaroncendan.me aaron.cendan@gmail.com\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Useful Resources\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Blog post: https://www.aaroncendan.me/side-projects/ucs\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Documentation: https://github.com/acendan/reascripts/wiki/UCS-Renaming-Tool\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} Universal Category System: https://universalcategorysystem.com\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls1\ilvl0\tx360 {\listtext\tab \bullet \tab} UCS Google Drive: https://drive.google.com/drive/folders/1dkTIZ-ZZAY9buNcQIN79PmuLy1fPNqUo\sa180\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel2 \b \fs30 Toolbar Icon Setup\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} If you would like to set up the UCS logo as a toolbar icon, go to: REAPER\\reaper_www_root\\ucs_libraries\\ucs_toolbar_icon_black.png\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} Then copy the image(s) from that folder into: REAPER\\Data\\toolbar_icons\par}
+{\pard \ql \f0 \fs24 \sa0 \li360 \fi-360\ls2\ilvl0\tx360 {\listtext\tab \bullet \tab} It should then show up when you are customizing toolbar icons in Reaper.\sa180\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -4044,7 +4159,7 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This is a background/toggle script! It works best when set up as a startup action, or enabled in a default project template. It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning. It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 This is a background/toggle script! It works best when set up as a startup action, or enabled in a default project template. It just checks to see if the first imported video item has a framerate that matches the project. It will self-terminate after scanning. It requires: ACendan Lua Utilities, Ultraschall API, and FFPROBE to be installed\par}
 }
 ]]></description>
         <link rel="website">https://aaroncendan.me</link>
@@ -4072,7 +4187,7 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Modified from cfillion's Script: cfillion_Set timecode at edit cursor.lua\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 \outlinelevel0 \b \fs34 Modified from cfillion's Script: cfillion_Set timecode at edit cursor.lua\par}
 }
 ]]></description>
         <link rel="website">https://ko-fi.com/acendan_</link>
@@ -4126,7 +4241,7 @@ which was then embedded in metadata. Thanks  @Axel Steichen and @Pierre-Marie Bl
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Universal Category System Renaming Tool\par}
+{\pard \ql \f0 \fs24 \sa180 \li0 \fi0 Universal Category System Renaming Tool\par}
 }
 ]]></description>
       </metadata>
